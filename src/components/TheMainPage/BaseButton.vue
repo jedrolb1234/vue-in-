@@ -30,8 +30,8 @@ export default {
 
 .dark-large {
   height: 90px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
   font-size: 32px;
   color: #FBF5F3;
   background-color: #262A2C;
