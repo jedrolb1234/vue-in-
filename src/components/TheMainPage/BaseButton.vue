@@ -1,0 +1,47 @@
+<template>
+  <button :class="type">
+    <slot></slot>
+  </button>
+</template>
+
+<script>
+export default {
+  props: ['type']
+}
+</script>
+
+<style scoped>
+.dark-small {
+  height: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 16px;
+  color: #FBF5F3;
+  background-color: #262A2C;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 0px;
+}
+
+.dark-small:hover {
+  background-color: black;
+  cursor: pointer;
+}
+
+.dark-large {
+  height: 90px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 32px;
+  color: #FBF5F3;
+  background-color: #262A2C;
+  border-radius: 15px;
+  box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
+  border: 0px;
+}
+
+.dark-large:hover {
+  background-color: black;
+  cursor: pointer;
+}
+</style>
