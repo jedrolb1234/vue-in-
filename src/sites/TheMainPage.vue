@@ -6,7 +6,7 @@
       <section>
         <h1>Najlepsza w Polsce internetowa platforma z grami planszowymi online.</h1>
         <h2>Zagraj ze znajomymi już dziś</h2>
-        <base-button type="dark-large">Zarejestruj się</base-button>
+        <base-button type="dark-large" @click="register">Zarejestruj się</base-button>
       </section>
     </div>
   </div>
@@ -14,12 +14,17 @@
 
 <script>
 import TheHeader from '@/components/TheMainPage/TheHeader.vue';
-import BaseButton from '@/components/TheMainPage/BaseButton.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
 
 export default {
   components: {
     TheHeader,
     BaseButton
+  },
+  methods: {
+    register() {
+      this.$router.push({name: 'signup'});
+    }
   }
 }
 </script>

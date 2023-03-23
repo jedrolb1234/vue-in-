@@ -15,7 +15,7 @@ export default {
   height: 45px;
   padding-left: 20px;
   padding-right: 20px;
-  font-size: 16px;
+  font-size: medium;
   color: #FBF5F3;
   background-color: #262A2C;
   border-radius: 15px;
@@ -30,9 +30,8 @@ export default {
 
 .dark-large {
   height: 90px;
-  padding-left: 40px;
-  padding-right: 40px;
-  font-size: 32px;
+  padding: 30px 40px 30px 40px;
+  font-size: xx-large;
   color: #FBF5F3;
   background-color: #262A2C;
   border-radius: 15px;
@@ -42,6 +41,21 @@ export default {
 
 .dark-large:hover {
   background-color: black;
+  cursor: pointer;
+}
+
+.green-large {
+  padding: 30px 40px 30px 40px;
+  font-size: xx-large;
+  color: #FBF5F3;
+  background-color: #ACC12F;
+  border-radius: 15px;
+  box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
+  border: 0px;
+}
+
+.green-large:hover {
+  background-color: #c3e40a;
   cursor: pointer;
 }
 </style>
