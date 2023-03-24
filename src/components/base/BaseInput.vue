@@ -78,7 +78,8 @@ span {
 }
 
 .invalid {
-  outline: 2px solid #FF0000;
+  outline: 2px solid #BA1111;
+;
   outline-offset: -2px;
 }
 </style>

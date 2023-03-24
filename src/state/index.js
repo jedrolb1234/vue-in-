@@ -1,6 +1,10 @@
 import {createStore} from 'vuex'
+import Notifications from './notifications/index.js';
 
 const state = createStore({
+  modules: {
+    Notifications
+  },
   state() {
     return {
       isAuthenticated: false
