@@ -28,7 +28,6 @@ export default {
       return 'header '+this.type;
     },
     notificationIcon() {
-      console.log(this.type);
       return this.types[this.type];
     }
   },

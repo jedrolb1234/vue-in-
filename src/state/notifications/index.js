@@ -1,7 +1,6 @@
 export default {
   state() {
     return {
-      id: 0,
       notifications: [],
       templates: {
         account_created: {
@@ -31,11 +30,15 @@ export default {
   actions: {
     showNotification(context, notification) {
       const n = {
-        id: context.getters.getId,
+        id: new Date(),
         ...notification
       };
       context.commit('incrementId');
       context.commit('addNotification', n);
+
+      setTimeout(() => {
+        context.dispatch('hideNotification', n.id);
+      }, 60000);
     },
     hideNotification(context, id) {
       context.commit('removeNotification', id);
@@ -47,9 +50,6 @@ export default {
     },
     getNotifications(state) {
       return state.notifications;
-    },
-    getId(state) {
-      return state.id;
     }
   }
 };
