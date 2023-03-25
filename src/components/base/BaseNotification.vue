@@ -1,10 +1,10 @@
 <template>
-    <div @click="hideNotification(id)">
+  <div :class="$style.container" @click="hideNotification(id)">
     <div :class="headerStyling">
       <slot name="label"></slot>
-      <span class="material-symbols-outlined">{{ notificationIcon }}</span>
+      <span :class="['material-symbols-outlined', $style.icon]">{{ notificationIcon }}</span>
     </div>
-    <div class="description">
+    <div :class="$style.description">
       <slot name="description"></slot>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     headerStyling() {
-      return 'header '+this.type;
+      return [this.$style.header, this.$style[this.type]].join(' ');
     },
     notificationIcon() {
       return this.types[this.type];
@@ -37,9 +37,10 @@ export default {
 }
 </script>
 
-<style scoped>
-div {
+<style module>
+.container {
   cursor: pointer;
+  margin-top: 20px;
 }
 .header {
   width: 340px;
@@ -52,7 +53,7 @@ div {
   gap:10px;
 }
 
-span {
+.icon {
   font-size: 18px;
 }
 .info {

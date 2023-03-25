@@ -1,7 +1,7 @@
 <template>
-  <div :class="{'invalid':!valid}">
-    <input :type="inputType" :placeholder="inputPlaceholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
-    <span class="material-symbols-outlined">{{ inputIcon }}</span>
+  <div :class="containerStyles">
+    <input :class="$style.field" :type="inputType" :placeholder="inputPlaceholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+    <span :class="['material-symbols-outlined', $style.icon]">{{ inputIcon }}</span>
   </div>
 </template>
 
@@ -44,18 +44,24 @@ export default {
     },
     inputIcon() {
       return this.buttonTypes[this.type].icon;
+    },
+    containerStyles() {
+      if(!this.valid)
+        return [this.$style.invalid, this.$style.container].join(' ');
+      return this.$style.container;
     }
   }
 }
 </script>
 
-<style scoped>
-div {
+<style module>
+.container {
   display: flex;
   align-content: center;
   border-radius: 15px;
 }
-input {
+
+.field {
   background: #FBF5F3;
   border-radius: 15px 0 0 15px;
   padding: 10px 15px 10px 15px;
@@ -65,11 +71,11 @@ input {
   width: 400px;
 }
 
-input:focus {
+.field:focus {
   outline: none;
 }
 
-span {
+.icon {
   color: rgba(0, 0, 0, 0.5);
   font-size: 40px;
   background-color: #FBF5F3;
@@ -78,8 +84,7 @@ span {
 }
 
 .invalid {
-  outline: 2px solid #BA1111;
-;
-  outline-offset: -2px;
+  outline: 3px solid #BA1111;
+  outline-offset: -3px;
 }
 </style>

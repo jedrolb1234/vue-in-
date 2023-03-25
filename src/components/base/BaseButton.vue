@@ -1,5 +1,5 @@
 <template>
-  <button :class="type">
+  <button :class="$style[type]">
     <slot></slot>
   </button>
 </template>
@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style module>
 .dark-small {
   height: 45px;
   padding-left: 20px;

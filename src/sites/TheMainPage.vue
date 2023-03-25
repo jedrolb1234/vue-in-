@@ -1,13 +1,13 @@
 <template>
-  <div class="content">
+  <div :class="$style.content">
     <the-header></the-header>
-    <div>
+    <div :class="$style.page">
       <img src="../assets/dice.png">
-      <section>
-        <h1>Najlepsza w Polsce internetowa platforma z grami planszowymi online.</h1>
-        <h2>Zagraj ze znajomymi już dziś</h2>
-        <base-button type="dark-large" @click="register">Zarejestruj się</base-button>
-      </section>
+      <div :class="$style.text">
+        <p :class="$style.h1">Najlepsza w Polsce internetowa platforma z grami planszowymi online.</p>
+        <p :class="$style.h2">Zagraj ze znajomymi już dziś</p>
+        <base-button type="dark-large" @click="register" :class="$style.button">Zarejestruj się</base-button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,37 +29,39 @@ export default {
 }
 </script>
 
-<style scoped>
+<style module>
 .content {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-div {
+.page {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-grow: 1;
 }
 
-section {
+.text {
   width: 825px;
   padding:50px;
 }
 
-h1 {
+.h1 {
   color: #FBF5F3;
   font-size: 48px;
+  font-weight: bold;
 }
 
-h2 {
+.h2 {
   color: #FBF5F3;
   font-size: 24px;
   margin-top:50px;
+  font-weight: bold;
 }
 
-button {
+.button {
   margin-top: 50px;
 }
 </style>

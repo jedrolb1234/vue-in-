@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div :class="$style.container">
     <slot></slot>
+
   </div>
 </template>
 
@@ -8,8 +9,8 @@
 export default {}
 </script>
 
-<style scoped>
-  div {
+<style module>
+  .container {
     width: 540px;
     background-color: #262A2C;
     box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);

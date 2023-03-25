@@ -18,7 +18,7 @@ export default {
   },
   mutations: {
     addNotification(state, notification) {
-      state.notifications.unshift(notification);
+      state.notifications.push(notification);
     },
     removeNotification(state, id) {
       state.notifications = state.notifications.filter(el => el.id !=id )

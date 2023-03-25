@@ -1,10 +1,10 @@
 <template>
-  <nav>
-    <div class="logo">
-      <span class="material-symbols-outlined icon">stadia_controller</span>
-      <h1>FunHouse</h1>
+  <nav :class="$style.header">
+    <div :class="$style.logo">
+      <span :class="iconStyles">stadia_controller</span>
+      <span :class="$style.name">FunHouse</span>
     </div>
-    <base-button type="dark-small" >Zaloguj</base-button>
+      <base-button type="dark-small" :class="$style.button" >Zaloguj</base-button>
   </nav>
 </template>
 
@@ -14,13 +14,18 @@ import BaseButton from '../base/BaseButton.vue';
 export default {
   components: {
     BaseButton
+  },
+  computed: {
+    iconStyles() {
+      return ['material-symbols-outlined', this.$style.icon].join(' ');
+    }
   }
 }
 </script>
 
-<style scoped>
+<style module>
 
-nav {
+.header {
   display: flex;
   color: #262A2C;
   width: 100%;
@@ -38,12 +43,13 @@ nav {
   font-size: 75px;
 }
 
-h1 {
+.name {
   margin-left: 40px;
   font-size: 36px;
+  font-weight: bold;
 }
 
-button {
+.button {
   margin-left: auto;
   margin-right: 150px;
 }
