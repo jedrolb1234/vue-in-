@@ -30,7 +30,7 @@ export default {
   actions: {
     showNotification(context, notification) {
       const n = {
-        id: new Date(),
+        id: new Date().getTime(),
         ...notification
       };
       context.commit('incrementId');
