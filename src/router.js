@@ -1,11 +1,13 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import TheMainPage from './sites/TheMainPage'
 import PageNotFound from './sites/PageNotFound'
+import RegisterUserPage from './sites/RegisterUserPage'
 
 export default createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
-    { path: '/', component: TheMainPage },
-    { path: '/:any(.*)', component: PageNotFound }
+    { path: '/', name: 'main-page', component: TheMainPage },
+    { path: '/signup', name: 'signup', component: RegisterUserPage},
+    { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]
 })
