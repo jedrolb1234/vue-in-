@@ -31,6 +31,11 @@ export default {
           type: 'password',
           name: 'Powtórz hasło',
           icon: 'lock'
+        },
+        usernameoremail:{
+          type: 'text',
+          name: 'Nazwa użytkownika lub Email',
+          icon: 'person'
         }
       }
     }
