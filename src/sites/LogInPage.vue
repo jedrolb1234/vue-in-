@@ -2,12 +2,14 @@
     <div :class="$style.content">
       <base-form>
         <form @submit.prevent="logIn" :class="$style.form"> 
-          <span :class="$style.h1">Stwórz konto</span>
+          <span :class="$style.h1">Formularz logowania</span>
           <base-input type="usernameoremail" v-model.trim="userNameOrEmail" :valid="isUserNameOrEmailValid"></base-input>
           <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
+          <p v-if="bedLogin" :class="$style.bedLogin">Logowanie nie powiodło się. Upewnij się, że podane dane są poprawne.</p>
           <base-button type="green-large">Zaloguj</base-button>
-          <span :class="$style.p">Zaloguj się na konto prywatne</span>
         </form>
+        <p :class="$style.p">Jeśli nie posiadasz jeszcze konta możesz przejść do formularza rejestracji.</p>
+        <p :class="$style.p">Jeśli nie pamiętasz hasła możesz przejść do formularza zmiany hasła.</p>
       </base-form>
     </div>
     <base-notification-list></base-notification-list>
@@ -33,7 +35,8 @@
         password: '',
         isFormValid: true,
         isEmailValid: true,
-        isPasswordValid: true
+        isPasswordValid: true,
+        bedLogin: false
       }
     },
     computed: {
@@ -98,5 +101,20 @@
     margin: 0;
     text-align: justify;
     text-justify: inter-word;
+  }
+  .bedLogin{
+
+
+    background: #262A2C;
+    box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: justify;
+
+    color: #FFFFFF;
   }
   </style>
