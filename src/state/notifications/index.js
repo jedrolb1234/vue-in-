@@ -12,6 +12,11 @@ export default {
           label:'Wypełnij formularz poprawnymi danymi.',
           description:'Pamiętaj, że hasło musi posiadać minimum 8 znaków oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny. ',
           type: 'error'
+        },
+        common_error: {
+          label:'Something went wrong',
+          description:'Unknown error occured',
+          type: 'error'
         }
       }
     }
@@ -22,9 +27,6 @@ export default {
     },
     removeNotification(state, id) {
       state.notifications = state.notifications.filter(el => el.id !=id )
-    },
-    incrementId(state) {
-      state.id++;
     }
   },
   actions: {
@@ -33,7 +35,6 @@ export default {
         id: new Date().getTime(),
         ...notification
       };
-      context.commit('incrementId');
       context.commit('addNotification', n);
 
       setTimeout(() => {

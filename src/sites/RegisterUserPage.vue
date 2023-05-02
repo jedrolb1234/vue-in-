@@ -45,7 +45,7 @@ export default {
     ...mapGetters(['getNotificationTemplates'])
   },
   methods: {
-    ...mapActions(['showNotification']),
+    ...mapActions(['showNotification', 'createUser']),
     validateEmail() {
       const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       if(this.email.match(emailRegex))
@@ -76,10 +76,18 @@ export default {
     },
     register() {
       this.validateForm();
-      if(this.isFormValid)
-        this.showNotification(this.getNotificationTemplates.account_created);
+      if(this.isFormValid) {
+        this.createUser({
+          email:this.email,
+          userName:this.username,
+          password:this.password,
+          confirmPassword:this.rpassword,
+          firstName:'null',
+          lastName: 'null'
+        });
+      }
       else 
-      this.showNotification(this.getNotificationTemplates.registration_form_invalid);
+        this.showNotification(this.getNotificationTemplates.registration_form_invalid);
     }
   }
 }
