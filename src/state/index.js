@@ -1,9 +1,11 @@
 import {createStore} from 'vuex'
 import Notifications from './notifications/index.js';
+import Users from './users/index.js';
 
 const state = createStore({
   modules: {
-    Notifications
+    Notifications,
+    Users
   },
   state() {
     return {
