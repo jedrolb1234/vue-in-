@@ -43,7 +43,7 @@
       ...mapGetters(['getNotificationTemplates'])
     },
     methods: {
-      ...mapActions(['showNotification']),
+      ...mapActions(['showNotification', 'loginUser']),
       validateForm() {
         this.isEmailValid = this.validateEmail(this.email);
         this.isPasswordValid = this.validateFieldNotEmpty(this.password);
@@ -52,9 +52,12 @@
       logIn() {
         this.validateForm();
         if(this.isFormValid)
-          this.showNotification(this.getNotificationTemplates.account_created);
+          this.loginUser({
+            email: this.email,
+            password: this.password
+          })
         else 
-        this.showNotification(this.getNotificationTemplates.registration_form_invalid);
+          this.showNotification(this.getNotificationTemplates.login_form_invalid);
       }
     }
   }

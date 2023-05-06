@@ -10,13 +10,23 @@ export default {
         },
         registration_form_invalid: {
           label:'Wypełnij formularz poprawnymi danymi.',
-          description:'Pamiętaj, że hasło musi posiadać minimum 8 znaków oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny. ',
+          description:'Pamiętaj, że hasło musi posiadać minimum 8 znaków oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.',
           type: 'error'
         },
         common_error: {
           label:'Something went wrong',
           description:'Unknown error occured',
           type: 'error'
+        },
+        login_form_invalid: {
+          label:'Wypełnij formularz poprawnymi danymi.',
+          description:'Podaj prawidłowy email oraz hasło.',
+          type: 'error'
+        },
+        user_logged: {
+          label: 'Witaj!',
+          description: 'Zalogowałeś sie pomyślnie!',
+          type: 'info'
         }
       }
     }

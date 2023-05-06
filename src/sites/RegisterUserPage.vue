@@ -47,28 +47,7 @@ export default {
     ...mapGetters(['getNotificationTemplates'])
   },
   methods: {
-    ...mapActions(['showNotification', 'createUser']),
-    // validateEmail() {
-    //   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    //   if(this.email.match(emailRegex))
-    //     return true;
-    //   this.isFormValid=false;
-    //   return false;
-    // },
-    // validateUsername() {
-    //   if(this.username.length>0) {
-    //     return true
-    //   }
-    //   this.isFormValid=false;
-    //   return false;
-    // },
-    // validatePassword() {
-    //   const passwordRegex = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/;
-    //   if(this.password.match(passwordRegex) && this.password == this.rpassword)
-    //     return true;
-    //   this.isFormValid=false;
-    //   return false;
-    // },
+    ...mapActions(['showNotification', 'registerUser']),
     validateForm() {
       this.isEmailValid = this.validateEmail(this.email);
       this.isUsernameValid = this.validateUsername(this.username);
@@ -79,7 +58,7 @@ export default {
     register() {
       this.validateForm();
       if(this.isFormValid) {
-        this.createUser({
+        this.registereUser({
           email:this.email,
           userName:this.username,
           password:this.password,
