@@ -5,23 +5,24 @@
       <span :class="$style.name">FunHouse</span>
     </div>
     <div :class="$style.block">
-      <base-button type="dark-small" :class="$style.button" @mouseover="showPopup()">Zaloguj</base-button>
-      <div v-if="popup" :class="$style.popup">
+      <base-button type="dark-small" :class="$style.button" @click="login">Zaloguj</base-button>
+      <!-- Zakomentowałerm, żeby na razie uprosćicć logowanie -->
+      <!-- <div v-if="popup" :class="$style.popup">
         <form @submit.prevent="register" :class="$style.form">
         <span :class="$style.h1">Logowanie</span>
           <base-small-input type="usernameoremail" v-model.trim="userNameOrEmail" :valid="isUserNameOrEmailValid"></base-small-input>
           <base-small-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-small-input>
           <base-small-button type="green-large" :class="$style.smallbutton">Zaloguj</base-small-button>
         </form>
-      </div>
+      </div> -->
     </div>
-    </nav>
+  </nav>
 </template>
 
 <script>
 import BaseButton from '../base/BaseButton.vue';
-import BaseSmallButton from '../base/BaseSmallButton.vue';
-import BaseSmallInput from '../base/BaseSmallinput.vue';
+//import BaseSmallButton from '../base/BaseSmallButton.vue';
+//import BaseSmallInput from '../base/BaseSmallinput.vue';
 
 export default {
   data(){ 
@@ -31,8 +32,8 @@ export default {
   },
   components: {
     BaseButton,
-    BaseSmallButton,
-    BaseSmallInput
+    //BaseSmallButton,
+    //BaseSmallInput
   },
   computed: {
     iconStyles() {
@@ -40,11 +41,14 @@ export default {
     }
   },
   methods: {
-    showPopup() {
-      this.popup = !this.popup;
-      console.log(this.popup);
-      return this.popup;
-     }
+    login() {
+      this.$router.push({name: 'login'});
+    },
+    // showPopup() {
+    //   this.popup = !this.popup;
+    //   console.log(this.popup);
+    //   return this.popup;
+    //  }
   }
 }
 </script>

@@ -21,8 +21,10 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import BaseInput from '@/components/base/BaseInput.vue';
 import BaseNotificationList from '@/components/base/BaseNotificationList.vue';
 import { mapActions, mapGetters } from 'vuex';
+import inputValidators from '@/mixins/inputValidators';
 
 export default {
+  mixins: [inputValidators],
   components: {
     BaseForm,
     BaseButton,
@@ -46,32 +48,32 @@ export default {
   },
   methods: {
     ...mapActions(['showNotification', 'createUser']),
-    validateEmail() {
-      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      if(this.email.match(emailRegex))
-        return true;
-      this.isFormValid=false;
-      return false;
-    },
-    validateUsername() {
-      if(this.username.length>0) {
-        return true
-      }
-      this.isFormValid=false;
-      return false;
-    },
-    validatePassword() {
-      const passwordRegex = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/;
-      if(this.password.match(passwordRegex) && this.password == this.rpassword)
-        return true;
-      this.isFormValid=false;
-      return false;
-    },
+    // validateEmail() {
+    //   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    //   if(this.email.match(emailRegex))
+    //     return true;
+    //   this.isFormValid=false;
+    //   return false;
+    // },
+    // validateUsername() {
+    //   if(this.username.length>0) {
+    //     return true
+    //   }
+    //   this.isFormValid=false;
+    //   return false;
+    // },
+    // validatePassword() {
+    //   const passwordRegex = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/;
+    //   if(this.password.match(passwordRegex) && this.password == this.rpassword)
+    //     return true;
+    //   this.isFormValid=false;
+    //   return false;
+    // },
     validateForm() {
-      this.isFormValid=true;
-      this.isEmailValid = this.validateEmail();
-      this.isUsernameValid = this.validateUsername();
-      this.isPasswordValid = this.validatePassword();
+      this.isEmailValid = this.validateEmail(this.email);
+      this.isUsernameValid = this.validateUsername(this.username);
+      this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
+      this.isFormValid = this.validateFormFields([this.isEmailValid, this.isPasswordValid, this.isUsernameValid]);
 
     },
     register() {

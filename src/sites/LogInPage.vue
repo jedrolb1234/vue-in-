@@ -3,9 +3,8 @@
       <base-form>
         <form @submit.prevent="logIn" :class="$style.form"> 
           <span :class="$style.h1">Formularz logowania</span>
-          <base-input type="usernameoremail" v-model.trim="userNameOrEmail" :valid="isUserNameOrEmailValid"></base-input>
+          <base-input type="email" v-model.trim="email" :valid="isEmailValid"></base-input>
           <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
-          <p v-if="bedLogin" :class="$style.bedLogin">Logowanie nie powiodło się. Upewnij się, że podane dane są poprawne.</p>
           <base-button type="green-large">Zaloguj</base-button>
         </form>
         <p :class="$style.p">Jeśli nie posiadasz jeszcze konta możesz przejść do formularza rejestracji.</p>
@@ -21,8 +20,10 @@
   import BaseInput from '@/components/base/BaseInput.vue';
   import BaseNotificationList from '@/components/base/BaseNotificationList.vue';
   import { mapActions, mapGetters } from 'vuex';
+  import InputValidators from '@/mixins/inputValidators';
   
   export default {
+    mixins: [InputValidators],
     components: {
       BaseForm,
       BaseButton,
@@ -31,12 +32,11 @@
     },
     data() {
       return {
-        userNameOrEmail: '',
+        email: '',
         password: '',
         isFormValid: true,
         isEmailValid: true,
         isPasswordValid: true,
-        bedLogin: false
       }
     },
     computed: {
@@ -44,25 +44,10 @@
     },
     methods: {
       ...mapActions(['showNotification']),
-      validateUserNameOrEmail() {
-        if(this.userNameOrEmail.length>0) {
-          return true
-        }
-        this.isFormValid=false;
-        return false;
-      },
-      validatePassword() {
-        const passwordRegex = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/;
-        if(this.password.match(passwordRegex))
-          return true;
-        this.isFormValid=false;
-        return false;
-      },
       validateForm() {
-        this.isFormValid=true;
-        this.isUserNameOrEmail = this.validateUserNameOrEmail();
-        this.isPasswordValid = this.validatePassword();
-  
+        this.isEmailValid = this.validateEmail(this.email);
+        this.isPasswordValid = this.validateFieldNotEmpty(this.password);
+        this.isFormValid= this.validateFormFields([this.isEmailValid, this.isPasswordValid]);
       },
       logIn() {
         this.validateForm();

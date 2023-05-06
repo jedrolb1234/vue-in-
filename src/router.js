@@ -19,15 +19,14 @@ export default createRouter({
     { path: '/', name: 'main-page', component: TheMainPage },
     { path: '/signup', name: 'signup', component: RegisterUserPage },
     { path: '/login', name:'login', component: LogInPage },
-    { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound },
-    { path: '/', redirect: '/polacz4' },
-    { path: '/enteremail', component: EnterEmail },
-    { path: '/changepassword', component: ChangePassword },
-    { path: '/request', component: RequestPassword },
-    { path: '/badlink', component: BadLink },
-    { path: '/activeAccount', component: ActiveAccount },
+    { path: '/enteremail', component: EnterEmail }, //co to za endpoint? do resteowania hasła
+    { path: '/changepassword', component: ChangePassword }, //do sprawdzenia
+    { path: '/request', component: RequestPassword }, //to jest do wypierdolenia, bo to jest email 
+    { path: '/bcount', component: ActiveAccount }, //to i to wyżej powinno być jedna strona z jednym komponentem, który zmienia swój wygląd w zalezności od statusu
     { path: '/warcaby', component: Warcaby },
     { path: '/statki', component: Statki },
-    { path: '/polacz4', component: Polacz4 }
+    { path: '/polaadlink', component: BadLink },
+    { path: '/activeAccz4', component: Polacz4 },
+    { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]
 })/* background */
