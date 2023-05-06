@@ -12,21 +12,6 @@ export default {
     }
   },
   actions: {
-    //   showNotification(context, notification) {
-    //     const n = {
-    //       id: new Date().getTime(),
-    //       ...notification
-    //     };
-    //     context.commit('incrementId');
-    //     context.commit('addNotification', n);
-
-    //     setTimeout(() => {
-    //       context.dispatch('hideNotification', n.id);
-    //     }, 60000);
-    //   },
-    //   hideNotification(context, id) {
-    //     context.commit('removeNotification', id);
-    //   }
     async registerUser(context, payload) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const axios = require('axios');
@@ -43,7 +28,6 @@ export default {
             },
             { root: true });
         } else {
-          // Anything else
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
@@ -67,7 +51,6 @@ export default {
             },
             { root: true });
         } else {
-          // Anything else
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
@@ -75,6 +58,20 @@ export default {
         context.commit('login', res.data);
         context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
       }
+    },
+    async activateUser(_context, id) {
+      const axios = require('axios');
+      let res;
+      try {
+        res = await axios.patch(process.env.VUE_APP_BACKEND_URL + '/api/account/activate/' + id);
+      } catch (error) {
+        if (error.response) {
+         return 'failed';
+        }
+      }
+      if (res.status == 200)
+        return 'success';
+      return 'failed';
     }
   },
   getters: {
