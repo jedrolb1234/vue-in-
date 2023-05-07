@@ -7,7 +7,8 @@
         <base-input type="username" v-model.trim="username" :valid="isUsernameValid"></base-input>
         <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
         <base-input type="rpassword" v-model.trim="rpassword" :valid="isPasswordValid"></base-input>
-        <base-button type="green-large">Wyślij</base-button>
+        <base-button v-if="!isSending" type="green-large">Wyślij</base-button>
+        <base-loading-spinner v-else></base-loading-spinner>
         <span :class="$style.p">Jeśli posiadasz już konto możesz przejść do formularza logowania</span>
       </form>
     </base-form>
@@ -22,6 +23,7 @@ import BaseInput from '@/components/base/BaseInput.vue';
 import BaseNotificationList from '@/components/base/BaseNotificationList.vue';
 import { mapActions, mapGetters } from 'vuex';
 import inputValidators from '@/mixins/inputValidators';
+import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
 
 export default {
   mixins: [inputValidators],
@@ -29,7 +31,8 @@ export default {
     BaseForm,
     BaseButton,
     BaseInput,
-    BaseNotificationList
+    BaseNotificationList,
+    BaseLoadingSpinner
   },
   data() {
     return {
@@ -40,7 +43,8 @@ export default {
       isFormValid: true,
       isEmailValid: true,
       isUsernameValid: true,
-      isPasswordValid: true
+      isPasswordValid: true,
+      isSending: false
     }
   },
   computed: {
@@ -55,10 +59,11 @@ export default {
       this.isFormValid = this.validateFormFields([this.isEmailValid, this.isPasswordValid, this.isUsernameValid]);
 
     },
-    register() {
+    async register() {
       this.validateForm();
       if(this.isFormValid) {
-        this.registereUser({
+        this.isSending=true;
+        await this.registerUser({
           email:this.email,
           userName:this.username,
           password:this.password,
@@ -66,6 +71,7 @@ export default {
           firstName:'null',
           lastName: 'null'
         });
+        this.isSending=false;
       }
       else 
         this.showNotification(this.getNotificationTemplates.registration_form_invalid);

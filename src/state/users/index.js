@@ -18,6 +18,9 @@ export default {
       let res;
       try {
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/account/register', payload);
+        if (res.status == 200) {
+          context.dispatch('showNotification', notificationTemplates.account_created, { root: true });
+        }
       } catch (error) {
         if (error.response) {
           context.dispatch('showNotification',
@@ -31,9 +34,6 @@ export default {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
-      if (res.status == 200) {
-        context.dispatch('showNotification', notificationTemplates.account_created, { root: true });
-      }
     },
     async loginUser(context, payload) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
@@ -41,6 +41,10 @@ export default {
       let res;
       try {
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/account/login', payload);
+        if (res.status == 200) {
+          context.commit('login', res.data);
+          context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
+        }
       } catch (error) {
         if (error.response) {
           context.dispatch('showNotification',
@@ -53,10 +57,6 @@ export default {
         } else {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
-      }
-      if (res.status == 200) {
-        context.commit('login', res.data);
-        context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
       }
     },
     async activateUser(_context, id) {

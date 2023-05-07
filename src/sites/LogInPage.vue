@@ -1,14 +1,15 @@
 <template>
     <div :class="$style.content">
       <base-form>
-        <form @submit.prevent="logIn" :class="$style.form"> 
+        <form @submit.prevent="logIn" :class="$style.form">
           <span :class="$style.h1">Formularz logowania</span>
           <base-input type="email" v-model.trim="email" :valid="isEmailValid"></base-input>
           <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
-          <base-button type="green-large">Zaloguj</base-button>
+          <base-button v-if="!isSending" type="green-large">Zaloguj</base-button>
+          <base-loading-spinner v-else></base-loading-spinner>
+          <p :class="$style.p">Jeśli nie posiadasz jeszcze konta możesz przejść do formularza rejestracji.</p>
+          <p :class="$style.p">Jeśli nie pamiętasz hasła możesz przejść do formularza zmiany hasła.</p>
         </form>
-        <p :class="$style.p">Jeśli nie posiadasz jeszcze konta możesz przejść do formularza rejestracji.</p>
-        <p :class="$style.p">Jeśli nie pamiętasz hasła możesz przejść do formularza zmiany hasła.</p>
       </base-form>
     </div>
     <base-notification-list></base-notification-list>
@@ -16,6 +17,7 @@
   
   <script>
   import BaseForm from '@/components/base/BaseForm.vue';
+  import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
   import BaseButton from '@/components/base/BaseButton.vue';
   import BaseInput from '@/components/base/BaseInput.vue';
   import BaseNotificationList from '@/components/base/BaseNotificationList.vue';
@@ -28,7 +30,8 @@
       BaseForm,
       BaseButton,
       BaseInput,
-      BaseNotificationList
+      BaseNotificationList,
+      BaseLoadingSpinner
     },
     data() {
       return {
@@ -37,6 +40,7 @@
         isFormValid: true,
         isEmailValid: true,
         isPasswordValid: true,
+        isSending: false
       }
     },
     computed: {
@@ -49,13 +53,16 @@
         this.isPasswordValid = this.validateFieldNotEmpty(this.password);
         this.isFormValid= this.validateFormFields([this.isEmailValid, this.isPasswordValid]);
       },
-      logIn() {
+      async logIn() {
         this.validateForm();
-        if(this.isFormValid)
-          this.loginUser({
+        if(this.isFormValid) {
+          this.isSending=true;
+          await this.loginUser({
             email: this.email,
             password: this.password
           })
+          this.isSending=false;
+        }
         else 
           this.showNotification(this.getNotificationTemplates.login_form_invalid);
       }
@@ -75,6 +82,7 @@
     font-weight: bold;
     font-size: xxx-large;
     margin-bottom: 40px;
+    text-align: center;
   }
   
   .form {
