@@ -7,8 +7,10 @@
           <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
           <base-button v-if="!isSending" type="green-large">Zaloguj</base-button>
           <base-loading-spinner v-else></base-loading-spinner>
-          <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{name: 'signup'}">formularza rejestracji</RouterLink>.</p>
-          <p>Jeśli nie pamiętasz hasła możesz przejść do formularza zmiany hasła.</p>
+          <div>
+            <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{name: 'signup'}">formularza rejestracji</RouterLink>.</p>
+            <p>Jeśli nie pamiętasz hasła możesz przejść do <RouterLink :to="{name: 'resetpassword'}">formularza zmiany hasła</RouterLink>.</p>
+          </div>
         </form>
       </base-form>
     </div>

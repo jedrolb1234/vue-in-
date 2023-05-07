@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BaseActivationMessage from '@/components/base/BaseActivationMessage.vue';
+import BaseActivationMessage from '@/components/TheActivateUserPage/ActivationMessage.vue';
 import { mapActions } from 'vuex';
 
 export default {

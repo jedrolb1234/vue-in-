@@ -8,6 +8,16 @@ export default {
           description:'Link aktywacyjny został wysłany na twoją skrytkę pocztową.',
           type: 'info'
         },
+        resetpassword_email_sent: {
+          label:'Email został pomyślnie wysłany',
+          description:'Link do zmiany hasła został poprawnie wygenerowany i wysłany na twoją skrytkę pocztową. ',
+          type: 'info'
+        },
+        password_changed: {
+          label:'Hasło zostało pomyślnie zmienione',
+          description:'Podczas logowania skorzystaj z nowego hasła.',
+          type: 'info'
+        },
         registration_form_invalid: {
           label:'Wypełnij formularz poprawnymi danymi.',
           description:'Pamiętaj, że hasło musi posiadać minimum 8 znaków oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.',

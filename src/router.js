@@ -3,10 +3,8 @@ import TheMainPage from './sites/TheMainPage'
 import TheDashboard from '@/sites/TheDashboard'
 import PageNotFound from './sites/PageNotFound'
 import RegisterUserPage from './sites/RegisterUserPage'
-import LogInPage from './sites/LogInPage.vue'
-import EnterEmail from './sites/EnterEmail.vue'
-import ChangePassword from './sites/ChangePassword.vue';
-import RequestPassword from './sites/RequestPassword.vue'
+import LoginPage from './sites/LoginPage.vue'
+import ResetPasswordPage from '@/sites/ResetPasswordPage'
 import Warcaby from './Games/gra-warcaby.vue';
 import Statki from './Games/gra-statki.vue';
 import Polacz4 from './Games/gra-polacz4.vue';
@@ -19,12 +17,11 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'main-page', component: TheMainPage, meta: {requiresGuest: true} },
     { path: '/signup', name: 'signup', component: RegisterUserPage, meta: {requiresGuest: true} },
-    { path: '/login', name:'login', component: LogInPage, meta: {requiresGuest: true} },
+    { path: '/login', name:'login', component: LoginPage, meta: {requiresGuest: true} },
     { path: '/dashboard', name:'dashboard', component: TheDashboard, meta: {requiresAuth: true} },
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
-    { path: '/enteremail', component: EnterEmail }, //co to za endpoint? do resteowania hasła
-    { path: '/changepassword', component: ChangePassword }, //do sprawdzenia
-    { path: '/request', component: RequestPassword }, //to jest do wypierdolenia, bo to jest email 
+    { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
+    { path: '/resetpassword/:id', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true }, //do sprawdzenia
     { path: '/warcaby', component: Warcaby },
     { path: '/statki', component: Statki },
     { path: '/activeAccz4', component: Polacz4 },
