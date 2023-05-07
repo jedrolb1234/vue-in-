@@ -1,15 +1,15 @@
 <template>
-  <div :class="$style.content">
+  <div class="content">
     <base-form>
-      <form @submit.prevent="register" :class="$style.form"> 
-        <span :class="$style.h1">Stwórz konto</span>
+      <form @submit.prevent="register"> 
+        <h1>Stwórz konto</h1>
         <base-input type="email" v-model.trim="email" :valid="isEmailValid"></base-input>
         <base-input type="username" v-model.trim="username" :valid="isUsernameValid"></base-input>
         <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
         <base-input type="rpassword" v-model.trim="rpassword" :valid="isPasswordValid"></base-input>
         <base-button v-if="!isSending" type="green-large">Wyślij</base-button>
         <base-loading-spinner v-else></base-loading-spinner>
-        <span :class="$style.p">Jeśli posiadasz już konto możesz przejść do formularza logowania</span>
+        <p>Jeśli posiadasz już konto możesz przejść do <RouterLink :to="{name: 'login'}">formularza logowania</RouterLink></p>
       </form>
     </base-form>
   </div>
@@ -24,6 +24,7 @@ import BaseNotificationList from '@/components/base/BaseNotificationList.vue';
 import { mapActions, mapGetters } from 'vuex';
 import inputValidators from '@/mixins/inputValidators';
 import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
+import { RouterLink } from 'vue-router';
 
 export default {
   mixins: [inputValidators],
@@ -32,8 +33,9 @@ export default {
     BaseButton,
     BaseInput,
     BaseNotificationList,
-    BaseLoadingSpinner
-  },
+    BaseLoadingSpinner,
+    RouterLink
+},
   data() {
     return {
       email: '',
@@ -80,7 +82,7 @@ export default {
 }
 </script>
 
-<style module>
+<style scoped>
 .content {
   display: flex;
   align-items: center;
@@ -88,23 +90,27 @@ export default {
   height:100%;
 }
 
-.h1 {
+h1 {
   font-weight: bold;
   font-size: xxx-large;
   margin-bottom: 40px;
 }
 
-.form {
+form {
   display: flex;
   gap: 20px;
   flex-direction: column;
   align-items: center;
 }
 
-.p {
+p {
   font-size: medium;
   margin: 0;
   text-align: justify;
   text-justify: inter-word;
+}
+
+a {
+  color: white;
 }
 </style>

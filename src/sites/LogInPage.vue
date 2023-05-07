@@ -1,14 +1,14 @@
 <template>
-    <div :class="$style.content">
+    <div class="content">
       <base-form>
-        <form @submit.prevent="logIn" :class="$style.form">
-          <span :class="$style.h1">Formularz logowania</span>
+        <form @submit.prevent="logIn">
+          <h1>Formularz logowania</h1>
           <base-input type="email" v-model.trim="email" :valid="isEmailValid"></base-input>
           <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
           <base-button v-if="!isSending" type="green-large">Zaloguj</base-button>
           <base-loading-spinner v-else></base-loading-spinner>
-          <p :class="$style.p">Jeśli nie posiadasz jeszcze konta możesz przejść do formularza rejestracji.</p>
-          <p :class="$style.p">Jeśli nie pamiętasz hasła możesz przejść do formularza zmiany hasła.</p>
+          <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{name: 'signup'}">formularza rejestracji</RouterLink>.</p>
+          <p>Jeśli nie pamiętasz hasła możesz przejść do formularza zmiany hasła.</p>
         </form>
       </base-form>
     </div>
@@ -23,16 +23,18 @@
   import BaseNotificationList from '@/components/base/BaseNotificationList.vue';
   import { mapActions, mapGetters } from 'vuex';
   import InputValidators from '@/mixins/inputValidators';
+import { RouterLink } from 'vue-router';
   
   export default {
     mixins: [InputValidators],
     components: {
-      BaseForm,
-      BaseButton,
-      BaseInput,
-      BaseNotificationList,
-      BaseLoadingSpinner
-    },
+    BaseForm,
+    BaseButton,
+    BaseInput,
+    BaseNotificationList,
+    BaseLoadingSpinner,
+    RouterLink
+},
     data() {
       return {
         email: '',
@@ -70,7 +72,7 @@
   }
   </script>
   
-  <style module>
+<style scoped>
   .content {
     display: flex;
     align-items: center;
@@ -78,39 +80,28 @@
     height:100%;
   }
   
-  .h1 {
+  h1 {
     font-weight: bold;
     font-size: xxx-large;
     margin-bottom: 40px;
     text-align: center;
   }
   
-  .form {
+  form {
     display: flex;
     gap: 20px;
     flex-direction: column;
     align-items: center;
   }
   
-  .p {
+  p {
     font-size: medium;
     margin: 0;
     text-align: justify;
     text-justify: inter-word;
   }
-  .bedLogin{
 
-
-    background: #262A2C;
-    box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    text-align: justify;
-
-    color: #FFFFFF;
-  }
-  </style>
+a {
+  color: white;
+}
+</style>

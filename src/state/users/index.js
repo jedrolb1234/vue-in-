@@ -25,7 +25,7 @@ export default {
         if (error.response) {
           context.dispatch('showNotification',
             {
-              label: error.response.status,
+              label: 'Konto nie mogło zostać stworzone',
               description: error.response.data.errors,
               type: 'error'
             },

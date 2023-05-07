@@ -14,8 +14,8 @@ export default {
           type: 'error'
         },
         common_error: {
-          label:'Something went wrong',
-          description:'Unknown error occured',
+          label:'Coś poszło nie tak!',
+          description:'Wystąpił nieznany błąd.',
           type: 'error'
         },
         login_form_invalid: {
@@ -24,8 +24,8 @@ export default {
           type: 'error'
         },
         user_logged: {
-          label: 'Witaj!',
-          description: 'Zalogowałeś sie pomyślnie!',
+          label: 'Zalogowałeś sie pomyślnie!',
+          description: 'Zsoatniesz przekierowany do panelu użytkownika.',
           type: 'info'
         }
       }

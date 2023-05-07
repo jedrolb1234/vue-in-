@@ -3,32 +3,26 @@
         <div :class="content">
             <h1 :class="name">Aktywacja konta</h1>
             <BaseLoadingSpinner v-if="spinnerVisible"></BaseLoadingSpinner>
-            <p class="message" v-if="!spinnerVisible">{{ description }}</p>
-            <span :class="iconStyles" v-if="!spinnerVisible">{{ icon }}</span>
+            <p class="message" v-if="success">Twoje konto zostało pomyślnie aktywowane. Możesz teraz przejść do <RouterLink :to="{name: 'login'}">formularza logowania</RouterLink>.</p>
+            <span :class="iconStyles" v-if="success">check_circle</span>
+            <p class="message" v-if="failed">Link aktywacyjny jest błędny. Upewnij się, że link został skopiowany poprawnie.</p>
+            <span :class="iconStyles" v-if="failed">cancel</span>
         </div>
     </section>
 </template>
 
 <script>
 import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue'
+import { RouterLink } from 'vue-router';
 
 export default {
   components: {
-    BaseLoadingSpinner
-  },
+    BaseLoadingSpinner,
+    RouterLink
+},
   props: ['state'],
   data(){ 
     return {
-        variants: {
-            success: {
-              description: 'Twoje konto zostało pomyślnie aktywowane, możesz teraz przejść do formularza logowania.',
-              icon: 'check_circle'
-            },
-            failed: {
-              description: 'Link aktywacyjny jest błędny. Upewnij się, że link został skopiowany poprawnie.',
-              icon: 'cancel'
-            }
-        } 
     }
   },
   computed: {
@@ -36,6 +30,12 @@ export default {
       if (this.state == 'inprogress')
         return true;
       return false;
+    },
+    success() {
+      return !this.spinnerVisible && this.state=='success';
+    },
+    failed() {
+      return !this.spinnerVisible && this.state=='failed';
     },
     iconStyles() {
       if (this.state=='inprogress')
@@ -129,5 +129,9 @@ section {
 
 .b-green {
   border: 5px solid #ACC12F;
+}
+
+a {
+  color: white;
 }
 </style>
