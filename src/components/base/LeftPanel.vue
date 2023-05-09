@@ -118,6 +118,7 @@ export default {
 }
 button {
   box-shadow: none;
+  border: none;
 }
 .buttonicon{
     position: absolute;
@@ -247,6 +248,7 @@ button {
     left: 10%;
     box-shadow: none;
     width: 40px;
+    border: none;
 }
 .gamesHiddenIcon{
     position: absolute;
