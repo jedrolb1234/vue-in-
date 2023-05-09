@@ -91,7 +91,8 @@ export default {
     padding:5px 8px 5px 8px;
   }
 .h1{
-  font-size: smaller;
+  font-size: large;
+  padding: 3px, 0px, 3px, 0px;
 }
 .popup{
   width: auto;

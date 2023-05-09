@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import TheMainPage from './sites/TheMainPage'
-import PageNotFound from './sites/PageNotFound'
-import RegisterUserPage from './sites/RegisterUserPage'
+import TheMainPage from './sites/TheMainPage.vue'
+import PageNotFound from './sites/PageNotFound.vue'
+import RegisterUserPage from './sites/RegisterUserPage.vue'
 import LogInPage from './sites/LogInPage.vue'
 import EnterEmail from './sites/EnterEmail.vue'
 import ChangePassword from './sites/ChangePassword.vue';
 import RequestPassword from './sites/RequestPassword.vue'
 import BadLink from './sites/BadLink.vue'
-import ActiveAccount from './sites/ActiveAccount'
+import ActiveAccount from './sites/ActiveAccount.vue'
 import Warcaby from './Games/gra-warcaby.vue';
 import Statki from './Games/gra-statki.vue';
 import Polacz4 from './Games/gra-polacz4.vue';
