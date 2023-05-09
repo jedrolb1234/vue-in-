@@ -46,6 +46,7 @@
   
   <style module>
   .container {
+    padding-top: 5px;
     display: flex;
     align-content: center;
     border-radius: 5px;
@@ -54,12 +55,12 @@
   .field {
     background: #FBF5F3;
     border-radius: 5px 0 0 15px;
-    padding: 3px 5px 3px 5px;
-    font-size: smaller;
+    padding: 5px 10px 5px 10px;
+    font-size: medium;
     color: #000000;
-    border:0;
-    width: 140px;
-    height: 25px;
+    border: 0;
+    width: 280px;
+    height: 45px;
   }
   
   .field:focus {
@@ -68,7 +69,9 @@
   
   .icon {
     color: rgba(0, 0, 0, 0.5);
-    font-size: 15px;
+    width: 44px;
+    height: 44px;
+    font-size: 32px;
     background-color: #FBF5F3;
     padding: 3px 5px 3px 5px;
     border-radius: 0 5px 5px 0;

@@ -16,7 +16,7 @@
 import TheHeader from '@/components/TheMainPage/TheHeader.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 
-export default {
+export default{
   components: {
     TheHeader,
     BaseButton
