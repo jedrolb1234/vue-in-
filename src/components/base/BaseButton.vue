@@ -26,6 +26,7 @@ export default {
 .dark-small:hover {
   background-color: black;
   cursor: pointer;
+  border-radius: 15px;
 }
 
 .dark-large {
@@ -42,6 +43,7 @@ export default {
 .dark-large:hover {
   background-color: black;
   cursor: pointer;
+  border-radius: 15px;
 }
 
 .green-large {
@@ -56,6 +58,7 @@ export default {
 
 .green-large:hover {
   background-color: #c3e40a;
+  border-radius: 15px;
   cursor: pointer;
 }
 </style>
