@@ -103,7 +103,7 @@ import { RouterLink } from 'vue-router';
     text-justify: inter-word;
   }
 
-a {
-  color: white;
-}
+  a {
+    color: white;
+  }
 </style>

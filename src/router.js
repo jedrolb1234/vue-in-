@@ -21,7 +21,7 @@ const router = createRouter({
     { path: '/dashboard', name:'dashboard', component: TheDashboard, meta: {requiresAuth: true} },
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
-    { path: '/resetpassword/:id', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true }, //do sprawdzenia
+    { path: '/resetpassword/:id', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
     { path: '/warcaby', component: Warcaby },
     { path: '/statki', component: Statki },
     { path: '/activeAccz4', component: Polacz4 },
