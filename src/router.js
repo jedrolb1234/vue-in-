@@ -10,6 +10,9 @@ import Friends from './sites/FriendsPage.vue';
 import Rank from './sites/RankPage.vue';
 import History from './sites/HistoryPage.vue';
 import Settings from './sites/SettingsPage.vue';
+import WarcabyDesc from './sites/gra-warcaby-description.vue';
+import StatkiDesc from './sites/gra-statki-description.vue';
+import Polacz4Desc from './sites/gra-polacz4-description.vue';
 import Warcaby from './Games/gra-warcaby.vue';
 import Statki from './Games/gra-statki.vue';
 import Polacz4 from './Games/gra-polacz4.vue';
@@ -32,9 +35,12 @@ const router = createRouter({
     { path: '/rank', name:'rank', component: Rank },
     { path: '/history', name:'history', component: History },
     { path: '/settings', name:'settings', component: Settings },
-    { path: '/warcaby', component: Warcaby },
-    { path: '/statki', component: Statki },
-    { path: '/activeAccz4', component: Polacz4 },
+    { path: '/warcabydesc', name:'warcabydescription', component: WarcabyDesc },
+    { path: '/statkidesc', name:'statkidescription', component: StatkiDesc },
+    { path: '/polacz4desc', name:'polacz4description', component: Polacz4Desc },
+    { path: '/warcaby', name:'warcaby', component: Warcaby },
+    { path: '/statki', name:'statki', component: Statki },
+    { path: '/polacz4', name:'polacz4', component: Polacz4 },
     { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]
 })

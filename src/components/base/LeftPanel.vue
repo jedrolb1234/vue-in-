@@ -112,6 +112,7 @@ export default {
 </script>
 
 <style module>
+
 button {
   box-shadow: none;
   border: none;
@@ -136,10 +137,11 @@ button:hover{
     flex-direction: column;
     flex-grow: 1;
     width: 270px;
-    height: 100%;
+    height: 100vh;
     left: 0px;
     top: 0px;
     background-color: #393E41;
+    position: fixed;
 }
 .funhauseContainer{
     display: flex;
@@ -294,10 +296,11 @@ button:hover{
     display: flex;
     flex-direction: column;
     width: 60px;
-    height: 100%;
+    height: 100vh;
     left: 0px;
     top: 0px;
     background-color: #393E41;
+    position: fixed;
 }
 .hiddenbuttonicon{
     display: flex;
@@ -309,19 +312,19 @@ button:hover{
     width: 40px;
     height: 40px;
     border: none;
-    margin-top: 60px;
+    margin-top: 65px;
     margin-left:10px;
 }
 .lineHidden{
     border: 2px solid #FBF5F3;
     display: flex;
-    margin: 50px 10px 10px 10px;
+    margin: 37px 10px 10px 10px;
 }
 .gamesHiddenIcon{
     display: flex;
     color: #FFFFFF;
     font-size: 20px;
-    margin-top: 145px;
+    margin-top: 153px;
     margin-left: 20px;
 }
     
@@ -359,7 +362,7 @@ button:hover{
     color: #FFFFFF;
     font-size: 20px;
     margin-left: 20px;
-    margin-top: 215px;
+    margin-top: 210px;
 }
 .slide-enter-active, .slide-leave-active {
   transition: all 2s ease;
