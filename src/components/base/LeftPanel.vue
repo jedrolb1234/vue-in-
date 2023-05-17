@@ -1,376 +1,247 @@
 <template>
-    <transition name="slide">
-    <div v-if="hidden===false" :class="$style.content">
-        <div :class="$style.funhauseContainer">
-            <h1 :class="$style.funhause">FunHause</h1>      
-            <button @click="isHidden()" :class="iconBStyles">arrow_back_ios</button>   
+  <Transition name="slide">
+    <div v-if="!isLeftPanelHidden" class="panel">
+      <div>
+        <div class="logo">
+          <h1>FunHouse</h1>
+          <span :class="hidePanelStyles" @click="toogleLeftPanel">arrow_back_ios_new</span>
         </div>
-        <div :class="$style.line"></div>
-        <div :class="userStyles">person_2</div>       
-        <RouterLink :to="{name: 'games'}" :class="$style.gamesContainer">
-            <span :class="gamesStyles">stadia_controller</span>
-            <div :class="$style.games">Gry</div>
-        </RouterLink>
-        <RouterLink :to="{name: 'friends'}" :class="$style.friendsContainer">
-            <span :class="friendsStyles">group</span>
-            <div :class="$style.friends">Znajomi</div>
-        </RouterLink>
-        <RouterLink :to="{name: 'rank'}" :class="$style.rankContainer">
-            <span :class="rankStyles">stars</span>
-            <div :class="$style.rank">Ranking</div>
-        </RouterLink>
-        <RouterLink :to="{name: 'history'}" :class="$style.historyContainer">
-            <span :class="historyStyles">device_reset</span>
-            <div :class="$style.history">Historia gier</div>
-        </RouterLink>
-        <RouterLink :to="{name: 'settings'}" :class="$style.settingsContainer">
-            <span :class="settingsStyles">settings</span>
-            <div :class="$style.settings">Ustawienia</div>   
-        </RouterLink>
-        <div :class="$style.logOutContainer">
-            <span :class="logOutStyles">logout</span>
-            <div :class="$style.logOut">Wyloguj się</div>   
+        <hr />
+        <div class="avatar">
+          <span :class="avatarStyles">account_circle</span>
         </div>
-    </div> 
-    <div v-else-if="hidden===true" :class="$style.contentHidden"> 
-        <button @click="isHidden()" :class="iconHBStyles">arrow_forward_ios</button>   
-        <div :class="$style.lineHidden"></div>
-        <span :class="gamesHStyles">stadia_controller</span>
-        <span :class="friendsHStyles">group</span>
-        <span :class="rankHStyles">stars</span>
-        <span :class="historyHStyles">device_reset</span>
-        <span :class="settingsHStyles">settings</span>
-        <span :class="logOutHStyles">logout</span>
+        <div class="tabs">
+          <div class="tabsItem clickable" @click="$router.push({name: 'games'})">
+            <span :class="iconStyles">stadia_controller</span>
+            <span>Gry</span>
+          </div>
+          <div class="tabsItem clickable" @click="$router.push({name: 'friends'})">
+            <span :class="iconStyles">group</span>
+            <span>Znajomi</span>
+          </div>
+          <div class="tabsItem clickable" @click="$router.push({name: 'rank'})">
+            <span :class="iconStyles">stars</span>
+            <span>Ranking</span>
+          </div>
+          <div class="tabsItem clickable" @click="$router.push({name: 'history'})">
+            <span :class="iconStyles">device_reset</span>
+            <span>Historia gier</span>
+          </div>
+          <div class="tabsItem clickable" @click="$router.push({name: 'settings'})">
+            <span :class="iconStyles">settings</span>
+            <span>Ustawienia</span>
+          </div>
+        </div>
+      </div>
+      <div class="tabsItem clickable" @click="$router.push({name: 'games'})">
+        <span :class="iconStyles">logout</span>
+        <span>Wyloguj</span>
+      </div>
     </div>
-    </transition>
+  </Transition>
+  <Transition name="fade">
+    <div v-if="isLeftPanelHidden" class="panelHidden clickable">
+      <div>
+        <div class="logoHidden">
+          <span :class="hidePanelStyles" @click="toogleLeftPanel">arrow_forward_ios</span>
+        </div>
+        <hr />
+        <div class="tabsHidden">
+          <div class="tabsItemHidden clickable" @click="$router.push({name: 'games'})">
+            <span :class="iconStyles">stadia_controller</span>
+          </div>
+          <div class="tabsItemHidden clickable" @click="$router.push({name: 'friends'})">
+            <span :class="iconStyles">group</span>
+          </div>
+          <div class="tabsItemHidden clickable" @click="$router.push({name: 'rank'})">
+            <span :class="iconStyles">stars</span>
+          </div>
+          <div class="tabsItemHidden clickable" @click="$router.push({name: 'history'})">
+            <span :class="iconStyles">device_reset</span>
+          </div>
+          <div class="tabsItemHidden clickable" @click="$router.push({name: 'settings'})">
+            <span :class="iconStyles">settings</span>
+          </div>
+        </div>
+      </div>
+      <div class="tabsItemHidden clickable">
+        <span :class="iconStyles">logout</span>
+      </div>
+    </div>
+  </Transition>
 </template>
+
 <script>
-import { RouterLink } from 'vue-router';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    components:{
-    RouterLink
-    },
-    data(){
-        return{
-        hidden: false
-        }
-    },
-    methods:{
-        isHidden(){
-        this.hidden = !this.hidden;
-        }
-    },
+  methods: {
+    ...mapActions(['toogleLeftPanel'])
+  },
   computed: {
-    iconBStyles() {
-        return ['material-symbols-outlined', this.$style.buttonicon].join(' ');
-        },
-    userStyles(){
-        return ['material-symbols-outlined', this.$style.userIcon].join(' ');
-        },
-    gamesStyles(){
-        return ['material-symbols-outlined', this.$style.gamesIcon].join(' ');
-        },
-    friendsStyles(){
-        return ['material-symbols-outlined', this.$style.friendsIcon].join(' ');
-        },
-    rankStyles(){
-        return ['material-symbols-outlined', this.$style.rankIcon].join(' ');
-        },
-    historyStyles(){
-        return ['material-symbols-outlined', this.$style.historyIcon].join(' ');
-        },
-    settingsStyles(){
-        return ['material-symbols-outlined', this.$style.settingsIcon].join(' ');
-        },
-    logOutStyles(){
-        return ['material-symbols-outlined', this.$style.logOutIcon].join(' ');
-        },   
-    iconHBStyles() {
-        return ['material-symbols-outlined', this.$style.hiddenbuttonicon].join(' ');
-        },
-    gamesHStyles(){
-        return ['material-symbols-outlined', this.$style.gamesHiddenIcon].join(' ');
-        },
-    friendsHStyles(){
-        return ['material-symbols-outlined', this.$style.friendsHiddenIcon].join(' ');
-        },
-    rankHStyles(){
-        return ['material-symbols-outlined', this.$style.rankHiddenIcon].join(' ');
-        },
-    historyHStyles(){
-        return ['material-symbols-outlined', this.$style.historyHiddenIcon].join(' ');
-        },
-    settingsHStyles(){
-        return ['material-symbols-outlined', this.$style.settingsHiddenIcon].join(' ');
-        },
-    logOutHStyles(){
-        return ['material-symbols-outlined', this.$style.logOutHiddenIcon].join(' ');
-        },
-    }
+    ...mapGetters(['isLeftPanelHidden']),
+    iconStyles() {
+      return ['material-symbols-outlined', 'icon'].join(' ');
+    },
+    hidePanelStyles() {
+      return ['material-symbols-outlined', 'icon', 'clickable'].join(' ');
+    },
+    avatarStyles() {
+      return ['material-symbols-outlined', 'avatarIcon'].join(' ');
+    },
+  }
 }
 </script>
 
-<style module>
-
-button {
-  box-shadow: none;
-  border: none;
-  background-color: #393E41;
-  color: #FFFFFF;
-}
-button:hover{
-    cursor: pointer;
-    background-color: #535b5f;
-    border-radius: 10px;
-}
-.gamesContainer:hover,
-.rankContainer:hover,
-.friendsContainer:hover,
-.historyContainer:hover,
-.settingsContainer:hover{
-    background-color: #535b5f;
-    border-radius:10px;
-}
-.content{
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    width: 270px;
-    height: 100vh;
-    left: 0px;
-    top: 0px;
-    background-color: #393E41;
-    position: fixed;
-}
-.funhauseContainer{
-    display: flex;
-    flex-direction: row;
-    margin-left: 20px;
-    margin-top: 30px;
-    justify-content: space-between;
-}
-.funhause{
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 54px;
-    color: #FFFFFF;
-    margin-right: auto;
+<style scoped>
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  height: 100%;
+  background-color: #262A2C;
+  justify-content: space-between;
+  color: white;
+  padding-bottom: 25px;
+  border-radius: 0px 30px 30px 0px;
+  filter: drop-shadow(15px 0px 15px rgba(0, 0, 0, 0.4));
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.buttonicon{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    color: #FFFFFF;
-    background-color: #393E41;
-    box-shadow: none;
-    width: 40px;
-    height: 40px;
-    border: none;
-    margin-left: auto;
-    margin-top: 30px;
-}
-.line{
-    border: 2px solid #FBF5F3;
-    display: flex;
-    margin: 10px;
-}
-.userIcon{
-    display: flex;
-    font-size: 100px;
-    color: #FFFFFF;
-    margin-left: 90px;
+.panelHidden {
+  display: flex;
+  flex-direction: column;
+  width: 60px;
+  height: 100%;
+  background-color: #262A2C;
+  justify-content: space-between;
+  color: white;
+  padding-bottom: 25px;
+  border-radius: 0px 30px 30px 0px;
+  filter: drop-shadow(15px 0px 15px rgba(0, 0, 0, 0.4));
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.gamesContainer{
-    display: flex;
-    margin-left: 20px;
-    margin-top: 48px;
-    width: 220px;
-    text-decoration: none;
+.logo {
+  padding: 0px 10px 0px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
-.gamesIcon{
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 5px;
+
+.logoHidden {
+  padding: 9px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
-.games{
-    color: #FFFFFF;
-    font-size: 20px;
-     margin-left: 20px;
+
+h1 {
+  margin: 0px;
+
 }
-.friendsContainer{
-    display: flex;
-     margin-left: 20px;
-     margin-top: 10px;
-     width: 220px;
-     text-decoration: none;
+
+hr {
+  margin: 0px 10px;
+  border: 1px solid white;
 }
-.friendsIcon{
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 5px;
+
+.icon {
+  font-size: 30px;
 }
-.friends{
-    color: #FFFFFF;
-    font-size: 20px;
-     margin-left: 20px;
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  margin: 50px 60px;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.rankContainer{
-    display: flex;
-     margin-left: 20px;
-     margin-top: 10px;
-     width: 220px;
-     text-decoration: none;
+
+.avatarIcon {
+  font-size: 100px;
 }
-.rankIcon{
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 5px;
+
+.tabs {
+  display: flex;
+  flex-direction: column;
 }
-.rank{
-    color: #FFFFFF;
-    font-size: 20px;
-     margin-left: 20px;
+
+.tabsHidden {
+  display: flex;
+  flex-direction: column;
+  margin-top: 200px;
 }
-.historyContainer{
-    display: flex;
-     margin-left: 20px;
-     margin-top: 10px;
-     width: 220px;
-     text-decoration: none;
+
+.tabsItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.historyIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 5px;
-    
+
+.tabsItemHidden {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
 }
-.history{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-     margin-left: 20px;
-     text-decoration: none;
+
+.tabsItemHidden:hover {
+  background: #393E41;
 }
-.settingsContainer{
-    display: flex;
-     margin-left: 20px;
-     margin-top: 10px;
-     width: 220px;
-     text-decoration: none;
+
+.tabsItem:hover {
+  background: #393E41;
 }
-.settingsIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 5px;
+
+.logout {
+  padding: 0 25px;
 }
-.settings{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-     margin-left: 20px;
+
+.clickable {
+  cursor: pointer;
 }
-.logOutContainer{
-    display: flex;
-     margin-left: 20px;
-     margin-top: 200px;
+
+.slide-enter-active {
+  transition: all 0.3s ease-out;
 }
-.logOutIcon{
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 5px;
+
+.slide-leave-active {
+  transition: all 0.3s ease-in;
 }
-.logOut{
-    color: #FFFFFF;
-    font-size: 20px;
-     margin-left: 20px;
+
+.slide-enter-from {
+  width: 60px;
+  position: absolute;
 }
-.contentHidden{
-    display: flex;
-    flex-direction: column;
-    width: 60px;
-    height: 100vh;
-    left: 0px;
-    top: 0px;
-    background-color: #393E41;
-    position: fixed;
+
+.slide-enter-to {
+  position: absolute;
 }
-.hiddenbuttonicon{
-    display: flex;
-    text-align: center;
-    font-size: 30px;
-    color: #FFFFFF;
-    background-color: #393E41;
-    box-shadow: none;
-    width: 40px;
-    height: 40px;
-    border: none;
-    margin-top: 65px;
-    margin-left:10px;
+
+.slide-leave-to {
+  position: absolute;
+  width: 60px;
 }
-.lineHidden{
-    border: 2px solid #FBF5F3;
-    display: flex;
-    margin: 37px 10px 10px 10px;
+
+.fade-enter-active {
+  transition: all 0.3s cubic-bezier(1, .11, 1, .03);
 }
-.gamesHiddenIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-top: 153px;
-    margin-left: 20px;
-}
-    
-.friendsHiddenIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-top: 20px;
-}
-.rankHiddenIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-top: 20px;
-}
-.historyHiddenIcon
-{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-top: 20px;
-}
-.settingsHiddenIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-top: 20px;
-}
-.logOutHiddenIcon{
-    display: flex;
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-top: 210px;
-}
-.slide-enter-active, .slide-leave-active {
-  transition: all 2s ease;
-}
-.slide-enter-to, .slide-leave {
-  transform: translateX(-100%);
-}
-.slide-enter, .slide-leave-to {
-  transform: translateX(0%);
+
+
+.fade-enter-from {
+  position: absolute;
+  opacity: 0;
+  filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
 }
 </style>
