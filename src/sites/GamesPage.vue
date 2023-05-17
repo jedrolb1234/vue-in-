@@ -8,19 +8,19 @@
       <table class="gamesContainer">
         <th>
           <td class="warcabyGame">
-            <RouterLink :to="{name: 'warcabydescription'}">
+            <RouterLink :to="{ name: 'warcabydescription'}">
               <div class="warcabyImage"><p class="gameName">WARCABY</p></div>
               <p class="warcabyDescription">Popularna gra planszowa dla każdego.</p>
             </RouterLink>
           </td>
           <td class="statkiGame">
-            <RouterLink :to="{name: 'statkidescription'}">
+            <RouterLink :to="{ name: 'statkidescription'}">
               <div class="statkiImage"><p class="gameName">STATKI</p></div>
               <p class="statkiDescription">Wygraj z przeciwnikiem strącając statki z jego plaszy.</p>          
            </RouterLink>
           </td>
           <td class="polacz4Game">
-            <RouterLink :to="{name: 'polacz4description'}">
+            <RouterLink :to="{ name: 'polacz4description'}">
               <div class="polacz4Image"><p class="gameName">POŁĄCZ 4</p></div>
               <p class="polacz4Description">Połącz 4 piłki układając stos.</p>          
             </RouterLink>

@@ -65,7 +65,7 @@ export default {
                         '21':'black-pawn', '23':'black-pawn', '25':'black-pawn', '27':'black-pawn',
                         '30':'empty', '32':'empty', '34':'empty', '36':'empty',
                         '41':'empty', '43':'empty', '45':'empty', '47':'empty',
-                        '50':'white-pawn', '52':'white-pawn', '54':'white-pawn', '56':'white-pawn',
+                        '50':'white-pawn', '52':'white-king', '54':'white-pawn', '56':'white-pawn',
                         '61':'white-pawn', '63':'white-pawn', '65':'white-pawn', '67':'white-pawn',
                         '70':'white-pawn', '72':'white-pawn', '74':'white-pawn', '76':'white-pawn'
                     },
@@ -630,7 +630,7 @@ export default {
                 yTmp1 = y-1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
                 
-                if((this.board[tmpPosition1] === this.Empty) && (this.board[pawn] === (this.blackKing) || (this.board[pawn] === this.blackPawn)))
+                if((this.board[tmpPosition1] === this.Empty) && (this.board[pawn] === this.blackKing))
                 {
                     ifMoveIsPossible = true;
                 }       
