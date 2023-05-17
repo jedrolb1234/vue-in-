@@ -1,3 +1,5 @@
+import Router from '@/router';
+
 export default {
   state() {
     return {
@@ -44,6 +46,7 @@ export default {
         if (res.status == 200) {
           context.commit('login', res.data);
           context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
+          Router.push({name: 'games'});
         }
       } catch (error) {
         if (error.response) {
@@ -72,6 +75,10 @@ export default {
       if (res.status == 200)
         return 'success';
       return 'failed';
+    },
+    logOutUser() {
+      localStorage.removeItem('token');
+      Router.push({name: 'landing-page'});
     }
   },
   getters: {

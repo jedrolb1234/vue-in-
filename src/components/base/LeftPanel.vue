@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="tabsItem clickable" @click="$router.push({name: 'games'})">
+      <div class="tabsItem clickable" @click="logOutUser">
         <span :class="iconStyles">logout</span>
         <span>Wyloguj</span>
       </div>
@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="tabsItemHidden clickable">
+      <div class="tabsItemHidden clickable" @click="logOutUser">
         <span :class="iconStyles">logout</span>
       </div>
     </div>
@@ -76,7 +76,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   methods: {
-    ...mapActions(['toogleLeftPanel'])
+    ...mapActions(['toogleLeftPanel', 'logOutUser'])
   },
   computed: {
     ...mapGetters(['isLeftPanelHidden']),

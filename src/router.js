@@ -23,24 +23,24 @@ import ActivateUserPage from '@/pages/ActivateUserPage'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', name: 'main-page', component: TheMainPage, meta: {requiresGuest: true} },
+    { path: '/', name: 'landing-page', component: TheMainPage, meta: {requiresGuest: true} },
     { path: '/signup', name: 'signup', component: RegisterUserPage, meta: {requiresGuest: true} },
     { path: '/login', name:'login', component: LoginPage, meta: {requiresGuest: true} },
     { path: '/dashboard', name:'dashboard', component: TheDashboard, meta: {requiresAuth: true} },
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
-    { path: '/resetpassword/:id', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true }, //do sprawdzenia
-    { path: '/games', name:'games', component: Games },
-    { path: '/friends', name:'friends', component: Friends },
-    { path: '/rank', name:'rank', component: Rank },
-    { path: '/history', name:'history', component: History },
-    { path: '/settings', name:'settings', component: Settings },
-    { path: '/warcabydesc', name:'warcabydescription', component: WarcabyDesc },
-    { path: '/statkidesc', name:'statkidescription', component: StatkiDesc },
-    { path: '/polacz4desc', name:'polacz4description', component: Polacz4Desc },
-    { path: '/warcaby', name:'warcaby', component: Warcaby },
-    { path: '/statki', name:'statki', component: Statki },
-    { path: '/polacz4', name:'polacz4', component: Polacz4 },
+    { path: '/resetpassword/:id', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
+    { path: '/games', name:'games', component: Games, meta: {requiresAuth: true} },
+    { path: '/friends', name:'friends', component: Friends, meta: {requiresAuth: true} },
+    { path: '/rank', name:'rank', component: Rank, meta: {requiresAuth: true} },
+    { path: '/history', name:'history', component: History, meta: {requiresAuth: true} },
+    { path: '/settings', name:'settings', component: Settings, meta: {requiresAuth: true} },
+    { path: '/warcabydesc', name:'warcabydescription', component: WarcabyDesc, meta: {requiresAuth: true} },
+    { path: '/statkidesc', name:'statkidescription', component: StatkiDesc, meta: {requiresAuth: true} },
+    { path: '/polacz4desc', name:'polacz4description', component: Polacz4Desc, meta: {requiresAuth: true} },
+    { path: '/warcaby', name:'warcaby', component: Warcaby, meta: {requiresAuth: true} },
+    { path: '/statki', name:'statki', component: Statki, meta: {requiresAuth: true} },
+    { path: '/polacz4', name:'polacz4', component: Polacz4, meta: {requiresAuth: true} },
     { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]
 })
