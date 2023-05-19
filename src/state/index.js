@@ -1,11 +1,13 @@
 import {createStore} from 'vuex'
-import Notifications from './notifications/index.js';
-import Users from './users/index.js';
+import Notifications from '@/state/notifications/index.js';
+import Users from '@/state/users/index.js';
+import LeftPanelState from '@/state/leftPanel/index.js';
 
 const state = createStore({
   modules: {
     Notifications,
-    Users
+    Users,
+    LeftPanelState
   },
   state() {
     return {
