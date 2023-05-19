@@ -35,8 +35,17 @@ export default {
         },
         user_logged: {
           label: 'Zalogowałeś sie pomyślnie!',
-          description: 'Zsoatniesz przekierowany do panelu użytkownika.',
-          type: 'info'
+          description: 'Zosatniesz przekierowany do panelu użytkownika.',
+          type: 'info'},
+        user_name: {
+          label: 'Wprowadono niepoprawne dane!',
+          description: 'Użyto niedozwolonych znaków.',
+          type: 'info',
+        },
+        user_name_to_short: {
+          label: 'Wprowadono niepoprawne dane!',
+          description: 'Nazwa użtkownika musi zawierać conajmniej 1 literę.',
+          type: 'info',
         }
       }
     }

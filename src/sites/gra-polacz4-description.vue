@@ -49,6 +49,12 @@ components:{
 .container{
   display: flex;
 }
+h1{
+  background-color: transparent;
+  color: white;
+  font-size: 32px;
+  margin: 30px;
+}
 .content{
 flex-grow: 1;
 display: flex;
