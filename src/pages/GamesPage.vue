@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <LeftPanel></LeftPanel>
+  <BasePageLayout>
     <div class="content">
       <h1 class="mainDescription">Wybierz grę.</h1>
       <table class="gamesContainer">
@@ -32,17 +31,17 @@
         </th>
       </table>
     </div>
-  </div>
+  </BasePageLayout>
 </template>
 
 <script>
 import { RouterLink } from 'vue-router';
-import LeftPanel from '@/components/base/LeftPanel.vue';
+import BasePageLayout from '@/components/base/BasePageLayout.vue';
 
 export default {
   components: {
     RouterLink,
-    LeftPanel
+    BasePageLayout
   }
 }
 </script>
@@ -52,12 +51,6 @@ a,
 p {
   text-decoration: none;
 }
-
-.container {
-  display: flex;
-  height: 100%;
-}
-
 .mainDescription {
   background-color: transparent;
   color: white;
@@ -72,6 +65,7 @@ p {
   justify-content: flex-start;
   align-items: center;
   margin: 30px;
+  transition: width 1s ease;
 }
 
 .gamesContainer {

@@ -1,15 +1,15 @@
 <template>
-    <left-panel></left-panel>
-    <h1>Friends</h1>
+    <base-page-layout>
+        <h1>Friends</h1> 
+    </base-page-layout>
 </template>
 <script>
-import LeftPanel from '@/components/base/LeftPanel.vue';
+import BasePageLayout from '@/components/base/BasePageLayout.vue';
 
 export default {
-components:{
-LeftPanel
-}
+    components: {
+        BasePageLayout
+    }
 }
 </script>
-<style scoped>
-</style>
+<style scoped></style>
