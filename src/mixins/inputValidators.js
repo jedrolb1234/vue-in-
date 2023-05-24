@@ -1,5 +1,7 @@
+import Validators from '@/mixins/inputValidators.js'
 export default {
     methods: {
+      Validators,
         validateEmail(email) {
             const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
             if(email.match(emailRegex))

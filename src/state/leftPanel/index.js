@@ -1,7 +1,7 @@
 export default {
   state() {
     return {
-      isHidden: true
+      isHidden: true,
     }
   },
   mutations: {

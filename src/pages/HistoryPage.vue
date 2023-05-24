@@ -1,78 +1,69 @@
 <template>
-  <div class="container">
-    <div class="leftPanel">
-        <left-panel></left-panel>
-    </div>
-    <div class="content">
-      <h1 class="mainDescription">Historia gier</h1>                 
-        <div v-if="isLoading===false" class="loadingTable">
-          <div class="showHistoryTable">
-            <ul class="historyHeader">Rozegrane gry</ul> 
-            <table>
-              <tr class="historyList"><td class="rankNr">gra</td><td>data</td><td>status</td><td>Punkty</td></tr>
-              <tr class="historyList"
-                v-for="( h, index ) in history" :key="index">
-                <td class="rank">{{ h.game }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
-              </tr>
-            </table>
+  <base-page-layout>
+    <div class="container">
+      <div class="leftPanel">
+          <left-panel></left-panel>
+      </div>
+      <div class="content">
+        <h1 class="mainDescription">Historia gier</h1>                 
+          <div v-if="isLoading===false">
+            <div class="showHistoryTable">
+              <ul class="historyHeader">Rozegrane gry</ul> 
+              <table>
+                <tr class="historyList"><td>gra</td><td>data</td><td>status</td><td>Punkty</td></tr>
+                <tr class="historyList"
+                  v-for="( h, index ) in currentPage" :key="index">
+                  <td>{{ h.id }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
+                </tr>
+                <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+
+              </table>
+              <div class="buttons">
+                <base-small-button @click="previousPage" :disabled="pageNr === 1">Poprzednia</base-small-button>
+                <base-small-button @click="nextPage" :disabled="pageNr === allPages">Następna</base-small-button>
+              </div>
+            </div>
           </div>
-        <div v-if="isLoading===true" class="loadingTable">
-            <ul class="historyHeader">Rozegrane gry</ul> 
-          <table>
-            <tr><td>. . .</td><td>. . .</td><td>. . .</td><td>. . .</td></tr>
-            <tr><td>. . .</td><td>. . .</td><td>. . .</td><td>. . .</td></tr>
-            <tr><td>. . .</td><td>. . .</td><td>. . .</td><td>. . .</td></tr>
-          </table>
+          <div>
+            <div v-if="isLoading===true">
+              <ul class="historyHeader">Rozegrane gry</ul> 
+              <base-loading-spinner class="spinner"></base-loading-spinner>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+  </base-page-layout>
 </template>
   <script>
-  import LeftPanel from '@/components/base/LeftPanel.vue';
-  import { mapGetters } from 'vuex';
+  import BasePageLayout from '@/components/base/BasePageLayout.vue';
+  import BaseSmallButton from '@/components/base/BaseSmallButton.vue';
+  import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
+  import { mapGetters, mapActions } from 'vuex';
+ 
   export default {
     components:{
-    LeftPanel
+      BasePageLayout,
+      BaseSmallButton,
+      BaseLoadingSpinner
     },
     data(){
-        return{
-          history:{
-            1:{
-              id:0,
-              game: 'warcaby',
-              date: '2023-09-01',
-              status: 'win',
-              points: 100
-            },
-            2:{
-              id:1,
-              game: 'warcaby',
-              date: '2023-09-01',
-              status: 'win',
-              points: 100
-            },
-            3:{
-              id:2,
-              game: 'warcaby',
-              date: '2023-09-01',
-              status: 'lose',
-              points: 5
-            },
-            4:{
-              id:3,
-              game: 'warcaby',
-              date: '2023-09-01',
-              status: 'win',
-              points: 100
-            }
-          },
-          isLoading: false
+      return{
+        history:{ }
       }
     },
-      computed: {
-      ...mapGetters(['isLoading'])
-    }
+    computed:{
+      ...mapGetters('History', ['isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory',
+                                'getCurrentPage', 'getItemsPerPage'])
+        },
+    methods:{
+      ...mapActions('History', ['previousPage', 'nextPage']),
+      dynamicHeight(){
+            let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
+            let endIndex = startIndex + this.getItemsPerPage;
+            let sliced = this.getHistory.slice(startIndex, endIndex);           
+            return (10 - sliced.length ) * 38;
+        }
+    },
   }
   </script>
   <style scoped>
@@ -103,18 +94,20 @@
   align-items: center;
   font-size: 22px;
   background-color: white;
-  width: 796px;
+  width: 800px;
   height: 40px;
-  margin: 0px 0px 0px 2px;
+  margin: 0px 0px 0px 1px;
   border-radius: 8px 8px 0px 0px;
 }
-.table{
-    display: flex;
+table{
     justify-content: center; 
-    width: 800px;
+    width: auto;
     color:black;
     border-collapse: collapse;
     border-radius: 0px 0px 8px 8px;
+    border-spacing: 0px;
+    background-color: white;
+    
 }
 tr{
     border: 1px solid black;
@@ -132,11 +125,19 @@ td{
     font-size: 18px;
     color:black;
     margin: 0px 0px 0px 0px;
-    border: none;
 }
-.polacz4List{
+.historyList{
   font-size: 24;
   color: white;
+}
+.buttons{
+  display: flex;
+  flex-direction: row;
+}
+.spinner{
+  justify-content: center;
+  align-items: center;
+  margin-left: 350px;
 }
   </style>
   
