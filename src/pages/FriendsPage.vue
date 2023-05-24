@@ -4,13 +4,13 @@
             <left-panel></left-panel>
         </div>
         <div class="content">
-            <h1 class="mainDescription">Znajomi</h1>
             <div class="FriendsContainer">
+                <h1 class="mainDescription">Znajomi</h1>
                 <div v-if="isLoading">
                     <div></div>
                 </div>
                 <ul v-else-if="hasFriends">
-                    <table>
+                    <table class="friend">
                         <tr><td class="friendId">Nr</td><td>Imię</td><td>Nazwisko</td><td>Ostatnie logowanie</td><td>Ostatnia gra</td></tr>
                         <tr class="friendsList"
                             v-for="(friend, index) in friends" :key="index">
@@ -29,7 +29,7 @@
                 </form>
                 <div v-if="findUser === true" class="findUser">
                     <p> Znaleziono:</p>
-                    <table class="friend"><tr><td>{{ searchedUser.name + ' ' + searchedUser.surname }}</td><td>{{ searchedUser.lastLogin }}</td>
+                    <table class="friend"><tr><td>{{ searchedUser.name }} </td><td>{{ searchedUser.surname }}</td><td>{{ searchedUser.lastLogin }}</td>
                     <td><base-small-button type="green-large" @click="addFriend()">Dodaj</base-small-button></td></tr></table>
                 </div>
                 <div v-else-if="findUser === false" class="findUser">{{ notFindUser }}</div>
@@ -166,6 +166,7 @@ export default {
 }
 .mainDescription{
     justify-content: center;
+    margin-left: 50px;
 }
 .table{
     display: flex;
