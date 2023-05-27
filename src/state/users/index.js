@@ -20,14 +20,19 @@ function informUserAbouErrors(context, errors) {
 export default {
   state() {
     return {
+      lastLogin: null
     }
   },
   mutations: {
-    login(_state, authenticationKey) {
-      localStorage.setItem('token', JSON.stringify(authenticationKey));
+    login(state, data) {
+      sessionStorage.setItem('token', JSON.stringify(data.accessToken));
+      sessionStorage.setItem('refresh_token', JSON.stringify(data.refreshToken));
+      state.lastLogin = Date.now();
     },
-    logout() {
-      localStorage.setItem('token', null);
+    logout(state) {
+      sessionStorage.setItem('token', null);
+      sessionStorage.setItem('refresh_token', null);
+      state.lastLogin = null;
     }
   },
   actions: {
@@ -61,7 +66,6 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          console.log(error.response.data.errors);
           context.dispatch('showNotification',
             {
               label: 'Logowanie się nie powiodło!',
@@ -88,8 +92,8 @@ export default {
         return 'success';
       return 'failed';
     },
-    logOutUser() {
-      localStorage.removeItem('token');
+    logOutUser(context) {
+      context.commit('logout');
       Router.push({ name: 'landing-page' });
     },
     async requestPasswordChange(context, email) {
@@ -105,7 +109,6 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          console.log(error.response.data.errors);
           informUserAbouErrors(context, error.response.data.errors);
         } else {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
@@ -115,7 +118,6 @@ export default {
     async changePassword(context, payload) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const axios = require('axios');
-      console.log(payload);
       let res;
       try {
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_PASSWORD_CHANGE_ENDPOINT, payload);
@@ -124,20 +126,46 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          console.log(error.response.data.errors);
           informUserAbouErrors(context, error.response.data.errors);
         } else {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
     },
+    async refreshToken(context) {
+      if (context.getters.getLastLogin + process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT < Date.now()) {
+        const notificationTemplates = context.rootGetters.getNotificationTemplates;
+        const axios = require('axios');
+        const config = {
+          headers: {
+            refreshToken: JSON.parse(sessionStorage.getItem('refresh_token')),
+          }
+        }
+        let res;
+        try {
+          res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_REFRESH_TOKEN_ENDPOINT, null, config);
+          if (res.status == 200) {
+            context.commit('login', res.data);
+          }
+        } catch (error) {
+          if (error.response) {
+            context.dispatch('logOutUser');
+            context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+          }
+        }
+      }
+    }
   },
   getters: {
     isAuthenticated() {
-      let token = JSON.parse(localStorage.getItem('token'));
-      if (token == null)
+      const token = JSON.parse(sessionStorage.getItem('token'));
+      const refresh_token = JSON.parse(sessionStorage.getItem('refresh_token'));
+      if (token == null || refresh_token == null)
         return false;
       return true;
+    },
+    getLastLogin(state) {
+      return state.lastLogin;
     }
   }
 };
