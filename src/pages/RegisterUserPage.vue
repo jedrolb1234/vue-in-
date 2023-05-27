@@ -3,10 +3,10 @@
     <base-form>
       <form @submit.prevent="register"> 
         <h1>Stwórz konto</h1>
-        <base-input type="email" v-model.trim="email" :valid="isEmailValid"></base-input>
-        <base-input type="username" v-model.trim="username" :valid="isUsernameValid"></base-input>
-        <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
-        <base-input type="rpassword" v-model.trim="rpassword" :valid="isPasswordValid"></base-input>
+        <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending"></base-input>
+        <base-input type="username" v-model.trim="username" :valid="isUsernameValid" :disabled="isSending"></base-input>
+        <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending"></base-input>
+        <base-input type="rpassword" v-model.trim="rpassword" :valid="isPasswordValid" :disabled="isSending"></base-input>
         <base-button v-if="!isSending" type="green-large">Wyślij</base-button>
         <base-loading-spinner v-else></base-loading-spinner>
         <p>Jeśli posiadasz już konto możesz przejść do <RouterLink :to="{name: 'login'}">formularza logowania</RouterLink></p>

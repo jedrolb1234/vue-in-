@@ -2,9 +2,9 @@
   <base-form>
     <form @submit.prevent="changePassword"> 
       <h1>Zmień hasło</h1>
-      <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
+      <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending"></base-input>
       <div class="input">
-        <base-input type="password" v-model.trim="rpassword" :valid="isPasswordValid"></base-input>
+        <base-input type="password" v-model.trim="rpassword" :valid="isPasswordValid" :disabled="isSending"></base-input>
         <p v-if="!isPasswordValid">Wypełnij formularz poprawnymi danymi. Pamiętaj, że hasło musi posiadać minimum 8 znaków oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.</p>
       </div>
       <base-button v-if="!isSending" type="green-large">Wyślij</base-button>

@@ -1,13 +1,13 @@
 <template>
   <div :class="containerStyles">
-    <input :class="$style.field" :type="inputType" :placeholder="inputPlaceholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+    <input :class="$style.field" :type="inputType" :placeholder="inputPlaceholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :disabled="disabled">
     <span :class="['material-symbols-outlined', $style.icon]">{{ inputIcon }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['type', 'modelValue', 'valid'],
+  props: ['type', 'modelValue', 'valid', 'disabled'],
   emits: ['update:modelValue'],
   data() {
     return {
