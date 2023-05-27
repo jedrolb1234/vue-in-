@@ -10,7 +10,7 @@ export default {
         },
         resetpassword_email_sent: {
           label:'Email został pomyślnie wysłany',
-          description:'Link do zmiany hasła został poprawnie wygenerowany i wysłany na twoją skrytkę pocztową. ',
+          description:'Link do zmiany hasła został wygenerowany i wysłany na twoją skrzynke pocztową. ',
           type: 'info'
         },
         password_changed: {

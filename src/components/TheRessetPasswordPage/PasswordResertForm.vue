@@ -1,11 +1,12 @@
 <template>
   <base-form>
-    <form @submit.prevent="changePassword"> 
+    <form @submit.prevent="resetPassword">
       <h1>Zmień hasło</h1>
       <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending"></base-input>
       <div class="input">
         <base-input type="password" v-model.trim="rpassword" :valid="isPasswordValid" :disabled="isSending"></base-input>
-        <p v-if="!isPasswordValid">Wypełnij formularz poprawnymi danymi. Pamiętaj, że hasło musi posiadać minimum 8 znaków oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.</p>
+        <p v-if="!isPasswordValid">Wypełnij formularz poprawnymi danymi. Pamiętaj, że hasło musi posiadać minimum 8 znaków
+          oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.</p>
       </div>
       <base-button v-if="!isSending" type="green-large">Wyślij</base-button>
       <BaseLoadingSpinner v-if="isSending"></BaseLoadingSpinner>
@@ -22,6 +23,7 @@ import inputValidators from '@/mixins/inputValidators';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
+  props: ['token'],
   mixins: [inputValidators],
   components: {
     BaseForm,
@@ -41,21 +43,21 @@ export default {
     ...mapGetters(['getNotificationTemplates'])
   },
   methods: {
-    ...mapActions(['showNotification']),
+    ...mapActions(['showNotification', 'changePassword']),
     isFormValid() {
       this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
       return this.isPasswordValid;
     },
-    async changePassword() {
-      if(this.isFormValid()) {
-        this.isSending=true;
+    async resetPassword() {
+      if (this.isFormValid()) {
+        this.isSending = true;
+        await this.changePassword({ password: this.password, encodedUserIdAndToken: this.token })
         await new Promise(r => setTimeout(r, 2000));
-        await this.showNotification(this.getNotificationTemplates.password_changed);
-        this.isSending=false;
+        this.isSending = false;
         this.$router.push({name:'login'});
       }
       else {
-        console.log();
+        this.showNotification(this.getNotificationTemplates.registration_form_invalid);
       }
     }
   }
@@ -67,7 +69,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height:100%;
+  height: 100%;
 }
 
 .input {

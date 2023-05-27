@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <RequestPasswordResetForm v-if="isRequestOnly"></RequestPasswordResetForm>
-    <PasswordResetForm v-if="!isRequestOnly"></PasswordResetForm>
+    <PasswordResetForm v-if="!isRequestOnly" :token="token"></PasswordResetForm>
+    <base-notification-list></base-notification-list>
   </div>
-  <base-notification-list></base-notification-list>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ import PasswordResetForm from '@/components/TheRessetPasswordPage/PasswordResert
 
 export default {
   props: {
-    id: {
+    token: {
       default: null
     }
   },
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     isRequestOnly() {
-      if (this.id===null)
+      if (this.token===null)
         return true;
       return false;
     }
