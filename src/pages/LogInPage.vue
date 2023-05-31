@@ -3,8 +3,8 @@
       <base-form>
         <form @submit.prevent="logIn">
           <h1>Formularz logowania</h1>
-          <base-input type="email" v-model.trim="email" :valid="isEmailValid"></base-input>
-          <base-input type="password" v-model.trim="password" :valid="isPasswordValid"></base-input>
+          <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending"></base-input>
+          <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending"></base-input>
           <base-button v-if="!isSending" type="green-large">Zaloguj</base-button>
           <base-loading-spinner v-else></base-loading-spinner>
           <div>

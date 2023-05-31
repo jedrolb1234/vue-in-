@@ -29,7 +29,7 @@ const router = createRouter({
     { path: '/dashboard', name:'dashboard', component: TheDashboard, meta: {requiresAuth: true} },
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
-    { path: '/resetpassword/:id', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
+    { path: '/resetpassword/:token', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
     { path: '/games', name:'games', component: Games, meta: {requiresAuth: true} },
     { path: '/friends', name:'friends', component: Friends, meta: {requiresAuth: true} },
     { path: '/rank', name:'rank', component: Rank, meta: {requiresAuth: true} },
@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
       return;
     }
     else {
-      next('/dashboard');
+      next('/games');
     }
   }
   else {

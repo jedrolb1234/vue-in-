@@ -1,0 +1,21 @@
+export default {
+  UserNotExist: "Użytkownik nie istnieje!",
+  NotFoundAnyUser: "Nie znaleziono użytkownika!",
+  InvalidEmailOrPassword: "Niepoprawny adres email lub hasło!",
+  UserCannotBeActivated: "Aktywacja konta nie powidła się!",
+  AccountHasBeenActivated: "Konot zostało pomyślnie aktywowane!",
+  ChangePasswordFailed: "Hasło nie zostało zmienione!",
+  InvalidRefreshToken: "Niepoprawny refersh token!",
+  PasswordMin1UpperLetter: "Hasło powinno zawierać minimum 1 dużą literę!",
+  PasswordMin1LowerLetter: "Hasło powinno zawierać minimum 1 małą literę!",
+  PasswordMin1Digit: "Hasło powinno zawierać minimum 1 cyfrę!",
+  PasswordMin1SpecialCharacter: "Hasło powinno zawierać minimum 1 znak specjalny!",
+  PasswordMin12Characters: "Hasło powinno składać się minimalnie z 12 znaków!",
+  PasswordsHaveToBeEqual: "Oba hasła muszą być identyczne!",
+  EmailIsTaken: "Konto z podanym adresem email już istieje!",
+  UserNameIsTaken: "Konto z podaną nazwą użytkownika już istnieje!",
+  DateOfBirthMustBeLessThanToday: "Niepoprawna data urodzin!",
+  EmailRequired: "Adres email jest wymagany!",
+  MustBeEmailAddress: "Adres email jest niepoprawny!",
+  UserNameRequired: "Nazwa użytkownika jest wymagana!"
+}
