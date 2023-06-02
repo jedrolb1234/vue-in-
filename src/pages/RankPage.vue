@@ -70,11 +70,11 @@
   </div>
     <div v-if="getIsLoadingPol===false">
         <div class="showPolacz4Table">
-          <div  v-if="polacz4Table===false" class="polacz4Header" @click="tooglePolacz4Table">
+          <div class="polacz4Header" @click="tooglePolacz4Table">
             <ul>Polacz 4</ul> 
             <span :class="iconUpArrow">expand_less</span>
           </div>
-          <table v-if="polacz4Table===false">
+          <table class="tableHidden" :class="{pullOutTable: isTableHidden}">
             <tr><td>Pozycja</td><td>Imię</td><td>Nazwisko</td><td>Punkty</td></tr>
             <tbody>
               <tr
@@ -89,11 +89,11 @@
               <base-small-button @click="nextPageP" :disabled="pageNr('P') === allPages('P')">Następna</base-small-button>
             </div>
         </div>
-        <div class="polacz4HiddenHeader" v-if="polacz4Table===true" @click="tooglePolacz4Table">
+<!--        <div class="polacz4HiddenHeader" v-if="polacz4Table===true" @click="tooglePolacz4Table">
           <ul>Polacz 4</ul> 
           <span :class="iconUpArrow">expand_more</span>
-        </div>
-      </div>
+        </div> -->
+      </div> 
       <div v-if="getIsLoadingPol===true">
         <div class="polacz4Header" @click="tooglePolacz4Table">
           <ul>Polacz 4</ul> 
@@ -127,7 +127,10 @@ export default {
   methods:{
     ...mapActions('Rank', ['toogleWarcabyTable', 'toogleStatkiTable',
                             'tooglePolacz4Table', 'previousPageW', 'nextPageW',
-                            'previousPageS', 'nextPageS', 'previousPageP', 'nextPageP',]),  
+                            'previousPageS', 'nextPageS', 'previousPageP', 'nextPageP',]),
+    isTableHidden(){
+      return !this.polacz4Hidden ? ['pull-outTable'].join(' ') : ['tableHidden'].join(' ');
+    },
     currentPage(info){
       if (info === 'warcaby'){
         let startIndex = (this.getCurrentPageWar - 1) * this.getItemsPerPage;
@@ -183,7 +186,6 @@ export default {
         return Math.ceil(Object.keys(this.getPolacz4).length / this.getItemsPerPage);
       }
     },
-    // dynamicHeight(){}
   },  
   computed: {
     ...mapGetters('Rank', [ 'warcabyTable','statkiTable', 'polacz4Table', 'getWarcaby', 'getItemsPerPage', 
@@ -301,6 +303,25 @@ td, th{
 }
 .ul{
   display:flex;
+}
+.pullOutTable{
+    justify-content: center; 
+    width: auto;
+    height: auto;
+    color:black;
+    border-collapse: collapse;
+    border-radius: 0px 0px 8px 8px;
+    padding: 0px;
+    border-spacing: 0px;
+    table-layout: fixed;
+    background-color: white;
+
+}
+.tableHidden{
+  display: none;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.5s ease;
 }
 </style>
   

@@ -163,55 +163,6 @@ export default {
         }
       },
  
-    // currentPage(state, info){
-    //   if (info === 'warcaby'){
-    //     let startIndex = (state.currentPageWar - 1) * state.itemsPerPage;
-    //     let endIndex = startIndex + state.itemsPerPage;
-    //     let warcabyKeys = Object.keys(state.warcaby)
-    //     return warcabyKeys.slice(startIndex, endIndex);     
-    //   }
-    //   if (info === 'statki'){
-    //     let startIndex = (state.currentPageStat - 1) * state.itemsPerPage;
-    //     let endIndex = startIndex + state.itemsPerPage;
-    //     let statkiKeys = Object.keys(state.statki)
-    //     return statkiKeys.slice(startIndex, endIndex);     
-    //   }
-    //   if (info === 'polacz4'){
-    //     let startIndex = (state.currentPagePol - 1) * state.itemsPerPage;
-    //     let endIndex = startIndex + state.itemsPerPage;
-    //     let polacz4Keys = Object.keys(state.polacz4)
-    //     return polacz4Keys.slice(startIndex, endIndex);     
-    //   }
-    // },
-    // pageUp(state, payload){
-    //   state.payload++;
-    // },
-    // pageDown(state, payload){
-    //   state.payload--;
-    // },
-    pageNr(state, info){
-      console.log('page')
-      if (info === 'W'){
-        return state.currentPageWar;
-      }
-      if (info === 'S'){
-        return state.currentPageStat
-      }
-      if (info === 'P'){
-        return state.currentPagePol
-      }
-    },
-    allPages(state, info){
-      if (info === 'W'){
-        return Math.ceil(Object.keys(state.warcabyRank).length / state.itemsPerPage);
-      }
-      if (info === 'S'){
-        return Math.ceil(Object.keys(state.statkiRank).length / state.itemsPerPage);
-      }
-      if (info === 'P'){
-        return Math.ceil(Object.keys(state.polacz4Rank).length / state.itemsPerPage);
-      }
-    },
     previousPageW(state){
         if (state.currentPageWar > 1){
           console.log('--')
