@@ -1,34 +1,29 @@
 <template>
   <base-page-layout>
     <div class="container">
-      <div class="leftPanel">
-          <left-panel></left-panel>
-      </div>
-      <div class="content">
-        <h1 class="mainDescription">Historia gier</h1>                 
-          <div v-if="isLoading===false">
-            <div class="showHistoryTable">
-              <ul class="historyHeader">Rozegrane gry</ul> 
-              <table>
-                <tr class="historyList"><td>gra</td><td>data</td><td>status</td><td>Punkty</td></tr>
-                <tr class="historyList"
-                  v-for="( h, index ) in currentPage" :key="index">
-                  <td>{{ h.id }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
-                </tr>
-                <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+      <h1 class="mainDescription">Historia gier</h1>                 
+        <div v-if="isLoading===false">
+          <div class="showHistoryTable">
+            <ul class="historyHeader">Rozegrane gry</ul> 
+            <table>
+              <tr class="historyList"><th>gra</th><th>data</th><th>status</th><th>Punkty</th></tr>
+              <tr class="historyList"
+                v-for="( h, index ) in currentPage" :key="index">
+                <td>{{ h.game }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
+              </tr>
+              <tr :style="{height: dynamicHeight() + 'px'}"></tr>
 
-              </table>
-              <div class="buttons">
-                <base-small-button @click="previousPage" :disabled="pageNr === 1">Poprzednia</base-small-button>
-                <base-small-button @click="nextPage" :disabled="pageNr === allPages">Następna</base-small-button>
-              </div>
+            </table>
+            <div class="buttons">
+              <base-small-button @click="previousPage" :disabled="pageNr === 1">Poprzednia</base-small-button>
+              <base-small-button @click="nextPage" :disabled="pageNr === allPages">Następna</base-small-button>
             </div>
           </div>
-          <div>
-            <div v-if="isLoading===true">
-              <ul class="historyHeader">Rozegrane gry</ul> 
-              <base-loading-spinner class="spinner"></base-loading-spinner>
-            </div>
+        </div>
+        <div>
+          <div v-if="isLoading===true">
+            <ul class="historyHeader">Rozegrane gry</ul> 
+            <base-loading-spinner class="spinner"></base-loading-spinner>
           </div>
         </div>
       </div>
@@ -53,7 +48,7 @@
     },
     computed:{
       ...mapGetters('History', ['isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory',
-                                'getCurrentPage', 'getItemsPerPage'])
+                                'getCurrentPage', 'getItemsPerPage']),
         },
     methods:{
       ...mapActions('History', ['previousPage', 'nextPage']),
@@ -67,24 +62,16 @@
   }
   </script>
   <style scoped>
-  .container{
-  display: flex;
-}
-.content{
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+.container{
+    display: flex;    
+    flex-direction: column;    
     justify-content: center; 
-    align-items: flex-start; 
-    margin: 30px;
-    width: 800px;
-    position: absolute; 
-    left: 50%; 
-    transform: translate(-50%, 0%);
+    align-items: center;
+    margin-bottom: 25px;
 }
 .mainDescription{
-    justify-content: center;
-    margin-left: 50px;
+    margin-left: 140px;
+    align-self: flex-start;
 }
 .historyHeader
 {
@@ -115,7 +102,20 @@ tr{
     border-radius: 8px;
     width: 800px;
 }
+tr:first-child{
+    width:60px;
+}
 tr:last-child{
+    width:100px;
+}
+th{
+    width: 160px;
+    height: 51px;
+    color: black;
+    text-align: center;
+
+}
+table:last-child{
     border-radius: 0px 0px 8px 8px;
 }
 td{
@@ -125,6 +125,7 @@ td{
     font-size: 18px;
     color:black;
     margin: 0px 0px 0px 0px;
+   text-align: center;
 }
 .historyList{
   font-size: 24;

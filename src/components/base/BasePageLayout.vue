@@ -2,8 +2,8 @@
   <div id="container">
     <LeftPanel></LeftPanel>
       <div id="content">
-      <slot></slot>
-    </div>
+        <slot></slot>
+      </div>
     <BaseNotificationList></BaseNotificationList>
   </div>
   
@@ -17,16 +17,14 @@ export default {
   components: {
     LeftPanel,
     BaseNotificationList
-  }
+  },
 }
 </script>
 
 <style scoped>
   #container {
     display: flex;
-    min-height: 100vh;
   }
-
   #content {
     background-color: grey;
     border-radius: 30px;
@@ -34,7 +32,6 @@ export default {
     margin: 25px;
     flex-grow: 1;
     width: calc(100% - 50px);
-    transition: width 1s ease;
   }
 
   /* #content:hover {

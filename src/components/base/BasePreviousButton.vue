@@ -15,11 +15,11 @@ export default {
   
   <style module>
 .icon{
-    padding: 8px 10px 8px 10px;
     font-size: 22px;
     width: 26px;
     height: 26px;
     cursor: default;
+    margin-top: 5px;
 }
 .icon:hover{
     cursor: pointer;

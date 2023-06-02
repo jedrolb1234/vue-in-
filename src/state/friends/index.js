@@ -18,6 +18,7 @@ export default {
         hasFriends: true,
         isUsernameValid: false,
         showAddButton: false,
+        avilabeInvitations: true,
         findUser: null,
         itemsPerPage: 10,
         currentPage: 1,
@@ -107,8 +108,24 @@ export default {
                 lastLogin: '2022-12-17',
                 lastGame: 'Polacz4'
             }
+          ],
+          invitations:[
+            {
+                id:77,
+                name: 'And',
+                surname: 'Bidermann',
+                lastLogin: '2023-05-17',
+                lastGame: 'Warcaby'
+            },
+            {
+                id:78,
+                name: 'Tok',
+                surname: 'B',
+                lastLogin: '2023-05-01',
+                lastGame: 'Statki'
+            }
           ]
-    }
+        }
   },
   mutations: {
     loading(state) {
@@ -130,11 +147,10 @@ export default {
     findFriend(state, username){
       state.username = username;
       console.log(state.username, ' username')
-      if (username.length !== 0){
           for (var i = 0; i < state.friends.length; i++){
               var key = state.friends[i].name
               if(key === state.username){
-                  state.searchedUser = state.friends[key];
+                  state.searchedUser = state.friends[i];
                   state.findUser = true;
                   console.log('znaleziono', state.username);
                   break;
@@ -142,27 +158,18 @@ export default {
               else{
                   state.searchedUser = {};
                   state.showAddButton = false;
-                  state.findUser = false;
-                  console.log('nie znaleziono', key, '++++', state.username);
-              }
-          }
-          console.log(state.searchedUser, 'searched');
-      }
-      else{
-          if(state.username.length === 0){
-              Notifications.showNotification(Notifications.getNotificationTemplates.user_name_to_short);
-          }
-          else{
-              Notifications.showNotification(Notifications.getNotificationTemplates.user_name);
-          }
+                  state.findUser = false;              }
       }
     },
     addFriend(state){
-      state.friends[state.searchedUser.name] = state.searchedUser;
+      state.friends.push(state.searchedUser);
     },
     removeFriend(state, key){
       state.friends.splice(key, 1);
        console.log(state.friends, '000000')
+    },
+    removeInvitation(state, key){
+      state.invitations.splice(key, 1);
     }
   },
   getters: {
@@ -201,6 +208,13 @@ export default {
     },
     getItemsPerPage(state){
       return state.itemsPerPage;
+    },
+    getAvilabeInvitations(state){
+      console.log('llall')
+      return state.invitations.length;
+    },
+    getInvitations(state){
+      return state.invitations;
     }
   },
   actions: {
@@ -219,6 +233,9 @@ export default {
     },
     removeFriend(context, payload){
       context.commit('removeFriend', payload)
+    },
+    removeFriendInvitation(context, payload){
+      context.commit('removeInvitation', payload)
     }
   },
 }

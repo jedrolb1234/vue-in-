@@ -137,7 +137,7 @@ hr {
   display: flex;
   flex-direction: column;
   width: 280px;
-  height: 100%;
+  height: 100vh;
   background-color: #262A2C;
   justify-content: space-between;
   color: white;
