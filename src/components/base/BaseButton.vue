@@ -6,27 +6,40 @@
 
 <script>
 export default {
-  props: ['type']
+    props: ["type"]
 }
 </script>
 
 <style module>
-.dark-small {
-  height: 45px;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-size: medium;
-  color: #FBF5F3;
-  background-color: #262A2C;
-  border-radius: 15px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+.primary-medium {
+  padding: 1em;
+  font-size: 16px;
+  color: var(--primary);
+  background-color: var(--primaryBtn);
+  border-radius: 7px;
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
   border: 0px;
+  transition: transform 0.3s ease;
 }
 
-.dark-small:hover {
-  background-color: black;
+.primary-medium:hover {
+  transform: translateY(-5px);
   cursor: pointer;
-  border-radius: 15px;
+}
+
+.secondary-medium {
+  padding: 1em;
+  font-size: 16px;
+  color: var(--primary);
+  background-color: var(--secondaryBtn);
+  border-radius: 7px;
+  border: 1px solid var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.secondary-medium:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
 }
 
 .dark-large {

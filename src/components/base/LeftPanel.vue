@@ -1,5 +1,5 @@
 <template>
-  <div id="sideNavigationBar" :class="{small: isLeftPanelHidden}">
+  <div id="sideNavigationBar" :class="{small: isLeftPanelHidden, shadow: true}">
     <div>
       <div class="logo">
         <h1>FunHouse</h1>
@@ -80,7 +80,7 @@ h1 {
 hr {
   margin: 0px 10px;
   flex-shrink: 1;
-  border: 1px solid white;
+  border: 1px solid var(--primary);
 }
 
 .icon {
@@ -116,7 +116,7 @@ hr {
 }
 
 .tabsItem:hover {
-  background: #393E41;
+  background: var(--primaryBtn);
 }
 
 .logout {
@@ -137,19 +137,19 @@ hr {
   display: flex;
   flex-direction: column;
   width: 280px;
-  height: 100%;
-  background-color: #262A2C;
+  background-color: var(--secondaryBtn);
   justify-content: space-between;
-  color: white;
+  color: var(--primary);
   padding-bottom: 25px;
-  border-radius: 0px 30px 30px 0px;
-  filter: drop-shadow(15px 0px 15px rgba(0, 0, 0, 0.4));
+  /* border-radius: 0px 30px 30px 0px; */
+  border-right: 1px solid var(--primary);
   overflow: hidden;
   flex-shrink: 0;
   transition: width 0.3s ease;
+  position: sticky;
 }
 
-@container sideNavigationBar (width: 60px) {
+@container sideNavigationBar (width <= 60px) {
   .logo {
     padding: 9px 15px;
     display: flex;

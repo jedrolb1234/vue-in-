@@ -1,12 +1,11 @@
 <template>
   <div id="container">
     <LeftPanel></LeftPanel>
-      <div id="content">
+    <div id="content">
       <slot></slot>
     </div>
     <BaseNotificationList></BaseNotificationList>
   </div>
-  
 </template>
 
 <script>
@@ -22,23 +21,18 @@ export default {
 </script>
 
 <style scoped>
-  #container {
-    display: flex;
-    min-height: 100vh;
-  }
+#container {
+  display: flex;
+  min-height: 100vh;
+  max-height: 100vh;
+}
 
-  #content {
-    background-color: grey;
-    border-radius: 30px;
-    border: solid 1px black;
-    margin: 25px;
-    flex-grow: 1;
-    width: calc(100% - 50px);
-    transition: width 1s ease;
-  }
-
-  /* #content:hover {
-    width: 50%;
-  } */
-
+#content {
+  display: flex;
+  flex-grow: 1;
+  /* margin-right: 30px; */
+  padding:30px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
 </style>
