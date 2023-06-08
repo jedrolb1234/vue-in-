@@ -7,7 +7,7 @@
       </div>
       <hr />
       <div class="avatar">
-        <span :class="avatarStyles">account_circle</span>
+        <img :src="this.getImgPath(this.getAvatarId)"/>
       </div>
       <div class="tabs">
         <div class="tabsItem clickable" @click="$router.push({ name: 'games' })">
@@ -41,21 +41,20 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import AvatarImageHandler from '@/mixins/avatarImageHandler';
 
 export default {
+  mixins: [AvatarImageHandler],
   methods: {
     ...mapActions(['toogleLeftPanel', 'logOutUser'])
   },
   computed: {
-    ...mapGetters(['isLeftPanelHidden']),
+    ...mapGetters(['isLeftPanelHidden', 'getAvatarId']),
     iconStyles() {
       return ['material-symbols-outlined', 'icon'].join(' ');
     },
     hidePanelStyles() {
       return this.isLeftPanelHidden ? ['material-symbols-outlined', 'icon', 'clickable'].join(' ') : ['material-symbols-outlined', 'icon', 'clickable', 'rotateIcon'].join(' ');
-    },
-    avatarStyles() {
-      return ['material-symbols-outlined', 'avatarIcon'].join(' ');
     }
   }
 }
@@ -96,10 +95,11 @@ hr {
   overflow: hidden;
 }
 
-.avatarIcon {
-  font-size: 100px;
+.avatar > img {
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
 }
-
 .tabs {
   display: flex;
   flex-direction: column;
@@ -169,7 +169,7 @@ hr {
   }
 
   .tabs {
-    margin-top: 200px;
+    margin-top: 250px;
   }
 
   .tabsItem>span:nth-child(2) {

@@ -20,16 +20,14 @@
 import BaseModal from '@/components/base/BaseModal.vue';
 import { mapActions } from 'vuex';
 import BaseButton from '../base/BaseButton.vue';
-
-function getImgPath(id) {
-  return process.env.BASE_URL + 'images/avatars/' + id + '.png';
-}
+import AvatarImageHandler from '@/mixins/avatarImageHandler';
 
 export default {
   components: {
     BaseModal,
     BaseButton
 },
+mixins: [AvatarImageHandler],
   data() {
     return {
       images: [],
@@ -51,7 +49,7 @@ export default {
   },
   created() {
     for (let i = 1; i <= 24; i++) {
-      this.images.push(getImgPath(i));
+      this.images.push(this.getImgPath(i));
     }
   }
 }
