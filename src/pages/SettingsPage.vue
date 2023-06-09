@@ -1,16 +1,16 @@
 <template>
   <BasePageLayout>
-    <div id="page">
+    <div class="page">
       <BaseHeader>
         Ustawienia
       </BaseHeader>
-      <div id="settings" class="">
+      <div class="settings">
         <UserProfile></UserProfile>
-        <div class="settings" @mouseenter="this.mouseOverProfileSettings = true;"
+        <div class="settings-module" @mouseenter="this.mouseOverProfileSettings = true;"
           @mouseleave="this.mouseOverProfileSettings = false;">
-          <div class="settings__head">
+          <div class="settings-module__head">
             <h1>Profil</h1>
-            <div class="settings__head__actions" v-show="this.mouseOverProfileSettings">
+            <div class="settings-module__head__actions" v-show="this.mouseOverProfileSettings">
               <BaseButtonWithTooltip @click="this.restoreProfileSettings()" type="primary-small" tooltip="Przywróć"><span
                   class="material-symbols-outlined icon">
                   cancel
@@ -22,7 +22,7 @@
             </div>
           </div>
           <hr>
-          <div class="settings__content">
+          <div class="settings-module__content">
             <div>Nazwa użytkownika</div>
             <input type="text" v-model="this.username" />
             <div>Opis</div>
@@ -31,11 +31,11 @@
             <BaseButton type="secondary-medium" @click="this.showAvatarPicker()">Zmień avatar</BaseButton>
           </div>
         </div>
-        <div class="settings" @mouseenter="this.mouseOverUserDataSettings = true;"
+        <div class="settings-module" @mouseenter="this.mouseOverUserDataSettings = true;"
           @mouseleave="this.mouseOverUserDataSettings = false;">
-          <div class="settings__head">
+          <div class="settings-module__head">
             <h1>Dane użytkownika</h1>
-            <div class="settings__head__actions" v-show="this.mouseOverUserDataSettings">
+            <div class="settings-module__head__actions" v-show="this.mouseOverUserDataSettings">
               <BaseButtonWithTooltip @click="this.restoreUserDataSettings()" type="primary-small" tooltip="Przywróć"><span
                   class="material-symbols-outlined icon">
                   cancel
@@ -47,7 +47,7 @@
             </div>
           </div>
           <hr>
-          <div class="settings__content">
+          <div class="settings-module__content">
             <div>Imię</div>
             <input type="text" v-model="this.name" />
             <div>Nazwisko</div>
@@ -58,11 +58,11 @@
             <input type="email" v-model="this.email" />
           </div>
         </div>
-        <div class="settings" @mouseenter="this.mouseOverThemeSettings = true;"
+        <div class="settings-module" @mouseenter="this.mouseOverThemeSettings = true;"
           @mouseleave="this.mouseOverThemeSettings = false;">
-          <div class="settings__head">
+          <div class="settings-module__head">
             <h1>Motyw</h1>
-            <div class="settings__head__actions" v-show="this.mouseOverThemeSettings">
+            <div class="settings-module__head__actions" v-show="this.mouseOverThemeSettings">
               <BaseButtonWithTooltip @click="this.restoreThemeSettings()" type="primary-small" tooltip="Przywróć"><span
                   class="material-symbols-outlined icon">
                   cancel
@@ -74,7 +74,7 @@
             </div>
           </div>
           <hr>
-          <div class="settings__content">
+          <div class="settings-module__content">
             <div>Motyw strony</div>
             <select name="theme" id="theme" v-model="theme">
               <option value="light">Podstawowy</option>
@@ -82,12 +82,12 @@
             </select>
           </div>
         </div>
-        <div>
-          <div class="settings__head">
+        <div class="settings-module">
+          <div class="settings-module__head">
             <h1>Zmień hasło</h1>
           </div>
           <hr>
-          <div class="settings__content">
+          <div class="settings-module__content">
             <div>Nowe hasło</div>
             <input type="password" />
             <div>Powtórz hasło</div>
@@ -96,12 +96,12 @@
             <BaseButton type="secondary-medium">Zmień hasło</BaseButton>
           </div>
         </div>
-        <div>
-          <div class="settings__head">
+        <div class="settings-module">
+          <div class="settings-module__head">
             <h1>Usuń konto</h1>
           </div>
           <hr>
-          <div class="settings__content">
+          <div class="settings-module__content">
             <div>Usunięcie konta jest nieodwrcalne.</div>
             <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);">Usuń
               konto</BaseButton>
@@ -194,7 +194,7 @@ export default {
 }
 </script>
 <style scoped>
-#page {
+.page {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -202,14 +202,9 @@ export default {
   flex-grow: 1;
 }
 
-#settings {
-  /* background-color: var(--secondary); */
-  /* padding: 15px; */
-  /* border-radius: 15px; */
+.settings {
   flex-grow: 1;
   margin-bottom: 30px;
-  /* overflow: scroll;
-  overflow-x: hidden; */
   color: var(--primary);
   display: flex;
   flex-direction: column;
@@ -225,22 +220,22 @@ h1 {
   margin-bottom: 5px;
 }
 
-.settings {
+/* .settings-module {
   display: grid;
-}
+} */
 
-.settings__head {
+.settings-module__head {
   display: flex;
   justify-content: space-between;
 }
 
-.settings__head__actions {
+.settings-module__head__actions {
   align-items: center;
   display: flex;
   gap: 15px;
 }
 
-.settings__content {
+.settings-module__content {
   display: grid;
   width: max(700px, 50%);
   grid-template-columns: 1fr 2fr;
@@ -248,7 +243,7 @@ h1 {
   margin-top: 15px;
 }
 
-.settings__content:last-child {
+.settings-module:last-child {
   margin-bottom: 30px;
 }
 

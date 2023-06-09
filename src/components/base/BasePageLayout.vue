@@ -32,7 +32,7 @@ export default {
   flex-grow: 1;
   /* margin-right: 30px; */
   padding:30px;
-  overflow: scroll;
+  overflow: auto;
   overflow-x: hidden;
 }
 </style>

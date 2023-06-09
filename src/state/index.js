@@ -7,6 +7,7 @@ import History from '@/state/history/index.js';
 import Friends from '@/state/friends/index.js'
 import Rank from '@/state/rankTables/index.js'
 import Modal from '@/state/modal/index.js';
+import Games from '@/state/games/index.js';
 
 const state = createStore({
   modules: {
@@ -17,7 +18,8 @@ const state = createStore({
     History,
     Friends,
     Rank,
-    Modal
+    Modal,
+    Games
   }
 });
 

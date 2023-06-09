@@ -1,153 +1,118 @@
 <template>
   <BasePageLayout>
-    <div class="content">
-      <h1 class="mainDescription">Wybierz grę.</h1>
-      <table class="gamesContainer">
-        <th>
-        <td class="warcabyGame">
-          <RouterLink :to="{ name: 'warcabydescription' }">
-            <div class="warcabyImage">
-              <p class="gameName">WARCABY</p>
-            </div>
-            <p class="warcabyDescription">Popularna gra planszowa dla każdego.</p>
-          </RouterLink>
-        </td>
-        <td class="statkiGame">
-          <RouterLink :to="{ name: 'statkidescription' }">
-            <div class="statkiImage">
-              <p class="gameName">STATKI</p>
-            </div>
-            <p class="statkiDescription">Wygraj z przeciwnikiem strącając statki z jego plaszy.</p>
-          </RouterLink>
-        </td>
-        <td class="polacz4Game">
-          <RouterLink :to="{ name: 'polacz4description' }">
-            <div class="polacz4Image">
-              <p class="gameName">POŁĄCZ 4</p>
-            </div>
-            <p class="polacz4Description">Połącz 4 piłki układając stos.</p>
-          </RouterLink>
-        </td>
-        </th>
-      </table>
+    <div class="page">
+      <BaseHeader>Gry</BaseHeader>
+      <div class="favourite-games">
+        <h1>Ulubione gry</h1>
+        <hr>
+        <div class="favourite-games__items">
+          <div class="favourite-games__items__item">Warcaby</div>
+          <div class="favourite-games__items__item">Statki</div>
+          <div class="favourite-games__items__item">Połącz 4</div>
+          <div class="favourite-games__items__item">Placeholder</div>
+          <div class="favourite-games__items__item">Placeholder</div>
+        </div>
+      </div>
+      <div class="games">
+        <h1>Wszystkie gry</h1>
+        <hr>
+        <div class="games__items">
+          <GameItem v-for="game in this.getGames" :key="game.id" class="games__items__item" :game="game" @click="redirect(game.link)"></GameItem>
+        </div>
+      </div>
     </div>
   </BasePageLayout>
 </template>
 
 <script>
-import { RouterLink } from 'vue-router';
 import BasePageLayout from '@/components/base/BasePageLayout.vue';
+import BaseHeader from '@/components/base/BaseHeader.vue'
+import { mapGetters } from 'vuex';
+import GameItem from '@/components/GamesPage/GameItem.vue';
 
 export default {
   components: {
-    RouterLink,
-    BasePageLayout
+    BasePageLayout,
+    BaseHeader,
+    GameItem
+  },
+  computed: {
+    ...mapGetters(['getGames'])
+  },
+  methods: {
+    redirect(link) {
+      if(link!=null) 
+        this.$router.push(link);
+    }
   }
 }
 </script>
   
 <style scoped>
-a,
-p {
-  text-decoration: none;
-}
-.mainDescription {
-  background-color: transparent;
-  color: white;
-  font-size: 32px;
-  margin: 30px;
+
+hr {
+  width: 100%;
+  border: 1px solid var(--accent);
 }
 
-.content {
-  flex-grow: 1;
+h1 {
+  margin-bottom: 5px;
+  align-self: flex-start;
+}
+.page {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 30px;
-  transition: width 1s ease;
+  gap: 30px;
+  flex-grow: 1;
 }
 
-.gamesContainer {
-  background-color: transparent;
-  border-spacing: 20px;
+.favourite-games {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-td {
-  border: 1px;
-  width: 200px;
-  height: 230px;
-  margin: 0px 0px 0px 20px;
-  vertical-align: top;
+.favourite-games__items {
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  overflow:auto;
+  white-space: nowrap;
+  overflow-y: hidden;
+  padding-bottom: 15px;
+  scroll-snap-type: x mandatory;
 }
 
-.warcabyImage {
-  display: block;
-  width: 200px;
-  height: 200px;
-  margin-top: 0px;
-  background-image: url('@/Games/image/warcaby.png');
-  background-size: cover;
-}
-
-.warcabyDescription {
-  background-color: white;
-  color: black;
-  height: 100px;
+.favourite-games__items__item {
+  flex: 0 0 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  text-decoration: none;
+  height: 150px;
+  border: 2px solid var(--primary);
+  scroll-snap-align: start;
 }
 
-.statkiImage {
-  display: block;
-  width: 200px;
-  height: 200px;
-  margin-top: 0px;
-  background-image: url('@/Games/image/statki.png');
-  background-size: cover;
-}
-
-.statkiDescription {
-  background-color: white;
-  color: black;
-  height: 100px;
+.games {
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 10px;
-  font-family: Poppins;
-  text-decoration: none;
-}
-
-.polacz4Image {
-  display: block;
-  margin-top: 0px;
-  width: 200px;
-  height: 200px;
-  background-image: url('@/Games/image/polacz4.png');
-  background-size: cover;
-}
-
-.polacz4Description {
-  background-color: white;
-  color: black;
-  height: 100px;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 10px;
-  font-family: Poppins;
-  text-decoration: none;
+  flex-direction: column;
+  margin-bottom: 30px;
+  gap:15px;
 }
 
-.gameName {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: black;
-  font-size: 26px;
-}</style>  
+.games__items {
+  flex: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 1560px;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 30px;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-content: space-evenly;
+  align-items: center;
+}
+</style>  
