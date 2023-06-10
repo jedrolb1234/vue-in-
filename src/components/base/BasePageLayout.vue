@@ -33,6 +33,6 @@ export default {
   /* margin-right: 30px; */
   padding:30px;
   overflow: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 </style>

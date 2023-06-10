@@ -14,10 +14,25 @@
         </div>
       </div>
       <div class="games">
-        <h1>Wszystkie gry</h1>
+        <div class="games__header">
+          <h1>Wszystkie gry</h1>
+          <div class="games__actions">
+            <div class="games__search-bar">
+              <input type="text" placeholder="Szukaj" v-model.trim="this.query" @keydown="this.resetTimeout()" @keyup="this.searchGames()"/>
+              <div class="games__search-bar__icon"><span class="material-symbols-outlined">
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
         <hr>
-        <div class="games__items">
-          <GameItem v-for="game in this.getGames" :key="game.id" class="games__items__item" :game="game" @click="redirect(game.link)"></GameItem>
+        <div class="games__items" v-if="this.filteredGames.length>0">
+          <GameItem v-for="game in this.filteredGames" :key="game.id" class="games__items__item" :game="game"
+            @click="redirect(game.link)"></GameItem>
+        </div>
+        <div v-else>
+          <h1>Nie znaleziono żadnej gry!</h1>
         </div>
       </div>
     </div>
@@ -36,20 +51,38 @@ export default {
     BaseHeader,
     GameItem
   },
+  data() {
+    return {
+      filteredGames: [],
+      query: null,
+      searchTimeout: null
+    }
+  },
   computed: {
     ...mapGetters(['getGames'])
   },
   methods: {
     redirect(link) {
-      if(link!=null) 
+      if (link != null)
         this.$router.push(link);
+    },
+    filterGames(query) {
+      this.filteredGames = this.getGames.filter(game => game.name.toUpperCase().includes(query.toUpperCase()));
+    },
+    resetTimeout() {
+      clearTimeout(this.searchTimeout);
+    },
+    searchGames() {
+      this.searchTimeout = setTimeout(this.filterGames.bind(null, this.query), 300);
     }
+  },
+  created() {
+    this.filteredGames = this.getGames;
   }
 }
 </script>
   
 <style scoped>
-
 hr {
   width: 100%;
   border: 1px solid var(--accent);
@@ -57,8 +90,8 @@ hr {
 
 h1 {
   margin-bottom: 5px;
-  align-self: flex-start;
 }
+
 .page {
   display: flex;
   flex-direction: column;
@@ -76,7 +109,7 @@ h1 {
   display: flex;
   width: 100%;
   gap: 15px;
-  overflow:auto;
+  overflow: auto;
   white-space: nowrap;
   overflow-y: hidden;
   padding-bottom: 15px;
@@ -99,7 +132,7 @@ h1 {
   align-items: center;
   flex-direction: column;
   margin-bottom: 30px;
-  gap:15px;
+  gap: 15px;
 }
 
 .games__items {
@@ -113,6 +146,53 @@ h1 {
   justify-content: space-evenly;
   justify-items: center;
   align-content: space-evenly;
+  align-items: center;
+}
+
+.games__header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.games__search-bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.games__search-bar input {
+  background-color: var(--secondary);
+  border: 1px solid var(--primary);
+  padding: 10px;
+  color: var(--primary);
+  border-right: 0px;
+  font-size: 20px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.games__search-bar__icon {
+  padding: 10px;
+  border-top: 1px;
+  border-right: 1px;
+  border-bottom: 1px;
+  border-left: 0px;
+  border-style: solid;
+  border-color: var(--primary);
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+
+.games__search-bar:focus-within {
+  outline-style: auto;
+  outline-width: 5px;
+}
+
+.games__actions {
+  display: flex;
   align-items: center;
 }
 </style>  

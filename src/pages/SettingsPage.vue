@@ -220,10 +220,6 @@ h1 {
   margin-bottom: 5px;
 }
 
-/* .settings-module {
-  display: grid;
-} */
-
 .settings-module__head {
   display: flex;
   justify-content: space-between;
