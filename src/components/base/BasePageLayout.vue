@@ -30,9 +30,10 @@ export default {
 #content {
   display: flex;
   flex-grow: 1;
+  width: 100%;
   /* margin-right: 30px; */
   padding:30px;
   overflow: auto;
-  overflow-x: auto;
+  overflow-x: none;
 }
 </style>

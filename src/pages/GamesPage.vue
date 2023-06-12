@@ -6,19 +6,23 @@
         <h1>Ulubione gry</h1>
         <hr>
         <div class="favourite-games__items">
-          <div class="favourite-games__items__item">Warcaby</div>
-          <div class="favourite-games__items__item">Statki</div>
-          <div class="favourite-games__items__item">Połącz 4</div>
-          <div class="favourite-games__items__item">Placeholder</div>
-          <div class="favourite-games__items__item">Placeholder</div>
+          <TransitionGroup name="games">
+            <GameItem v-for="game in this.getFavoriteGames" :key="game.id" class="games__items__item" :game="game"
+              @click="redirect(game.link)"></GameItem>
+          </TransitionGroup>
+          <div v-if="this.getFavoriteGames.length <= 0">
+          <h1>Dodaj swoją ulubioną grę klikając serduszko!</h1>
         </div>
+        </div>
+        
       </div>
       <div class="games">
         <div class="games__header">
           <h1>Wszystkie gry</h1>
           <div class="games__actions">
             <div class="games__search-bar">
-              <input type="text" placeholder="Szukaj" v-model.trim="this.query" @keydown="this.resetTimeout()" @keyup="this.searchGames()"/>
+              <input type="text" placeholder="Szukaj" v-model.trim="this.query" @keydown="this.resetTimeout()"
+                @keyup="this.searchGames()" />
               <div class="games__search-bar__icon"><span class="material-symbols-outlined">
                   search
                 </span>
@@ -27,11 +31,13 @@
           </div>
         </div>
         <hr>
-        <div class="games__items" v-if="this.filteredGames.length>0">
-          <GameItem v-for="game in this.filteredGames" :key="game.id" class="games__items__item" :game="game"
-            @click="redirect(game.link)"></GameItem>
+        <div class="games__items">
+          <TransitionGroup name="games">
+            <GameItem v-for="game in this.filteredGames" :key="game.id" class="games__items__item" :game="game"
+              @click="redirect(game.link)"></GameItem>
+          </TransitionGroup>
         </div>
-        <div v-else>
+        <div v-if="this.filteredGames.length <= 0">
           <h1>Nie znaleziono żadnej gry!</h1>
         </div>
       </div>
@@ -59,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getGames'])
+    ...mapGetters(['getGames', 'getFavoriteGames'])
   },
   methods: {
     redirect(link) {
@@ -86,6 +92,8 @@ export default {
 hr {
   width: 100%;
   border: 1px solid var(--accent);
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 h1 {
@@ -97,33 +105,25 @@ h1 {
   flex-direction: column;
   gap: 30px;
   flex-grow: 1;
+  width: 100%;
 }
 
 .favourite-games {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
 .favourite-games__items {
+  position: relative;
   display: flex;
-  width: 100%;
-  gap: 15px;
-  overflow: auto;
-  white-space: nowrap;
-  overflow-y: hidden;
+  /* justify-content: center; */
+  padding-top: 15px;
   padding-bottom: 15px;
+  max-width: 100%;
+  gap: 15px;
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
-}
-
-.favourite-games__items__item {
-  flex: 0 0 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 150px;
-  border: 2px solid var(--primary);
-  scroll-snap-align: start;
+  margin: auto;
 }
 
 .games {
@@ -132,21 +132,18 @@ h1 {
   align-items: center;
   flex-direction: column;
   margin-bottom: 30px;
-  gap: 15px;
 }
 
 .games__items {
+  position: relative;
   flex: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 1560px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 500px);
+  width: 100%;
   margin-bottom: 30px;
   gap: 30px;
-  justify-content: space-evenly;
-  justify-items: center;
-  align-content: space-evenly;
-  align-items: center;
+  justify-content: center;
+  padding-top: 15px;
 }
 
 .games__header {
@@ -194,5 +191,24 @@ input:focus {
 .games__actions {
   display: flex;
   align-items: center;
+}
+
+.games-move,
+.games-enter-active,
+.games-leave-active {
+  transition: all 0.3s ease;
+}
+
+.games-enter-from,
+.games-leave-to {
+  opacity: 0;
+  grid-column: 1;
+  grid-row:1;
+  
+  /* left: calc(mod(100%, 500px)); */
+}
+
+.games-leave-active {
+  position: absolute;
 }
 </style>  
