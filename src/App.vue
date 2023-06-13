@@ -3,11 +3,43 @@
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex';
+
+export default {
+  computed: {
+    ...mapGetters(['getTheme'])
+  },
+  watch: {
+    getTheme(newTheme, oldTheme) {
+      document.body.classList.remove(oldTheme)
+      document.body.classList.add(newTheme);
+      document.documentElement.style.colorScheme=newTheme;
+
+    }
+  }
+}
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #050505;
+  --secondary: #FFFFFF;
+  --primaryBtn: #B6BBBE;
+  --secondaryBtn: #F7F7F8;
+  --accent: #0E9A2A;
+  --shadow: #B6BBBE;
+}
+
+.dark {
+  --primary: #EAEBEB;
+  --secondary: #0f0f10;
+  --primaryBtn: #555758;
+  --secondaryBtn: #070808;
+  --accent: #0E9A2A;
+  --shadow: #070808;
+}
 
 * {
   box-sizing: border-box;
@@ -18,11 +50,12 @@ html, body, #app {
 }
 
 body {
-  background: url('./assets/background.png') no-repeat center center fixed;
+  /* background: url('./assets/background.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover; */
+  background-color: var(--secondary);
   padding: 0;
   margin: 0;
   font-family: Poppins;
@@ -75,4 +108,11 @@ button,
   -webkit-appearance: button;
 }
 
+.shadow {
+  filter: drop-shadow(0px 0px 20px var(--shadow));
+}
+
+.clickable {
+  cursor: pointer;
+}
 </style>
