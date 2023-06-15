@@ -1,7 +1,7 @@
 <template>
     <div class = "container">
         <div class = "player1-container">
-            <table class = "board-table1">
+            <table :class = "board_table1">
                 <tr>
                     <td v-if="check('00')" :class="getClass('00')" @click="setShip('00')"></td><td v-else-if="checkClicked('00')" :class="getClass('00')" @click="unSetShip('00')"> </td><td v-else :class="getClass('00')"> </td>
                     <td v-if="check('10')" :class="getClass('10')" @click="setShip('10')"></td><td v-else-if="checkClicked('10')" :class="getClass('10')" @click="unSetShip('10')"> </td><td v-else :class="getClass('10')"> </td>
@@ -176,8 +176,6 @@
                 </tr>
             </table>
         </div>
-
-
     </div>
 </template>
 
@@ -187,7 +185,7 @@ export default {
     data(){
         return{
             board:{
-                '00':'empty', '10':'empty','20':'empty','30':'empty','40':'empty','50':'empty','60':'empty','70':'empty',
+                '00':'empty' /*Tymczasowo ustawiona klasa (dla testów). Można zmienić na 'empty'.*/, '10':'empty','20':'empty','30':'empty','40':'empty','50':'empty','60':'empty','70':'empty',
                 '01':'empty', '11':'empty','21':'empty','31':'empty','41':'empty','51':'empty','61':'empty','71':'empty',
                 '02':'empty', '12':'empty','22':'empty','32':'empty','42':'empty','52':'empty','62':'empty','72':'empty',
                 '03':'empty', '13':'empty','23':'empty','33':'empty','43':'empty','53':'empty','63':'empty','73':'empty',
@@ -209,10 +207,10 @@ export default {
             ship: 'ship',
             shipOponent:'shipOponent',
             empty: 'empty',
+            empty2: 'empty2',
             emptyOponent: 'emptyOponent',
             hit: 'hit',
             hitOponent: 'hitOponent',
-            missed: 'missed',
             missedOponent: 'missedOponent',
             counter:12,
             clicked:[],
@@ -222,6 +220,17 @@ export default {
             threeCounter:3,
             twoCounter:4,
             oneCounter:5,
+            firstLoad: true,
+            disable_animation: 'disable-animation',
+            boardTable1: 'board-table1'
+        }
+    },
+    computed:{
+        board_table1(){
+            if(this.firstLoad){
+                return this.disable_animation;
+            }
+            return this.boardTable1;
         }
     },
     methods:{
@@ -238,6 +247,7 @@ export default {
             return this.clicked.includes(field);
         },  
         setShip(field){
+            this.firstLoad = false;
             if(this.checkLocation(field) && this.checkNeighbor(field)){//} && this.checkLength(field)){
                 if (!this.clicked.includes(field)){
                     this.clicked.push(field);
@@ -252,9 +262,9 @@ export default {
                 this.setShipCounter++;
                 let index = this.clicked.indexOf(field);
                 this.clicked.splice(index,1);
-                this.board[field] = this.empty;
+                this.board[field] = this.empty2;
                 console.log('board', this.board[field]);
-                console.log('tablca', this.clicked);
+                console.log('tablica', this.clicked);
             }
             this.shipNumber()
         },
@@ -544,7 +554,6 @@ export default {
 .board-table2{
     border-spacing: 0px;
 }
-
 td{
     border-style: solid;
     border-width: 0.5px;
@@ -557,13 +566,18 @@ img{
     height:25px;
     margin-top: 2px;
 }
-
 .ship{
     background-image: url('./image/sss.png');
     background-size: cover;
+    animation: show 1000ms forwards ease;
 }
 .empty{
     background-size: cover;
+}
+
+.empty2{
+    background-size: cover;
+    animation: sink 1000ms forwards ease; 
 }
 .emptyOponent{
     background-color: aqua;
@@ -585,15 +599,79 @@ img{
     background-image: url('./image/cbomb.png');
     background-size: cover;
 }
+/*
+@keyframes sink{
+    from {transform: rotateY(0); border: none;}
+    80% {transform: rotateY(90deg); opacity: 100%;}
+    99% {opacity: 0; transform: rotateY(90deg); background-image: url('./image/sss.png'); border: none;}
+    100% {opacity: 100%; background-image: none; border: 0.5px black solid;}
+}
+@keyframes show{
+    from {transform: rotateY(0); border: none;}
+    80% {transform: rotateY(90deg); opacity: 100%;}
+    99% {opacity: 0; transform: rotateY(90deg); background-color: palegreen; border: none;}
+    100% {opacity: 100%; background-image: none; border: 0.5px black solid;}
+}
+*/
+
+@keyframes sink {
+  0% {
+    opacity: 0;
+    transform: rotateY(0deg); 
+    background-image: url('./image/sss.png');
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: rotateY(180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+.disable-animation{
+    border-spacing: 0px;
+}
+.disable-animation td {
+  animation: none !important;
+  border-style: solid;
+    border-width: 0.5px;
+    border-color: black;
+    width: 37.5px;
+    height: 37.5px;
+}
+.hitPlayer{
+    width: 37.5px;
+    height: 37.5px;
+    animation: sink 2000ms forwards ease;
+    background-image: url('./image/sss.png');
+    background-size: cover;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0px;
+    padding:0px;
+}
+@keyframes explosion {
+    from {transform: scale(0%); border: none;}
+    70% {transform: scale(150%); border: none; opacity: 100%;}
+    to {border: 0.5px black solid; opacity: 0;}
+}
 .hitOponent{
+    animation: explosion 350ms;
     background-image: url('./image/bomb.png');
+    background-repeat: no-repeat;
     background-size: cover;
 }
-.missed{
-    background-image: url('./image/cross.png');
-    background-size: cover;
-}
+
 .missedOponent{
+    animation: explosion 350ms;
     background-image: url('./image/cross.png');
     background-size: cover;
 }
@@ -623,6 +701,4 @@ img{
     margin: 0px;
     padding-bottom:10px;
 }
-
-
 </style>

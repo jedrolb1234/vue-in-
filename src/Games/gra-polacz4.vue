@@ -1,31 +1,31 @@
 <template>
     <div class = "container">
         <table class = "board-table">
-            <tr @click="dropBall('0')"> 
-                <td><p :class="getClass('00')"></p></td><td><p :class="getClass('10')"></p></td><td><p :class="getClass('20')"></p></td>
+            <tr @click="dropBall('0')">
+              <td><p :class="getClass('00')"></p></td><td><p :class="getClass('10')"></p></td><td><p :class="getClass('20')"></p></td>
                 <td><p :class="getClass('30')"></p></td><td><p :class="getClass('40')"></p></td><td><p :class="getClass('50')"></p></td>
             </tr>
-            <tr @click="dropBall('1')"> 
+            <tr @click="dropBall('1')">
                 <td><p :class="getClass('01')"></p></td><td><p :class="getClass('11')"></p></td><td><p :class="getClass('21')"></p></td>
                 <td><p :class="getClass('31')"></p></td><td><p :class="getClass('41')"></p></td><td><p :class="getClass('51')"></p></td>
             </tr>
-            <tr @click="dropBall('2')"> 
+            <tr @click="dropBall('2')">
                 <td><p :class="getClass('02')"></p></td><td><p :class="getClass('12')"></p></td><td><p :class="getClass('22')"></p></td>
                 <td><p :class="getClass('32')"></p></td><td><p :class="getClass('42')"></p></td><td><p :class="getClass('52')"></p></td>
             </tr>
-            <tr @click="dropBall('3')"> 
+            <tr @click="dropBall('3')">
                 <td><p :class="getClass('03')"></p></td><td><p :class="getClass('13')"></p></td><td><p :class="getClass('23')"></p></td>
                 <td><p :class="getClass('33')"></p></td><td><p :class="getClass('43')"></p></td><td><p :class="getClass('53')"></p></td>
             </tr>
-            <tr @click="dropBall('4')"> 
+            <tr @click="dropBall('4')">
                 <td><p :class="getClass('04')"></p></td><td><p :class="getClass('14')"></p></td><td><p :class="getClass('24')"></p></td>
                 <td><p :class="getClass('34')"></p></td><td><p :class="getClass('44')"></p></td><td><p :class="getClass('54')"></p></td>
             </tr>
-            <tr @click="dropBall('5')"> 
+            <tr @click="dropBall('5')">
                 <td><p :class="getClass('05')"></p></td><td><p :class="getClass('15')"></p></td><td><p :class="getClass('25')"></p></td>
                 <td><p :class="getClass('35')"></p></td><td><p :class="getClass('45')"></p></td><td><p :class="getClass('55')"></p></td>
             </tr>
-            <tr @click="dropBall('6')"> 
+            <tr @click="dropBall('6')">
                 <td><p :class="getClass('06')"></p></td><td><p :class="getClass('16')"></p></td><td><p :class="getClass('26')"></p></td>
                 <td><p :class="getClass('36')"></p></td><td><p :class="getClass('46')"></p></td><td><p :class="getClass('56')"></p></td>
             </tr>
@@ -421,14 +421,19 @@ export default {
 .container{
     display: flex;
     justify-content: center;
+    align-items: center;
+    z-index: -1;
+    height: 100vh;
 }
 .board-table{
   transform: rotate(90deg);
   background-color: cornflowerblue;
   width: 540px;
   height: 630px;
-  border-spacing: 0px;
-
+  border-spacing: 10px;
+  z-index: 1;
+  border-radius: 5px;
+  padding: 10px;
 }
 tr{
     border-right: 1px;
@@ -436,29 +441,50 @@ tr{
     width: 630px;
     height: 90px;
 }
+@keyframes fadeIn {
+  from {transform: translateX(-150px); opacity: 0;}
+  to {transform: translateX(0px); opacity: 100%;}
+}
 .red{
     background-color: rgb(242, 255, 0);
     width: 80px;
     height: 80px;
     border-radius: 40px;
+    animation-name: fadeIn;
+    animation-duration: 500ms;
+    overflow: hidden;
 }
 .blue{
     background-color: blue;
     width: 80px;
     height: 80px;
     border-radius: 40px;
+    animation-name: fadeIn;
+    animation-duration: 500ms;
+}
+@keyframes winner-red {
+  from {background-color: rgb(242, 255, 0);}
+  to {background-color: rgb(104, 220, 38);}
 }
 .winner-red{
     background-color: rgb(104, 220, 38);
     width: 80px;
     height: 80px;
     border-radius: 40px;
+    animation-name: winner-red;
+    animation-duration: 500ms;
+}
+@keyframes winner-blue {
+  from {background-color: blue;}
+  to {background-color: rgb(16, 28, 111);}
 }
 .winner-blue{
     background-color: rgb(16, 28, 111);
     width: 80px;
     height: 80px;
     border-radius: 40px;
+    animation-name: winner-blue;
+    animation-duration: 500ms;
 }
 
 .empty{
