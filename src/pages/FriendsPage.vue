@@ -37,25 +37,25 @@
                 <ul v-if="getAvilabeInvitations === 0"><p>Nie otrzymano zaproszeń od znajomych.</p></ul>
             </div>
             <div class="searchFriend">
-            <h2>Znajdź przyjaciela</h2>
-            <p>Podaj nazwę:</p>
-            <form @submit.prevent="searchFriend" class="inputFriend">
-                <base-input type="username" v-model.trim="username"></base-input><p></p>
-                <base-small-button type="green-large" @click="find(username)" @keyup.enter="find(username)">Znajdź</base-small-button>
-            </form>
-            <div v-if="getFindUser === true" class="findUser">
-                <p>Znaleziono:</p>
-                <table class="friend">
-                    <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id)"></base-look-button></td><td>{{ getUser.name }}</td><td>{{ getUser.lastLogin }}</td><td>{{ getUser.lastGame}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div v-else-if="getFindUser === false" class="findUser">{{ notFindUser }}</div>
-            <div v-else></div>
+                <h2>Znajdź przyjaciela</h2>
+                <p>Podaj nazwę:</p>
+                <form @submit.prevent="searchFriend" class="inputFriend">
+                    <base-input type="username" v-model.trim="username"></base-input><p></p>
+                    <base-small-button type="green-large" @click="find(username)" @keyup.enter="find(username)">Znajdź</base-small-button>
+                </form>
+                <div v-if="getFindUser === true" class="findUser">
+                    <p>Znaleziono:</p>
+                    <table class="friend">
+                        <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id)"></base-look-button></td><td>{{ getUser.name }}</td><td>{{ getUser.lastLogin }}</td><td>{{ getUser.lastGame}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div v-else-if="getFindUser === false" class="findUser">{{ notFindUser }}</div>
+                <div v-else></div>
         </div>
     </div>
     <base-notification-list></base-notification-list>
-</base-page-layout>
+    </base-page-layout>
 </template>
 <script>
 import BaseInput from '@/components/base/BaseInput.vue';
@@ -130,7 +130,6 @@ export default {
 .container{
     display: flex;    
     flex-direction: column;    
-    justify-content: center; 
     align-items: center;
     margin-bottom: 25px;
 }

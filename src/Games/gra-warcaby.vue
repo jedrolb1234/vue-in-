@@ -56,7 +56,6 @@
 </template>
 
 <script>
-
 export default {
     data(){
         return{
@@ -74,6 +73,7 @@ export default {
             blackKing: 'black-king',
             whitePawn: 'white-pawn',
             whiteKing: 'white-king',
+            selectedField: '',
             Empty: 'empty',
             turn: true,
             clicked: false,
@@ -95,11 +95,13 @@ export default {
                 if(this.board[key] !== this.Empty){
                     if (this.counter % 2 === 0){
                         if(this.board[key]){// && this.turn){
+                            this.selectedField = key;
                             this.clicked = true;
                             this.counter++;
                             this.lastClicked = key;
                             this.clickedCell = key;
                             this.clickedSecondCell = true;
+//////////////////
                         }
                     } else if(this.counter % 2 === 1 && this.lastClicked != key){
                         return;
@@ -119,17 +121,16 @@ export default {
                 console.log('emptyField', emptyField, this.board[emptyField], this.Empty)
                 if(this.board[emptyField] === this.Empty)
                 {
-                    console.log('wszedlem');
-                    //this.isMoving = true;
+                    console.log('wszedlem', this.clicked);
+                    this.isMoving = true;
                     this.clickedMoveToCell = emptyField;
                     this.board[this.clickedMoveToCell] = this.board[this.clickedCell];
                     this.board[this.clickedCell] = this.Empty;
                     this.clicked = false;
                     this.clickedSecondCell = false;
-                    //this.lastClicked = null;
+                    this.lastClicked = null;
                     this.turn = !this.turn;
                     this.counter = 0;
-
                 }
             }
         },
@@ -679,6 +680,7 @@ export default {
     border-radius: 20px;
     margin: 12px;
     transition: all 2.6s ease;
+    animation: moveAnimation 1s ease-in-out;
 }
 .white-king{
     background-color: rgb(255, 85, 0);
@@ -687,6 +689,7 @@ export default {
     border-radius: 20px;
     margin: 12px;
     transition: all 0.6s ease;
+    animation: moveAnimation 1s ease-in-out;
 }
 
 .black-pawn{
@@ -696,6 +699,7 @@ export default {
     border-radius: 20px;
     margin: 12px;
     transition: all 0.6s ease;
+    animation: moveAnimation 1s ease-in-out;
 }
 .black-king{
     background-color: rgb(18, 6, 95);
@@ -704,6 +708,7 @@ export default {
     border-radius: 20x;
     margin: 12px;
     transition: all 0.6s ease;
+    animation: moveAnimation 1s ease-in-out;
 }
 .empty{
     background-color: black;
@@ -713,6 +718,9 @@ export default {
 }
 .clickedMoveTo{
     background: yellowgreen;
+    transition: all 0.3s ease;
 }
-
+.animate {
+  transition: transform 1s;
+}
 </style>

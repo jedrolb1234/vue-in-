@@ -15,8 +15,9 @@
 
             </table>
             <div class="buttons">
-              <base-small-button @click="previousPage" :disabled="pageNr === 1">Poprzednia</base-small-button>
-              <base-small-button @click="nextPage" :disabled="pageNr === allPages">Następna</base-small-button>
+              <base-previous-button @click="previousPage">Poprzednia</base-previous-button>
+              <base-next-button @click="nextPage">Następna</base-next-button>
+              <p class="page">{{ pageNr }}</p>
             </div>
           </div>
         </div>
@@ -30,16 +31,18 @@
   </base-page-layout>
 </template>
   <script>
-  import BasePageLayout from '@/components/base/BasePageLayout.vue';
-  import BaseSmallButton from '@/components/base/BaseSmallButton.vue';
-  import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
-  import { mapGetters, mapActions } from 'vuex';
+import BasePageLayout from '@/components/base/BasePageLayout.vue';
+import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
+import BaseNextButton from '@/components/base/BaseNextButton.vue'
+import BasePreviousButton from '@/components/base/BasePreviousButton.vue'
+import { mapGetters, mapActions } from 'vuex';
  
   export default {
     components:{
       BasePageLayout,
-      BaseSmallButton,
-      BaseLoadingSpinner
+      BaseLoadingSpinner,
+      BaseNextButton,
+      BasePreviousButton
     },
     data(){
       return{
@@ -65,7 +68,6 @@
 .container{
     display: flex;    
     flex-direction: column;    
-    justify-content: center; 
     align-items: center;
     margin-bottom: 25px;
 }
@@ -139,6 +141,21 @@ td{
   justify-content: center;
   align-items: center;
   margin-left: 350px;
+}
+.buttons{
+  display: flex;
+  flex-direction: row;
+  width: 70px;
+  justify-content: space-between;
+}
+.page{
+    width: 13px;
+    font-size: 22px;
+    margin-left: 234px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 0px;
 }
   </style>
   
