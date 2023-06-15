@@ -32,7 +32,7 @@
             <td class="WhiteEmpty"></td><td v-if="isMovable('47')" :class="{'clicked': clickedCell === '47', 'Black': clickedCell !== '47'}" @click="move('47')"><p v-bind:class="getClass('47')"></p></td><td v-else-if="clickedSecondCell && active('47')" class="Black" @click="moveTo('47')"><p v-bind:class="getClass('47')"></p></td><td v-else class="Black"><p v-bind:class="getClass('47')"></p></td>
         </tr>
         <tr>
-            <td v-if="isMovable('50')" :class="{'clicked': clickedCell === '50', 'Black': clickedCell !== '50'}" @click="move('50')"><p v-bind:class="getClass('50')"></p></td><td v-else-if="clickedSecondCell && active('50')" class="Black" @click="moveTo('50')"><p v-bind:class="getClass('50')"></p></td><td v-else class="Black"><p v-bind:class="getClass('50')"></p></td><td class="WhiteEmpty"></td>
+            <td v-if="isMovable('50')" :class="{'clicked': clickedCell === '50', 'Black': clickedCell !== '50', 'move-animation': board['01'].class === 'Black move-animation'}" @click="move('50')"><p v-bind:class="getClass('50')"></p></td><td v-else-if="clickedSecondCell && active('50')" class="Black" @click="moveTo('50')"><p v-bind:class="getClass('50')"></p></td><td v-else class="Black"><p v-bind:class="getClass('50')"></p></td><td class="WhiteEmpty"></td>
             <td v-if="isMovable('52')" :class="{'clicked': clickedCell === '52', 'Black': clickedCell !== '52'}" @click="move('52')"><p v-bind:class="getClass('52')"></p></td><td v-else-if="clickedSecondCell && active('52')" class="Black" @click="moveTo('52')"><p v-bind:class="getClass('52')"></p></td><td v-else class="Black"><p v-bind:class="getClass('52')"></p></td><td class="WhiteEmpty"></td>
             <td v-if="isMovable('54')" :class="{'clicked': clickedCell === '54', 'Black': clickedCell !== '54'}" @click="move('54')"><p v-bind:class="getClass('54')"></p></td><td v-else-if="clickedSecondCell && active('54')" class="Black" @click="moveTo('54')"><p v-bind:class="getClass('54')"></p></td><td v-else class="Black"><p v-bind:class="getClass('54')"></p></td><td class="WhiteEmpty"></td>
             <td v-if="isMovable('56')" :class="{'clicked': clickedCell === '56', 'Black': clickedCell !== '56'}" @click="move('56')"><p v-bind:class="getClass('56')"></p></td><td v-else-if="clickedSecondCell && active('56')" class="Black" @click="moveTo('56')"><p v-bind:class="getClass('56')"></p></td><td v-else class="Black"><p v-bind:class="getClass('56')"></p></td><td class="WhiteEmpty"></td>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+
 export default {
     data(){
         return{
@@ -122,19 +123,65 @@ export default {
                 if(this.board[emptyField] === this.Empty)
                 {
                     console.log('wszedlem', this.clicked);
+                    //PIERWSZA ANIMACJA
+                    // this.animateMove(this.selectedField, emptyField)
                     this.isMoving = true;
                     this.clickedMoveToCell = emptyField;
                     this.board[this.clickedMoveToCell] = this.board[this.clickedCell];
                     this.board[this.clickedCell] = this.Empty;
                     this.clicked = false;
                     this.clickedSecondCell = false;
-                    this.lastClicked = null;
+                    //this.lastClicked = null;
                     this.turn = !this.turn;
                     this.counter = 0;
+                    ////////DRUGA ANIMACJA
+                    // this.$set(this.board[this.clickedCell], 'class', 'Black');
+ 
+                    // this.clickedSecondCell = emptyField;
+                    // // Dodaj klasę animacji do pierwszego klikniętego pola
+                    // this.$set(this.board[this.clickedCell], 'class', 'Black move-animation');
+                    // // Zaktualizuj planszę
+                    // this.$set(this.board, this.clickedCell, this.board[this.clickedCell]);
+                    // // Opóźnij ruch o 500ms, aby umożliwić animację
+                    // setTimeout(() => {
+                    //     this.animationReset(emptyField);
+                    // }, 500);
+
+
                 }
             }
         },
 
+        // animationReset(){
+        //     this.$set(this.board[this.clickedCell], 'class', 'Black');
+        //     this.$set(this.board[this.clickedSecondCell], 'class', 'Black');
+        //     // Zaktualizuj planszę
+        //     this.$set(this.board, this.clickedCell, this.board[this.clickedCell]);
+        //     this.$set(this.board, this.clickedSecondCell, this.board[this.clickedSecondCell]);
+        //     // Zresetuj zmienne
+        //     this.clickedCell = null;
+        //     this.clickedSecondCell = null;
+
+        // }
+        // animateMove(fromCell, toCell) {
+        //     // animacja ruchu pionka przy użyciu CSS transitions
+        //     const pionek = document.querySelector(".animate");
+        //     const fromRect = this.board[fromCell].getBoundingClientRect();
+        //     // toCell = parseInt(toCell);
+        //     const toRect = this.board[toCell].getBoundingClientRect();
+
+        //     const dx = toRect.left - fromRect.left;
+        //     const dy = toRect.top - fromRect.top;
+
+        //     pionek.style.transition = "transform 0.3s";
+        //     pionek.style.transform = `translate(${dx}px, ${dy}px)`;
+
+        //     setTimeout(() => {
+        //         pionek.style.transition = "";
+        //         pionek.style.transform = "";
+        //     }, 300);
+        //     },
+                
         active(newField){
             let pos1 = this.possibleActiveJump(newField);
             let pos2 = this.possibleActiveMove(newField);
@@ -718,9 +765,8 @@ export default {
 }
 .clickedMoveTo{
     background: yellowgreen;
-    transition: all 0.3s ease;
 }
 .animate {
-  transition: transform 1s;
+  transition: transform 0.3s;
 }
 </style>
