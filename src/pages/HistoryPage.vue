@@ -1,10 +1,11 @@
 <template>
   <base-page-layout>
     <div class="container">
-      <h1 class="mainDescription">Historia gier</h1>                 
+      <base-header>Historia gier</base-header>                 
         <div v-if="isLoading===false">
           <div class="showHistoryTable">
-            <ul class="historyHeader">Rozegrane gry</ul> 
+            <h2 class="historyHeader">Rozegrane gry</h2>
+            <hr>
             <table>
               <tr class="historyList"><th>gra</th><th>data</th><th>status</th><th>Punkty</th></tr>
               <tr class="historyList"
@@ -15,8 +16,8 @@
 
             </table>
             <div class="buttons">
-              <base-previous-button @click="previousPage">Poprzednia</base-previous-button>
-              <base-next-button @click="nextPage">Następna</base-next-button>
+              <base-previous-button @click="previousPage"></base-previous-button>
+              <base-next-button @click="nextPage"></base-next-button>
               <p class="page">{{ pageNr }}</p>
             </div>
           </div>
@@ -35,6 +36,7 @@ import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
 import BaseNextButton from '@/components/base/BaseNextButton.vue'
 import BasePreviousButton from '@/components/base/BasePreviousButton.vue'
+import BaseHeader from '@/components/base/BaseHeader.vue'
 import { mapGetters, mapActions } from 'vuex';
  
   export default {
@@ -42,7 +44,9 @@ import { mapGetters, mapActions } from 'vuex';
       BasePageLayout,
       BaseLoadingSpinner,
       BaseNextButton,
-      BasePreviousButton
+      BasePreviousButton,
+      BaseHeader
+
     },
     data(){
       return{
@@ -71,9 +75,15 @@ import { mapGetters, mapActions } from 'vuex';
     align-items: center;
     margin-bottom: 25px;
 }
-.mainDescription{
-    margin-left: 140px;
-    align-self: flex-start;
+hr {
+  width: 100%;
+  border: 1px solid var(--accent);
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.showHistoryTable{
+    margin-left: 40px;
+    color: white;
 }
 .historyHeader
 {
@@ -85,8 +95,9 @@ import { mapGetters, mapActions } from 'vuex';
   background-color: white;
   width: 800px;
   height: 40px;
-  margin: 0px 0px 0px 1px;
+  margin: 40px 0px 0px 0px;
   border-radius: 8px 8px 0px 0px;
+  color: black;
 }
 table{
     justify-content: center; 
@@ -136,17 +147,14 @@ td{
 .buttons{
   display: flex;
   flex-direction: row;
+  width: 70px;
+  justify-content: space-between;
+  color: black;
 }
 .spinner{
   justify-content: center;
   align-items: center;
   margin-left: 350px;
-}
-.buttons{
-  display: flex;
-  flex-direction: row;
-  width: 70px;
-  justify-content: space-between;
 }
 .page{
     width: 13px;
