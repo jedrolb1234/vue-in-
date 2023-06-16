@@ -13,7 +13,7 @@
                         <tr><th class="tableButton">Podgląd</th><th>Imię</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                         <tr class="friendsList"
                             v-for="(f, index) in currentPage" :key="index">
-                            <td class="tableButton"><base-look-button @click="redirect(f.id)"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend([index])"></base-remove-button></td>   
+                            <td class="tableButton"><base-look-button @click="redirect(f.id)"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="remove(f.id)"></base-remove-button></td>   
                         </tr>
                         <tr :style="{height: dynamicHeight() + 'px'}"></tr>
                     </table>
@@ -25,9 +25,10 @@
                 </ul>
                 <h3 v-else-if="avilabeFriends === false">Nie dodano żadnych znajomych.</h3>
             </div>
+            <base-delete-message v-if="visibleMessage === true" :id="id" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
             <div class="invitations">
                 <h2>Twoje zaproszenia:</h2>
-                <hr>
+                <hr class="hr2">
                 <transition name="avInvs">
                     <ul v-if="getAvilabeInvitations !== 0">
                         <table class="inv">
@@ -46,7 +47,7 @@
             </div>
             <div class="searchFriend">
                 <h2>Znajdź przyjaciela</h2>
-                <hr>
+                <hr class="hr3">
                 <p>Podaj nazwę:</p>
                 <form @submit.prevent="searchFriend" class="inputFriend">
                     <base-input type="username" v-model.trim="username"></base-input><p></p>
@@ -80,6 +81,8 @@ import { mapActions, mapGetters } from 'vuex';
 import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
+import BaseDeleteMessage from'@/components/base/BaseDeleteMessage.vue'
+
 
 export default {
     props: ['history'],
@@ -93,12 +96,14 @@ export default {
         BaseNotificationList,
         BasePageLayout,
         BaseLoadingSpinner,
-        BaseHeader
+        BaseHeader,
+        BaseDeleteMessage
     },
     data(){
         return {
             username: '',
             notFindUser: 'Nie znaleziono użytkownika o podnym imieniu.',
+            visibleMessage: false,
         }
     },
     computed: {
@@ -106,18 +111,28 @@ export default {
                     'getFriends', 'getFindUser', 'getFindFriend', 'avilabeFriends', 
                     'getCurrentPage', 'getItemsPerPage', 'getAvilabeInvitations',
                     'getInvitations']),
-        ...mapGetters(['getNotificationTemplates']),
-        redirect(){
-        return null
-        //return this.$route.path + '/' + id + '/'; 
-      }  
-  },// 'getNotificationTemplates', 
+        ...mapGetters(['getNotificationTemplates'])
+        // redirect(){
+        //     return this.$route.path + '/uhp';
+        //    return this.$route.path + '/uhp';
+        //
+      
+  // 'getNotificationTemplates', 
+    },
     methods:{
         ...mapActions('Friends', ['nextPage', 'previousPage', 'findFriend', 'addFriend', 
-        'removeFriend', 'removeFriendInvitation']),
+        'removeFriendInvitation']),
         ...mapActions(['showNotification']),
+        redirect(){
+            return this.$router.push('/uhp');
+        },
         remove(key){
-            return this.removeFriend(key); 
+            console.log('delete')
+            this.visibleMessage = true;
+            this.id = key;
+        },
+        isVisibleMessage(payload){
+            this.visibleMessage = payload;
         },
         find(username){
             if (username.length === 0){
@@ -146,19 +161,27 @@ export default {
     align-items: center;
     margin-bottom: 25px;
     padding-bottom: 80px;
-    min-height: 1200px;
+    min-height: 1350px;
 }
 
 hr {
-  width: 800px;
+  width: 900px;
   border: 1px solid var(--accent);
   margin-top: 15px;
   margin-bottom: 15px;
+
 }
+
 
 .friendsContainer{
     margin-left: 50px;
     color: white;
+}
+.hr2{
+    margin-left: -40px;
+  }
+.hr3{
+    margin-left: -50px;
 }
 h1, h2{
     color: black;
@@ -278,8 +301,12 @@ p{
     width: 600px;
     justify-content: center;
     align-items: center;
-    margin-left: -45px;
+    margin-left: -25px;
 }
+.invitations{
+    margin-left: 40px;
+}
+
 .slideON-enter-active,
 .slideON-leave-active {
     transition: transform 300ms ease, max-height 300ms ease;

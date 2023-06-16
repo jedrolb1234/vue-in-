@@ -76,10 +76,11 @@ import { mapGetters, mapActions } from 'vuex';
     margin-bottom: 25px;
 }
 hr {
-  width: 100%;
+  width: 900px;
   border: 1px solid var(--accent);
   margin-top: 15px;
   margin-bottom: 15px;
+  margin-left: -40px;
 }
 .showHistoryTable{
     margin-left: 40px;
