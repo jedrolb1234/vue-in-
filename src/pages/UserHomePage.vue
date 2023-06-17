@@ -18,8 +18,7 @@
                 </div>
             </div>
             <h1>Historia gier</h1>
-            <hr>                
-            
+            <hr>                    
             <div class="showHistoryTable">
                 <h2 class="historyHeader">Rozegrane gry</h2>
                 <hr class="hr2">
@@ -115,10 +114,6 @@
     width: 900px;
   }
   
-  h1 {
-    margin-bottom: 5px;
-  }
-  
   .module__head {
     display: flex;
     justify-content: space-between;
@@ -149,19 +144,17 @@
   .showHistoryTable{
     margin-left: 40px;
     color: white;
+    gap:15px;
 }
 .historyHeader
 {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   font-size: 22px;
   background-color: white;
   width: 800px;
-  height: 40px;
-  margin: 40px 0px 0px 0px;
-  border-radius: 8px 8px 0px 0px;
+  margin: 0px 0px 20px -40px;
   color: black;
 }
 table{

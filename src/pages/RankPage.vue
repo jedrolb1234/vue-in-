@@ -212,6 +212,7 @@ export default {
   display: flex;    
   flex-direction: column;    
   align-items: center;
+  width: 100%;
 }
 
 hr {
@@ -220,9 +221,7 @@ hr {
   margin-top: 15px;
   margin-bottom: 15px;
 }
-.tableContainer{
-  margin-left:40px;
-}
+
 .warcabyHeader,
 .statkiHeader,
 .polacz4Header{
@@ -231,7 +230,7 @@ hr {
   justify-content: space-between;
   align-items: center;
   font-size: 22px;
-  background-color: white;
+  background-color: var(--secondary);
   width: 800px;
   height: 40px;
   margin: 40px 0px 0px 0px;
@@ -244,17 +243,17 @@ table{
     justify-content: center; 
     width: 800px;
     height: auto;
-    color:black;
+    color:var(--primary);;
     border-collapse: collapse;
     border-radius: 0px 0px 8px 8px;
     padding: 0px;
     border-spacing: 0px;
     table-layout: fixed;
-    background-color: white;
+    background-color: var(--secondary);
     margin-left: 40px;
   }
 tr{
-    border: 1px solid black;
+    border: 1px solid var(--primary);;
     text-align: left;
     border-radius: 8px;
     max-height: 28px;
@@ -264,12 +263,12 @@ tr:last-child{
 }
 td, th{
     padding: 5px;
-    background-color: white;
+    background-color: var(--secondary);
     width: 200px;
     max-height: 28px;
     font-size: 18px;
     font-weight: 400;
-    color:black;
+    color:var(--primary);
     margin: 0px 0px 0px 0px;
     border: none;
 }
@@ -306,7 +305,7 @@ td, th{
 }
 p{
     font-size: 22px;
-    color: black;
+    color: var(--primary);;
 }
 .page{
     width: 13px;

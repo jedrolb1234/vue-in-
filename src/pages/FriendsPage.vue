@@ -25,7 +25,7 @@
                 </ul>
                 <h3 v-else-if="avilabeFriends === false">Nie dodano żadnych znajomych.</h3>
             </div>
-            <base-delete-message v-if="visibleMessage === true" :id="id" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
+            <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
             <div class="invitations">
                 <h2>Twoje zaproszenia:</h2>
                 <hr class="hr2">
@@ -104,24 +104,24 @@ export default {
             username: '',
             notFindUser: 'Nie znaleziono użytkownika o podnym imieniu.',
             visibleMessage: false,
+            rowHeight: 38,
         }
     },
+    mounted() {
+        this.downloadFriends();
+        // this.$store.dispatch('downloadFriends');
+        },
+
     computed: {
         ...mapGetters('Friends',['isLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
                     'getFriends', 'getFindUser', 'getFindFriend', 'avilabeFriends', 
                     'getCurrentPage', 'getItemsPerPage', 'getAvilabeInvitations',
                     'getInvitations']),
         ...mapGetters(['getNotificationTemplates'])
-        // redirect(){
-        //     return this.$route.path + '/uhp';
-        //    return this.$route.path + '/uhp';
-        //
-      
-  // 'getNotificationTemplates', 
     },
     methods:{
         ...mapActions('Friends', ['nextPage', 'previousPage', 'findFriend', 'addFriend', 
-        'removeFriendInvitation']),
+        'removeFriendInvitation', 'downloadFriends']),
         ...mapActions(['showNotification']),
         redirect(){
             return this.$router.push('/uhp');
@@ -134,20 +134,45 @@ export default {
         isVisibleMessage(payload){
             this.visibleMessage = payload;
         },
-        find(username){
+        async find(username){
+        //     loginUser(context, payload) {
+        //     const notificationTemplates = context.rootGetters.getNotificationTemplates;
+        //     const axios = require('axios');
+        //     let res;
+        //     try {
+        //     res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_LOGIN_ENDPOINT, payload);
+        //     if (res.status == 200) {
+        //         context.commit('login', res.data);
+        //         context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
+        //         Router.push({ name: 'games' });
+        //     }
+        //     } catch (error) {
+        //     if (error.response) {
+        //         context.dispatch('showNotification',
+        //         {
+        //             label: 'Logowanie się nie powiodło!',
+        //             description: 'Dane logowania są nieprawidłowe.',
+        //             type: 'error'
+        //         },
+        //         { root: true });
+        //     } else {
+        //         context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+        //     }
+        //     }
+        // },
             if (username.length === 0){
                 this.showNotification(this.getNotificationTemplates.user_name_to_short);
             }else
             return this.findFriend(username);
         },
+        /////
         dynamicHeight(){
             let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
             let endIndex = startIndex + this.getItemsPerPage;
             let sliced = this.getFriends.slice(startIndex, endIndex);   
-            console.log(sliced, 'PPPPPP')
-            return (10 - sliced.length ) * 38;
+            // console.log(sliced, 'PPPPPP')
+            return (10 - sliced.length ) * this.rowHeight;
         }
-//'showNotification',
     },
     mutations:{
         ...mapGetters('Friends', ['loading', 'setUserName'])
@@ -162,10 +187,11 @@ export default {
     margin-bottom: 25px;
     padding-bottom: 80px;
     min-height: 1350px;
+    width: 100%;
 }
 
 hr {
-  width: 900px;
+  width: 100%;
   border: 1px solid var(--accent);
   margin-top: 15px;
   margin-bottom: 15px;
@@ -175,7 +201,7 @@ hr {
 
 .friendsContainer{
     margin-left: 50px;
-    color: white;
+    color: var(--secondary);
 }
 .hr2{
     margin-left: -40px;
@@ -184,7 +210,7 @@ hr {
     margin-left: -50px;
 }
 h1, h2{
-    color: black;
+    color: var(--primary);
     align-items: flex-start;
     width: 800px;
 }
@@ -195,26 +221,27 @@ h1, h2{
   justify-content: space-between;
   align-items: center;
   font-size: 22px;
-  background-color: white;
+  background-color:var(--secondary);
   width: 800px;
   height: 40px;
   margin: 40px 0px 0px 40px;
   border-radius: 8px 8px 0px 0px;
-  color: black;
+  color: var(--primary);
 }
 table{
     justify-content: center; 
     width: auto;
-    color:black;
+    color: var(--primary);
+    border: 1px solid var(--primary);
     border-collapse: collapse;
     border-radius: 0px 0px 8px 8px;
-    padding: 0px;
     border-spacing: 0px;
-    background-color: white;
+    padding: 0px;
+    background-color: var(--secondary);
     padding-left: 40px;
 }
 tr{
-    border: 1px solid black;
+    border: 1px solid var(--primary);
     text-align: left;
     border-radius: 8px;
     width: 800px;
@@ -231,11 +258,11 @@ th{
 }
 td{
     padding: 1.2px;
-    background-color: white;
+    background-color: var(--secondary);
     width: 160px;
     height: 38px;
     font-size: 18px;
-    color:black;
+    color: var(--primary);
     margin: 0px 0px 0px 0px;
 }
 .firstCell{
@@ -249,7 +276,7 @@ td{
     justify-content: center;
 }
 .searchFriend{
-    color: white;
+    color: var(--secondary);
     width: 800px;
     margin-left:0px;
     margin-top: 0px;
@@ -266,13 +293,13 @@ td{
 }
 .friend{
     width: 800px;
-    color: black;
+    color: var(--primary);
     margin-top:0px;
     margin-right: 40px;
 }
 p{
     font-size: 22px;
-    color: black;
+    color: var(--primary);
 }
 .buttons{
   display: flex;
@@ -304,9 +331,11 @@ p{
     margin-left: -25px;
 }
 .invitations{
-    margin-left: 40px;
+    margin-left: -20px;
 }
-
+.findUser{
+    color: var(--primary);
+}
 .slideON-enter-active,
 .slideON-leave-active {
     transition: transform 300ms ease, max-height 300ms ease;

@@ -1,51 +1,50 @@
 <template>
     <div class="modal-backdrop">
-        <transition class="modal">
-            <div>
+        <transition class="modal" name="modal">
+            <div >
             <slot></slot>
                 <div class="buttons"> 
                     <base-small-button @click="deleteFromFriends(id)">Potwierdz</base-small-button>
-                    <base-small-button @click="emitVisibleMessage" >Odrzuć</base-small-button>
+                    <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
                 </div>
             </div>
         </transition>
     </div>
   </template>
   
-  <script>
-  import BaseSmallButton from'@/components/base/BaseSmallButton.vue';
+<script>
+import BaseSmallButton from'@/components/base/BaseSmallButton.vue';
 
-  export default {
-    props: ['id'],
-    emits: ['visibleMessage'],
-    component: {
-        BaseSmallButton,
-  },
+export default {
+  props: ['id', 'visibleMessage'],
+  emits: ['visibleMessage'],
+  component: {
+      BaseSmallButton,
+},
 
-    methods:{
-        emitVisibleMessage() {
-            console.log('message')
-            this.$emit('visibleMessage', false);
-        },
-        deleteFromFriends(id){
-            id = null          
-            this.$emit('visibleMessage', false);
-            return id;
-    }
-    }
+  methods:{
+      emitVisibleMessage() {
+          console.log('message')
+          this.$emit('visibleMessage', false);
+      },
+      deleteFromFriends(id){
+          id = null          
+          this.$emit('visibleMessage', false);
+          return id;
+  }
+  }
 }
 
 </script>
   
-  <style scoped>
-
-  .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-  }
+<style scoped>
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+}
 .modal-backdrop {
   position: fixed;
   width: 400px;
@@ -77,7 +76,6 @@
 }
 
 .buttons {
-  
   display: flex;
   flex-direction: row;
   justify-content: space-between;

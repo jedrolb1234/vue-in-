@@ -14,7 +14,7 @@ export default {
             lastLogin: '',
             lastGame: ''
         },
-        isLoading: false,
+        isLoading: true,
         hasFriends: true,
         isUsernameValid: false,
         showAddButton: false,
@@ -23,6 +23,7 @@ export default {
         itemsPerPage: 10,
         currentPage: 1,
         username: '',
+
         friends:[
             {
                 id:0,
@@ -218,6 +219,40 @@ export default {
     }
   },
   actions: {
+    async downloadFriends(context){
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      const token = JSON.parse(sessionStorage.getItem('token'))
+      const headers = {
+            Authorization: `Bearer ${token}`,
+        };
+      // const data = null;
+      console.log(headers)
+      const axios = require('axios');
+      let res;
+      try { 
+      res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, {headers}); 
+      console.log(res)
+      if (res.status == 200) {
+          context.friends = res.data;
+          console.log(res);
+          context.isLoading = false;
+      }
+      } catch (error) {
+      if (error.response) {
+          context.dispatch('showNotification',
+          {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie udało się pobrać danych.',
+              type: 'error'
+          },
+          { root: true });
+      } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+      }
+    },
+
+
     previousPage({ commit }) {
       commit('previousPage');
     },
