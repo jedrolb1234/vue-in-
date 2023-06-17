@@ -10,15 +10,13 @@ import Friends from '@/pages/FriendsPage.vue';
 import Rank from '@/pages/RankPage.vue';
 import History from '@/pages/HistoryPage.vue';
 import Settings from '@/pages/SettingsPage.vue';
-import WarcabyDesc from '@/pages/gra-warcaby-description.vue';
-import StatkiDesc from '@/pages/gra-statki-description.vue';
-import Polacz4Desc from '@/pages/gra-polacz4-description.vue';
 import Warcaby from '@/Games/gra-warcaby.vue';
 import Statki from '@/Games/gra-statki.vue';
 import Polacz4 from '@/Games/gra-polacz4.vue';
-import Store from '@/state/index'
-import ActivateUserPage from '@/pages/ActivateUserPage'
-import UserHomePage from '@/pages/UserHomePage'
+import Store from '@/state/index';
+import ActivateUserPage from '@/pages/ActivateUserPage';
+import UserHomePage from '@/pages/UserHomePage';
+import GameDescription from '@/pages/GameDescription';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -31,13 +29,11 @@ const router = createRouter({
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
     { path: '/resetpassword/:token', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
     { path: '/games', name:'games', component: Games },
+    { path: '/games/:gameid', component: GameDescription, meta: {requiresAuth: true}, props: true },
     { path: '/friends', name:'friends', component: Friends},
     { path: '/rank', name:'rank', component: Rank },
     { path: '/history', name:'history', component: History },
     { path: '/settings', name:'settings', component: Settings },
-    { path: '/warcabydesc', name:'warcabydescription', component: WarcabyDesc },
-    { path: '/statkidesc', name:'statkidescription', component: StatkiDesc },
-    { path: '/polacz4desc', name:'polacz4description', component: Polacz4Desc },
     { path: '/warcaby', name:'warcaby', component: Warcaby },
     { path: '/statki', name:'statki', component: Statki },
     { path: '/polacz4', name:'polacz4', component: Polacz4 },
