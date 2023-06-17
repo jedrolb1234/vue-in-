@@ -41,9 +41,6 @@ export default {
   display: flex;
   position: relative;
   justify-content: space-between;
-  /* align-items: center; */
-  /* justify-content: center; */
-  /* border-radius: 15px; */
   padding: 15px;
   gap: 15px;
 }

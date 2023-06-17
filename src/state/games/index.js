@@ -1,6 +1,9 @@
-import CheckersImg from '@/assets/games/warcaby.jpg';
-import BattleshipImg from '@/assets/games/battleship.jpg';
-import Connect4Img from '@/assets/games/polacz4.jpg';
+import CheckersImg from '@/assets/games/checkers/warcaby.jpg';
+import CheckersImgLarge from '@/assets/games/checkers/warcaby_large.jpg'
+import BattleshipImg from '@/assets/games/battleship/battleship.jpg';
+import BattleshipImgLarge from '@/assets/games/battleship/battleship_large.jpeg';
+import Connect4Img from '@/assets/games/connect/polacz4.jpg';
+import Connect4ImgLarge from '@/assets/games/connect/polacz4_large.jpg';
 import PlaceholderImg from '@/assets/games/placeholder.jpg';
 
 export default {
@@ -11,6 +14,7 @@ export default {
           id: 0,
           name: 'Warcaby',
           img: CheckersImg,
+          imgLarge: CheckersImgLarge,
           shortDescription: 'Popularna gra planszowa dla każdego',
           description: 'Warcaby to jedna z najbardziej popularnych gier planszowych na świecie, która zapewnia wiele godzin świetnej zabawy dla graczy w każdym wieku. Ta strategiczna gra logiczna nie tylko rozwija umiejętności planowania, ale również oferuje emocjonujące wyzwania dla umysłu. Zachęcam Cię do zagrania w tę wciągającą grę, która może być świetnym sposobem na spędzenie czasu z rodziną i przyjaciółmi.',
           rules: [
@@ -38,6 +42,7 @@ export default {
           id: 1,
           name: 'Statki',
           img: BattleshipImg,
+          imgLarge: BattleshipImgLarge,
           shortDescription: 'Wygraj z przeciwnikiem strącając statki z jego planszy',
           description: 'Witaj w fascynującym świecie gry "Statki"! Ta emocjonująca gra strategiczna zapewni Ci godziny niesamowitej zabawy i wyzwań. Celem gry jest trafienie statku przeciwnika, który jest ukryty na planszy, na jednym z dostępnych pól. "Statki" to gra, która wymaga zarówno spostrzegawczości, jak i umiejętności strategicznych. Musisz starannie rozważać swoje ruchy i dokładnie analizować planszę, aby odkryć ukryte statki przeciwnika. Każde trafienie przynosi Ci ekscytację i satysfakcję. Przed Tobą nieskończone możliwości taktyczne. Możesz planować swoje ruchy, szukać wzorców i strategii, które pozwolą Ci odkryć statki przeciwnika w jak najkrótszym czasie. Czy wybierzesz losowe pola, czy zastosujesz bardziej złożone metody analizy planszy? Decyzja należy do Ciebie! Niezależnie od tego, czy grasz z przyjaciółmi na tradycyjnej planszy, czy korzystasz z wirtualnej wersji gry, "Statki" zawsze zapewni Ci wiele ekscytujących chwil. Możesz rywalizować z innymi graczami, podzielić się swoimi osiągnięciami i strategiami, a nawet uczestniczyć w turniejach online. Ta gra rozwija Twoje umiejętności logicznego myślenia, koncentracji i spostrzegawczości. Wymaga od Ciebie szybkiego podejmowania decyzji i adaptacji do zmieniającej się sytuacji na planszy. Bez względu na to, czy jesteś nowicjuszem, czy doświadczonym graczem, "Statki" dostarczą Ci niezapomnianych chwil rozrywki. Czas zacząć przygodę i odkryć, jak wiele frajdy może dostarczyć Ci gra "Statki"! Czekają na Ciebie emocje, strategie i zwycięstwa. Włącz wyobraźnię, zdobądź przewagę i pokaż swoje umiejętności taktyczne na morzu bitew!',
           rules: [
@@ -63,6 +68,7 @@ export default {
           id: 2,
           name: 'Połącz 4',
           img: Connect4Img,
+          imgLarge: Connect4ImgLarge,
           shortDescription: 'Połącz cztery piłki układając stos',
           description: 'Witaj w ekscytującej grze "Połącz 4"! Ta gra strategiczna sprawi, że będziesz w pełni zaangażowany i zapewni Ci niezliczone godziny zabawy w rywalizacji z przeciwnikiem. Celem gry jest ułożenie czterech piłek w jednej linii - pionowo, poziomo lub na ukos. Ta gra daje Ci nieskończone możliwości taktyczne. Musisz analizować ruchy przeciwnika i jednocześnie planować swoje własne, aby zablokować przeciwnika lub znaleźć idealną okazję do ułożenia swoich piłek w linii. Wykorzystaj swoją spostrzegawczość i zdolności planowania, aby zdominować planszę i pokonać przeciwnika. "Połącz 4" to doskonały sposób na rywalizację z rodzeństwem, przyjaciółmi czy rodziną. Możesz stworzyć własne strategie, rozwijać swoje umiejętności i eksperymentować z różnymi taktykami. Czy zdecydujesz się na atak agresywny, koncentrując się na szybkim ułożeniu czterech piłek w linii, czy też wybierzesz bardziej defensywną strategię, starając się blokować przeciwnika? Gra "Połącz 4" zapewni Ci niesamowite emocje, wzmocni Twoje zdolności logicznego myślenia i rozwija umiejętność podejmowania szybkich decyzji. Bez względu na to, czy jesteś nowicjuszem, czy doświadczonym graczem, ta gra jest łatwa do nauki, ale trudna do opanowania.',
           rules: [
