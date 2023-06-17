@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="game-description">
-      {{ game.description }}
+      {{ game.shortDescription }}
     </div>
   </div>
 </template>
