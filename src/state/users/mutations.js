@@ -9,8 +9,8 @@ export default {
     sessionStorage.setItem('refresh_token', null);
     state.lastLogin = null;
   },
-  changeAvatar(state, id) {
-    state.avatarId = id;
+  changeUserAvatar(state, avatar) {
+    state.userAvatar = avatar;
   },
   changeTheme(state, theme) {
     state.theme = theme;

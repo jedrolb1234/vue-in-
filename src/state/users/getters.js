@@ -9,8 +9,11 @@ export default {
   getLastLogin(state) {
     return state.lastLogin;
   },
-  getAvatarId(state) {
-    return state.avatarId;
+  getUserAvatar(state) {
+    return state.userAvatar;
+  },
+  getAvatars(state) {
+    return state.avatars;
   },
   getTheme(state) {
     return state.theme;

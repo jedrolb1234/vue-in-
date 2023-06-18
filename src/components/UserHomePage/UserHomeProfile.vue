@@ -25,13 +25,11 @@
   <script>
   import { mapGetters } from 'vuex';
   import BaseButton from '../base/BaseButton.vue';
-  import AvatarImageHandler from '@/mixins/avatarImageHandler';
   
   export default {
     components: {
       BaseButton
     },
-    mixins: [AvatarImageHandler],
     data(){
         return{
             recivedInv:false,
@@ -39,7 +37,7 @@
         }
     },
     computed: {
-      ...mapGetters(['getAvatarId', 'getUsername', 'getDescription'])
+      ...mapGetters(['getUserAvatar', 'getUsername', 'getDescription'])
     }
   }
   </script>
