@@ -4,16 +4,19 @@
             <div class="FriendsContainer">
                 <BaseHeader>Znajomi ( {{ getFriends.length }} )</BaseHeader>
                 <h2 class="friendsHeader">Twoi przyjaciele</h2>
-                <hr>
-                <div v-if="isLoading" class="firstBlock">
-                    <base-loading-spinner></base-loading-spinner>
+                <hr class="hr1">
+                <div v-if="getIsLoading === true" class="firstBlock">
+                    <table class="spinnerTable">
+                        <tr><th class="tableButton">Podgląd</th><th>Imię</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
+                        <tr :style="{height: dynamicHeight() + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
+                    </table>
                 </div>
-                <ul v-if="avilabeFriends === true" class="firstBlock">
+                <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
                     <table class="friend">
                         <tr><th class="tableButton">Podgląd</th><th>Imię</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                         <tr class="friendsList"
                             v-for="(f, index) in currentPage" :key="index">
-                            <td class="tableButton"><base-look-button @click="redirect(f.id)"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="remove(f.id)"></base-remove-button></td>   
+                            <td class="tableButton"><base-look-button @click="redirect1(f.id)"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="remove(f.id)"></base-remove-button></td>   
                         </tr>
                         <tr :style="{height: dynamicHeight() + 'px'}"></tr>
                     </table>
@@ -23,11 +26,11 @@
                         <p class="page">{{ pageNr }}</p>
                     </div>
                 </ul>
-                <h3 v-else-if="avilabeFriends === false">Nie dodano żadnych znajomych.</h3>
+                <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
             </div>
             <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
             <div class="invitations">
-                <h2>Twoje zaproszenia:</h2>
+                <h2 class="invMargin">Twoje zaproszenia:</h2>
                 <hr class="hr2">
                 <transition name="avInvs">
                     <ul v-if="getAvilabeInvitations !== 0">
@@ -37,7 +40,7 @@
                                 
                                     <tr class="invitationsList"
                                         v-for="(i, index) in getInvitations" :key="index">
-                                        <td class="tableButton"><base-look-button @click="redirect(i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(index)"></base-remove-button></td>   
+                                        <td class="tableButton"><base-look-button @click="redirect(i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
@@ -54,15 +57,14 @@
                     <base-small-button type="green-large" @click="find(username)" @keyup.enter="find(username)">Znajdź</base-small-button>
                 </form>
                 <transition name="slideON">
-                    <div v-if="getFindUser === true" class="findUser">
+                    <div v-if="this.getFindUser === true" class="findUser">
                         <p>Znaleziono:</p>
                         <table class="findFriend">
-                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id)"></base-look-button></td><td>{{ getUser.name }}</td><td>{{ getUser.lastLogin }}</td><td>{{ getUser.lastGame}}</td>
+                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id)"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ "20023-010-01" }}</td><td>{{ "Warcaby" }}</td>
                             </tr>
                         </table>
                     </div>
-                    <div v-else-if="getFindUser === false" class="findUser">{{ notFindUser }}</div>
-                    <div v-else></div>
+                    <div v-else-if="this.getFindUser === false" class="findUser">{{ notFindUser }}</div>
                 </transition>
             </div>
         </div>
@@ -105,77 +107,60 @@ export default {
             notFindUser: 'Nie znaleziono użytkownika o podnym imieniu.',
             visibleMessage: false,
             rowHeight: 38,
+            findUser: null,
         }
     },
     mounted() {
         this.downloadFriends();
-        // this.$store.dispatch('downloadFriends');
+        this.downloadInvitations();
+        console.log(this.getFindUser)
         },
-
+        
     computed: {
-        ...mapGetters('Friends',['isLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
-                    'getFriends', 'getFindUser', 'getFindFriend', 'avilabeFriends', 
-                    'getCurrentPage', 'getItemsPerPage', 'getAvilabeInvitations',
-                    'getInvitations']),
-        ...mapGetters(['getNotificationTemplates'])
+        ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
+                    'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 
+                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations']),
+        ...mapGetters(['getNotificationTemplates']),
     },
     methods:{
         ...mapActions('Friends', ['nextPage', 'previousPage', 'findFriend', 'addFriend', 
-        'removeFriendInvitation', 'downloadFriends']),
+                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend']),
         ...mapActions(['showNotification']),
-        redirect(){
-            return this.$router.push('/uhp');
-        },
-        remove(key){
-            console.log('delete')
-            this.visibleMessage = true;
-            this.id = key;
-        },
-        isVisibleMessage(payload){
-            this.visibleMessage = payload;
-        },
-        async find(username){
-        //     loginUser(context, payload) {
-        //     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-        //     const axios = require('axios');
-        //     let res;
-        //     try {
-        //     res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_LOGIN_ENDPOINT, payload);
-        //     if (res.status == 200) {
-        //         context.commit('login', res.data);
-        //         context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
-        //         Router.push({ name: 'games' });
-        //     }
-        //     } catch (error) {
-        //     if (error.response) {
-        //         context.dispatch('showNotification',
-        //         {
-        //             label: 'Logowanie się nie powiodło!',
-        //             description: 'Dane logowania są nieprawidłowe.',
-        //             type: 'error'
-        //         },
-        //         { root: true });
-        //     } else {
-        //         context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-        //     }
-        //     }
-        // },
+//sprawdzic jaka strukture ma invitations id
+        find(username){
             if (username.length === 0){
                 this.showNotification(this.getNotificationTemplates.user_name_to_short);
             }else
             return this.findFriend(username);
         },
-        /////
+        redirect(id){
+            for(let i = 0; i < this.getFriends.length; i++){
+                if (id === this.getFriends[i].id){
+                    return this.$router.push({
+                        name: 'uhp',
+                        params: { id: id, isFriend: true },
+                        });
+                }
+            }
+            return this.$router.push({
+                        name: 'uhp',
+                        params: { id: id, isFriend: false},
+                        });
+        },
+
+        isVisibleMessage(payload){
+            this.visibleMessage = payload;
+        },
+
         dynamicHeight(){
             let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
             let endIndex = startIndex + this.getItemsPerPage;
             let sliced = this.getFriends.slice(startIndex, endIndex);   
-            // console.log(sliced, 'PPPPPP')
             return (10 - sliced.length ) * this.rowHeight;
         }
     },
     mutations:{
-        ...mapGetters('Friends', ['loading', 'setUserName'])
+        ...mapGetters('Friends', ['setUserName'])
     }
 }
 </script>
@@ -195,24 +180,32 @@ hr {
   border: 1px solid var(--accent);
   margin-top: 15px;
   margin-bottom: 15px;
-
 }
-
-
 .friendsContainer{
     margin-left: 50px;
     color: var(--secondary);
 }
+.hr1{
+    margin-left: -30px;
+    width: 900px;
+    margin-right: -30px;
+}
 .hr2{
-    margin-left: -40px;
-  }
+    margin-left: 20px;
+    /* margin-right: -140px; */
+    width: 900px;
+}
 .hr3{
     margin-left: -50px;
+    width: 900px;
 }
 h1, h2{
     color: var(--primary);
     align-items: flex-start;
     width: 800px;
+}
+.firsstBlock{
+    margin-left: 40px;
 }
 .friendsHeader
 {
@@ -231,10 +224,9 @@ h1, h2{
 table{
     justify-content: center; 
     width: auto;
+    border-collapse: collapse;
     color: var(--primary);
     border: 1px solid var(--primary);
-    border-collapse: collapse;
-    border-radius: 0px 0px 8px 8px;
     border-spacing: 0px;
     padding: 0px;
     background-color: var(--secondary);
@@ -307,10 +299,13 @@ p{
   width: 70px;
   justify-content: space-between;
 }
-.spinner{
-  justify-content: center;
-  align-items: center;
-  margin-left: 350px;
+.spinnerTable{
+    width: 800px;
+    margin-left: 20px;
+}
+.spinnerTr{
+    margin-left: 350px;
+    margin-top:150px;
 }
 .page{
     width: 13px;
@@ -328,7 +323,10 @@ p{
     width: 600px;
     justify-content: center;
     align-items: center;
-    margin-left: -25px;
+    margin-left: 35px;
+}
+.invMargin{
+ margin-left: 80px;
 }
 .invitations{
     margin-left: -20px;

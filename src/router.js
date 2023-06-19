@@ -37,7 +37,7 @@ const router = createRouter({
     { path: '/warcaby', name:'warcaby', component: Warcaby },
     { path: '/statki', name:'statki', component: Statki },
     { path: '/polacz4', name:'polacz4', component: Polacz4 },
-    { path: '/uhp', name:'userhomepage', component: UserHomePage },
+    { path: '/uhp/:id/:isFriend', name:'uhp', component: UserHomePage, props:true },
     { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]
 })

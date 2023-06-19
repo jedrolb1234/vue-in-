@@ -3,7 +3,7 @@
         <div class="page">
             <BaseHeader>Strona użytkownika</BaseHeader>
             <div class="profile">
-                <UserProfile></UserProfile>
+                <UserProfile :id="id" :hasInvitation="hasInvitation" :isFriend="isFriend"></UserProfile>
                 <div class="module__head">
                 <h1>Dane użytkownika</h1>
                 </div>
@@ -59,31 +59,46 @@
       BaseNextButton,
       BasePreviousButton
     },
+    props:['id', 'isFriend', 'hasInvitation'],
+    
     data() {
       return {
         username: null,
         description: null,
         avatarId: null,
-  
         name: '',
         surname: '',
         birthDate: null,
         email: '',
       }
     },
+    mounted(){
+      // this.getId();
+      // this.getIsFriend();
+    },
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
-                            'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage'])
+                            'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
+                             'getItemsPerPage','getHasInvitation']),
+      getIsFriend(){
+        console.log(this.isFriend)
+        return this.isFriend;
+      },
+      getId(){
+        console.log(this.id)
+        return this.id;
+      },
     },
     methods: {
-      ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'nextPage', 'previousPage',]),
+      ...mapActions('UHP', ['setArgs']),
+      ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'nextPage', 'previousPage','isFriend']),
       dynamicHeight(){
             let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
             let endIndex = startIndex + this.getItemsPerPage;
             let sliced = this.getHistory.slice(startIndex, endIndex);           
             return (10 - sliced.length ) * 38;
-        }
-     },
+        },
+      },
   }
   </script>
   <style scoped>

@@ -8,7 +8,7 @@ import Friends from '@/state/friends/index.js'
 import Rank from '@/state/rankTables/index.js'
 import Modal from '@/state/modal/index.js';
 import Games from '@/state/games/index.js';
-import UHP from '@/state/userHomePage/index.js'
+import UHP from '@/state/userHomePage/index.js';
 
 const state = createStore({
   modules: {
@@ -22,7 +22,7 @@ const state = createStore({
     Modal,
     Games,
     UHP
-  }
+  },
 });
 
 export default state;

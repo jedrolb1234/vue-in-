@@ -164,3 +164,4 @@ export default {
     context.commit('changeEmail', email);
   }
 }
+export async function refreshToken(){}

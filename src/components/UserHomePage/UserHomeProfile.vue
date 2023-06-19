@@ -12,18 +12,18 @@
             {{ this.getDescription }}
           </div>
         </div>
-  
       </div>
       <div id="user-profile__invitation">
-        <BaseButton v-if="(recivedInv===true)&&(isFriend===false)" type="secondary-medium" class="clickable">Dodaj znajomego</BaseButton>
-        <BaseButton v-else-if="(recivedInv===false)&&(isFriend==false)" type="secondary-medium" class="clickable">Wyślij zaproszenie</BaseButton>
-        <div v-else-if="isFriend===true">Jesteście znajomymi</div>
-    </div>
+        <BaseButton v-if="getHasInvitation==='true'" :type="secondary-medium" class="clickable" @click="acceptInvitation(getId)">Dodaj znajomego</BaseButton>
+        <BaseButton v-if="getIsFriend=='false'" :type="secondary-medium" class="clickable" @click="sendInvitation(getId)">Wyślij zaproszenie</BaseButton>
+        <div v-if="(getIsFriend==='false') && (this.getIsInvSended === 'true')">Zaproszenie wysłane</div>
+        <div v-if="getIsFriend==='true'">Jesteście znajomymi</div>
+      </div>
     </div>
   </template>
   
   <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import BaseButton from '../base/BaseButton.vue';
   import AvatarImageHandler from '@/mixins/avatarImageHandler';
   
@@ -31,16 +31,30 @@
     components: {
       BaseButton
     },
+    props:['isFriend','hasInvitation', 'id'],
     mixins: [AvatarImageHandler],
-    data(){
-        return{
-            recivedInv:false,
-            isFriend: true
-        }
-    },
     computed: {
-      ...mapGetters(['getAvatarId', 'getUsername', 'getDescription'])
-    }
+      ...mapGetters(['getAvatarId', 'getUsername', 'getDescription']),
+      ...mapGetters('UHP',['getHasInvitation','getIsInvSended']),
+      getId(){
+        console.log(typeof(this.id))
+        return this.id;
+      },
+      getIsFriend(){
+        console.log(this.isFriend)
+        return this.isFriend;
+      },
+      getHasInvitation(){
+        // console.log(this.hasInvitation)
+        return this.hasInvitation;
+      }
+    },
+    mounted(){
+      this.downloadInvitations();
+    },
+    methods: {
+      ...mapActions('UHP',['sendInvitation', 'acceptInvitation', 'downloadInvitations']),
+    },
   }
   </script>
   
@@ -96,6 +110,7 @@
   #user-profile__invitation {
     display: flex;
     align-items: center;
+    width:auto;
   }
   
   button {
