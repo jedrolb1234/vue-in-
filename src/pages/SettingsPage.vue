@@ -28,7 +28,7 @@
             <div>Opis</div>
             <textarea v-model="this.description"></textarea>
             <div>Avatar użytkownika</div>
-            <BaseButton type="secondary-medium" @click="this.showAvatarPicker()">Zmień avatar</BaseButton>
+            <BaseButton type="secondary-medium" @click="this.isAvatarPickerVisible=true">Zmień avatar</BaseButton>
           </div>
         </div>
         <div class="settings-module" @mouseenter="this.mouseOverUserDataSettings = true;"
@@ -111,7 +111,7 @@
     </div>
     <Teleport to="body">
       <Transition>
-        <AvatarPickerModal v-if="this.isAvatarPickerVisible"></AvatarPickerModal>
+        <AvatarPickerModal v-if="isAvatarPickerVisible" @close-modal="this.isAvatarPickerVisible=false"></AvatarPickerModal>
       </Transition>
     </Teleport>
   </BasePageLayout>
@@ -119,10 +119,10 @@
 <script>
 import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue';
-import UserProfile from '@/components/SettingsPage/UserProfile.vue'
+import UserProfile from '@/components/TheSettingsPage/UserProfile.vue'
 import BaseButton from '@/components/base/BaseButton.vue';
 import { mapActions, mapGetters } from 'vuex';
-import AvatarPickerModal from '@/components/SettingsPage/AvatarPickerModal.vue';
+import AvatarPickerModal from '@/components/TheSettingsPage/AvatarPickerModal.vue';
 import BaseButtonWithTooltip from '@/components/base/BaseButtonWithTooltip.vue';
 
 export default {
@@ -148,11 +148,13 @@ export default {
 
       mouseOverUserDataSettings: false,
       mouseOverThemeSettings: false,
-      theme: null
+      theme: null,
+
+      isAvatarPickerVisible: false
     }
   },
   computed: {
-    ...mapGetters(['isAvatarPickerVisible', 'getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail'])
+    ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail'])
   },
   methods: {
     ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 'setName', 'setSurname', 'setBirthDate', 'setEmail']),

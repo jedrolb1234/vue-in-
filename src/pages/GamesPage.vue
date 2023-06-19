@@ -20,14 +20,7 @@
         <div class="games__header">
           <h1>Wszystkie gry</h1>
           <div class="games__actions">
-            <div class="games__search-bar">
-              <input type="text" placeholder="Szukaj" v-model.trim="this.query" @keydown="this.resetTimeout()"
-                @keyup="this.searchGames()" />
-              <div class="games__search-bar__icon"><span class="material-symbols-outlined">
-                  search
-                </span>
-              </div>
-            </div>
+            <BaseSearchInput :searchFunction="this.filterGames"></BaseSearchInput>
           </div>
         </div>
         <hr>
@@ -50,18 +43,18 @@ import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
 import { mapGetters } from 'vuex';
 import GameItem from '@/components/GamesPage/GameItem.vue';
+import BaseSearchInput from '@/components/base/BaseSearchInput.vue';
 
 export default {
   components: {
     BasePageLayout,
     BaseHeader,
-    GameItem
-  },
+    GameItem,
+    BaseSearchInput
+},
   data() {
     return {
       filteredGames: [],
-      query: null,
-      searchTimeout: null
     }
   },
   computed: {
@@ -75,12 +68,6 @@ export default {
     filterGames(query) {
       this.filteredGames = this.getGames.filter(game => game.name.toUpperCase().includes(query.toUpperCase()));
     },
-    resetTimeout() {
-      clearTimeout(this.searchTimeout);
-    },
-    searchGames() {
-      this.searchTimeout = setTimeout(this.filterGames.bind(null, this.query), 300);
-    }
   },
   created() {
     this.filteredGames = this.getGames;
@@ -116,7 +103,6 @@ h1 {
 .favourite-games__items {
   position: relative;
   display: flex;
-  /* justify-content: center; */
   padding-top: 15px;
   padding-bottom: 15px;
   max-width: 100%;
@@ -151,43 +137,6 @@ h1 {
   justify-content: space-between;
   width: 100%;
 }
-
-.games__search-bar {
-  display: flex;
-  flex-direction: row;
-}
-
-.games__search-bar input {
-  background-color: var(--secondary);
-  border: 1px solid var(--primary);
-  padding: 10px;
-  color: var(--primary);
-  border-right: 0px;
-  font-size: 20px;
-}
-
-input:focus {
-  outline: none;
-}
-
-.games__search-bar__icon {
-  padding: 10px;
-  border-top: 1px;
-  border-right: 1px;
-  border-bottom: 1px;
-  border-left: 0px;
-  border-style: solid;
-  border-color: var(--primary);
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-}
-
-.games__search-bar:focus-within {
-  outline-style: auto;
-  outline-width: 5px;
-}
-
 .games__actions {
   display: flex;
   align-items: center;
@@ -204,8 +153,6 @@ input:focus {
   opacity: 0;
   grid-column: 1;
   grid-row:1;
-  
-  /* left: calc(mod(100%, 500px)); */
 }
 
 .games-leave-active {

@@ -2,7 +2,7 @@
   <div class="content">
     <div id="user-profile">
       <div id="user-profile__image">
-        <img :src="this.getImgPath(this.getAvatarId)" />
+        <img :src="this.getUserAvatar" />
       </div>
       <div id="user-profile__data">
         <div class="username">
@@ -23,15 +23,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import BaseButton from '../base/BaseButton.vue';
-import AvatarImageHandler from '@/mixins/avatarImageHandler';
 
 export default {
   components: {
     BaseButton
   },
-  mixins: [AvatarImageHandler],
   computed: {
-    ...mapGetters(['getAvatarId', 'getUsername', 'getDescription'])
+    ...mapGetters(['getUserAvatar', 'getUsername', 'getDescription'])
   }
 }
 </script>

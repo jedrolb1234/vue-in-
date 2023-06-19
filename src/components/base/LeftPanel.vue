@@ -7,7 +7,7 @@
       </div>
       <hr />
       <div class="avatar">
-        <img :src="this.getImgPath(this.getAvatarId)"/>
+        <img :src="this.getUserAvatar"/>
       </div>
       <div class="tabs">
         <div class="tabsItem clickable" @click="$router.push({ name: 'games' })">
@@ -41,15 +41,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import AvatarImageHandler from '@/mixins/avatarImageHandler';
 
 export default {
-  mixins: [AvatarImageHandler],
   methods: {
     ...mapActions(['toogleLeftPanel', 'logOutUser'])
   },
   computed: {
-    ...mapGetters(['isLeftPanelHidden', 'getAvatarId']),
+    ...mapGetters(['isLeftPanelHidden', 'getUserAvatar']),
     iconStyles() {
       return ['material-symbols-outlined', 'icon'].join(' ');
     },

@@ -25,7 +25,6 @@
   <script>
   import { mapGetters, mapActions } from 'vuex';
   import BaseButton from '../base/BaseButton.vue';
-  import AvatarImageHandler from '@/mixins/avatarImageHandler';
   
   export default {
     components: {

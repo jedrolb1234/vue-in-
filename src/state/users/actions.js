@@ -139,8 +139,8 @@ export default {
       }
     }
   },
-  setAvatarId(context, id) {
-    context.commit('changeAvatar', id)
+  setUserAvatar(context, avatar) {
+    context.commit('changeUserAvatar', avatar)
   },
   setTheme(context, theme) {
     context.commit('changeTheme', theme)
