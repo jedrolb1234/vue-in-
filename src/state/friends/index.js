@@ -1,5 +1,5 @@
 import Notifications from '@/state/notifications/index.js';
-import { refreshToken } from '@/state/users/actions.js'
+// import refreshToken from '@/state/users/actions.js'
 
 export default {
     namespaced: true,
@@ -14,7 +14,7 @@ export default {
         isUsernameValid: false,
         showAddButton: false,
         avilabeInvitations: true,
-        findUser: false,
+        findUser: null,
         itemsPerPage: 10,
         currentPage: 1,
         username: '',
@@ -54,22 +54,25 @@ export default {
     setInvitations(state, value){
       state.invitations = value;
     },
+    setFriends(state,value){
+      state.friends = value;
+    },
     cutFriends(state, value){
-      for(let i; i< state.friends.length;i++){
-        if(value === state.friends[i].id){
+      for(let i = 0; i< state.friends.length;i++){
+        if(value === state.friends[i].userId){
          state.friends.splice(i,1)
+         console.log(state.friends)
         }
       }
     },
     cutInvitations(state, value){
-      for(let i; i<state.invitations.length;i++){
+      console.log(state.invitations)
+      for(let i = 0; i<state.invitations.length;i++){
         if(value === state.invitations[i].id){
          state.invitations.splice(i,1)
+         console.log(state.invitations)
         }
       }
-    },
-    setFriends(state,value){
-      state.friends = value;
     }
   },
   getters: {
@@ -111,7 +114,6 @@ export default {
   },
   actions: {
     async removeFriend(context, payload){
-      await refreshToken();
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = JSON.parse(sessionStorage.getItem('token'))
       const headers = {
@@ -121,7 +123,7 @@ export default {
       let res;
       try { 
       res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
-                            + "/" + context.payload, {headers}); 
+                            + "/" + payload, {headers}); 
       if (res.status === 200) {
         context.commit('cutFriends', payload)
         }
@@ -140,7 +142,6 @@ export default {
       }
     },
     async removeFriendInvitation(context, payload){
-      await refreshToken();
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = JSON.parse(sessionStorage.getItem('token'))
       const headers = {
@@ -149,8 +150,8 @@ export default {
       const axios = require('axios');
       let res;
       try { 
-      res = await axios.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_ACCOUNT_ENDPOINT 
-                            + context.payload + process.env.VUE_APP_INVITATION_REJECT_ENDPOINT, {headers}); 
+      res = await axios.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT +'/'
+                            + payload + process.env.VUE_APP_INVITATION_REJECT_ENDPOINT, null, {headers}); 
       console.log(res)
       
       if (res.status === 200) {
@@ -171,7 +172,6 @@ export default {
       }
     },
     async findFriend(context, username){
-      await refreshToken();
       context.username = username;
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = JSON.parse(sessionStorage.getItem('token'))
@@ -208,7 +208,6 @@ export default {
       }
     },
     async downloadInvitations(context){
-      await refreshToken();
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = JSON.parse(sessionStorage.getItem('token'))
       const headers = {
@@ -216,7 +215,7 @@ export default {
         };
       const axios = require('axios');
       let res;
-      try { 
+      try {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_INVITATIONS_ENDPOINT, {headers}); 
       if (res.status === 200) {
           context.commit('setInvitations', res.data);
@@ -237,22 +236,19 @@ export default {
       }
     },
     async downloadFriends(context){
-      await refreshToken();
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = JSON.parse(sessionStorage.getItem('token'))
       const headers = {
             Authorization: `Bearer ${token}`,
         };
-      console.log(headers)
       const axios = require('axios');
       let res;
       try { 
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, {headers}); 
-      console.log(typeof(res.status))
       if (res.status === 200) {
+        console.log(res.data)
           context.commit('setFriends', res.data);          
           context.commit('tooleIsLoading', false);
-          console.log(context.friends, context.isLoading);
       }
       } catch (error) {
       if (error.response) {

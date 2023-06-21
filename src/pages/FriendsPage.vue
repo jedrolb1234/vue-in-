@@ -1,24 +1,25 @@
 <template>
     <base-page-layout>
-        <div class="container">
+        <div class="container">           
+            <BaseHeader>Znajomi ( {{ getFriends.length }} )</BaseHeader>
             <div class="FriendsContainer">
-                <BaseHeader>Znajomi ( {{ getFriends.length }} )</BaseHeader>
                 <h2 class="friendsHeader">Twoi przyjaciele</h2>
                 <hr class="hr1">
-                <div v-if="getIsLoading === true" class="firstBlock">
+                <div v-if="getIsLoading === true">
                     <table class="spinnerTable">
-                        <tr><th class="tableButton">Podgląd</th><th>Imię</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
-                        <tr :style="{height: dynamicHeight() + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
+                        <tr :style="{height: dynamicHeight()+38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
                     </table>
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
                     <table class="friend">
                         <tr><th class="tableButton">Podgląd</th><th>Imię</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
-                        <tr class="friendsList"
-                            v-for="(f, index) in currentPage" :key="index">
-                            <td class="tableButton"><base-look-button @click="redirect1(f.id)"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="remove(f.id)"></base-remove-button></td>   
-                        </tr>
-                        <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+                        <tbody>
+                            <tr class="friendsList"
+                                v-for="(f, index) in currentPage" :key="index">
+                                <td class="tableButton"><base-look-button @click="redirect(f.id, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
+                            </tr>
+                            <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+                        </tbody>
                     </table>
                     <div class="buttons">
                         <base-previous-button @click="previousPage"></base-previous-button>
@@ -40,7 +41,7 @@
                                 
                                     <tr class="invitationsList"
                                         v-for="(i, index) in getInvitations" :key="index">
-                                        <td class="tableButton"><base-look-button @click="redirect(i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
+                                        <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
@@ -60,7 +61,7 @@
                     <div v-if="this.getFindUser === true" class="findUser">
                         <p>Znaleziono:</p>
                         <table class="findFriend">
-                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id)"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ "20023-010-01" }}</td><td>{{ "Warcaby" }}</td>
+                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id, 'null')"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ "20023-010-01" }}</td><td>{{ "Warcaby" }}</td>
                             </tr>
                         </table>
                     </div>
@@ -124,7 +125,7 @@ export default {
     },
     methods:{
         ...mapActions('Friends', ['nextPage', 'previousPage', 'findFriend', 'addFriend', 
-                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend']),
+                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation']),
         ...mapActions(['showNotification']),
 //sprawdzic jaka strukture ma invitations id
         find(username){
@@ -133,19 +134,35 @@ export default {
             }else
             return this.findFriend(username);
         },
-        redirect(id){
+        redirect(id, invId){
+            if (invId !== 'null'){
+                return this.$router.push({
+                    name: 'uhp',
+                    params: { id: id, isFriend: false, invId: invId },
+                    }); 
+            }
+            console.log(id,'blblbl')
             for(let i = 0; i < this.getFriends.length; i++){
                 if (id === this.getFriends[i].id){
                     return this.$router.push({
                         name: 'uhp',
-                        params: { id: id, isFriend: true },
+                        params: { id: id, isFriend: true , invId: 'null'},
                         });
                 }
-            }
-            return this.$router.push({
-                        name: 'uhp',
-                        params: { id: id, isFriend: false},
-                        });
+            const inv = this.getInvitations;
+            const user = this.getUser;          
+            for(let i = 0; i< inv.length; i++){
+                if (inv[i].userId === user.id)
+                console.log(inv[i].userId)
+                return this.$router.push({
+                    name: 'uhp',
+                    params: { id: id, isFriend: false, invId: inv[i].userId },
+                    }); 
+                }                    
+            } return this.$router.push({
+                name: 'uhp',
+                params: { id: id, isFriend: false, invId: 'null' },
+                }); 
         },
 
         isVisibleMessage(payload){
@@ -204,16 +221,12 @@ h1, h2{
     align-items: flex-start;
     width: 800px;
 }
-.firsstBlock{
-    margin-left: 40px;
-}
 .friendsHeader
 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 22px;
   background-color:var(--secondary);
   width: 800px;
   height: 40px;

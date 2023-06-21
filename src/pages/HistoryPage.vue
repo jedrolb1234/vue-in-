@@ -93,7 +93,6 @@ hr {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 22px;
   background-color: var(--secondary);
   width: 800px;
   height: 40px;

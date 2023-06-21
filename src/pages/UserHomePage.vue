@@ -3,7 +3,7 @@
         <div class="page">
             <BaseHeader>Strona użytkownika</BaseHeader>
             <div class="profile">
-                <UserProfile :id="id" :hasInvitation="hasInvitation" :isFriend="isFriend"></UserProfile>
+                <UserProfile :id="id" :invId="getInvId" :isFriend="isFriend"></UserProfile>
                 <div class="module__head">
                 <h1>Dane użytkownika</h1>
                 </div>
@@ -59,7 +59,7 @@
       BaseNextButton,
       BasePreviousButton
     },
-    props:['id', 'isFriend', 'hasInvitation'],
+    props:['id', 'isFriend', 'invId'],
     
     data() {
       return {
@@ -79,7 +79,7 @@
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
-                             'getItemsPerPage','getHasInvitation']),
+                             'getItemsPerPage']),
       getIsFriend(){
         console.log(this.isFriend)
         return this.isFriend;
@@ -88,6 +88,9 @@
         console.log(this.id)
         return this.id;
       },
+      getInvId(){
+        return this.invId;
+      }
     },
     methods: {
       ...mapActions('UHP', ['setArgs']),

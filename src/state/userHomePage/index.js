@@ -1,5 +1,3 @@
-import { refreshToken } from '@/state/users/actions.js';
-
 export default {
     namespaced: true,
     state() {
@@ -8,15 +6,14 @@ export default {
         isLoading: false,
         hasInvitation: false,
         isFriend: false,
-
+        invId:null,
         itemsPerPage: 10,
         currentPage: 1,
         name: 'Andrzej',
         surname: 'Bidermann',
         birthDate: '1984-09-27',
-        invitations:null,
-        invitation:null,
-        invId: null,        
+        invitations: null,
+        invitation: null,
         invSended: false,
         history:[
           {
@@ -74,10 +71,6 @@ export default {
           state.currentPage++;
         }
       },
-      setInvSended(state, value){
-        state.invSended = value;
-        console.log(state.invSended)
-      },
       toogleIsFriend(state, value){
         state.isFriend = value;
       },
@@ -86,16 +79,19 @@ export default {
       },
       setIsFriend(state, value){
         state.isFriend = value;
+        console.log('isFriend', state.isFriends)
+      },
+      setInvSended(state, value){
+        state.invSended = value;
+        console.log('invSended', state.invSended)
       },
       setHasInvitation(state, value){
-        state.hasInvitation = value;
+        state.invId = value;
+        console.log('invId', state.invId)
       },
       setInvitations(state, value){
         state.invitations = value;
         console.log(state.invitations);
-        // if(state.invitations[i].id == state.invId){
-
-        // }
       }
     },
     getters: {
@@ -143,14 +139,13 @@ export default {
       },
     },
     actions: {
-      previousPage(context) {
+        previousPage(context) {
         context.commit('previousPage');
       },
       nextPage(context) {
         context.commit('nextPage');
       },
       async sendInvitation(context, payload){
-        await refreshToken();
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
         const token = JSON.parse(sessionStorage.getItem('token'))
         const headers = {
@@ -160,17 +155,29 @@ export default {
         const axios = require('axios');
         let res;
         console.log(payload)
-        console.log(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
-          + "/" + payload)
         try { 
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
-                              + "/" + payload, {headers}); 
+                              + "/" + payload, null, { headers }); 
 
           if (res.status === 200) {
+            console.log(res.status)
             context.commit('setInvSended', true)
             }
-          } catch (error) {
-          if (error.response) {
+        } catch (error) {
+          console.log(error)
+          if(error.response.data === "FriendshipIsAlreadyPendingOrAccepted"){
+            context.commit('setInvSended', true)
+          }
+          else if(error.response.data === "FriendHasToBeAnotherUser"){
+            context.dispatch('showNotification',
+            {
+                label: 'Wystąpiły błędy!',
+                description: 'Nie możesz wysłać zaproszenie tej osobie.',
+                type: 'error'
+            },
+            { root: true });
+          }
+          else if (error.response) {
               context.dispatch('showNotification',
               {
                   label: 'Wystąpiły błędy!',
@@ -184,7 +191,6 @@ export default {
         }
       },
       async acceptInvitation(context, payload){
-        await refreshToken();
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
         const token = JSON.parse(sessionStorage.getItem('token'))
         const headers = {
@@ -193,12 +199,15 @@ export default {
         const axios = require('axios');
         let res;
         try { 
-        res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
-                              + "/" + payload + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, {headers}); 
+        res = await axios.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
+                              + "/" + payload + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null, {headers}); 
           if (res.status === 200) {
-            context.commit('setIsFriend', true)
+            context.commit('setIsFriend', true);
+            context.commit('setHasInvitation', 'null');
+            context.commit('setInvSended', false);
             }
           } catch (error) {
+            console.log(error)
           if (error.response) {
               context.dispatch('showNotification',
               {
@@ -214,7 +223,6 @@ export default {
       },
 
       async downloadInvitations(context){
-        await refreshToken();
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
         const token = JSON.parse(sessionStorage.getItem('token'))
         const headers = {

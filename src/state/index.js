@@ -8,7 +8,7 @@ import Friends from '@/state/friends/index.js'
 import Rank from '@/state/rankTables/index.js'
 import Games from '@/state/games/index.js';
 import UHP from '@/state/userHomePage/index.js';
-import GameRooms from '@/state/gameRooms/index.js';
+// import GameRooms from '@/state/gameRooms/index.js';
 
 const state = createStore({
   modules: {
@@ -21,7 +21,7 @@ const state = createStore({
     Rank,
     Games,
     UHP,
-    GameRooms
+    // GameRooms
   }
 });
 

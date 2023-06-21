@@ -1,8 +1,8 @@
 <template>  
   <base-page-layout>
+  <!-- <div v-if="warcabyTable === true || statkiTable === true || polacz4Table === true" class="right-strap"></div> -->
     <div class="container">
       <BaseHeader>Rankingi</BaseHeader>          
-
           <div class="warcabyHeader" @click="toogleWarcabyTable">
             <ul>Warcaby</ul> 
             <span v-if="warcabyTable===false" :class="iconUpArrow">expand_less</span>
@@ -36,8 +36,6 @@
               </table>
           </div>
         </transition>
-
-
         <div class="statkiHeader" @click="toogleStatkiTable">
           <ul>Statki</ul> 
           <span v-if="statkiTable===false" :class="iconUpArrow">expand_less</span>
@@ -48,11 +46,13 @@
             <div v-show="statkiTable === false" class="tableContainer">
               <table >
                 <tr class="statkiList"><td>Pozycja</td><td>Imię</td><td>Nazwisko</td><td>Punkty</td></tr>
-                <tr class="statkiList"
-                  v-for="( s, index ) in currentPage('statki')" :key="index">
-                  <td>{{ getStatki[s].rank }}</td><td>{{ getStatki[s].name }}</td><td>{{ getStatki[s].surname }}</td><td>{{ getStatki[s].points }}</td>    
-                </tr>
-                <tr :style="{height: dynamicHeightS + 'px'}"></tr>
+                <tbody>
+                  <tr class="statkiList"
+                    v-for="( s, index ) in currentPage('statki')" :key="index">
+                    <td>{{ getStatki[s].rank }}</td><td>{{ getStatki[s].name }}</td><td>{{ getStatki[s].surname }}</td><td>{{ getStatki[s].points }}</td>    
+                  </tr>
+                  <tr :style="{height: dynamicHeightS + 'px'}"></tr>
+                </tbody>
               </table>
               <div class="buttons" v-show="statkiTable===false">
                 <base-previous-button @click="previousPageS">Poprzednia</base-previous-button>
@@ -213,8 +213,16 @@ export default {
   flex-direction: column;    
   align-items: center;
   width: 100%;
+  /* overflow-y: scroll; */
 }
-
+/* .right-strap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 16px;
+  background-color: #ebeaea; /* Dostosuj kolor tła diva 
+} */
 hr {
   width: 100%;
   border: 1px solid var(--accent);
@@ -236,9 +244,8 @@ hr {
   margin: 40px 0px 0px 0px;
   border-radius: 8px 8px 0px 0px;
   font-weight: bold;
+  /* position: sticky; */
 }
-/*  */
-
 table{
     justify-content: center; 
     width: 800px;
@@ -295,6 +302,7 @@ td, th{
   flex-direction: row;
   width: 70px;
   justify-content: space-between;
+  margin-left: 40px;
 }
 .loadingSpinner{
   width:800px;
@@ -326,7 +334,6 @@ p{
     transform: scaleY(0);
     max-height: 0px;
 }
-
 .tableSlideOn
 {
     transform-origin: top;

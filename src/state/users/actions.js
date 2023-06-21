@@ -1,4 +1,4 @@
-import Router from '@/router';
+import Router from '@/router';Router
 import apiResponseErrors from '@/mixins/apiResponseErrors';
 
 function informUserAbouErrors(context, errors) {
@@ -164,4 +164,3 @@ export default {
     context.commit('changeEmail', email);
   }
 }
-export async function refreshToken(){}
