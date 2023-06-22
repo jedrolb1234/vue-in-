@@ -83,7 +83,6 @@ export default {
             clickedCell: null,
             clickedSecondCell: false,
             clickedMoveToCell : null
-            //isMoving : false
             }
         },
     methods:{
@@ -92,7 +91,6 @@ export default {
             },
 
         move(key){
-                console.log('wybieram pionka',key);
                 if(this.board[key] !== this.Empty){
                     if (this.counter % 2 === 0){
                         if(this.board[key]){// && this.turn){
@@ -102,7 +100,6 @@ export default {
                             this.lastClicked = key;
                             this.clickedCell = key;
                             this.clickedSecondCell = true;
-//////////////////
                         }
                     } else if(this.counter % 2 === 1 && this.lastClicked != key){
                         return;
@@ -110,25 +107,23 @@ export default {
                     else{
                     this.clicked=false;
                     this.counter = 0;
-                    // this.lastClicked = null;
                     this.clickedCell = null;        
                     this.clickedMoveToCell = null;    
                 }
             }   
-            console.log('lastClicked', this.lastClicked);
         },
         moveTo(emptyField){
             if(this.clicked){               
-                console.log('emptyField', emptyField, this.board[emptyField], this.Empty)
                 if(this.board[emptyField] === this.Empty)
                 {
-                    console.log('wszedlem', this.clicked);
                     //PIERWSZA ANIMACJA
                     // this.animateMove(this.selectedField, emptyField)
                     this.isMoving = true;
                     this.clickedMoveToCell = emptyField;
                     this.board[this.clickedMoveToCell] = this.board[this.clickedCell];
-                    this.board[this.clickedCell] = this.Empty;
+                    this.removePawn(this.clickedCell, emptyField, this.clickedCell);
+                    this.checkKing(this.clickedMoveToCell);
+                    this.board[this.clickedCell] = this.Empty;           
                     this.clicked = false;
                     this.clickedSecondCell = false;
                     //this.lastClicked = null;
@@ -151,7 +146,99 @@ export default {
                 }
             }
         },
+        
+        removePawn(from, to, clickedCell){
+            const cell = this.board[clickedCell]
+            let x = parseInt(from[0]);
+            let y = parseInt(from[1]);
 
+            let k = parseInt(to[0]);
+            let l = parseInt(to[1]);
+            let defeated = from;
+            let xTmp1, yTmp1;
+            if ((cell === this.whitePawn) || (cell === this.blackPawn)){
+                if((k - x < -1) && (l - y  < -1)){
+                    xTmp1 = k + 1;
+                    yTmp1 = l + 1; 
+                    defeated = xTmp1.toString() + yTmp1.toString();
+                    this.board[defeated] = this.Empty;
+                }else if((k - x > 1) && (l - y  < -1)){
+                    xTmp1 = k - 1;
+                    yTmp1 = l + 1; 
+                    defeated = xTmp1.toString() + yTmp1.toString();
+                    this.board[defeated] = this.Empty;
+                }else if((k - x < -1) && (l - y  > 1)){
+                    xTmp1 = k + 1;
+                    yTmp1 = l - 1; 
+                    defeated = xTmp1.toString() + yTmp1.toString();
+                    this.board[defeated] = this.Empty;
+                }else if((k - x > 1) && (l - y  > 1)){
+                    xTmp1 = k - 1;
+                    yTmp1 = l - 1; 
+                    defeated = xTmp1.toString() + yTmp1.toString();
+                    this.board[defeated] = this.Empty;
+                }
+            }else if ((cell === this.whiteKing) || (cell === this.blackKing)){
+                if((k - x < -1) && (l - y  < -1)){
+                    let m = 1;
+                    while(this.board[defeated] !== undefined ){                       
+                        xTmp1 = k + m;
+                        yTmp1 = l + m; 
+                        m++;
+                        defeated = xTmp1.toString() + yTmp1.toString();
+                        if (this.board[defeated] !== this.Empty){ 
+                            this.board[defeated]= this.Empty;
+                            break;
+                        
+                        }
+                    }
+                }else if((k - x > 1) && (l - y  < -1)){                       
+                    let m = 1;
+                    while(this.board[defeated] !== undefined ){
+                        xTmp1 = k - m ;
+                        yTmp1 = l + m;
+                        m++; 
+                        defeated = xTmp1.toString() + yTmp1.toString();
+                        if (this.board[defeated] !== this.Empty) {
+                            this.board[defeated]= this.Empty;
+                            break;
+                        }
+                    }   
+                }else if((k - x < -1) && (l - y  > 1)){
+                    let m = 1;
+                    while(this.board[defeated] !== undefined ){
+                        xTmp1 = k + m;
+                        yTmp1 = l - m;
+                        m++; 
+                        defeated = xTmp1.toString() + yTmp1.toString();
+                        if (this.board[defeated] !== this.Empty){
+                            this.board[defeated]= this.Empty;
+                            break;
+                        }
+                    }   
+                }else if((k - x > 1) && (l - y  > 1)){
+                    let m = 1;
+                    while(this.board[defeated] !== undefined ){
+                        xTmp1 = k - m;
+                        yTmp1 = l - m;
+                        m++; 
+                        defeated = xTmp1.toString() + yTmp1.toString();
+                        if (this.board[defeated] !== this.Empty) {
+                            this.board[defeated]= this.Empty;
+                            break;
+                        }
+                    }   
+                }
+            }
+        },
+        checkKing(newField){
+            if (((newField === '01' || newField === '03' || newField === '05' || newField === '07')) && 
+            (this.board[newField] === this.whitePawn)){
+                this.board[newField] = this.whiteKing;
+            }else if(((newField === '70' || newField === '72' || newField === '74' || newField === '76')) && (this.board[newField] === this.blackPawn)){
+            this.board[newField] = this.blackKing;
+            }
+        },
         // animationReset(){
         //     this.$set(this.board[this.clickedCell], 'class', 'Black');
         //     this.$set(this.board[this.clickedSecondCell], 'class', 'Black');
@@ -201,17 +288,14 @@ export default {
                 xTmp1 = x-1; 
                 yTmp1 = y+1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();          
-                console.log('newField and tmpPosition and clickedSecondCell', newField, tmpPosition1, this.clickedSecondCell)
                 if((newField.toString() === tmpPosition1) && 
                     (this.board[tmpPosition1] === this.Empty) && 
                     ((this.board[pawn] === this.whitePawn)))
                 {
                         ifMoveIsPossible = true;
-                        console.log(ifMoveIsPossible);
                 }       
                 xTmp1 = x-1; 
                 yTmp1 = y-1;
-                ////////////////////////////
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
                 if((newField === tmpPosition1) && 
                     (this.board[tmpPosition1] === this.Empty) && 
@@ -221,46 +305,68 @@ export default {
                 }
             
             }else if (this.turn && (this.board[pawn] == this.whiteKing))
-            { 
+            {   let defeated = 0;
                 xTmp1 = x-1; 
                 yTmp1 = y+1;
                 while((xTmp1 >= 0) && (yTmp1 <= 7 )){
                     tmpPosition1 = xTmp1.toString() + yTmp1.toString();          
-                    if((newField.toString() === tmpPosition1) && 
-                        (this.board[tmpPosition1] === this.Empty) && 
-                        (this.board[pawn] === this.whiteKing))
-                    {
-                            ifMoveIsPossible = true;
-                            console.log(ifMoveIsPossible);
-                    }     
                     xTmp1--;
                     yTmp1++;  
+                    if ((newField === tmpPosition1) &&
+                        this.board[tmpPosition1] === this.Empty){
+                            if(defeated !==2 ){
+                                ifMoveIsPossible = true;
+                                break;
+                            }
+                        } 
+                    else if((this.board[tmpPosition1] === this.blackPawn ||
+                        this.board[tmpPosition1] === this.blackKing))
+                    {   defeated++;
+                        if (defeated === 2){ 
+                            break; 
+                        }
+                    }
                 }
                 xTmp1 = x-1; 
                 yTmp1 = y-1;
                 while((xTmp1 >= 0) && (yTmp1 >= 0)){
-                    ////////////////////////////
                     tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-                    if((newField === tmpPosition1) && 
-                        (this.board[tmpPosition1] === this.Empty) && 
-                        (this.board[pawn] === this.whiteKing))
-                    {
-                        ifMoveIsPossible = true;
-                    }
                     xTmp1--;
                     yTmp1--;
+                    if ((newField === tmpPosition1) &&
+                        this.board[tmpPosition1] === this.Empty){
+                            if(defeated !==2 ){
+                                ifMoveIsPossible = true;
+                                break;
+                            }
+                        } 
+                    else if((this.board[tmpPosition1] === this.blackPawn ||
+                        this.board[tmpPosition1] === this.blackKing))
+                    {   defeated++;
+                        if (defeated === 2){ 
+                            break; 
+                        }
+                    }
                 }
                 xTmp1 = x+1; 
                 yTmp1 = y-1;
                     
                 while ((xTmp1 <= 7) && (yTmp1 >=0)){
                     tmpPosition1 = xTmp1.toString() + yTmp1.toString();           
-                    if ((newField === tmpPosition1) && 
-                        (this.board[tmpPosition1] === this.Empty) && 
-                        (this.board[pawn] === this.whiteKing))
-                    {
-                    ifMoveIsPossible = true;
-                    }     
+                     if ((newField === tmpPosition1) &&
+                        this.board[tmpPosition1] === this.Empty){
+                            if(defeated !==2 ){
+                                ifMoveIsPossible = true;
+                                break;
+                            }
+                        } 
+                    else if((this.board[tmpPosition1] === this.blackPawn ||
+                        this.board[tmpPosition1] === this.blackKing))
+                    {   defeated++;
+                        if (defeated === 2){ 
+                            break; 
+                        }
+                    }
                     xTmp1++;
                     yTmp1--;  
                 }
@@ -269,11 +375,19 @@ export default {
                 yTmp1 = y+1;
                 while((xTmp1 <= 7) && (yTmp1 <= 7)){
                     tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-                    if((newField === tmpPosition1) && 
-                        (this.board[tmpPosition1] === this.Empty) && 
-                        (this.board[pawn] === this.whiteKing))
-                    {
-                        ifMoveIsPossible = true;
+                    if ((newField === tmpPosition1) &&
+                        this.board[tmpPosition1] === this.Empty){
+                            if(defeated !==2 ){
+                                ifMoveIsPossible = true;
+                                break;
+                            }
+                        } 
+                    else if((this.board[tmpPosition1] === this.blackPawn ||
+                        this.board[tmpPosition1] === this.blackKing))
+                    {   defeated++;
+                        if (defeated === 2){ 
+                            break; 
+                        }
                     }
                     xTmp1++;
                     yTmp1++;
@@ -284,8 +398,6 @@ export default {
                 xTmp1 = x+1; 
                 yTmp1 = y+1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();  
-                console.log('sprawdzam co jest na pozycji od czarnego pionka', tmpPosition1);
-                console.log('na tej pozycji jest: ',this.board[tmpPosition1]);
                 if((newField === tmpPosition1) && 
                     (this.board[tmpPosition1] === this.Empty) && 
                     (this.board[pawn] === this.blackPawn))
@@ -317,7 +429,6 @@ export default {
                         ((this.board[pawn] === this.blackKing)))
                     {
                             ifMoveIsPossible = true;
-                            console.log(ifMoveIsPossible);
                     }     
                     xTmp1--;
                     yTmp1++;  
@@ -325,7 +436,6 @@ export default {
                 xTmp1 = x-1; 
                 yTmp1 = y-1;
                 while((xTmp1 >= 0) && (yTmp1 >= 0)){
-                    ////////////////////////////
                     tmpPosition1 = xTmp1.toString() + yTmp1.toString();
                     if((newField === tmpPosition1) && 
                         (this.board[tmpPosition1] === this.Empty) && 
@@ -369,12 +479,12 @@ export default {
         },
 
         possibleActiveJump(newField){
-            let pawn = this.lastClicked;
+            let pawn = this.lastClicked;// czy to jest dobrze
             let ifMoveIsPossible = false;
             let x = parseInt(pawn[0]);
             let y = parseInt(pawn[1]);
-            let xTmp1, xTmp2, yTmp1, yTmp2, tmpPosition1,tmpPosition2;
-            if (this.turn && ((this.board[pawn] === this.whitePawn) || (this.board[pawn] === this.whiteKing)))
+            let xTmp1, xTmp2, yTmp1, yTmp2, tmpPosition1, tmpPosition2;
+            if (this.turn && ((this.board[pawn] === this.whitePawn)))
             {
                 xTmp1 = x+2; 
                 yTmp1 = y+2;
@@ -432,9 +542,110 @@ export default {
                     ifMoveIsPossible = true;
                 }
             }          
+            else if (this.turn && (this.board[pawn] === this.whiteKing)){
+                let m = 1;
+                let tmpPosition = pawn;
+                let defeated = 0;
+                while(this.board[tmpPosition] !== undefined){
+                    xTmp1 = x+m; 
+                    yTmp1 = y+m;
+                    tmpPosition = xTmp1.toString() + yTmp1.toString();
+                    m++;
+                    console.log(defeated, pawn, 'while+++++++++++++++++++++++++++++++')
+                    if ((newField === tmpPosition) &&
+                        this.board[tmpPosition] === this.Empty){
+                            console.log(defeated, 'ififififi+++++++++++++++++++++++++++++++')
+                            if(defeated !==2 ){
+                                ifMoveIsPossible = true;
+                                break;
+                            }
+                        } 
+                    else if((this.board[tmpPosition] === this.blackPawn ||
+                        this.board[tmpPosition] === this.blackKing))
+                    {   defeated++;
+                        console.log(defeated, pawn,  'iiiiiiiiiiiiiiiiiii+++++++++++++++++++++++++++++++')
+                        if (defeated === 2){ 
+                            break; 
+                        }
+                    }
+                }
+                m = 1;
+                defeated = 0;
+                while(this.board[tmpPosition] !== undefined){
+                    xTmp1 = x-m; 
+                    yTmp1 = y+m;
+                    tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+                    m++;
+                    if ((newField === tmpPosition) &&
+                        this.board[tmpPosition] === this.Empty){
+                            if(defeated !==2 ){
+                                console.log(defeated,  pawn, 'iiiiiiiiiiiiiii+++++++++++++++++++++++++++++++')
+                                ifMoveIsPossible = true;
+                                break;
+                            }
+                        } 
+                    else if((this.board[tmpPosition] === this.blackPawn ||
+                        this.board[tmpPosition] === this.blackKing))
+                    {   defeated++;
+                        console.log(defeated, pawn,  '+++++++++++++++++++++++++++++++')
+                        if (defeated === 2){ 
+                            break; 
+                        }
+                    }
+                }
             
+                m = 1;
+                defeated = 0;
+                while(this.board[tmpPosition] !== undefined){
+                    xTmp1 = x+m; 
+                    yTmp1 = y-m;
+                    tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+                    m++;
+                    if ((newField === tmpPosition) &&
+                            this.board[tmpPosition] === this.Empty){
+                                if(defeated !==2 ){
+                                    console.log(defeated,  pawn, 'iiiiiiiii+++++++++++++++++++++++++++++++')
+                                    ifMoveIsPossible = true;
+                                    break;
+                                }
+                            } 
+                        else if((this.board[tmpPosition] === this.blackPawn ||
+                            this.board[tmpPosition] === this.blackKing))
+                        {   defeated++;
+                            console.log(defeated, pawn,  'iiiiiiiii+++++++++++++++++++++++++++++++')
+                                if (defeated === 2){ 
+                                break; 
+                            }
+                        }
+                    }
+                m = 1;
+                defeated = 0;
+                while(this.board[tmpPosition] !== undefined){
+                    xTmp1 = x-m; 
+                    yTmp1 = y-m;
+                    tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+                    m++;
+                    if ((newField === tmpPosition) &&
+                        this.board[tmpPosition] === this.Empty){
+                        if(defeated  !== 2 ){
+                            console.log(defeated,  pawn, 'iiiiiiiiiiiiiii+++++++++++++++++++++++++++++++')
+                            ifMoveIsPossible = true;
+                            break;
+                        }
+                    } 
+                    else if((this.board[tmpPosition] === this.blackPawn ||
+                        this.board[tmpPosition] === this.blackKing))
+                    {   defeated++;
+                        console.log(defeated,  pawn, 'iiiiiiiiiii+++++++++++++++++++++++++++++++')
+                        if (defeated === 2){ 
+                            break; 
+                        }
+                    }
+                }
+                
+            }
             //black turn
-            else if (!this.turn && ((this.board[pawn] === this.blackPawn) || (this.board[pawn] == this.blackKing)))
+            else if (!this.turn && (this.board[pawn] === this.blackPawn))
             {
                 xTmp1 = x+2; 
                 yTmp1 = y+2;
@@ -488,16 +699,96 @@ export default {
                 {
                     ifMoveIsPossible = true;
                 }                        
-            }
+            }else if(!this.turn && (this.board[pawn] === this.blackKing)){
+                const x = parseInt(pawn[0]);
+                const y = parseInt(pawn[1]);
+                let tmpPosition = pawn;
+                let m = 1;
+                let defeated = 0;
+                    while(this.board[tmpPosition] !== undefined){
+                        xTmp1 = x+m; 
+                        yTmp1 = y+m;
+                        tmpPosition = xTmp1.toString() + yTmp1.toString();
+                        m++;
+                        if ((newField === tmpPosition) &&
+                            this.board[tmpPosition] === this.Empty){
+                                ifMoveIsPossible = true;
+                            } 
+                        else if((newField === tmpPosition) &&
+                            (this.board[tmpPosition] === this.whitePawn ||
+                            this.board[tmpPosition] === this.whiteKing))
+                        {   defeated++
+                            
+                            if (defeated === 1 ){ break; }
+                        }
+                    }
+
+                m = 1;
+                defeated = 0;
+                    while(this.board[tmpPosition] !== undefined){
+                        xTmp1 = x-m; 
+                        yTmp1 = y+m;
+                        tmpPosition = xTmp1.toString() + yTmp1.toString();
+                        m++;
+                        if ((newField === tmpPosition) &&
+                            this.board[tmpPosition] === this.Empty){
+                                ifMoveIsPossible = true;
+                            } 
+                        else if((newField === tmpPosition) &&
+                            (this.board[tmpPosition] === this.whitePawn ||
+                            this.board[tmpPosition] === this.whiteKing))
+                        {   defeated++
+                            
+                            if (defeated === 1 ){ break; }
+                        }
+                    }
+                m = 1;
+                defeated = 0;
+                    while(this.board[tmpPosition] !== undefined){
+                        xTmp1 = x+m; 
+                        yTmp1 = y-m;
+                        tmpPosition = xTmp1.toString() + yTmp1.toString();
+                        m++;
+                        if ((newField === tmpPosition) &&
+                            this.board[tmpPosition] === this.Empty){
+                                ifMoveIsPossible = true;
+                            } 
+                        else if((newField === tmpPosition) &&
+                            (this.board[tmpPosition] === this.whitePawn ||
+                            this.board[tmpPosition] === this.whiteKing))
+                        {   defeated++
+                            
+                            if (defeated === 1 ){ break; }
+                        }
+                    }
+                m = 1;
+                defeated = 0;
+                    while(this.board[tmpPosition] !== undefined){
+                        xTmp1 = x+m; 
+                        yTmp1 = y+m;
+                        tmpPosition = xTmp1.toString() + yTmp1.toString();
+                        m++;
+                        if ((newField === tmpPosition) &&
+                            this.board[tmpPosition] === this.Empty){
+                                ifMoveIsPossible = true;
+                            } 
+                        else if((newField === tmpPosition) &&
+                            (this.board[tmpPosition] === this.whitePawn ||
+                            this.board[tmpPosition] === this.whiteKing))
+                        {   defeated++
+                            
+                            if (defeated === 1 ){ break; }
+                        }
+                    }
+                }
+            
             console.log('Jump result:', ifMoveIsPossible);
-        return ifMoveIsPossible;
+            return ifMoveIsPossible;
         },
 
         isMovable(pawn){
-            console.log('sprawdzam pionki',pawn)
             let x = parseInt(pawn[0]);
             let y = parseInt(pawn[1]);
-            console.log('x i y', x , y)
             let pos1 = this.PossibleJump(x,y, pawn);
             let pos2 = this.PossibleMove(x,y, pawn);
         return pos1 || pos2;  
@@ -569,11 +860,12 @@ export default {
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
                 xTmp2 = x+1;
                 yTmp2 = y+1;
-                tmpPosition2 = yTmp2.toString() + xTmp2.toString();   
+                tmpPosition2 = xTmp2.toString() + yTmp2.toString();   
                 if (this.board[tmpPosition1] === this.Empty &&
                     (this.board[tmpPosition2] === this.whitePawn ||
                     this.board[tmpPosition2] === this.whiteKing))
                 {
+                    console.log('ifMoveIsPossible','jump', ifMoveIsPossible)
                     ifMoveIsPossible = true;
                 }
                 xTmp1 = x-2; 
@@ -613,7 +905,7 @@ export default {
                     ifMoveIsPossible = true;
                 }                        
             }
-            console.log('Jump result:', ifMoveIsPossible);
+            console.log('Jump result:', pawn, ifMoveIsPossible);
         return ifMoveIsPossible;
         },
         PossibleMove(x,y, pawn){
@@ -626,17 +918,16 @@ export default {
                 xTmp1 = x-1; 
                 yTmp1 = y+1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();          
-                console.log('sprawdzam pole od białego pionka', tmpPosition1)
-                if((this.board[tmpPosition1] === this.Empty) && ((this.board[pawn] === this.whitePawn) || (this.board[pawn] === this.whiteKing)))
+                if((this.board[tmpPosition1] === this.Empty) && ((this.board[pawn] === this.whitePawn) || 
+                (this.board[pawn] === this.whiteKing)))
                 {
                 ifMoveIsPossible = true;
-                console.log(ifMoveIsPossible);
                 }       
                 xTmp1 = x-1; 
                 yTmp1 = y-1;
-                ////////////////////////////
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-                if((this.board[tmpPosition1] === this.Empty) && ((this.board[pawn] === this.whitePawn) || (this.board[pawn] === this.whiteKing)))
+                if((this.board[tmpPosition1] === this.Empty) && ((this.board[pawn] === this.whitePawn) || 
+                (this.board[pawn] === this.whiteKing)))
                 {
                     ifMoveIsPossible = true;
                 }
@@ -660,9 +951,8 @@ export default {
                 xTmp1 = x+1; 
                 yTmp1 = y+1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();  
-                console.log('sprawdzam co jest na pozycji od czarnego pionka', tmpPosition1);
-                console.log('na tej pozycji jest: ',this.board[tmpPosition1]);
-                if((this.board[tmpPosition1] === this.Empty) && (this.board[pawn] === (this.blackKing) || (this.board[pawn] === this.blackPawn)))
+                if((this.board[tmpPosition1] === this.Empty) && 
+                (this.board[pawn] === (this.blackKing) || (this.board[pawn] === this.blackPawn)))
                 {
                     ifMoveIsPossible = true;
                 
@@ -670,7 +960,8 @@ export default {
                 xTmp1 = x+1; 
                 yTmp1 = y-1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-                if((this.board[tmpPosition1] === this.Empty) && (this.board[pawn] === (this.blackKing) || (this.board[pawn] === this.blackPawn)))
+                if((this.board[tmpPosition1] === this.Empty) && 
+                (this.board[pawn] === (this.blackKing) || (this.board[pawn] === this.blackPawn)))
                 {
                     ifMoveIsPossible = true;
                 }
@@ -690,7 +981,7 @@ export default {
                     ifMoveIsPossible = true;
                 }
             }
-            console.log(ifMoveIsPossible)
+            console.log('move result', pawn, ifMoveIsPossible)
             return ifMoveIsPossible;
         }
     }
