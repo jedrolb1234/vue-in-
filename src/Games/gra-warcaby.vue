@@ -1,55 +1,10 @@
 <template>
     <div class="board-container">
         <table class="board-table">
-        <tr>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('01')" :class="{'clicked': clickedCell === '01', 'Black': clickedCell !== '01'}" @click="move('01')"><p v-bind:class="getClass('01')"></p></td><td v-else-if="clickedSecondCell && active('01')" class="Black" @click="moveTo('01')"><p v-bind:class="getClass('01')"></p></td><td v-else class="Black"><p v-bind:class="getClass('01')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('03')" :class="{'clicked': clickedCell === '03', 'Black': clickedCell !== '03'}" @click="move('03')"><p v-bind:class="getClass('03')"></p></td><td v-else-if="clickedSecondCell && active('03')" class="Black" @click="moveTo('03')"><p v-bind:class="getClass('03')"></p></td><td v-else class="Black"><p v-bind:class="getClass('03')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('05')" :class="{'clicked': clickedCell === '05', 'Black': clickedCell !== '05'}" @click="move('05')"><p v-bind:class="getClass('05')"></p></td><td v-else-if="clickedSecondCell && active('05')" class="Black" @click="moveTo('05')"><p v-bind:class="getClass('05')"></p></td><td v-else class="Black"><p v-bind:class="getClass('05')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('07')" :class="{'clicked': clickedCell === '07', 'Black': clickedCell !== '07'}" @click="move('07')"><p v-bind:class="getClass('07')"></p></td><td v-else-if="clickedSecondCell && active('07')" class="Black" @click="moveTo('07')"><p v-bind:class="getClass('07')"></p></td><td v-else class="Black"><p v-bind:class="getClass('07')"></p></td>
-        </tr>
-        <tr>
-            <td v-if="isMovable('10')" :class="{'clicked': clickedCell === '10', 'Black': clickedCell !== '10'}" @click="move('10')"><p v-bind:class="getClass('10')"></p></td><td v-else-if="clickedSecondCell && active('10')" class="Black" @click="moveTo('10')"><p v-bind:class="getClass('10')"></p></td><td v-else class="Black"><p v-bind:class="getClass('10')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('12')" :class="{'clicked': clickedCell === '12', 'Black': clickedCell !== '12'}" @click="move('12')"><p v-bind:class="getClass('12')"></p></td><td v-else-if="clickedSecondCell && active('12')" class="Black" @click="moveTo('12')"><p v-bind:class="getClass('12')"></p></td><td v-else class="Black"><p v-bind:class="getClass('12')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('14')" :class="{'clicked': clickedCell === '14', 'Black': clickedCell !== '14'}" @click="move('14')"><p v-bind:class="getClass('14')"></p></td><td v-else-if="clickedSecondCell && active('14')" class="Black" @click="moveTo('14')"><p v-bind:class="getClass('14')"></p></td><td v-else class="Black"><p v-bind:class="getClass('14')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('16')" :class="{'clicked': clickedCell === '16', 'Black': clickedCell !== '16'}" @click="move('16')"><p v-bind:class="getClass('16')"></p></td><td v-else-if="clickedSecondCell && active('16')" class="Black" @click="moveTo('16')"><p v-bind:class="getClass('16')"></p></td><td v-else class="Black"><p v-bind:class="getClass('16')"></p></td><td class="WhiteEmpty"></td>
-        </tr>
-        <tr>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('21')" :class="{'clicked': clickedCell === '21', 'Black': clickedCell !== '21'}" @click="move('21')"><p v-bind:class="getClass('21')"></p></td><td v-else-if="clickedSecondCell && active('21')" class="Black" @click="moveTo('21')"><p v-bind:class="getClass('21')"></p></td><td v-else class="Black"><p v-bind:class="getClass('21')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('23')" :class="{'clicked': clickedCell === '23', 'Black': clickedCell !== '23'}" @click="move('23')"><p v-bind:class="getClass('23')"></p></td><td v-else-if="clickedSecondCell && active('23')" class="Black" @click="moveTo('23')"><p v-bind:class="getClass('23')"></p></td><td v-else class="Black"><p v-bind:class="getClass('23')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('25')" :class="{'clicked': clickedCell === '25', 'Black': clickedCell !== '25'}" @click="move('25')"><p v-bind:class="getClass('25')"></p></td><td v-else-if="clickedSecondCell && active('25')" class="Black" @click="moveTo('25')"><p v-bind:class="getClass('25')"></p></td><td v-else class="Black"><p v-bind:class="getClass('25')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('27')" :class="{'clicked': clickedCell === '27', 'Black': clickedCell !== '27'}" @click="move('27')"><p v-bind:class="getClass('27')"></p></td><td v-else-if="clickedSecondCell && active('27')" class="Black" @click="moveTo('27')"><p v-bind:class="getClass('27')"></p></td><td v-else class="Black"><p v-bind:class="getClass('27')"></p></td>
-        </tr>
-<tr>
-            <td v-if="isMovable('30')" :class="{'clicked': clickedCell === '30', 'Black': clickedCell !== '30'}" @click="move('30')"><p v-bind:class="getClass('30')"></p></td><td v-else-if="clickedSecondCell && active('30')" class="Black" @click="moveTo('30')"><p v-bind:class="getClass('30')"></p></td><td v-else class="Black"><p v-bind:class="getClass('30')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('32')" :class="{'clicked': clickedCell === '32', 'Black': clickedCell !== '32'}" @click="move('32')"><p v-bind:class="getClass('32')"></p></td><td v-else-if="clickedSecondCell && active('32')" class="Black" @click="moveTo('32')"><p v-bind:class="getClass('32')"></p></td><td v-else class="Black"><p v-bind:class="getClass('32')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('34')" :class="{'clicked': clickedCell === '34', 'Black': clickedCell !== '34'}" @click="move('34')"><p v-bind:class="getClass('34')"></p></td><td v-else-if="clickedSecondCell && active('34')" class="Black" @click="moveTo('34')"><p v-bind:class="getClass('34')"></p></td><td v-else class="Black"><p v-bind:class="getClass('34')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('36')" :class="{'clicked': clickedCell === '36', 'Black': clickedCell !== '36'}" @click="move('36')"><p v-bind:class="getClass('36')"></p></td><td v-else-if="clickedSecondCell && active('36')" class="Black" @click="moveTo('36')"><p v-bind:class="getClass('36')"></p></td><td v-else class="Black"><p v-bind:class="getClass('36')"></p></td><td class="WhiteEmpty"></td>
-        </tr>
-<tr>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('41')" :class="{'clicked': clickedCell === '41', 'Black': clickedCell !== '41'}" @click="move('41')"><p v-bind:class="getClass('41')"></p></td><td v-else-if="clickedSecondCell && active('41')" class="Black" @click="moveTo('41')"><p v-bind:class="getClass('41')"></p></td><td v-else class="Black"><p v-bind:class="getClass('41')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('43')" :class="{'clicked': clickedCell === '43', 'Black': clickedCell !== '43'}" @click="move('43')"><p v-bind:class="getClass('43')"></p></td><td v-else-if="clickedSecondCell && active('43')" class="Black" @click="moveTo('43')"><p v-bind:class="getClass('43')"></p></td><td v-else class="Black"><p v-bind:class="getClass('43')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('45')" :class="{'clicked': clickedCell === '45', 'Black': clickedCell !== '45'}" @click="move('45')"><p v-bind:class="getClass('45')"></p></td><td v-else-if="clickedSecondCell && active('45')" class="Black" @click="moveTo('45')"><p v-bind:class="getClass('45')"></p></td><td v-else class="Black"><p v-bind:class="getClass('45')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('47')" :class="{'clicked': clickedCell === '47', 'Black': clickedCell !== '47'}" @click="move('47')"><p v-bind:class="getClass('47')"></p></td><td v-else-if="clickedSecondCell && active('47')" class="Black" @click="moveTo('47')"><p v-bind:class="getClass('47')"></p></td><td v-else class="Black"><p v-bind:class="getClass('47')"></p></td>
-        </tr>
-        <tr>
-            <td v-if="isMovable('50')" :class="{'clicked': clickedCell === '50', 'Black': clickedCell !== '50'/*, 'move-animation': board['01'].class === 'Black move-animation'*/}" @click="move('50')"><p v-bind:class="getClass('50')"></p></td><td v-else-if="clickedSecondCell && active('50')" class="Black" @click="moveTo('50')"><p v-bind:class="getClass('50')"></p></td><td v-else class="Black"><p v-bind:class="getClass('50')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('52')" :class="{'clicked': clickedCell === '52', 'Black': clickedCell !== '52'}" @click="move('52')"><p v-bind:class="getClass('52')"></p></td><td v-else-if="clickedSecondCell && active('52')" class="Black" @click="moveTo('52')"><p v-bind:class="getClass('52')"></p></td><td v-else class="Black"><p v-bind:class="getClass('52')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('54')" :class="{'clicked': clickedCell === '54', 'Black': clickedCell !== '54'}" @click="move('54')"><p v-bind:class="getClass('54')"></p></td><td v-else-if="clickedSecondCell && active('54')" class="Black" @click="moveTo('54')"><p v-bind:class="getClass('54')"></p></td><td v-else class="Black"><p v-bind:class="getClass('54')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('56')" :class="{'clicked': clickedCell === '56', 'Black': clickedCell !== '56'}" @click="move('56')"><p v-bind:class="getClass('56')"></p></td><td v-else-if="clickedSecondCell && active('56')" class="Black" @click="moveTo('56')"><p v-bind:class="getClass('56')"></p></td><td v-else class="Black"><p v-bind:class="getClass('56')"></p></td><td class="WhiteEmpty"></td>
-
-        </tr>
-        <tr>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('61')" :class="{'clicked': clickedCell === '61', 'Black': clickedCell !== '61'}" @click="move('61')"><p v-bind:class="getClass('61')"></p></td><td v-else-if="clickedSecondCell && active('61')" class="Black" @click="moveTo('61')"><p v-bind:class="getClass('61')"></p></td><td v-else class="Black"><p v-bind:class="getClass('61')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('63')" :class="{'clicked': clickedCell === '63', 'Black': clickedCell !== '63'}" @click="move('63')"><p v-bind:class="getClass('63')"></p></td><td v-else-if="clickedSecondCell && active('63')" class="Black" @click="moveTo('63')"><p v-bind:class="getClass('63')"></p></td><td v-else class="Black"><p v-bind:class="getClass('63')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('65')" :class="{'clicked': clickedCell === '65', 'Black': clickedCell !== '65'}" @click="move('65')"><p v-bind:class="getClass('65')"></p></td><td v-else-if="clickedSecondCell && active('65')" class="Black" @click="moveTo('65')"><p v-bind:class="getClass('65')"></p></td><td v-else class="Black"><p v-bind:class="getClass('65')"></p></td>
-            <td class="WhiteEmpty"></td><td v-if="isMovable('67')" :class="{'clicked': clickedCell === '67', 'Black': clickedCell !== '67'}" @click="move('67')"><p v-bind:class="getClass('67')"></p></td><td v-else-if="clickedSecondCell && active('67')" class="Black" @click="moveTo('67')"><p v-bind:class="getClass('67')"></p></td><td v-else class="Black"><p v-bind:class="getClass('67')"></p></td>
-        </tr>
-        <tr>
-            <td v-if="isMovable('70')" :class="{'clicked': clickedCell === '70', 'Black': clickedCell !== '70'}" @click="move('70')"><p v-bind:class="getClass('70')"></p></td><td v-else-if="clickedSecondCell && active('70')" class="Black" @click="moveTo('70')"><p v-bind:class="getClass('70')"></p></td><td v-else class="Black"><p v-bind:class="getClass('70')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('72')" :class="{'clicked': clickedCell === '72', 'Black': clickedCell !== '72'}" @click="move('72')"><p v-bind:class="getClass('72')"></p></td><td v-else-if="clickedSecondCell && active('72')" class="Black" @click="moveTo('72')"><p v-bind:class="getClass('72')"></p></td><td v-else class="Black"><p v-bind:class="getClass('72')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('74')" :class="{'clicked': clickedCell === '74', 'Black': clickedCell !== '74'}" @click="move('74')"><p v-bind:class="getClass('74')"></p></td><td v-else-if="clickedSecondCell && active('74')" class="Black" @click="moveTo('74')"><p v-bind:class="getClass('74')"></p></td><td v-else class="Black"><p v-bind:class="getClass('74')"></p></td><td class="WhiteEmpty"></td>
-            <td v-if="isMovable('76')" :class="{'clicked': clickedCell === '76', 'Black': clickedCell !== '76'}" @click="move('76')"><p v-bind:class="getClass('76')"></p></td><td v-else-if="clickedSecondCell && active('76')" class="Black" @click="moveTo('76')"><p v-bind:class="getClass('76')"></p></td><td v-else class="Black"><p v-bind:class="getClass('76')"></p></td><td class="WhiteEmpty"></td>
-        </tr>
+            <tr v-for="(t,key) in vLoop" :key='key'>
+                    <td v-for="(p, idx) in t"  :key="idx"
+                         :class="getClass(p)" @click="chooseMethod(p)"><p :class="getPawnClass(p)"></p></td>
+                </tr>
     </table>
 
 </div>
@@ -60,6 +15,16 @@
 export default {
     data(){
         return{
+            vLoop:{
+                '0': ['w','01','w','03','w','05','w','07'],
+                '1': ['10','w','12','w','14','w','16','w'],
+                '2': ['w','21','w','23','w','25','w','27'],
+                '3': ['30','w','32','w','34','w','36','w'],
+                '4': ['w','41','w','43','w','45','w','47'],
+                '5': ['50','w','52','w','54','w','56','w'],
+                '6': ['w','61','w','63','w','65','w','67'],
+                '7': ['70','w','72','w','74','w','76','w']
+            },
             board : {'01': 'black-pawn', '03':'black-pawn', '05':'black-pawn', '07':'black-pawn',
                         '10':'black-pawn', '12':'black-pawn', '14':'black-pawn', '16':'black-pawn',
                         '21':'black-pawn', '23':'black-pawn', '25':'black-pawn', '27':'black-pawn',
@@ -74,6 +39,10 @@ export default {
             blackKing: 'black-king',
             whitePawn: 'white-pawn',
             whiteKing: 'white-king',
+            clickedClass: 'clicked',
+            blackClass: 'Black',
+            whiteEmpty: 'WhiteEmpty',
+            w: 'w',
             selectedField: '',
             Empty: 'empty',
             turn: true,
@@ -87,9 +56,36 @@ export default {
         },
     methods:{
         getClass(field){
-            return this.board[field];
-            },
+            console.log(field)
+            if((this.clickedCell === field) && this.isMovable(field)){
+                return this.clickedClass;
+            }            
+            else if (this.board[field] === this.Empty){
+                return this.blackClass;
+            }else if (field === this.w){
+                return this.whiteEmpty
+            }
+            else {
+                return this.blackClass;
+            }
 
+  
+
+        },
+        getPawnClass(field){
+            if(field === this.w){
+                return this.w
+            }
+            return this.board[field];
+        },   
+        chooseMethod(field){
+            if(this.isMovable(field)){
+                return this.move(field);
+            } else if(this.clickedSecondCell && this.active(field)){
+                return this.moveTo(field);
+            }
+            return
+        },
         move(key){
                 if(this.board[key] !== this.Empty){
                     if (this.counter % 2 === 0){
@@ -116,8 +112,6 @@ export default {
             if(this.clicked){               
                 if(this.board[emptyField] === this.Empty)
                 {
-                    //PIERWSZA ANIMACJA
-                    // this.animateMove(this.selectedField, emptyField)
                     this.isMoving = true;
                     this.clickedMoveToCell = emptyField;
                     this.board[this.clickedMoveToCell] = this.board[this.clickedCell];
@@ -129,20 +123,6 @@ export default {
                     //this.lastClicked = null;
                     this.turn = !this.turn;
                     this.counter = 0;
-                    ////////DRUGA ANIMACJA
-                    // this.$set(this.board[this.clickedCell], 'class', 'Black');
- 
-                    // this.clickedSecondCell = emptyField;
-                    // // Dodaj klasę animacji do pierwszego klikniętego pola
-                    // this.$set(this.board[this.clickedCell], 'class', 'Black move-animation');
-                    // // Zaktualizuj planszę
-                    // this.$set(this.board, this.clickedCell, this.board[this.clickedCell]);
-                    // // Opóźnij ruch o 500ms, aby umożliwić animację
-                    // setTimeout(() => {
-                    //     this.animationReset(emptyField);
-                    // }, 500);
-
-
                 }
             }
         },
@@ -239,36 +219,6 @@ export default {
             this.board[newField] = this.blackKing;
             }
         },
-        // animationReset(){
-        //     this.$set(this.board[this.clickedCell], 'class', 'Black');
-        //     this.$set(this.board[this.clickedSecondCell], 'class', 'Black');
-        //     // Zaktualizuj planszę
-        //     this.$set(this.board, this.clickedCell, this.board[this.clickedCell]);
-        //     this.$set(this.board, this.clickedSecondCell, this.board[this.clickedSecondCell]);
-        //     // Zresetuj zmienne
-        //     this.clickedCell = null;
-        //     this.clickedSecondCell = null;
-
-        // }
-        // animateMove(fromCell, toCell) {
-        //     // animacja ruchu pionka przy użyciu CSS transitions
-        //     const pionek = document.querySelector(".animate");
-        //     const fromRect = this.board[fromCell].getBoundingClientRect();
-        //     // toCell = parseInt(toCell);
-        //     const toRect = this.board[toCell].getBoundingClientRect();
-
-        //     const dx = toRect.left - fromRect.left;
-        //     const dy = toRect.top - fromRect.top;
-
-        //     pionek.style.transition = "transform 0.3s";
-        //     pionek.style.transform = `translate(${dx}px, ${dy}px)`;
-
-        //     setTimeout(() => {
-        //         pionek.style.transition = "";
-        //         pionek.style.transform = "";
-        //     }, 300);
-        //     },
-                
         active(newField){
             let pos1 = this.possibleActiveJump(newField);
             let pos2 = this.possibleActiveMove(newField);
@@ -551,10 +501,8 @@ export default {
                     yTmp1 = y+m;
                     tmpPosition = xTmp1.toString() + yTmp1.toString();
                     m++;
-                    console.log(defeated, pawn, 'while+++++++++++++++++++++++++++++++')
                     if ((newField === tmpPosition) &&
                         this.board[tmpPosition] === this.Empty){
-                            console.log(defeated, 'ififififi+++++++++++++++++++++++++++++++')
                             if(defeated !==2 ){
                                 ifMoveIsPossible = true;
                                 break;
@@ -563,7 +511,6 @@ export default {
                     else if((this.board[tmpPosition] === this.blackPawn ||
                         this.board[tmpPosition] === this.blackKing))
                     {   defeated++;
-                        console.log(defeated, pawn,  'iiiiiiiiiiiiiiiiiii+++++++++++++++++++++++++++++++')
                         if (defeated === 2){ 
                             break; 
                         }
@@ -579,7 +526,6 @@ export default {
                     if ((newField === tmpPosition) &&
                         this.board[tmpPosition] === this.Empty){
                             if(defeated !==2 ){
-                                console.log(defeated,  pawn, 'iiiiiiiiiiiiiii+++++++++++++++++++++++++++++++')
                                 ifMoveIsPossible = true;
                                 break;
                             }
@@ -587,7 +533,6 @@ export default {
                     else if((this.board[tmpPosition] === this.blackPawn ||
                         this.board[tmpPosition] === this.blackKing))
                     {   defeated++;
-                        console.log(defeated, pawn,  '+++++++++++++++++++++++++++++++')
                         if (defeated === 2){ 
                             break; 
                         }
@@ -604,7 +549,6 @@ export default {
                     if ((newField === tmpPosition) &&
                             this.board[tmpPosition] === this.Empty){
                                 if(defeated !==2 ){
-                                    console.log(defeated,  pawn, 'iiiiiiiii+++++++++++++++++++++++++++++++')
                                     ifMoveIsPossible = true;
                                     break;
                                 }
@@ -612,7 +556,6 @@ export default {
                         else if((this.board[tmpPosition] === this.blackPawn ||
                             this.board[tmpPosition] === this.blackKing))
                         {   defeated++;
-                            console.log(defeated, pawn,  'iiiiiiiii+++++++++++++++++++++++++++++++')
                                 if (defeated === 2){ 
                                 break; 
                             }
@@ -628,7 +571,6 @@ export default {
                     if ((newField === tmpPosition) &&
                         this.board[tmpPosition] === this.Empty){
                         if(defeated  !== 2 ){
-                            console.log(defeated,  pawn, 'iiiiiiiiiiiiiii+++++++++++++++++++++++++++++++')
                             ifMoveIsPossible = true;
                             break;
                         }
@@ -636,7 +578,6 @@ export default {
                     else if((this.board[tmpPosition] === this.blackPawn ||
                         this.board[tmpPosition] === this.blackKing))
                     {   defeated++;
-                        console.log(defeated,  pawn, 'iiiiiiiiiii+++++++++++++++++++++++++++++++')
                         if (defeated === 2){ 
                             break; 
                         }
@@ -782,7 +723,6 @@ export default {
                     }
                 }
             
-            console.log('Jump result:', ifMoveIsPossible);
             return ifMoveIsPossible;
         },
 
@@ -865,7 +805,6 @@ export default {
                     (this.board[tmpPosition2] === this.whitePawn ||
                     this.board[tmpPosition2] === this.whiteKing))
                 {
-                    console.log('ifMoveIsPossible','jump', ifMoveIsPossible)
                     ifMoveIsPossible = true;
                 }
                 xTmp1 = x-2; 
@@ -905,7 +844,6 @@ export default {
                     ifMoveIsPossible = true;
                 }                        
             }
-            console.log('Jump result:', pawn, ifMoveIsPossible);
         return ifMoveIsPossible;
         },
         PossibleMove(x,y, pawn){
@@ -981,11 +919,11 @@ export default {
                     ifMoveIsPossible = true;
                 }
             }
-            console.log('move result', pawn, ifMoveIsPossible)
             return ifMoveIsPossible;
         }
     }
 }
+
 
 
 </script>
@@ -1000,15 +938,15 @@ export default {
 }
 .WhiteEmpty{
     background-color: rgb(255, 225, 225);
-    width:65px;
-    height:65px;
+    width:66px;
+    height:66px;
 }
 
 .Black{
     background-color: rgb(136, 18, 18);
-    width: 65px;
-    height: 65px;
-    transition: all 2.6s ease;
+    width: 6px;
+    height: 66px;
+    /* transition: all 2.6s ease; */
     }
 
 .white-pawn{
@@ -1017,8 +955,8 @@ export default {
     height: 40px;
     border-radius: 20px;
     margin: 12px;
-    transition: all 2.6s ease;
-    animation: moveAnimation 1s ease-in-out;
+    /* transition: all 2.6s ease;
+    animation: moveAnimation 1s ease-in-out; */
 }
 .white-king{
     background-color: rgb(255, 85, 0);
@@ -1026,8 +964,8 @@ export default {
     height: 40px;
     border-radius: 20px;
     margin: 12px;
-    transition: all 0.6s ease;
-    animation: moveAnimation 1s ease-in-out;
+    /* transition: all 0.6s ease;
+    animation: moveAnimation 1s ease-in-out; */
 }
 
 .black-pawn{
@@ -1036,8 +974,8 @@ export default {
     height: 40px;
     border-radius: 20px;
     margin: 12px;
-    transition: all 0.6s ease;
-    animation: moveAnimation 1s ease-in-out;
+    /* transition: all 0.6s ease;
+    animation: moveAnimation 1s ease-in-out; */
 }
 .black-king{
     background-color: rgb(18, 6, 95);
@@ -1045,11 +983,15 @@ export default {
     height: 40px;
     border-radius: 20x;
     margin: 12px;
-    transition: all 0.6s ease;
-    animation: moveAnimation 1s ease-in-out;
+    /* transition: all 0.6s ease;
+    animation: moveAnimation 1s ease-in-out; */
 }
 .empty{
     background-color: black;
+}
+.w{
+    background-color: white;
+    visibility: hidden;
 }
 .clicked{
     background-color: yellowgreen;
@@ -1057,7 +999,12 @@ export default {
 .clickedMoveTo{
     background: yellowgreen;
 }
-.animate {
+/* .animate {
   transition: transform 0.3s;
 }
+@keyframes moveAnimation {
+    from { transform: translate(0, 0); }
+    to { transform: translate(100px, 100px); }
+} */
+
 </style>
