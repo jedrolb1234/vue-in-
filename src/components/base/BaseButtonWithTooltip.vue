@@ -25,6 +25,7 @@ export default {
   bottom: 130%;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 9999;
 }
 
 .tooltiptext::after {
@@ -36,9 +37,10 @@ export default {
   border-width: 5px;
   border-style: solid;
   border-color: var(--primary) transparent transparent transparent;
+  z-index: 9999;
 }
 .primary-small {
-  padding: 0.5em;
+  padding: 0.3em;
   font-size: 12px;
   color: var(--primary);
   background-color: var(--primaryBtn);
@@ -60,7 +62,7 @@ export default {
 
 .secondary-small {
   position: relative;
-  padding: 0.5em;
+  padding: 0.3em;
   font-size: 12px;
   color: var(--primary);
   background-color: var(--secondaryBtn);

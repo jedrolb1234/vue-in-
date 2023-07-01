@@ -189,9 +189,6 @@ export default {
     this.restoreThemeSettings();
     this.restoreProfileSettings();
     this.restoreUserDataSettings();
-  },
-  unmounted() {
-    this.hideAvatarPicker();
   }
 }
 </script>

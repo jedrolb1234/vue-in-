@@ -1,7 +1,6 @@
 <template>
-  <div class="games__search-bar">
-    <input type="text" placeholder="Szukaj" v-model.trim="this.query" @keydown="this.resetTimeout()"
-      @keyup="this.searchGames()" />
+  <div class="games__search-bar" style>
+    <input type="text" placeholder="Szukaj" v-model.trim="this.query" @input="this.search()" />
     <div class="games__search-bar__icon"><span class="material-symbols-outlined">
         search
       </span>
@@ -11,7 +10,7 @@
 
 <script>
 export default {
-  props: ['searchFunction'],
+  props: ['searchFunction', 'fontSize'],
   data() {
     return {
       searchTimeout: null,
@@ -19,11 +18,9 @@ export default {
     }
   },
   methods: {
-    resetTimeout() {
+    search() {
       clearTimeout(this.searchTimeout);
-    },
-    searchGames() {
-      this.searchTimeout = setTimeout(this.searchFunction.bind(null, this.query), 300);
+      this.searchTimeout = setTimeout(this.searchFunction.bind(null, this.query), 500);
     }
   }
 }
@@ -38,10 +35,10 @@ export default {
 .games__search-bar input {
   background-color: var(--secondary);
   border: 1px solid var(--primary);
-  padding: 10px;
+  padding: 0.5em;
   color: var(--primary);
   border-right: 0px;
-  font-size: 20px;
+  font-size: v-bind(fontSize);
 }
 
 input:focus {
@@ -49,7 +46,7 @@ input:focus {
 }
 
 .games__search-bar__icon {
-  padding: 10px;
+  padding: 0.5em;
   border-top: 1px;
   border-right: 1px;
   border-bottom: 1px;
@@ -58,7 +55,7 @@ input:focus {
   border-color: var(--primary);
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: v-bind(fontSize);
 }
 
 .games__search-bar:focus-within {

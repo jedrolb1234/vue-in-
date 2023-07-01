@@ -46,6 +46,11 @@ export default {
           label: 'Wprowadono niepoprawne dane!',
           description: 'Nazwa użtkownika musi zawierać conajmniej 1 literę.',
           type: 'info',
+        },
+        game_romm_created: {
+          label: 'Pokój gry został poprawnie utowrzony!',
+          description: 'Zaproś znajomych i rozpocznij rozgrywkę.',
+          type: 'info',
         }
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <BaseModal :hideFunction="this.hideAvatarPicker">
-    <div id="avatar-picker" class="shadow">
+    <div id="avatar-picker">
       <h1>Zmień swój awatar</h1>
       <hr>
       <div id="avatar-picker__images">
@@ -58,11 +58,6 @@ export default {
 #avatar-picker {
   display: flex;
   flex-direction: column;
-  background-color: var(--secondary);
-  border-radius: 15px;
-  /* width: 705px; */
-  color: var(--primary);
-  padding: 15px;
   gap:15px;
 }
 
