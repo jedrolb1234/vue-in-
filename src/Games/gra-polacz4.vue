@@ -1,34 +1,8 @@
 <template>
     <div class = "container">
         <table class = "board-table">
-            <tr @click="dropBall('0')">
-              <td><p :class="getClass('00')"></p></td><td><p :class="getClass('10')"></p></td><td><p :class="getClass('20')"></p></td>
-                <td><p :class="getClass('30')"></p></td><td><p :class="getClass('40')"></p></td><td><p :class="getClass('50')"></p></td>
-            </tr>
-            <tr @click="dropBall('1')">
-                <td><p :class="getClass('01')"></p></td><td><p :class="getClass('11')"></p></td><td><p :class="getClass('21')"></p></td>
-                <td><p :class="getClass('31')"></p></td><td><p :class="getClass('41')"></p></td><td><p :class="getClass('51')"></p></td>
-            </tr>
-            <tr @click="dropBall('2')">
-                <td><p :class="getClass('02')"></p></td><td><p :class="getClass('12')"></p></td><td><p :class="getClass('22')"></p></td>
-                <td><p :class="getClass('32')"></p></td><td><p :class="getClass('42')"></p></td><td><p :class="getClass('52')"></p></td>
-            </tr>
-            <tr @click="dropBall('3')">
-                <td><p :class="getClass('03')"></p></td><td><p :class="getClass('13')"></p></td><td><p :class="getClass('23')"></p></td>
-                <td><p :class="getClass('33')"></p></td><td><p :class="getClass('43')"></p></td><td><p :class="getClass('53')"></p></td>
-            </tr>
-            <tr @click="dropBall('4')">
-                <td><p :class="getClass('04')"></p></td><td><p :class="getClass('14')"></p></td><td><p :class="getClass('24')"></p></td>
-                <td><p :class="getClass('34')"></p></td><td><p :class="getClass('44')"></p></td><td><p :class="getClass('54')"></p></td>
-            </tr>
-            <tr @click="dropBall('5')">
-                <td><p :class="getClass('05')"></p></td><td><p :class="getClass('15')"></p></td><td><p :class="getClass('25')"></p></td>
-                <td><p :class="getClass('35')"></p></td><td><p :class="getClass('45')"></p></td><td><p :class="getClass('55')"></p></td>
-            </tr>
-            <tr @click="dropBall('6')">
-                <td><p :class="getClass('06')"></p></td><td><p :class="getClass('16')"></p></td><td><p :class="getClass('26')"></p></td>
-                <td><p :class="getClass('36')"></p></td><td><p :class="getClass('46')"></p></td><td><p :class="getClass('56')"></p></td>
-            </tr>
+            <tr v-for="(c, key) in vLoop" :key="key" @click="dropBall(key)">
+                <td v-for="(r, idx) in c" :key="idx"><p :class="getClass(r)"></p></td></tr>
         </table>
     </div>
 </template>
@@ -37,6 +11,15 @@
 export default {
     data(){
         return{
+            vLoop: {
+                '0': ['00','10','20','30','40','50'],
+                '1': ['01','11','21','31','41','51'],
+                '2': ['02','12','22','32','42','52'],
+                '3': ['03','13','23','33','43','53'],
+                '4': ['04','14','24','34','44','54'],
+                '5': ['05','15','25','35','45','55'],
+                '6': ['06','16','26','36','46','56'],
+            },
             board : {
                 '00': 'empty', '10':'empty', '20': 'empty', '30':'empty','40': 'empty', '50':'empty',
                 '01': 'empty', '11':'empty','21': 'empty', '31':'empty','41': 'empty', '51':'empty',
@@ -45,7 +28,6 @@ export default {
                 '04': 'empty', '14':'empty','24': 'empty', '34':'empty','44': 'empty', '54':'empty',
                 '05': 'empty', '15':'empty','25': 'empty', '35':'empty','45': 'empty', '55':'empty',
                 '06': 'empty', '16':'empty','26': 'empty', '36':'empty','46': 'empty', '56':'empty' 
-
             },
             empty: 'empty',
             red: 'red',

@@ -32,7 +32,7 @@ export default {
     return {
       lastLogin: null,
       username: 'testowyuser14',
-      description: 'Hello World\nProsty opis w celu wyopełnienia pustej przestrzeni.',
+      description: 'Hello World\nProsty opis w celu wypełnienia pustej przestrzeni.',
       userAvatar: avatar1,
       avatars: [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8, avatar9, avatar10, avatar11, avatar12, avatar13, avatar14, avatar15, avatar16, avatar17, avatar18, avatar19, avatar20, avatar21, avatar22, avatar23, avatar24],
       name: 'Jan',

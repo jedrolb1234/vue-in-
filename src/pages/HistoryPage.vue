@@ -74,6 +74,7 @@ import { mapGetters, mapActions } from 'vuex';
     flex-direction: column;    
     align-items: center;
     margin-bottom: 25px;
+    width: 100%;
 }
 hr {
   width: 900px;
@@ -84,7 +85,7 @@ hr {
 }
 .showHistoryTable{
     margin-left: 40px;
-    color: white;
+    color: var(--secondary);
 }
 .historyHeader
 {
@@ -92,26 +93,26 @@ hr {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 22px;
-  background-color: white;
+  background-color: var(--secondary);
   width: 800px;
   height: 40px;
   margin: 40px 0px 0px 0px;
   border-radius: 8px 8px 0px 0px;
-  color: black;
+  color: var(--primary);
 }
 table{
     justify-content: center; 
     width: auto;
-    color:black;
+    color:var(--primary);
     border-collapse: collapse;
     border-radius: 0px 0px 8px 8px;
     border-spacing: 0px;
-    background-color: white;
+    background-color: var(--secondary);
+    border-color: var(--primary);
     
 }
 tr{
-    border: 1px solid black;
+    border: 1px solid var(--primary);
     text-align: left;
     border-radius: 8px;
     width: 800px;
@@ -125,7 +126,7 @@ tr:last-child{
 th{
     width: 160px;
     height: 51px;
-    color: black;
+    color: var(--primary);
     text-align: center;
 
 }
@@ -134,23 +135,23 @@ table:last-child{
 }
 td{
     padding: 5px;
-    background-color: white;
+    background-color:var(--secondary);
     width: 200px;
     font-size: 18px;
-    color:black;
+    color:var(--primary);
     margin: 0px 0px 0px 0px;
    text-align: center;
 }
 .historyList{
   font-size: 24;
-  color: white;
+  color:var(--primary);
 }
 .buttons{
   display: flex;
   flex-direction: row;
   width: 70px;
   justify-content: space-between;
-  color: black;
+  color: var(--primary);
 }
 .spinner{
   justify-content: center;

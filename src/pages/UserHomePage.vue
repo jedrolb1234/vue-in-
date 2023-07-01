@@ -3,7 +3,7 @@
         <div class="page">
             <BaseHeader>Strona użytkownika</BaseHeader>
             <div class="profile">
-                <UserProfile></UserProfile>
+                <UserProfile :id="id" :invId="getInvId" :isFriend="isFriend"></UserProfile>
                 <div class="module__head">
                 <h1>Dane użytkownika</h1>
                 </div>
@@ -18,8 +18,7 @@
                 </div>
             </div>
             <h1>Historia gier</h1>
-            <hr>                
-            
+            <hr>                    
             <div class="showHistoryTable">
                 <h2 class="historyHeader">Rozegrane gry</h2>
                 <hr class="hr2">
@@ -60,31 +59,49 @@
       BaseNextButton,
       BasePreviousButton
     },
+    props:['id', 'isFriend', 'invId'],
+    
     data() {
       return {
         username: null,
         description: null,
         avatarId: null,
-  
         name: '',
         surname: '',
         birthDate: null,
         email: '',
       }
     },
+    mounted(){
+      // this.getId();
+      // this.getIsFriend();
+    },
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
-                            'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage'])
+                            'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
+                             'getItemsPerPage']),
+      getIsFriend(){
+        console.log(this.isFriend)
+        return this.isFriend;
+      },
+      getId(){
+        console.log(this.id)
+        return this.id;
+      },
+      getInvId(){
+        return this.invId;
+      }
     },
     methods: {
-      ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'nextPage', 'previousPage',]),
+      ...mapActions('UHP', ['setArgs']),
+      ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'nextPage', 'previousPage','isFriend']),
       dynamicHeight(){
             let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
             let endIndex = startIndex + this.getItemsPerPage;
             let sliced = this.getHistory.slice(startIndex, endIndex);           
             return (10 - sliced.length ) * 38;
-        }
-     },
+        },
+      },
   }
   </script>
   <style scoped>
@@ -113,10 +130,6 @@
   .hr2{
     margin-left: -40px;
     width: 900px;
-  }
-  
-  h1 {
-    margin-bottom: 5px;
   }
   
   .module__head {
@@ -149,19 +162,17 @@
   .showHistoryTable{
     margin-left: 40px;
     color: white;
+    gap:15px;
 }
 .historyHeader
 {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   font-size: 22px;
   background-color: white;
   width: 800px;
-  height: 40px;
-  margin: 40px 0px 0px 0px;
-  border-radius: 8px 8px 0px 0px;
+  margin: 0px 0px 20px -40px;
   color: black;
 }
 table{

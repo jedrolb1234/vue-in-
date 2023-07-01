@@ -1,48 +1,5 @@
-<template>
-    <div class = "container">
-        <div class = "player1-container">
-            <table :class = "board_table1">
-                <tr v-for="(t,key) in vLoop" :key='key'>
-                    <td v-for="(p, idx) in t"  :key="idx"
-                         :class="getClass(p)" @click="chooseMethod(p)"></td>
-                </tr>
-            </table>
-            <div class="shipCounter">
-            <div class="counterFour"><p class="shipImage"></p><p class="shipImage"></p><p class="shipImage"></p><p class="shipImage"></p><p class="shipCount">{{ fourCounter }}</p></div>
-            <div class="counterThree"><p class="shipImage"></p><p class="shipImage"></p><p class="shipImage"></p><p class="shipCount">{{ threeCounter }}</p></div>
-            <div class="counterTwo"><p class="shipImage"></p><p class="shipImage"></p><p class="shipCount">{{ twoCounter }}</p></div>
-            <div class="counterOne"><p class="shipImage"></p><p class="shipCount">{{ oneCounter }}</p></div>
-            </div>
-
-        </div>
-        <div class = "player2-container">
-            <table class = "board-table2">
-                <tr v-for="(t,key) in vLoop" :key='key'>
-                    <td v-for="(p, idx) in t" :key="idx"
-                     :class="getOponentClass(p)" @click = "mark(p)"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</template>
-
-<script>
-// import { mapActions, mapGetters } from 'vuex';
 export default {
-//     data(){
-//         return{
-//             fourCounter:2,
-//             threeCounter:3,
-//             twoCounter:4,
-//             oneCounter:5,
-//         }
-//     },
-// methods:{
-//     ...mapActions('Statki', ['mark', 'chooseMethod']),
-// },
-// computed:{
-//     ...mapGetters('Statki', ['getClass', 'getOponentClass', 'getVLoop']),
-// }
+    namespaced: true,
     data(){
         return{
             vLoop:{
@@ -89,119 +46,119 @@ export default {
             clicked:[],
             oponentRecieve: [],
             setShipCounter:12,
-            fourCounter:2,
-            threeCounter:3,
-            twoCounter:4,
-            oneCounter:5,
+
             firstLoad: true,
             disable_animation: 'disable-animation',
             boardTable1: 'board-table1'
+            }
+        },
+    getters:{ 
+        getVLoop(state){
+            return state.vLoop;
+        },
+        board_table1(state){
+            if(state.firstLoad){
+                return state.disable_animation;
+            }
+            return state.boardTable1;
+        },
+        getClass(state, field){
+            return state.board[field];
+            },
+        
+        getOponentClass(state, field){
+            return state.oponentBoard[field];
+        },
+        chooseMethod(state, field){
+            if(state.commit('check', field)){
+                return state.setShip(field);
+            }
+            else if(state.commit('checkClicked')){
+                state.unSetShip(field);
+            }
+        },
+        selectTag(state, field){
+            return state.oponentBoard[field]; 
         }
     },
-    computed:{
-        board_table1(){
-            if(this.firstLoad){
-                return this.disable_animation;
-            }
-            return this.boardTable1;
-        }
-    },
-    methods:{
-        getClass(field){
-            return this.board[field];
+    mmutations:{
+        check(state, field){
+            return !state.clicked.includes(field);
         },
-        chooseMethod(field){
-            if(this.check(field)){
-                return this.setShip(field);
-            }
-            else if(this.checkClicked){
-                this.unSetShip(field);
-            }
-        },
-        getOponentClass(field){
-            return this.oponentBoard[field];
-        },
-        check(field){
-            return !this.clicked.includes(field);
-        },
-        checkClicked(field){
-            return this.clicked.includes(field);
-        },  
-        setShip(field){
-            this.firstLoad = false;
-            if(this.checkLocation(field) && this.checkNeighbor(field)){//} && this.checkLength(field)){
-                if (!this.clicked.includes(field)){
-                    this.clicked.push(field);
-                    this.board[field] = this.ship;
-                    console.log(this.board[field]);
+        checkClicked(state, field){
+            return state.clicked.includes(field);
+        }},
+    actions:{
+        setShip(context, field){
+            context.firstLoad = false;
+            if(context.dispatch('checkLocation', field) && context.dispatch('checkNeighbor'), field){
+                if (!context.clicked.includes(field)){
+                    context.clicked.push(field);
+                    context.board[field] = context.ship;
+                    console.log(context.board[field]);
                 }
             }
-            this.shipNumber();
+            context.shipNumber();
         },
-        unSetShip(field){
-            if(this.clicked.includes(field)){
-                this.setShipCounter++;
-                let index = this.clicked.indexOf(field);
-                this.clicked.splice(index,1);
-                this.board[field] = this.empty2;
-                console.log('board', this.board[field]);
-                console.log('tablica', this.clicked);
+        unSetShip(context,field){
+            if(context.clicked.includes(field)){
+                context.setShipCounter++;
+                let index = context.clicked.indexOf(field);
+                context.clicked.splice(index,1);
+                context.board[field] = context.empty2;
+                console.log('board', context.board[field]);
+                console.log('tablica', context.clicked);
             }
-            this.shipNumber()
+            context.shipNumber()
         },
-
-        selectTag(field){
-            return this.oponentBoard[field]; 
-        },
-
-        mark(field){
-            if(this.selectTag(field) === this.hipOponent || this.emptyOponent){
-                this.oponentRecieve.push(field);
-                if(this.oponentBoard[field] === this.shipOponent){
-                    this.oponentBoard[field] = this.hitOponent;
-                    console.log(this.oponentBoard[field]);
+        mark(context, getters, field){//gettery
+            if(getters.selectTag(field) === context.hipOponent || context.emptyOponent){
+                context.oponentRecieve.push(field);
+                if(context.oponentBoard[field] === context.shipOponent){
+                    context.oponentBoard[field] = context.hitOponent;
+                    console.log(context.oponentBoard[field]);
                 }
-                else if(this.oponentBoard[field] === this.emptyOponent){
-                    this.oponentBoard[field] = this.missedOponent;
+                else if(context.oponentBoard[field] === context.emptyOponent){
+                    context.oponentBoard[field] = context.missedOponent;
                 }
             }
-            else if(this.selectTag(field) === ('hitOponent' ||  'missedOponent')){
+            else if(getters.selectTag(field) === ('hitOponent' ||  'missedOponent')){
                 return
             }
         },
 
-        checkLocation(field){
+        checkLocation(context, field){
             let isAbleToPut = true;
             let x = parseInt(field[0]);
             let y = parseInt(field[1]);
             let xTmp = x + 1;
             let yTmp = y + 1;
             let position = xTmp.toString() + yTmp.toString();
-            if (this.board[position] === this.ship){
+            if (context.board[position] === context.ship){
                 isAbleToPut = false;
             }
             xTmp = x + 1;
             yTmp = y - 1;
             position = xTmp.toString() + yTmp.toString();
-            if (this.board[position] === this.ship){
+            if (context.board[position] === context.ship){
                 isAbleToPut = false;
             }
             xTmp = x - 1;
             yTmp = y + 1;
             position = xTmp.toString() + yTmp.toString();
-            if (this.board[position] === this.ship){
+            if (context.board[position] === context.ship){
                 isAbleToPut = false;
             }
             xTmp = x - 1;
             yTmp = y - 1;
             position = xTmp.toString() + yTmp.toString();
-            if (this.board[position] === this.ship){
+            if (context.board[position] === context.ship){
                 isAbleToPut = false;
             }
             return isAbleToPut;
         
         },
-        checkNeighbor(field){
+        checkNeighbor(context, field){
             let isAbleToPut = true;
             let x = parseInt(field[0]);
             let y = parseInt(field[1]);
@@ -215,8 +172,8 @@ export default {
             let position2 = xTmp2.toString() + yTmp.toString();
             let position3 = xTmp3.toString() + yTmp.toString();
             let position4 = xTmp4.toString() + yTmp.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship) && 
-                (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
+                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                     isAbleToPut = false;
             }
             xTmp = x - 1;
@@ -228,8 +185,8 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship)
-                && (this.board[position3] === this.ship)&& (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
+                && (context.board[position3] === context.ship)&& (context.board[position4] === context.ship)){
                 isAbleToPut = false;
             }
             xTmp = x + 1;
@@ -241,8 +198,8 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship)
-                && (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
+                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                 isAbleToPut = false;
             }
             xTmp = x + 1;
@@ -254,8 +211,8 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();    
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship)
-                && (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
+                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                 isAbleToPut = false;
             }
             xTmp = x + 1;
@@ -267,8 +224,8 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship)
-                && (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
+                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                 isAbleToPut = false;
             }
             yTmp = y + 1;
@@ -280,8 +237,8 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship) && 
-                (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
+                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                     isAbleToPut = false;
             }
             yTmp = y - 1;
@@ -293,8 +250,8 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship)
-                && (this.board[position3] === this.ship)&& (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
+                && (context.board[position3] === context.ship)&& (context.board[position4] === context.ship)){
                 isAbleToPut = false;
             }
             yTmp = y + 1;
@@ -306,8 +263,8 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship) && 
-                (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
+                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                     isAbleToPut = false;
             }
             xTmp = y + 1;
@@ -319,8 +276,8 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship)
-                && (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
+                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                 isAbleToPut = false;
             }
 
@@ -333,14 +290,14 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((this.board[position] === this.ship) && (this.board[position2] === this.ship) && 
-                (this.board[position3] === this.ship) && (this.board[position4] === this.ship)){
+            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
+                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
                     isAbleToPut = false;
             }
             return isAbleToPut
         },
-    
-        shipNumber(){
+
+        shipNumber(context){
             console.log('enter');
             let oneCounter = 5;
             let twoCounter = 4;
@@ -353,10 +310,10 @@ export default {
                     iTmp = i.toString();
                     jTmp = j.toString();
                     field = iTmp + jTmp;
-                    if(this.board[field] === this.ship){
+                    if(context.board[field] === context.ship){
                         y1 = j - 1;
                         upField = iTmp + y1.toString();
-                        if(this.board[upField] === this.ship){
+                        if(context.board[upField] === context.ship){
                             continue;
                         }
                         y1 = j + 1;
@@ -369,24 +326,24 @@ export default {
                         field2 = iTmp + yLower2;
                         field3 = iTmp + yLower3;
 
-                        if(this.board[field1] !== this.ship){
+                        if(context.board[field1] !== context.ship){
                             counter++;
                         }
-                        if((this.board[field1] === this.ship) && (this.board[field2] !== this.ship)){
+                        if((context.board[field1] === context.ship) && (context.board[field2] !== context.ship)){
                             counter = 2;
                         }
-                        else if((this.board[field1] === this.ship) && (this.board[field2] === this.ship) 
-                            && this.board[field1] !== this.ship){
+                        else if((context.board[field1] === context.ship) && (context.board[field2] === context.ship) 
+                            && context.board[field1] !== context.ship){
                                 counter = 3;
                             }
-                        else if((this.board[field1] === this.ship) && (this.board[field2] === this.ship) 
-                            && (this.board[field3] === this.ship)){
+                        else if((context.board[field1] === context.ship) && (context.board[field2] === context.ship) 
+                            && (context.board[field3] === context.ship)){
                                 counter = 4;
                             }
                         }
                     x1 = i + 1;
                     field4 = x1.toString() + jTmp;
-                    if((this.board[field4] !== this.ship)){
+                    if((context.board[field4] !== context.ship)){
                         if(counter === 1){
                             oneCounter--;
                             counter = 0;
@@ -406,184 +363,10 @@ export default {
                     }
                 }
             }
-            this.oneCounter = oneCounter;
-            this.twoCounter = twoCounter;
-            this.threeCounter = threeCounter;
-            this.fourCounter = fourCounter;
+            context.oneCounter = oneCounter;
+            context.twoCounter = twoCounter;
+            context.threeCounter = threeCounter;
+            context.fourCounter = fourCounter;
         }
     }
 }
-</script>
-
-<style scoped>
-.container{
-    display:flex;
-    justify-content: center;
-}
-.player1-container{
-    background-color: palegreen;
-    float: left;
-    height: 300px;
-    width: 300px;
-}
-
-.player2-container{
-    background-color: darkcyan;
-    height: 300px;
-    width: 300px;
-    margin-left: 50px;
-}
-.board-table1{
-    border-spacing: 0px;
-}
-.board-table2{
-    border-spacing: 0px;
-}
-td{
-    border-style: solid;
-    border-width: 0.5px;
-    border-color: black;
-    width: 37.5px;
-    height: 37.5px;
-}
-img{
-    width:32px;
-    height:25px;
-    margin-top: 2px;
-}
-.ship{
-    background-image: url('./image/sss.png');
-    background-size: cover;
-    animation: show 1000ms forwards ease;
-}
-.empty{
-    background-size: cover;
-}
-
-.empty2{
-    background-size: cover;
-    animation: sink 1000ms forwards ease; 
-}
-.emptyOponent{
-    background-color: aqua;
-}
-.emptyOponent:hover{
-    background-image: url('./image/celownik.png');
-    background-size: cover;
-}
-.shipOponent:hover{
-    background-image: url('./image/celownik.png');
-    background-size: cover;
-}
-.shipOponent{
-    size: cover;
-    background-color: aqua;
-}
-
-.hit{
-    background-image: url('./image/cbomb.png');
-    background-size: cover;
-}
-/*
-@keyframes sink{
-    from {transform: rotateY(0); border: none;}
-    80% {transform: rotateY(90deg); opacity: 100%;}
-    99% {opacity: 0; transform: rotateY(90deg); background-image: url('./image/sss.png'); border: none;}
-    100% {opacity: 100%; background-image: none; border: 0.5px black solid;}
-}
-@keyframes show{
-    from {transform: rotateY(0); border: none;}
-    80% {transform: rotateY(90deg); opacity: 100%;}
-    99% {opacity: 0; transform: rotateY(90deg); background-color: palegreen; border: none;}
-    100% {opacity: 100%; background-image: none; border: 0.5px black solid;}
-}
-*/
-
-@keyframes sink {
-  0% {
-    opacity: 0;
-    transform: rotateY(0deg); 
-    background-image: url('./image/sss.png');
-  }
-  100% {
-    opacity: 1;
-    transform: rotateY(180deg);
-  }
-}
-
-@keyframes show {
-  0% {
-    opacity: 0;
-    transform: rotateY(180deg);
-  }
-  100% {
-    opacity: 1;
-    transform: rotateY(0deg);
-  }
-}
-.disable-animation{
-    border-spacing: 0px;
-}
-.disable-animation td {
-  animation: none !important;
-  border-style: solid;
-    border-width: 0.5px;
-    border-color: black;
-    width: 37.5px;
-    height: 37.5px;
-}
-.hitPlayer{
-    width: 37.5px;
-    height: 37.5px;
-    animation: sink 2000ms forwards ease;
-    background-image: url('./image/sss.png');
-    background-size: cover;
-    display: inline-block;
-    box-sizing: border-box;
-    margin: 0px;
-    padding:0px;
-}
-@keyframes explosion {
-    from {transform: scale(0%); border: none;}
-    70% {transform: scale(150%); border: none; opacity: 100%;}
-    to {border: 0.5px black solid; opacity: 0;}
-}
-.hitOponent{
-    animation: explosion 350ms;
-    background-image: url('./image/bomb.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.missedOponent{
-    animation: explosion 350ms;
-    background-image: url('./image/cross.png');
-    background-size: cover;
-}
-
-.counterFour .counterThree .counterTwo .counterOne{
-    flex-wrap: wrap;
-}
-.counter4 .counter3 .counter2 .counter1{
-    flex-wrap: wrap;
-}
-
-.shipImage{
-    width: 37.5px;
-    height: 37.5px;
-    background-image: url('./image/sss.png');
-    background-size: cover;
-    display: inline-block;
-    box-sizing: border-box;
-    margin: 0px;
-    padding:0px;
-}
-.shipCount{
-    display: inline-block;
-    box-sizing: border-box;
-    width: 37.5px;
-    height: 37.5px;
-    margin: 0px;
-    padding-bottom:10px;
-}
-</style>

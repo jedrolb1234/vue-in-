@@ -1,4 +1,4 @@
-import Router from '@/router';
+import Router from '@/router';Router
 import apiResponseErrors from '@/mixins/apiResponseErrors';
 
 function informUserAbouErrors(context, errors) {
@@ -41,8 +41,10 @@ export default {
     let res;
     try {
       res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_LOGIN_ENDPOINT, payload);
+      // console.log(res)
       if (res.status == 200) {
         context.commit('login', res.data);
+        console.log(res)
         context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
         Router.push({ name: 'games' });
       }
