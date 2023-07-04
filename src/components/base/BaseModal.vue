@@ -28,5 +28,9 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-color: var(--secondary);
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid var(--primary);
 }
 </style>

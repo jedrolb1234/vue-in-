@@ -11,10 +11,10 @@
         <img :src="this.getGame(this.gameid).imgLarge" />
       </div>
       <div class="action-bar">
+        <BaseButton type="primary-large" @click="this.isGameRoomModalVisible=true">Zagraj ze znajomymi</BaseButton>
         <RouterLink :to="this.getGame(this.gameid).play">
-          <BaseButton type="primary-large">Zagraj ze znajomymi</BaseButton>
-        </RouterLink>
           <BaseButton type="secondary-large">Kolejka rankingowa</BaseButton>
+        </RouterLink>
       </div>
       <div class="rules">
         <h1>Zasady gry</h1>
@@ -25,6 +25,7 @@
       </div>
     </div>
   </BasePageLayout>
+  <Teleport to="body"><GameRoomModal v-if="this.isGameRoomModalVisible" @close-modal="this.isGameRoomModalVisible=false" :game-id="this.gameid"></GameRoomModal></Teleport>
 </template>
 
 <script>
@@ -33,15 +34,22 @@ import BaseHeader from '@/components/base/BaseHeader.vue'
 import { mapGetters } from 'vuex';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { RouterLink } from 'vue-router';
+import GameRoomModal from '@/components/TheGameDescriptionPage/GameRoomModal.vue';
 
 export default {
   props: ['gameid'],
+  data() {
+    return {
+      isGameRoomModalVisible: false
+    }
+  },
   components: {
     BasePageLayout,
     BaseHeader,
     BaseButton,
-    RouterLink
-  },
+    RouterLink,
+    GameRoomModal
+},
   computed: {
     ...mapGetters(['getGame'])
   }
@@ -75,6 +83,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 hr {
   border: 1px solid var(--accent);
   width: 100%;

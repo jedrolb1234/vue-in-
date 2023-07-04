@@ -20,7 +20,7 @@
         <div class="games__header">
           <h1>Wszystkie gry</h1>
           <div class="games__actions">
-            <BaseSearchInput :searchFunction="this.filterGames"></BaseSearchInput>
+            <BaseSearchInput :searchFunction="this.filterGames" fontSize="20px"></BaseSearchInput>
           </div>
         </div>
         <hr>
