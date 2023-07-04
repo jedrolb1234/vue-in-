@@ -1,3 +1,5 @@
+import Router from '@/router';
+
 export default {
   state() {
     return {
@@ -161,6 +163,9 @@ export default {
     }
   },
   mutations: {
+    clearGameRooms(state) {
+      state.gameRooms = [];
+    },
     addGameRoom(state, gameRoom) {
       state.gameRooms.push({id: gameRoom.id, name: gameRoom.roomName, players: gameRoom.players, rquiredNumberOfPlayers: 2, owner: 'xd', isPrivate: false});
     }
@@ -178,10 +183,12 @@ export default {
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_CREATE_GAME_ROOM_ENDPOINT, payload, {headers});
         if (res.status == 200) {
           context.dispatch('showNotification', notificationTemplates.game_romm_created, { root: true });
+          const gameRoomID = res.data;
+          Router.push({ name: 'play', params: {gameRoomID: gameRoomID}});
         }
       } catch (error) {
         if (error.response) {
-          //informUserAbouErrors(context, error.response.data.errors);
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         } else {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
@@ -200,6 +207,7 @@ export default {
         if (res.status == 200) {
           const gameRooms = res.data;
           console.log(gameRooms);
+          context.commit('clearGameRooms');
           for(let i=0;i<gameRooms.length; i++) {
             context.commit('addGameRoom', gameRooms[i]);
           }

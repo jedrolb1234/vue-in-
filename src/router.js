@@ -10,13 +10,14 @@ import Friends from '@/pages/FriendsPage.vue';
 import Rank from '@/pages/RankPage.vue';
 import History from '@/pages/HistoryPage.vue';
 import Settings from '@/pages/SettingsPage.vue';
-import Warcaby from '@/Games/gra-warcaby.vue';
-import Statki from '@/Games/gra-statki.vue';
-import Polacz4 from '@/Games/gra-polacz4.vue';
+import Warcaby from '@/components/games/gra-warcaby.vue';
+import Statki from '@/components/games/gra-statki.vue';
+import Polacz4 from '@/components/games/connectFour.vue';
 import Store from '@/state/index';
 import ActivateUserPage from '@/pages/ActivateUserPage';
 import UserHomePage from '@/pages/UserHomePage';
 import GameDescription from '@/pages/GameDescription';
+import PlayPage from '@/pages/PlayPage'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +31,7 @@ const router = createRouter({
     { path: '/resetpassword/:token', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
     { path: '/games', name:'games', component: Games },
     { path: '/games/:gameid', component: GameDescription, meta: {requiresAuth: true}, props: true },
+    { path: '/play/:gameRoomID', name: 'play', component: PlayPage, meta: {requiresAuth: true}, props: true},
     { path: '/friends', name:'friends', component: Friends},
     { path: '/rank', name:'rank', component: Rank },
     { path: '/history', name:'history', component: History },

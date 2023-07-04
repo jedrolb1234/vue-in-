@@ -1,4 +1,4 @@
-import Router from '@/router';Router
+import Router from '@/router';
 import apiResponseErrors from '@/mixins/apiResponseErrors';
 
 function informUserAbouErrors(context, errors) {
@@ -117,6 +117,7 @@ export default {
     }
   },
   async refreshToken(context) {
+    console.log('refreshToken')
     if (context.getters.getLastLogin + process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT < Date.now()) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const axios = require('axios');
@@ -130,6 +131,7 @@ export default {
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_REFRESH_TOKEN_ENDPOINT, null, config);
         if (res.status == 200) {
           context.commit('login', res.data);
+          console.log(res.data);
         }
       } catch (error) {
         if (error.response) {
