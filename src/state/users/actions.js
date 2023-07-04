@@ -118,7 +118,8 @@ export default {
   },
   async refreshToken(context) {
     console.log('refreshToken')
-    if (context.getters.getLastLogin + process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT < Date.now()) {
+    console.log(context.getters.getLastLogin + process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT)
+    if (context.getters.getLastLogin==null || context.getters.getLastLogin + process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT < Date.now()) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const axios = require('axios');
       const config = {
