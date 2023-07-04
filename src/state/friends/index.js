@@ -1,5 +1,5 @@
 import Notifications from '@/state/notifications/index.js';
-// import refreshToken from '@/state/users/actions.js'
+import Router from '@/router';Router
 
 export default {
     namespaced: true,
@@ -19,7 +19,8 @@ export default {
         currentPage: 1,
         username: '',
         friends:[ ],
-        invitations:[ ]
+        invitations:[ ],
+        dynamicHeight: 0,
         }
   },
   mutations: {
@@ -73,6 +74,9 @@ export default {
          console.log(state.invitations)
         }
       }
+    },
+    setVisibleMessage(state, payload){
+      state.isVisibleMessage = payload;
     }
   },
   getters: {
@@ -82,7 +86,9 @@ export default {
     currentPage(state){
       let startIndex = (state.currentPage - 1) * state.itemsPerPage;
       let endIndex = startIndex + state.itemsPerPage;
-      return state.friends.slice(startIndex, endIndex);     
+      let sliced = state.friends.slice(startIndex, endIndex);   
+      state.dynamicHeight = (10 - sliced.length ) * 38;
+      return sliced;     
     },
     pageNr(state){
       return state.currentPage;
@@ -110,9 +116,27 @@ export default {
     },
     getInvitations(state){
       return state.invitations;
+    },
+    getDynamicHeight(state){
+      return state.dynamicHeight;
+    },
+    getIsVisibleMessage(state){
+      return state.isVisibleMessage;
     }
   },
   actions: {
+    find(context, username){
+      if (username.length === 0){
+        const notificationTemplates = context.rootGetters.getNotificationTemplates;
+          context.dispatch('showNotification', notificationTemplates.user_name_to_short);
+      }else
+      return context.dispatch('findFriend', username);
+  },
+  //   isVisibleMessage(context, payload){
+  //     context.commit('setVisibleMessage', payload);
+  // },
+    
+
     async removeFriend(context, payload){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = JSON.parse(sessionStorage.getItem('token'))
@@ -246,7 +270,7 @@ export default {
       try { 
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, {headers}); 
       if (res.status === 200) {
-        console.log(res.data)
+        console.log(res.data, 'aaa')
           context.commit('setFriends', res.data);          
           context.commit('tooleIsLoading', false);
       }

@@ -7,7 +7,7 @@
                 <hr class="hr1">
                 <div v-if="getIsLoading === true">
                     <table class="spinnerTable">
-                        <tr :style="{height: dynamicHeight()+38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
+                        <tr :style="{height: getDynamicHeight +38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
                     </table>
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
@@ -18,7 +18,7 @@
                                 v-for="(f, index) in currentPage" :key="index">
                                 <td class="tableButton"><base-look-button @click="redirect(f.id, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
                             </tr>
-                            <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+                            <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
                     </table>
                     <div class="buttons">
@@ -86,7 +86,6 @@ import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
 import BaseDeleteMessage from'@/components/base/BaseDeleteMessage.vue'
 
-
 export default {
     props: ['history'],
     components:{
@@ -119,21 +118,15 @@ export default {
         
     computed: {
         ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
-                    'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 
+                    'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 'getDynamicHeight', 
                     'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations']),
-        ...mapGetters(['getNotificationTemplates']),
     },
     methods:{
-        ...mapActions('Friends', ['nextPage', 'previousPage', 'findFriend', 'addFriend', 
-                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation']),
+        ...mapActions('Friends', ['nextPage', 'previousPage', 'find', 'addFriend', 
+                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation',
+                    'redirect']),
         ...mapActions(['showNotification']),
 //sprawdzic jaka strukture ma invitations id
-        find(username){
-            if (username.length === 0){
-                this.showNotification(this.getNotificationTemplates.user_name_to_short);
-            }else
-            return this.findFriend(username);
-        },
         redirect(id, invId){
             if (invId !== 'null'){
                 return this.$router.push({
@@ -164,16 +157,8 @@ export default {
                 params: { id: id, isFriend: false, invId: 'null' },
                 }); 
         },
-
-        isVisibleMessage(payload){
-            this.visibleMessage = payload;
-        },
-
-        dynamicHeight(){
-            let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
-            let endIndex = startIndex + this.getItemsPerPage;
-            let sliced = this.getFriends.slice(startIndex, endIndex);   
-            return (10 - sliced.length ) * this.rowHeight;
+        isVisibleMessage(){
+            this.visibleMessage = this.isVisibleMessage;
         }
     },
     mutations:{
