@@ -77,7 +77,7 @@ img{
     margin-top: 2px;
 }
 .ship{
-    background-image: url('./image/sss.png');
+    background-image: url('@/assets/games/image/sss.png');
     background-size: cover;
     animation: show 1000ms forwards ease;
 }
@@ -93,11 +93,11 @@ img{
     background-color: aqua;
 }
 .emptyOponent:hover{
-    background-image: url('./image/celownik.png');
+    background-image: url('@/assets/games/image/celownik.png');
     background-size: cover;
 }
 .shipOponent:hover{
-    background-image: url('./image/celownik.png');
+    background-image: url('@/assets/games/image/celownik.png');
     background-size: cover;
 }
 .shipOponent{
@@ -106,14 +106,14 @@ img{
 }
 
 .hit{
-    background-image: url('./image/cbomb.png');
+    background-image: url('@/assets/games/image/cbomb.png');
     background-size: cover;
 }
 @keyframes sink {
   0% {
     opacity: 0;
     transform: rotateY(0deg); 
-    background-image: url('./image/sss.png');
+    background-image: url('@/assets/games/image/sss.png');
   }
   100% {
     opacity: 1;
@@ -208,7 +208,7 @@ img{
     width: 37.5px;
     height: 37.5px;
     animation: sink 2000ms forwards ease;
-    background-image: url('./image/sss.png');
+    background-image: url('@/assets/games/image/sss.png');
     background-size: cover;
     display: inline-block;
     box-sizing: border-box;
@@ -222,14 +222,14 @@ img{
 }
 .hitOponent{
     animation: explosion 350ms;
-    background-image: url('./image/bomb.png');
+    background-image: url('@/assets/games/image/bomb.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .missedOponent{
     animation: explosion 350ms;
-    background-image: url('./image/cross.png');
+    background-image: url('@/assets/games/image/cross.png');
     background-size: cover;
 }
 
@@ -243,7 +243,7 @@ img{
 .shipImage{
     width: 37.5px;
     height: 37.5px;
-    background-image: url('./image/sss.png');
+    background-image: url('@/assets/games/image/sss.png');
     background-size: cover;
     display: inline-block;
     box-sizing: border-box;

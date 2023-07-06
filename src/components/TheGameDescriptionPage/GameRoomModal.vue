@@ -23,6 +23,7 @@
           </tr>
         </thead>
         <tbody>
+          <BaseLoadingSpinner v-if="this.isLoading"></BaseLoadingSpinner>
           <tr v-for="room in this.rooms.slice((this.selectedPage - 1) * this.pageSize, this.selectedPage * this.pageSize)"
             class="game-room-list-element" :key="room.id">
             <td>{{ room.name }}</td>
@@ -54,14 +55,16 @@ import BaseModal from '../base/BaseModal.vue';
 import { mapActions, mapGetters } from 'vuex';
 import BaseSearchInput from '../base/BaseSearchInput.vue';
 import BasePagination from '../base/BasePagination.vue';
+import BaseLoadingSpinner from '../base/BaseLoadingSpinner.vue';
 
 export default {
-  components: { BaseModal, BaseButton, BaseSearchInput, BasePagination },
+  components: { BaseModal, BaseButton, BaseSearchInput, BasePagination, BaseLoadingSpinner },
   props:['gameId'],
   data() {
     return {
       selectedPage: 1,
       pageSize: 10,
+      isLoading: false,
       rooms: []
     }
   },
@@ -78,9 +81,11 @@ export default {
       this.selectedPage = 1;
     }
   },
-  created() {
-    this.rooms = this.getGameRooms
-    this.obtainGameRooms()
+  async created() {
+    this.isLoading=true;
+    await this.obtainGameRooms();
+    this.rooms = this.getGameRooms;
+    this.isLoading=false;
   }
 }
 </script>
@@ -119,7 +124,8 @@ table {
 tbody {
   height: 100%;
   overflow: overlay;
-  z-index:999;
+  /* z-index:999; */
+  transition: width 0.3s;
 }
 
 thead {
