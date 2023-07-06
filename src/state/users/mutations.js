@@ -10,27 +10,46 @@ export default {
     state.lastLogin = null;
   },
   changeUserAvatar(state, avatar) {
-    state.userAvatar = avatar;
+    state.settings.avatar = avatar;
+    state.userAvatar = state.avatars[avatar];
+    console.log(state.settings.avatar, state.userAvatar)
   },
   changeTheme(state, theme) {
-    state.theme = theme;
+    console.log(theme)
+    if(theme === 'light')
+      state.settings.theme = 0;
+    else state.settings.theme = 1;
   },
   changeUsername(state, username) {
-    state.username = username;
+    state.settings.userName = username;
   },
   changeDescription(state, description) {
-    state.description = description;
+    state.settings.description = description;
   },
   changeName(state, name) {
-    state.name = name;
+    state.settings.firstName = name;
   },
   changeSurname(state, surname) {
-    state.surname = surname;
+    state.settings.surName = surname;
   },
   changeBirthDate(state, birthDate) {
-    state.birthDate = birthDate;
+    console.log(birthDate)
+    state.settings.dateOfBirth = birthDate;
   },
   changeEmail(state, email) {
-    state.email = email;
-  }
+    state.settings.email = email;
+  },
+  setSettings(state, value){
+    let inputDate = new Date(value.dateOfBirth);
+    let day = inputDate.getDate().toString().padStart(2, '0');
+    let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+    let year = inputDate.getFullYear().toString();
+    let formattedDate = `${year}-${month}-${day}`;
+    state.settings = value;
+    state.settings.dateOfBirth = formattedDate;
+    console.log(state.settings)
+  },
+  setUserAvatar(state, avatar){
+    state.userAvatar = state.avatars[avatar];
+ }
 }

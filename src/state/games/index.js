@@ -9,6 +9,7 @@ import PlaceholderImg from '@/assets/games/placeholder.jpg';
 export default {
   state() {
     return {
+      theme: 0,
       games: [
         {
           id: 0,
@@ -141,12 +142,52 @@ export default {
   mutations: {
     toggleIsFavorite(state, id) {
       state.games[id].isFavorite = !state.games[id].isFavorite;
+    },
+    setTheme(index){
+      if (index == 0){
+        return 'light' 
+      }else{
+        return 'dark'
+      }
     }
   },
   actions: {
     toogleFavorite(context, id) {
       context.commit('toggleIsFavorite', id);
-    }
+    },
+    async downloadTheme(context){
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      const token = JSON.parse(sessionStorage.getItem('token'))
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        };
+      const axios = require('axios');
+      let res;
+      try { 
+      res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/account/settings', {headers}); 
+      console.log(res.data)
+      console.log('aaa')
+      if (res.status === 200) {  
+        context.comit('setTheme', res.data.theme)
+      }
+      } catch (error) {
+      if (error.response) {
+        if(error.response.data === "UserNotExist"){
+          context.commit('toogleFindUser', false);
+        }else{
+          context.dispatch('showNotification',
+          {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie udało się pobrać danych.',
+              type: 'error'
+          },
+          { root: true });
+        }
+      } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+      }
+    },
   },
   getters: {
     getGames(state) {
@@ -157,6 +198,9 @@ export default {
     },
     getFavoriteGames(state) {
       return state.games.filter(game => game.isFavorite);
+    },
+    getStateTheme(state){
+      return state.theme;
     }
   }
 };

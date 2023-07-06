@@ -16,7 +16,7 @@
                         <tbody>
                             <tr class="friendsList"
                                 v-for="(f, index) in currentPage" :key="index">
-                                <td class="tableButton"><base-look-button @click="redirect(f.id, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
+                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
                             </tr>
                             <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
@@ -128,6 +128,7 @@ export default {
         ...mapActions(['showNotification']),
 //sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
+            console.log(id)
             if (invId !== 'null'){
                 return this.$router.push({
                     name: 'uhp',

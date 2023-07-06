@@ -273,6 +273,7 @@ export default {
         console.log(res.data, 'aaa')
           context.commit('setFriends', res.data);          
           context.commit('tooleIsLoading', false);
+          console.log(res.data)
       }
       } catch (error) {
       if (error.response) {
@@ -294,14 +295,5 @@ export default {
     nextPage({ commit }) {
       commit('nextPage');
     },
-  //   addFriend(context){
-  //       context.commit('addFriend');
-  //   },
-  //   removeFriend(context, payload){
-  //     context.commit('removeFriend', payload)
-  //   },
-  //   removeFriendInvitation(context, payload){
-  //     context.commit('removeInvitation', payload)
-  //   }
   },
 }

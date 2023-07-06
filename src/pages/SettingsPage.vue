@@ -5,7 +5,7 @@
         Ustawienia
       </BaseHeader>
       <div class="settings">
-        <UserProfile></UserProfile>
+        <UserProfile :userAvatar="getProfileAvatar" :id="getId"></UserProfile>
         <div class="settings-module" @mouseenter="this.mouseOverProfileSettings = true;"
           @mouseleave="this.mouseOverProfileSettings = false;">
           <div class="settings-module__head">
@@ -154,29 +154,40 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail'])
+    ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
+                    'getSettins', 'getProfileAvatar', 'getId'])
   },
   methods: {
-    ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 'setName', 'setSurname', 'setBirthDate', 'setEmail']),
+    ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
+                  'setName', 'setSurname', 'setBirthDate', 'setEmail', 'downloadSettings', 'sendSettings']),
     saveThemeSettings() {
       this.setTheme(this.theme);
+      this.sendSettings(this.getSettings)
     },
     restoreThemeSettings() {
       this.theme = this.getTheme;
+      console.log(this.theme)
     },
     saveProfileSettings() {
       this.setUsername(this.username);
       this.setDescription(this.description);
+      this.sendSettings(this.getSettings);
+
+
     },
     restoreProfileSettings() {
       this.username = this.getUsername;
       this.description = this.getDescription;
+      console.log(this.getUsername)
     },
     saveUserDataSettigs() {
       this.setName(this.name);
       this.setSurname(this.surname);
       this.setBirthDate(this.birthDate);
+      console.log(this.getBirthDate)
       this.setEmail(this.email);
+      this.sendSettings(this.getSettings)
+
     },
     restoreUserDataSettings() {
       this.name = this.getName;
@@ -186,10 +197,13 @@ export default {
     }
   },
   created() {
+    this.downloadSettings();
     this.restoreThemeSettings();
     this.restoreProfileSettings();
     this.restoreUserDataSettings();
-  }
+    console.log(this.getUsername)
+
+  },
 }
 </script>
 <style scoped>

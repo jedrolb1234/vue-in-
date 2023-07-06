@@ -3,7 +3,7 @@
         <div class="page">
             <BaseHeader>Strona użytkownika</BaseHeader>
             <div class="profile">
-                <UserProfile :id="id" :invId="getInvId" :isFriend="isFriend"></UserProfile>
+                <UserProfile :id="id" :invId="getInvId" :isFriend="isFriend" :user="getUser"></UserProfile>
                 <div class="module__head">
                 <h1>Dane użytkownika</h1>
                 </div>
@@ -73,19 +73,16 @@
       }
     },
     mounted(){
-      // this.getId();
-      // this.getIsFriend();
+      this.getData(this.id);
     },
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
-                             'getItemsPerPage']),
+                             'getItemsPerPage', 'getUser']),
       getIsFriend(){
-        console.log(this.isFriend)
         return this.isFriend;
       },
       getId(){
-        console.log(this.id)
         return this.id;
       },
       getInvId(){
@@ -93,7 +90,7 @@
       }
     },
     methods: {
-      ...mapActions('UHP', ['setArgs']),
+      ...mapActions('UHP', ['setArgs', 'getData']),
       ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'nextPage', 'previousPage','isFriend']),
       dynamicHeight(){
             let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;

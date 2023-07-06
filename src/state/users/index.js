@@ -38,7 +38,8 @@ export default {
       name: 'Jan',
       surname: 'Kowalski',
       birthDate: '2000-01-01',
-      theme: 'light'
+      theme: 'light',
+      settings: { }
     }
   },
   mutations: Mutations,

@@ -9,31 +9,39 @@ export default {
   getLastLogin(state) {
     return state.lastLogin;
   },
-  getUserAvatar(state) {
+  getProfileAvatar(state) {
     return state.userAvatar;
   },
   getAvatars(state) {
     return state.avatars;
   },
+  getUserAvatar:(state) => (nr) =>{
+    return state.avatars[nr];
+  },
   getTheme(state) {
-    return state.theme;
+    if(state.settings.theme === 0)
+      return 'light';
+    else if(state.settings.theme !== 0)return 'dark';
   },
   getUsername(state) {
-    return state.username;
+    return state.settings.userName;
   },
   getDescription(state) {
-    return state.description;
+    return state.settings.description;
   },
   getName(state) {
-    return state.name;
+    return state.settings.firstName;
   },
   getSurname(state) {
-    return state.surname;
+    return state.settings.surName;
   },
   getBirthDate(state) {
-    return state.birthDate;
+    return state.settings.dateOfBirth;
   },
   getEmail(state) {
-    return state.email;
+    return state.settings.email;
+  },
+  getId(state){
+    return state.settings.id
   }
 }

@@ -2,14 +2,14 @@
     <div class="content">
       <div id="user-profile">
         <div id="user-profile__image">
-          <img :src="this.getUserAvatar" />
+          <img :src="this.getProfileAvatar(user.avatar)" />
         </div>
         <div id="user-profile__data">
           <div class="username">
-            {{ this.getUsername }}
+            {{ this.user.userName }}
           </div>
           <div class="description">
-            {{ this.getDescription }}
+            {{ this.user.description }}
           </div>
         </div>
       </div>
@@ -30,22 +30,17 @@
     components: {
       BaseButton
     },
-    props:['isFriend','invId', 'id'],
+    props:['isFriend','invId', 'id', 'user'],
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
                           'getIsInvSended']),
-    ...mapGetters(['getUserAvatar', 'getUsername', 'getDescription']),
-      getId(){
-        console.log(this.id)
-        return this.id;
-      },
+      ...mapGetters(['getProfileAvatar']),
       getIsFriend(){
-        console.log(this.isFriend)
-        return this.isFriend === 'true';
+        console.lof
+        return this.isFriend === true;
       },
       getHasInvitation(){
-        console.log(this.invId)
         return this.invId !== 'null';
       },
       getInvId(){

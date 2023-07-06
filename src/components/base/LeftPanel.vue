@@ -7,7 +7,7 @@
       </div>
       <hr />
       <div class="avatar">
-        <img :src="this.getUserAvatar"/>
+        <img :src="this.getProfileAvatar"/>
       </div>
       <div class="tabs">
         <div class="tabsItem clickable" @click="$router.push({ name: 'games' })">
@@ -47,7 +47,7 @@ export default {
     ...mapActions(['toogleLeftPanel', 'logOutUser'])
   },
   computed: {
-    ...mapGetters(['isLeftPanelHidden', 'getUserAvatar']),
+    ...mapGetters(['isLeftPanelHidden', 'getProfileAvatar']),
     iconStyles() {
       return ['material-symbols-outlined', 'icon'].join(' ');
     },

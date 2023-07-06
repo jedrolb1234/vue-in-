@@ -139,6 +139,76 @@ export default {
       }
     }
   },
+  async downloadSettings(context){
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const token = JSON.parse(sessionStorage.getItem('token'))
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      };
+    const axios = require('axios');
+    let res;
+    try { 
+    res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, {headers}); 
+    console.log(res.data)
+    if (res.status === 200) {  
+      context.commit('setSettings', res.data)
+      console.log(res.data.dateOfBirth)
+      context.commit('setUserAvatar',res.data.avatar)
+      console.log(context.state.settings)
+    }
+    } catch (error) {
+    if (error.response) {
+      if(error.response.data === "UserNotExist"){
+        context.commit('toogleFindUser', false);
+      }else{
+        context.dispatch('showNotification',
+        {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+        },
+        { root: true });
+      }
+    } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+    }
+    }
+  },
+
+  async sendSettings(context){
+    let settings = context.state.settings;
+    let parts = settings.dateOfBirth.split('-');
+    let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+    settings.dateOfBirth = parsedDate.toISOString();
+    console.log(settings)
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const token = JSON.parse(sessionStorage.getItem('token'))
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      };
+    const axios = require('axios');
+    let res;
+    try { 
+    res = await axios.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings, {headers}); 
+    console.log(res.data)
+    if (res.status === 200) {  
+      console.log(res)
+    }
+    } catch (error) {
+    if (error.response) {
+      console.log(error)
+        context.dispatch('showNotification',
+        {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+        },
+        { root: true });
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+    }
+    }
+  },
   setUserAvatar(context, avatar) {
     context.commit('changeUserAvatar', avatar)
   },

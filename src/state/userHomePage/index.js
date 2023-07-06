@@ -1,3 +1,4 @@
+import Users from '@/state/users/index.js'; Users;
 export default {
     namespaced: true,
     state() {
@@ -15,6 +16,7 @@ export default {
         invitations: null,
         invitation: null,
         invSended: false,
+        user: { },
         history:[
           {
             id:0,
@@ -60,7 +62,6 @@ export default {
       },
       previousPage(state){
         if (state.currentPage > 1){
-          console.log('--')
           state.currentPage--;
         }
       },
@@ -91,7 +92,9 @@ export default {
       },
       setInvitations(state, value){
         state.invitations = value;
-        console.log(state.invitations);
+      },
+      setUser(state, user){
+        state.user = user;
       }
     },
     getters: {
@@ -105,7 +108,6 @@ export default {
       },
       pageNr(state){
         return state.currentPage;
-  
       },
       allPages(state){
         return Math.ceil(state.history.length / state.itemsPerPage);
@@ -129,14 +131,18 @@ export default {
         return state.invSended;
       },
       getName(state){
-        return state.name;
+        console.log(state.user)
+        return state.user.firstName;
       },
       getSurname(state){
-        return state.surname;
+        return state.user.lastName;
       },
       getBirthDate(state){
-        return state.birthDate;
+        return state.user.dateOfBirth;
       },
+      getUser(state){
+        return state.user;
+      }
     },
     actions: {
         previousPage(context) {
@@ -248,6 +254,39 @@ export default {
             context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
         }
+      },
+      async getData(context,userId){
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      const token = JSON.parse(sessionStorage.getItem('token'))
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        };
+      const axios = require('axios');
+      let res;
+      try { 
+        // console.log(userId)
+        // console.log(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + userId + process.env.VUE_APP_PROFILE) 
+      res = await axios.get(process.env.VUE_APP_BACKEND_URL + "/account/" + userId + "/profile", {headers}); 
+      if (res.status === 200) {  
+        context.commit('setUser', res.data)
+      }
+      } catch (error) {
+      if (error.response) {
+        if(error.response.data === "UserNotExist"){
+          context.commit('toogleFindUser', false);
+        }else{
+          context.dispatch('showNotification',
+          {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie udało się pobrać danych.',
+              type: 'error'
+          },
+          { root: true });
+        }
+      } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+      }
       },
     }
   }
