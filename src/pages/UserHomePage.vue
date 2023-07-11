@@ -14,7 +14,7 @@
                 <div>Nazwisko</div>
                 <div>{{ getSurname }}</div>
                 <div>Data urodzenia</div>
-                <div> {{  getBirthDate }}</div>
+                <div> {{ getBirthDate }}</div>
                 </div>
             </div>
             <h1>Historia gier</h1>
@@ -59,7 +59,7 @@
       BaseNextButton,
       BasePreviousButton
     },
-    props:['id', 'isFriend', 'invId'],
+    props:['id', 'isFriend', 'invId', 'userAvatar'],
     
     data() {
       return {

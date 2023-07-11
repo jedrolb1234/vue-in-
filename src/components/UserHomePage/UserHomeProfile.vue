@@ -2,7 +2,7 @@
     <div class="content">
       <div id="user-profile">
         <div id="user-profile__image">
-          <img :src="this.getProfileAvatar(user.avatar)" />
+          <img :src="getUserAvatar(user.avatar)" />
         </div>
         <div id="user-profile__data">
           <div class="username">
@@ -35,9 +35,8 @@
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
                           'getIsInvSended']),
-      ...mapGetters(['getProfileAvatar']),
+      ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
       getIsFriend(){
-        console.lof
         return this.isFriend === true;
       },
       getHasInvitation(){
@@ -48,7 +47,7 @@
       },
     },
     mounted(){
-      this.downloadInvitations()
+      this.downloadInvitations();
     },
     methods: {
       ...mapActions('UHP',['sendInvitation', 'acceptInvitation', 'downloadInvitations']),

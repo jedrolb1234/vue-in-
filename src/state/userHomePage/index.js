@@ -94,7 +94,14 @@ export default {
         state.invitations = value;
       },
       setUser(state, user){
+        let inputDate = new Date(user.dateOfBirth);
+        let day = inputDate.getDate().toString().padStart(2, '0');
+        let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+        let year = inputDate.getFullYear().toString();
+        let formattedDate = `${year}-${month}-${day}`;
         state.user = user;
+        state.user.dateOfBirth = formattedDate;
+        console.log(state.user)
       }
     },
     getters: {
@@ -142,7 +149,7 @@ export default {
       },
       getUser(state){
         return state.user;
-      }
+      },
     },
     actions: {
         previousPage(context) {
@@ -269,6 +276,7 @@ export default {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + "/account/" + userId + "/profile", {headers}); 
       if (res.status === 200) {  
         context.commit('setUser', res.data)
+        console.log(res.data)
       }
       } catch (error) {
       if (error.response) {

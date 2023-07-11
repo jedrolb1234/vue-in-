@@ -148,7 +148,6 @@ export default {
 
       mouseOverUserDataSettings: false,
       mouseOverThemeSettings: false,
-      theme: null,
 
       isAvatarPickerVisible: false
     }

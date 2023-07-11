@@ -84,7 +84,6 @@ img{
 .empty{
     background-size: cover;
 }
-
 .empty2{
     background-size: cover;
     animation: sink 1000ms forwards ease; 
@@ -104,7 +103,6 @@ img{
     size: cover;
     background-color: aqua;
 }
-
 .hit{
     background-image: url('@/assets/games/image/cbomb.png');
     background-size: cover;

@@ -41,7 +41,7 @@ export default {
             hitOponent: 'hitOponent',
             missedOponent: 'missedOponent',
             counter:12,
-            clicked:[],
+            clicked: [],
             oponentRecive: [],
             setShipCounter:12,
             firstLoad: true,
@@ -69,7 +69,7 @@ export default {
             }
             return state.boardTable1;
         },
-        getClass: (state) => (p) =>{
+        getClass:(state) => (p)=>{
             console.log(state.board[p])
             return state.board[p];
             },
