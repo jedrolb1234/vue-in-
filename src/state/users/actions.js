@@ -102,9 +102,35 @@ export default {
   async changePassword(context, payload) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const axios = require('axios');
-    let res;
+    // let res;
+    // const token = JSON.parse(sessionStorage.getItem('token'))
+
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    //   };
     try {
-      res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_PASSWORD_CHANGE_ENDPOINT, payload);
+      await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_PASSWORD_CHANGE_ENDPOINT, payload);
+      // if (res.status == 200) {
+        // context.dispatch('showNotification', notificationTemplates.password_changed, { root: true });
+      // }
+    } catch (error) {
+      if (error.response) {
+        informUserAbouErrors(context, error.response.data.errors);
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
+  },
+  async deleteAccount(context){
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const axios = require('axios');
+    let res;
+    // const token = JSON.parse(sessionStorage.getItem('token'))
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    //   };
+    try {
+      res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VVUE_APP_ACCOUNT);
       if (res.status == 200) {
         context.dispatch('showNotification', notificationTemplates.password_changed, { root: true });
       }
@@ -151,12 +177,11 @@ export default {
     const axios = require('axios');
     let res;
     try { 
-    res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, {headers}); 
+    res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, { headers }); 
     console.log(res.data)
     if (res.status === 200) {  
       context.commit('setSettings', res.data)
-      console.log(res.data.dateOfBirth)
-      context.commit('setUserAvatar',res.data.avatar)
+      context.commit('setUserAvatar', res.data.avatar)
       console.log(context.state.settings)
     }
     } catch (error) {
@@ -183,7 +208,7 @@ export default {
     let parts = settings.dateOfBirth.split('-');
     let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
     settings.dateOfBirth = parsedDate.toISOString();
-    console.log(settings)
+    // console.log(settings)
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const token = JSON.parse(sessionStorage.getItem('token'))
     const headers = {

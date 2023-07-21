@@ -76,7 +76,7 @@
           <hr>
           <div class="settings-module__content">
             <div>Motyw strony</div>
-            <select name="theme" id="theme" v-model="theme">
+            <select name="theme" id="theme" v-model="this.theme">
               <option value="light">Podstawowy</option>
               <option value="dark">Ciemny</option>
             </select>
@@ -87,14 +87,16 @@
             <h1>Zmień hasło</h1>
           </div>
           <hr>
+        <form @submit.prevent="resetPassword">
           <div class="settings-module__content">
             <div>Nowe hasło</div>
-            <input type="password" />
+            <input type="password" v-model.trim="password"/>
             <div>Powtórz hasło</div>
-            <input type="password" />
+            <input type="password" v-model.trim="rpassword"/>
             <div></div>
-            <BaseButton type="secondary-medium">Zmień hasło</BaseButton>
+            <BaseButton type="secondary-medium">Zmień hasło</BaseButton>         
           </div>
+        </form>
         </div>
         <div class="settings-module">
           <div class="settings-module__head">
@@ -103,8 +105,10 @@
           <hr>
           <div class="settings-module__content">
             <div>Usunięcie konta jest nieodwrcalne.</div>
-            <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);">Usuń
+            <BaseButton type="secondary-medium" @click="DeleteMessage" style="background-color: var(--primary); color: var(--secondary);">Usuń
               konto</BaseButton>
+              <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
+
           </div>
         </div>
       </div>
@@ -124,6 +128,8 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { mapActions, mapGetters } from 'vuex';
 import AvatarPickerModal from '@/components/TheSettingsPage/AvatarPickerModal.vue';
 import BaseButtonWithTooltip from '@/components/base/BaseButtonWithTooltip.vue';
+import inputValidators from '@/mixins/inputValidators';
+import BaseDeleteMessage from '@/components/base/BaseDeleteAccount.vue'
 
 export default {
   components: {
@@ -132,8 +138,11 @@ export default {
     UserProfile,
     BaseButton,
     AvatarPickerModal,
-    BaseButtonWithTooltip
+    BaseButtonWithTooltip,
+    BaseDeleteMessage,
   },
+  mixins: [inputValidators],
+
   data() {
     return {
       mouseOverProfileSettings: false,
@@ -145,6 +154,9 @@ export default {
       surname: '',
       birthDate: null,
       email: '',
+      theme: 1,
+      password:'',
+      rpassword:'',
 
       mouseOverUserDataSettings: false,
       mouseOverThemeSettings: false,
@@ -158,13 +170,28 @@ export default {
   },
   methods: {
     ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
-                  'setName', 'setSurname', 'setBirthDate', 'setEmail', 'downloadSettings', 'sendSettings']),
+                  'setName', 'setSurname', 'setBirthDate', 'setEmail', 'downloadSettings', 'sendSettings',
+                  'changePassword', 'delete']),
+    isFormValid() {
+      this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
+      return this.isPasswordValid;
+    },
+    async resetPassword() {
+      if (this.isFormValid()) {
+        const token = JSON.parse(sessionStorage.getItem('token'))
+        await this.changePassword({ password: this.password, encodedUserIdAndToken: token });
+      }
+    },
+    deleteMessage(){
+      this.visibleMessage = this.isVisibleMessage;
+    },
     saveThemeSettings() {
       this.setTheme(this.theme);
       this.sendSettings(this.getSettings)
     },
     restoreThemeSettings() {
       this.theme = this.getTheme;
+      this.setTheme(this.theme)
       console.log(this.theme)
     },
     saveProfileSettings() {
@@ -177,8 +204,7 @@ export default {
     restoreProfileSettings() {
       this.username = this.getUsername;
       this.description = this.getDescription;
-      console.log(this.getUsername)
-    },
+   },
     saveUserDataSettigs() {
       this.setName(this.name);
       this.setSurname(this.surname);
@@ -193,15 +219,16 @@ export default {
       this.surname = this.getSurname;
       this.birthDate = this.getBirthDate;
       this.email = this.getEmail;
+      console.log(this.birthDate, this.getBirthDate)
     }
   },
-  created() {
-    this.downloadSettings();
+  async created() {
+    await this.downloadSettings();
     this.restoreThemeSettings();
+    // this.saveThemeSettings();
+    // console.log(this.restoreThemeSettings())
     this.restoreProfileSettings();
     this.restoreUserDataSettings();
-    console.log(this.getUsername)
-
   },
 }
 </script>

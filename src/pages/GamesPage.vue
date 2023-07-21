@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getGames', 'getFavoriteGames', 'getStateTheme'])
+    ...mapGetters(['getGames', 'getFavoriteGames', 'getStateTheme', 'getTheme'])
   },
   methods: {
     ...mapActions(['downloadTheme', 'setTheme']),
@@ -73,7 +73,8 @@ export default {
   created() {
     this.filteredGames = this.getGames;
     this.downloadTheme();
-    this.setTheme(this.getStateTheme);
+    this.setTheme(this.getTheme);
+    console.log(this.getTheme)
 
   }
 }

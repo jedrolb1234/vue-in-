@@ -1,3 +1,4 @@
+
 export default {
   login(state, data) {
     sessionStorage.setItem('token', JSON.stringify(data.accessToken));
@@ -47,9 +48,18 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
+    console.log(state.settings.dateOfBirth)
+  
     console.log(state.settings)
   },
   setUserAvatar(state, avatar){
     state.userAvatar = state.avatars[avatar];
- }
+ },
+  setTheme(state, theme){
+    state.settings.theme = theme;
+    state.theme = theme;
+    // if(theme === 0)
+    //   state.theme = 'light';
+    //  else state.theme = 'dark';
+  },
 }

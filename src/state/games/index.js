@@ -143,12 +143,16 @@ export default {
     toggleIsFavorite(state, id) {
       state.games[id].isFavorite = !state.games[id].isFavorite;
     },
-    setTheme(index){
+    setTheme(state, index){
+      let theme;
       if (index == 0){
-        return 'light' 
+        theme = 'light';
+        state.theme = 'light'
       }else{
-        return 'dark'
+        theme = 'dark';
+        state.theme = 'dark'
       }
+      sessionStorage.setItem('theme', theme);
     }
   },
   actions: {
