@@ -102,17 +102,12 @@ export default {
   async changePassword(context, payload) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const axios = require('axios');
-    // let res;
-    // const token = JSON.parse(sessionStorage.getItem('token'))
-
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   };
+    let res;
     try {
-      await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_PASSWORD_CHANGE_ENDPOINT, payload);
-      // if (res.status == 200) {
-        // context.dispatch('showNotification', notificationTemplates.password_changed, { root: true });
-      // }
+      res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_PASSWORD_CHANGE_ENDPOINT, payload);
+      if (res.status == 200) {
+        context.dispatch('showNotification', notificationTemplates.password_changed, { root: true });
+      }
     } catch (error) {
       if (error.response) {
         informUserAbouErrors(context, error.response.data.errors);

@@ -107,7 +107,7 @@
             <div>Usunięcie konta jest nieodwrcalne.</div>
             <BaseButton type="secondary-medium" @click="DeleteMessage" style="background-color: var(--primary); color: var(--secondary);">Usuń
               konto</BaseButton>
-              <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
+              <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message>
 
           </div>
         </div>

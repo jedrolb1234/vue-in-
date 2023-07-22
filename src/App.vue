@@ -10,6 +10,11 @@ export default {
     ...mapGetters(['getTheme'])
   },
   watch: {
+    // theme: function(newTheme, oldTheme){
+    //   document.body.classList.remove(oldTheme)
+    //   document.body.classList.add(newTheme);
+    //   document.documentElement.style.colorScheme=newTheme;
+    // }
     getTheme(newTheme, oldTheme) {
       document.body.classList.remove(oldTheme)
       document.body.classList.add(newTheme);
