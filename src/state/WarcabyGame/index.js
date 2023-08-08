@@ -293,31 +293,26 @@ export default{
         },
 
         possibleActiveMove(context, newField){
-            console.log(context.state.lastClicked)
             if (context.state.lastClicked === null)
                 return null;
             let pawn = context.state.lastClicked;
-            // context.commit('setIfMoveIsPossible', false);
             let xTmp1;
             let yTmp1;
             let tmpPosition1;
             let x = parseInt(pawn[0]);
             let y = parseInt(pawn[1]);
-            console.log(pawn, x,y, context.state.turn, newField,context.state.board[pawn])
             if (context.state.turn && ((context.state.board[pawn] === context.state.whitePawn)))
             {
-                xTmp1 = x-1; console.log('pppppppppppppppp')
+                xTmp1 = x-1; 
                 yTmp1 = y+1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();    
-                console.log('activeJumpblabla',context.state.board[tmpPosition1], tmpPosition1,context.state.board[pawn])  
-                console.log('activeJump',newField,tmpPosition1,context.state.board[tmpPosition1],context.state.Empty,context.state.board[pawn], context.state.whitePawn,)    
                 if((newField === tmpPosition1) && 
                     (context.state.board[tmpPosition1] === context.state.Empty) && 
                     ((context.state.board[pawn] === context.state.whitePawn)))
                 {
-                        context.commit('setActiveMove', true);console.log(']]]]]]')
+                        context.commit('setActiveMove', true);
                 }       
-                xTmp1 = x-1; console.log('xxxxxxxxxxxxxxxxxxx')
+                xTmp1 = x-1; 
                 yTmp1 = y-1;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
                 console.log('activeJump', context.state.board[tmpPosition1], tmpPosition1)  
@@ -514,7 +509,7 @@ export default{
             let xTmp1, xTmp2, yTmp1, yTmp2, tmpPosition1, tmpPosition2;
             console.log(x,y, pawn)
             if (context.state.turn && ((context.state.board[pawn] === context.state.whitePawn)))
-            { console.log('aaaaaaaaaaaaaaaaa')
+            {
                 xTmp1 = x+2; 
                 yTmp1 = y+2;
                 tmpPosition1 = xTmp1.toString() + yTmp1.toString();
@@ -823,7 +818,6 @@ export default{
             let y = parseInt(pawn[1]);
             context.dispatch('PossibleJump', {x:x, y:y, pawn:pawn});
             context.dispatch('PossibleMove', {x:x, y:y, pawn:pawn});
-            console.log(context.state.ifMoveIsPossible)
         },               
 
         PossibleJump(context, payload){
@@ -845,7 +839,7 @@ export default{
                     (context.state.board[tmpPosition2] === context.state.blackPawn ||
                     context.state.board[tmpPosition2] === context.state.blackKing))
                 {
-                    context.commit('setIfMoveIsPossible', true);console.log(']]]]]]]')
+                    context.commit('setIfMoveIsPossible', true);
                 }
                     xTmp1 = x-2; 
                     yTmp1 = y+2;

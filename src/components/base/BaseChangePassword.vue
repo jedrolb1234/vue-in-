@@ -1,35 +1,35 @@
 <template>
   <div class="modal-backdrop">
-    <div class="modal" name="modal">
-      <slot></slot>
-        <div class="buttons"> 
-          <base-small-button @click="deleteFromFriends(id)">Potwierdz</base-small-button>
-          <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
-        </div>
-      </div>
-    </div>
-  </template>
-  
+        <div class="modal" name="modal">
+          <slot></slot>
+              <div class="buttons"> 
+                  <base-small-button @click="redirect">Potwierdz</base-small-button>
+                  <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
+              </div>
+          </div>
+  </div>
+</template>
+
 <script>
 import BaseSmallButton from'@/components/base/BaseSmallButton.vue';
-
+import { mapActions} from 'vuex';
 export default {
-  props: ['id', 'visibleMessage'],
-  emits: ['visibleMessage'],
+
   component: {
       BaseSmallButton,
 },
 
   methods:{
+    ...mapActions['redirectPassword()'],
       emitVisibleMessage() {
-          console.log('message')
-          this.$emit('visibleMessage', false);
+          console.log('message');
+          this.$emit('visibleMessageP', false);
       },
-  //     deleteFromFriends(id){
-  //         id = null          
-  //         this.$emit('visibleMessage', false);
-  //         return id;
-  // }
+      redirect() {
+        console.log('redirect')
+          this.$store.dispatch('redirectPassword');        
+          this.$emit('visibleMessageP', false);
+      }
   }
 }
 
@@ -86,7 +86,7 @@ export default {
   margin: 0 5px;
 }
 
-.modal-enter-active {
+/* .modal-enter-active {
   animation: modal 0.3s ease-out;
 }
 
@@ -104,5 +104,5 @@ export default {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
+} */
   </style>

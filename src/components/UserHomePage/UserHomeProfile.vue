@@ -15,9 +15,11 @@
       </div>
       <div id="user-profile__invitation">
         <BaseButton v-if="(getHasInvitation===true) && (getIsFriend === false)" :type="secondary-medium" class="clickable" @click="acceptInvitation(getInvId)">Dodaj znajomego</BaseButton>
-        <BaseButton v-if="(getIsFriend===false) && (getHasInvitation === false) && (getIsInvSended === false)" :type="secondary-medium" class="clickable" @click="sendInvitation(getId)">Wyślij zaproszenie</BaseButton>
+        <BaseButton v-if="(getIsFriend===false) && (getHasInvitation === false) && (getIsInvSended === false) && (getOwnId ===false)" :type="secondary-medium" class="clickable" @click="sendInvitation(getId)">Wyślij zaproszenie</BaseButton>
         <div v-if="(getIsFriend===false) && (getIsInvSended === true) && (getHasInvitation === false)">Zaproszenie wysłane</div>
         <div v-if="(getIsFriend===true) && (getHasInvitation === false)">Jesteście znajomymi</div>
+        <div v-if="(getIsFriend===false) && (getHasInvitation === false) && (getIsInvSended === false) && (getOwnId === true)" :type="secondary-medium" class="clickable"></div>
+
       </div>
     </div>
   </template>
@@ -35,7 +37,7 @@
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
                           'getIsInvSended']),
-      ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
+      ...mapGetters(['getProfileAvatar', 'getUserAvatar', '`getOwnId`']),
       getIsFriend(){
         return this.isFriend === true;
       },

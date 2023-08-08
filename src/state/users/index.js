@@ -40,7 +40,8 @@ export default {
       surname: 'Kowalski',
       birthDate: '2000-01-01',
       theme: 'light',
-      settings: { }
+      settings: { },
+      visibleMessageP: false,
     }
   },
   mutations: Mutations,

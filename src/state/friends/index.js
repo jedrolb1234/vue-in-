@@ -17,6 +17,7 @@ export default {
         findUser: null,
         itemsPerPage: 10,
         currentPage: 1,
+        invCurrentPage: 1,
         username: '',
         friends:[ ],
         invitations:[ ],
@@ -95,6 +96,19 @@ export default {
     },
     allPages(state){
       return Math.ceil(state.friends.length / state.itemsPerPage);
+    },
+    invCurrentPage(state){
+      let startIndex = (state.invCurrentPage - 1) * state.itemsPerPage;
+      let endIndex = startIndex + state.itemsPerPage;
+      let sliced = state.invitations.slice(startIndex, endIndex);   
+      state.dynamicHeight = (10 - sliced.length ) * 38;
+      return sliced;     
+    },
+    invPageNr(state){
+      return state.invCurrentPage;
+    },
+    invAllPages(state){
+      return Math.ceil(state.invitations.length / state.itemsPerPage);
     },
     getFriends(state){
       return state.friends;
@@ -294,6 +308,12 @@ export default {
     },
     nextPage({ commit }) {
       commit('nextPage');
+    },
+    invPreviousPage({ commit }) {
+      commit('invPreviousPage');
+    },
+    invNextPage({ commit }) {
+      commit('invNextPage');
     },
   },
 }

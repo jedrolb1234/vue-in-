@@ -2,12 +2,11 @@
     <div class="board-container">
         <table class="board-table">
             <tr v-for="(t,key) in getVLoop" :key='key'>
-                    <td v-for="(p, idx) in t"  :key="idx"
-                         :class="getClass(p)" @click="chooseMethod(p)"><p :class="getPawnClass(p)"></p></td>
-                </tr>
-    </table>
-
-</div>
+                <td v-for="(p, idx) in t"  :key="idx"
+                        :class="getClass(p)" @click="chooseMethod(p)"><p :class="getPawnClass(p)"></p></td>
+            </tr>
+        </table>
+    </div>
 </template>
 
 <script>

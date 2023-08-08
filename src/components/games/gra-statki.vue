@@ -1,7 +1,7 @@
 <template>
     <div class = "container">
         <div class = "player1-container">
-            <table :class = "getBoardTable1">
+            <table class = "board-table1">
                 <tr v-for="(t,key) in getVLoop" :key='key'>
                     <td v-for="(p, idx) in t"  :key="idx"
                          :class="getClass(p)" @click="chooseMethod(p)"></td>
@@ -66,8 +66,8 @@ export default {
 }
 td{
     border-style: solid;
-    border-width: 0.5px;
     border-color: black;
+    border-width: 0.5px;
     width: 37.5px;
     height: 37.5px;
 }
@@ -191,7 +191,7 @@ img{
   }
 } */
 
-.disable-animation{
+/* .disable-animation{
     border-spacing: 0px;
 }
 .disable-animation td {
@@ -201,7 +201,7 @@ img{
     border-color: black;
     width: 37.5px;
     height: 37.5px;
-}
+} */
 .hitPlayer{
     width: 37.5px;
     height: 37.5px;

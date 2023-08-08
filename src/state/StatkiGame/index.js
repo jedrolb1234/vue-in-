@@ -63,14 +63,14 @@ export default {
         getVLoop(state){
             return state.vLoop;
         },
-        getBoardTable1(state){
-            if(state.firstLoad){
-                return state.disable_animation;
-            }
-            return state.boardTable1;
-        },
-        getClass:(state) => (p)=>{
-            console.log(state.board[p])
+        // getBoardTable1(state){
+        //     if(state.firstLoad){
+        //         return state.disable_animation;
+        //     }
+        //     return state.boardTable1;
+        // },
+        getClass: (state) => (p) => {
+            // console.log(state.board[p])
             return state.board[p];
             },
         
@@ -158,13 +158,12 @@ export default {
             }
             else if(state.isCheckClicked){
                 return dispatch('unSetShip',field);
-            }
-            
+            }    
         },
         setShip(context, field){
             context.firstLoad = false;
             context.commit('isAbleToPut', true);
-            context.commit('clickedNotIn', field)
+            context.commit('clickedNotIn', field);
             context.dispatch('checkLocation', field);
             context.dispatch('checkNeighbor', field);
             if(context.state.isAbleToPut){
@@ -420,7 +419,7 @@ export default {
                             counter = 2;
                         }
                         else if((context.state.board[field1] === context.state.ship) && (context.state.board[field2] === context.state.ship) 
-                            && context.state.board[field1] !== context.state.ship){
+                            && context.state.board[field3] !== context.state.ship){
                                 counter = 3;
                             }
                         else if((context.state.board[field1] === context.state.ship) && (context.state.board[field2] === context.state.ship) 

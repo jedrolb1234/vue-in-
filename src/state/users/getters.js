@@ -44,5 +44,14 @@ export default {
   },
   getId(state){
     return state.settings.id
+  },
+  getVisibleMessageP(state){
+    return state.visibleMessageP;
+  },
+  getVisibleMessage(state){
+    return state.visibleMessage;
+  },
+  getOwnId(state, value){
+    return state.settings.id === value;
   }
 }

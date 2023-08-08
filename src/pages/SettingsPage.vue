@@ -87,16 +87,13 @@
             <h1>Zmień hasło</h1>
           </div>
           <hr>
-        <form @submit.prevent="resetPassword">
           <div class="settings-module__content">
-            <div>Nowe hasło</div>
-            <input type="password" v-model.trim="password"/>
-            <div>Powtórz hasło</div>
-            <input type="password" v-model.trim="rpassword"/>
             <div></div>
-            <BaseButton type="secondary-medium">Zmień hasło</BaseButton>         
+            <BaseButton type="secondary-medium" @click="resetPassword">Zmień hasło</BaseButton>             
+            <div></div>      
+            <div>Zostaniesz przekierowany do strony zmiany hasła.</div>
+            <Transition><BaseChangePassword v-if="getVisibleMessageP === true" @visibleMessageP="hidePopup">Zostaniesz wylogowany</BaseChangePassword></Transition>
           </div>
-        </form>
         </div>
         <div class="settings-module">
           <div class="settings-module__head">
@@ -105,9 +102,9 @@
           <hr>
           <div class="settings-module__content">
             <div>Usunięcie konta jest nieodwrcalne.</div>
-            <BaseButton type="secondary-medium" @click="DeleteMessage" style="background-color: var(--primary); color: var(--secondary);">Usuń
+            <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);" @click="showDeletePopup">Usuń
               konto</BaseButton>
-              <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message>
+            <Transition><base-delete-message :id="id" v-if="getVisibleMessage === true" @visibleMessage="hideDeletePopup"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message></Transition>
 
           </div>
         </div>
@@ -129,8 +126,8 @@ import { mapActions, mapGetters } from 'vuex';
 import AvatarPickerModal from '@/components/TheSettingsPage/AvatarPickerModal.vue';
 import BaseButtonWithTooltip from '@/components/base/BaseButtonWithTooltip.vue';
 import inputValidators from '@/mixins/inputValidators';
-import BaseDeleteMessage from '@/components/base/BaseDeleteAccount.vue'
-
+import BaseDeleteMessage from '@/components/base/BaseDeleteAccount.vue';
+import BaseChangePassword from '@/components/base/BaseChangePassword.vue';
 export default {
   components: {
     BasePageLayout,
@@ -140,9 +137,9 @@ export default {
     AvatarPickerModal,
     BaseButtonWithTooltip,
     BaseDeleteMessage,
+    BaseChangePassword
   },
   mixins: [inputValidators],
-
   data() {
     return {
       mouseOverProfileSettings: false,
@@ -157,33 +154,22 @@ export default {
       theme: 1,
       password:'',
       rpassword:'',
-
       mouseOverUserDataSettings: false,
       mouseOverThemeSettings: false,
-
       isAvatarPickerVisible: false
     }
   },
   computed: {
     ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
-                    'getSettins', 'getProfileAvatar', 'getId'])
+                    'getSettins', 'getProfileAvatar', 'getId','getVisibleMessageP', 'getVisibleMessage'])
   },
   methods: {
     ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
                   'setName', 'setSurname', 'setBirthDate', 'setEmail', 'downloadSettings', 'sendSettings',
-                  'changePassword', 'delete']),
+                  'changePassword', 'delete', 'resetPassword', 'hidePopup','showDeletePopup','hideDeletePopup']),
     isFormValid() {
       this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
       return this.isPasswordValid;
-    },
-    async resetPassword() {
-      if (this.isFormValid()) {
-        const token = JSON.parse(sessionStorage.getItem('token'))
-        await this.changePassword({ password: this.password, encodedUserIdAndToken: token });
-      }
-    },
-    deleteMessage(){
-      this.visibleMessage = this.isVisibleMessage;
     },
     saveThemeSettings() {
       this.setTheme(this.theme);
@@ -198,8 +184,6 @@ export default {
       this.setUsername(this.username);
       this.setDescription(this.description);
       this.sendSettings(this.getSettings);
-
-
     },
     restoreProfileSettings() {
       this.username = this.getUsername;
@@ -220,7 +204,7 @@ export default {
       this.birthDate = this.getBirthDate;
       this.email = this.getEmail;
       console.log(this.birthDate, this.getBirthDate)
-    }
+    },
   },
   async created() {
     await this.downloadSettings();
@@ -230,7 +214,15 @@ export default {
     this.restoreProfileSettings();
     this.restoreUserDataSettings();
   },
-}
+  // watch: {
+  //   getTheme(newTheme, oldTheme) {
+  //     document.body.classList.remove(oldTheme)
+  //     document.body.classList.add(newTheme);
+  //     document.documentElement.style.colorScheme=newTheme;
+  //   }
+  // }
+  }
+
 </script>
 <style scoped>
 .page {
@@ -313,11 +305,27 @@ textarea {
 
 .v-enter-active,
 .v-leave-active {
+  animation: modal;
   transition: opacity 0.5s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
+  animation:modal;
   opacity: 0;
-}</style>
+}
+
+
+  @keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
   

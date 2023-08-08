@@ -31,17 +31,17 @@ export default {
   props:['userAvatar', 'id'],
   methods:{
     redirect(){
-    return this.$router.push({
-                        name: 'uhp',
-                        params: { id: this.id, isFriend: true , invId: 'null'},
-                        });
-  }
+      console.log(this.id)
+      return this.$router.push({
+                          name: 'uhp',
+                          params: { id: this.id, isFriend: false , invId: 'null'},
+                          });
+    }
   },
   computed: {
-    ...mapGetters(['getProfileAvatar', 'getUsername', 'getDescription'])
+    ...mapGetters(['getProfileAvatar', 'getUsername', 'getDescription', 'getId'])
   },
-
-}
+  }
 </script>
 
 <style scoped>

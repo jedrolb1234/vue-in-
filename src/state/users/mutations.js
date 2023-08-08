@@ -56,10 +56,22 @@ export default {
     state.userAvatar = state.avatars[avatar];
  },
   setTheme(state, theme){
+    document.body.classList.remove(state.settings.theme)
+    document.body.classList.add(theme);
+    document.documentElement.style.colorScheme=theme;
     state.settings.theme = theme;
     state.theme = theme;
+    console.log(document.body.classList, document.documentElement.style.colorScheme)
     // if(theme === 0)
     //   state.theme = 'light';
     //  else state.theme = 'dark';
   },
+  popupPassword(state, value) {
+    console.log('password')
+    state.visibleMessageP = value;
+    },
+  popupDelete(state, value){
+    console.log('delete')
+    state.visibleMessage = value;
+    }
 }

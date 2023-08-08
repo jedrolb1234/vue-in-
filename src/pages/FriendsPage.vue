@@ -40,11 +40,18 @@
                                 <tr><th class="tableButton">Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                                 
                                     <tr class="invitationsList"
-                                        v-for="(i, index) in getInvitations" :key="index">
+                                        v-for="(i, index) in invCurrentPage" :key="index">
                                         <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
+                        <transition-group name="fade" tag="table" class="invContainer">
+                            <div class="buttons" v-if="getAvilabeInvitations > 10">
+                                <base-previous-button @click="invPreviousPage"></base-previous-button>
+                                <base-next-button @click="invNextPage"></base-next-button>
+                                <p class="page">{{ invPageNr }}</p>
+                            </div>
+                        </transition-group>
                     </ul> 
                 </transition>
                 <ul v-if="getAvilabeInvitations === 0"><p>Nie otrzymano zaproszeń od znajomych.</p></ul>
@@ -119,23 +126,22 @@ export default {
     computed: {
         ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
                     'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 'getDynamicHeight', 
-                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations']),
+                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations',
+                    'invCurrentPage', 'invPageNr', 'invAllPages']),
     },
     methods:{
         ...mapActions('Friends', ['nextPage', 'previousPage', 'find', 'addFriend', 
                     'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation',
-                    'redirect']),
+                    'redirect','invNextPage', 'invPreviousPage',]),
         ...mapActions(['showNotification']),
 //sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
-            console.log(id)
             if (invId !== 'null'){
                 return this.$router.push({
                     name: 'uhp',
                     params: { id: id, isFriend: false, invId: invId },
                     }); 
             }
-            console.log(id,'blblbl')
             for(let i = 0; i < this.getFriends.length; i++){
                 if (id === this.getFriends[i].id){
                     return this.$router.push({

@@ -80,6 +80,10 @@ export default {
     context.commit('logout');
     Router.push({ name: 'landing-page' });
   },
+  redirectPassword(context) {
+    context.commit('logout');
+    Router.push({ name: 'resetpassword' });
+  },
   async requestPasswordChange(context, email) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const axios = require('axios');
@@ -173,11 +177,10 @@ export default {
     let res;
     try { 
     res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, { headers }); 
-    console.log(res.data)
+    
     if (res.status === 200) {  
       context.commit('setSettings', res.data)
       context.commit('setUserAvatar', res.data.avatar)
-      console.log(context.state.settings)
     }
     } catch (error) {
     if (error.response) {
@@ -255,5 +258,18 @@ export default {
   },
   setEmail(context, email) {
     context.commit('changeEmail', email);
+  },
+  resetPassword(context){
+    context.commit('popupPassword', true)
+  },
+  hidePopup(context){
+    context.commit('popupPassword', false)
+  },
+  showDeletePopup(context){
+    context.commit('popupDelete', true)
+  },
+  hideDeletePopup(context){
+    context.commit('popupDelete', false)
   }
+  
 }
