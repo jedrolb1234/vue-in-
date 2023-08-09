@@ -56,7 +56,6 @@ export default {
           label: 'Pokój gry został poprawnie zamknięty!',
           description: 'Zostałeś przekierowany do strony gry.',
           type: 'info',
-        }
         },
         account_deleted: {
           label:'Konto zostało skosowane.',

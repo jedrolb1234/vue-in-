@@ -8,9 +8,6 @@ export default {
       return false;
     return true;
   },
-  getLastLogin(state) {
-    return state.lastLogin;
-  },
   getProfileAvatar(state) {
     return state.userAvatar;
   },
@@ -41,9 +38,6 @@ export default {
   getBirthDate(state) {
     return state.settings.dateOfBirth;
   },
-  getEmail(state) {
-    return state.email;
-  },
   getUserId() {
     return JSON.parse(localStorage.getItem('user_id'));
   },
@@ -55,6 +49,8 @@ export default {
   },
   getLastLogin() {
     return JSON.parse(localStorage.getItem('last_login'));
+  },
+  getEmail(state) {
     return state.settings.email;
   },
   getId(state){
