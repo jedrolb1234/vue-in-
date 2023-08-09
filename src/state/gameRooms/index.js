@@ -1,5 +1,8 @@
 import Router from '@/router';
 import axios from 'axios';
+import CallHub from '@/mixins/callHub'
+
+// CallHub.start();
 
 export default {
   state() {
@@ -39,8 +42,10 @@ export default {
           context.dispatch('showNotification', notificationTemplates.game_romm_created, { root: true });
           const gameRoomID = res.data;
           Router.push({ name: 'play', params: { gameRoomID: gameRoomID } });
+          CallHub.client.invoke("SendCreatedGameRoomMsg", gameRoomID, context.rootGetters.getUserId);
         }
       } catch (error) {
+        console.log(error);
         if (error.response) {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         } else {
@@ -85,6 +90,7 @@ export default {
         context.commit('clearSelectedGameRoom');
         context.commit('setSelectedGameRoom', res.data[0]);
       }).catch((error => {
+        console.log(error);
         if (error.response) {
           // informUserAbouErrors(context, error.response.data.errors);
         } else {

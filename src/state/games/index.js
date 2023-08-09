@@ -173,9 +173,10 @@ export default {
       console.log(res.data)
       console.log('aaa')
       if (res.status === 200) {  
-        context.comit('setTheme', res.data.theme)
+        context.commit('setTheme', res.data.theme)
       }
       } catch (error) {
+        console.log(error);
       if (error.response) {
         if(error.response.data === "UserNotExist"){
           context.commit('toogleFindUser', false);

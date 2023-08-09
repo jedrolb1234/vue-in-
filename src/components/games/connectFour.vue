@@ -13,12 +13,11 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
     computed:{
-        ...mapGetters('Polacz4', ['getBoard', 'getWinnerPawns']),
+        ...mapGetters(['getBoard', 'getWinnerPawns']),
     },
     methods:{
-        ...mapActions('Polacz4', ['dropBall']),
+        ...mapActions(['dropBall']),
         getPawn(i, j) {
-            console.log('sss')
             for (let k = 0; k < this.getWinnerPawns.length; k++) {
                 if (this.getWinnerPawns[k][0] == i && this.getWinnerPawns[k][1] == j) {
                     console.log('winner')
