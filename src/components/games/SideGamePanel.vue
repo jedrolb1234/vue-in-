@@ -77,13 +77,13 @@ export default {
       return false;
     },
     isCloseButtonVisible() {
-      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status == 0)
+      if (this.getUserId == this.getSelectedGameRoom.ownerId)
         return true;
       return false;
     }
   },
   created() {
-    this.$callHub.client.invoke("SendCreatedGameRoomMsg", this.getSelectedGameRoom.id, this.getUserId);
+    // this.$callHub.client.invoke("SendCreatedGameRoomMsg", this.getSelectedGameRoom.id, this.getUserId); //leci po odświerzeniu strony, ma prawo lecieć tylko po stworzeniu pokoju
     this.$callHub.client.on("GameRoomJoined", () => {
       this.obtainGameRoom();
     })
