@@ -74,7 +74,7 @@ export default {
     this.filteredGames = this.getGames;
     this.downloadTheme();
     this.setTheme(this.getTheme);
-    console.log(this.getTheme)
+    // console.log(this.getTheme)
 
   }
 }

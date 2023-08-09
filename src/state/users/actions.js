@@ -131,7 +131,7 @@ export default {
     try {
       res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VVUE_APP_ACCOUNT);
       if (res.status == 200) {
-        context.dispatch('showNotification', notificationTemplates.password_changed, { root: true });
+        context.dispatch('showNotification', notificationTemplates.account_deleted, { root: true });
       }
     } catch (error) {
       if (error.response) {

@@ -256,7 +256,7 @@ export default {
       try {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_INVITATIONS_ENDPOINT, {headers}); 
       if (res.status === 200) {
-          context.commit('setInvitations', res.data);
+          context.commit('setInvitations', res.data.items);
           console.log(res.data)
       }
       } catch (error) {
@@ -279,13 +279,16 @@ export default {
       const headers = {
             Authorization: `Bearer ${token}`,
         };
+      // const params = {
+
+      // }
       const axios = require('axios');
       let res;
       try { 
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, {headers}); 
       if (res.status === 200) {
         console.log(res.data, 'aaa')
-          context.commit('setFriends', res.data);          
+          context.commit('setFriends', res.data.items);          
           context.commit('tooleIsLoading', false);
           console.log(res.data)
       }
