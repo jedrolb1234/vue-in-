@@ -30,7 +30,6 @@ import avatar24 from '@/assets/avatars/24.png';
 export default {
   state() {
     return {
-      lastLogin: null,
       username: 'testowyuser14',
       description: 'Hello World\nProsty opis w celu wypełnienia pustej przestrzeni.',
       userAvatar: avatar1,

@@ -1,13 +1,15 @@
 export default {
   login(state, data) {
-    sessionStorage.setItem('token', JSON.stringify(data.accessToken));
-    sessionStorage.setItem('refresh_token', JSON.stringify(data.refreshToken));
-    state.lastLogin = Date.now();
+    localStorage.setItem('token', JSON.stringify(data.accessToken));
+    localStorage.setItem('refresh_token', JSON.stringify(data.refreshToken));
+    localStorage.setItem('user_id', JSON.stringify(data.id));
+    localStorage.setItem('last_login', JSON.stringify(Date.now()));
   },
-  logout(state) {
-    sessionStorage.setItem('token', null);
-    sessionStorage.setItem('refresh_token', null);
-    state.lastLogin = null;
+  logout() {
+    localStorage.setItem('token', null);
+    localStorage.setItem('refresh_token', null);
+    localStorage.setItem('user_id', null);
+    localStorage.setItem('last_login', null);
   },
   changeUserAvatar(state, avatar) {
     state.userAvatar = avatar;
@@ -32,5 +34,8 @@ export default {
   },
   changeEmail(state, email) {
     state.email = email;
+  },
+  changeId(state, id) {
+    state.id=id;
   }
 }

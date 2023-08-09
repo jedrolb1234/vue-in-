@@ -44,8 +44,8 @@ export default {
       // console.log(res)
       if (res.status == 200) {
         context.commit('login', res.data);
-        console.log(res)
         context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
+        // context.dispatch('obtainUserInfo', null, { root: true });
         Router.push({ name: 'games' });
       }
     } catch (error) {
@@ -124,7 +124,7 @@ export default {
       const axios = require('axios');
       const config = {
         headers: {
-          refreshToken: JSON.parse(sessionStorage.getItem('refresh_token')),
+          refreshToken: context.rootGetters.getRefreshToken
         }
       }
       let res;
@@ -165,5 +165,29 @@ export default {
   },
   setEmail(context, email) {
     context.commit('changeEmail', email);
+  },
+  async obtainUserInfo(context) {
+    context.dispatch('refreshToken', {}, { root: true });
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const axios = require('axios');
+    let res;
+    const headers = {
+      Authorization: 'Bearer ' + context.rootGetters.getToken
+    };
+    console.log(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT_ENDPOINT+ '/' + context.getters.getUserId);
+    try {
+      res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT_ENDPOINT+ '/' + context.getters.getUserId, { headers });
+      if (res.status == 200) {
+        console.log('FFFFFFFFFFFFF');
+        console.log(res.data);
+        // context.dispatch('showNotification', notificationTemplates.game_room_closed, { root: true });
+      }
+    } catch (error) {
+      if (error.response) {
+        //informUserAbouErrors(context, error.response.data.errors);
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
   }
 }

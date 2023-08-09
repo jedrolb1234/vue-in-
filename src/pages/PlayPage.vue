@@ -7,7 +7,6 @@
       <div class="board">
         <component :is="'connectFour'"></component>
       <SideGamePanel>
-
       </SideGamePanel>
       </div>
     </div>
@@ -19,6 +18,7 @@ import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
 import connectFour from '@/components/games/connectFour.vue'
 import SideGamePanel from '@/components/games/SideGamePanel.vue'
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -26,6 +26,13 @@ export default {
     BaseHeader,
     connectFour,
     SideGamePanel
+  },
+  props: ['gameRoomID'],
+  methods:{
+    ...mapActions(['obtainGameRoom']),
+  },
+  async created() {
+    this.obtainGameRoom(this.gameRoomID);
   }
 }
 </script>

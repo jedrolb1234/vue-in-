@@ -147,7 +147,7 @@ export default {
       },
       async sendInvitation(context, payload){
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
-        const token = JSON.parse(sessionStorage.getItem('token'))
+        const token = context.rootGetters.getToken
         const headers = {
           Authorization: `Bearer ${token}`,
           };
@@ -192,7 +192,7 @@ export default {
       },
       async acceptInvitation(context, payload){
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
-        const token = JSON.parse(sessionStorage.getItem('token'))
+        const token = context.rootGetters.getToken
         const headers = {
           Authorization: `Bearer ${token}`,
           };
@@ -224,7 +224,7 @@ export default {
 
       async downloadInvitations(context){
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
-        const token = JSON.parse(sessionStorage.getItem('token'))
+        const token = context.rootGetters.getToken
         const headers = {
               Authorization: `Bearer ${token}`,
           };

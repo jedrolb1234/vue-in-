@@ -115,7 +115,7 @@ export default {
   actions: {
     async removeFriend(context, payload){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken;
       const headers = {
         Authorization: `Bearer ${token}`,
         };
@@ -143,7 +143,7 @@ export default {
     },
     async removeFriendInvitation(context, payload){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken
       const headers = {
         Authorization: `Bearer ${token}`,
         };
@@ -174,7 +174,7 @@ export default {
     async findFriend(context, username){
       context.username = username;
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken;
       const headers = {
         Authorization: `Bearer ${token}`,
         };
@@ -209,7 +209,7 @@ export default {
     },
     async downloadInvitations(context){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken;
       const headers = {
             Authorization: `Bearer ${token}`,
         };
@@ -237,7 +237,7 @@ export default {
     },
     async downloadFriends(context){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken;
       const headers = {
             Authorization: `Bearer ${token}`,
         };

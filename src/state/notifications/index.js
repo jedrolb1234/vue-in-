@@ -51,6 +51,11 @@ export default {
           label: 'Pokój gry został poprawnie utowrzony!',
           description: 'Zaproś znajomych i rozpocznij rozgrywkę.',
           type: 'info',
+        },
+        game_room_closed: {
+          label: 'Pokój gry został poprawnie zamknięty!',
+          description: 'Zostałeś przekierowany do strony gry.',
+          type: 'info',
         }
       }
     }
