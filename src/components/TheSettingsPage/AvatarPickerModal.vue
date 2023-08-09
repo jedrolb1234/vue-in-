@@ -4,8 +4,8 @@
       <h1>Zmień swój awatar</h1>
       <hr>
       <div id="avatar-picker__images">
-        <img v-for="(image, index) in this.getAvatars" :src="image" :key="index" @click="selectAvatar(image)"
-          :class="{ selected: this.isAvatarSelected(image) }" />
+        <img v-for="(image, index) in this.getAvatars" :src="image" :key="index" @click="selectAvatar(index)"
+          :class="{ selected: this.isAvatarSelected(index) }" />
       </div>
       <hr>
       <div id="avatar-picker__actions">
@@ -33,19 +33,22 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setUserAvatar']),
+    ...mapActions(['setUserAvatar', 'sendSettings']),
     hideAvatarPicker() {
       this.$emit('close-modal');
     },
-    selectAvatar(avatar) {
-      this.selectedAvatar = avatar;
+    selectAvatar(index) {
+      this.selectedAvatar = index//this.getAvatars.indexOf[avatar];
+      console.log(this.selectedAvatar, index)
     },
-    isAvatarSelected(avatar) {
-      return this.selectedAvatar == avatar;
+    isAvatarSelected(index) {
+      return this.selectedAvatar == index//this.getAvatars.indexOf[avatar]; //getIn//avatars[]
     },
     save() {
       this.setUserAvatar(this.selectedAvatar);
       this.hideAvatarPicker();
+      this.sendSettings(this.getSettings)
+
     }
   },
   computed: {

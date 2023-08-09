@@ -3,19 +3,30 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
+  mounted() {
+    this.theme = localStorage.getItem('theme');
+    if (this.theme){
+      document.body.classList.add(this.theme);
+      document.documentElement.style.colorScheme=this.theme;
+      localStorage.setItem('theme', this.theme);
+    }
+  },
   computed: {
     ...mapGetters(['getTheme'])
+  },
+  methods:{
+    ...mapActions(['setTheme'])
   },
   watch: {
     getTheme(newTheme, oldTheme) {
       document.body.classList.remove(oldTheme)
       document.body.classList.add(newTheme);
       document.documentElement.style.colorScheme=newTheme;
-
-    }
+      localStorage.setItem('theme', newTheme);
+    },
   }
 }
 </script>

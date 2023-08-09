@@ -1,18 +1,16 @@
 export default {
     namespaced: true,
-    data(){
+    state(){
         return{
             vLoop:{
-                '0': ['00', '10','20','30','40','50','60','70'],
-                '1': ['01', '11','21','31','41','51','61','71'],
-                '2': ['02', '12','22','32','42','52','62','72'],
-                '3': ['03', '13','23','33','43','53','63','73'],
-                '4': ['04', '14','24','34','44','54','64','74'],
-                '5': ['05', '15','25','35','45','55','65','75'],
-                '6': ['06', '16','26','36','46','56','66','76'],
-                '7': ['07', '17','27','37','47','57','67','77'],
-                // '8': ['08', '18','28','38','48','58','68','78','88','98'],
-                // '9': ['09', '19','29','39','49','59','69','79','89','99'],
+                '0': ['00','10','20','30','40','50','60','70'],
+                '1': ['01','11','21','31','41','51','61','71'],
+                '2': ['02','12','22','32','42','52','62','72'],
+                '3': ['03','13','23','33','43','53','63','73'],
+                '4': ['04','14','24','34','44','54','64','74'],
+                '5': ['05','15','25','35','45','55','65','75'],
+                '6': ['06','16','26','36','46','56','66','76'],
+                '7': ['07','17','27','37','47','57','67','77'],
             },
             board:{
                 '00':'empty', '10':'empty','20':'empty','30':'empty','40':'empty','50':'empty','60':'empty','70':'empty',
@@ -43,123 +41,213 @@ export default {
             hitOponent: 'hitOponent',
             missedOponent: 'missedOponent',
             counter:12,
-            clicked:[],
-            oponentRecieve: [],
+            clicked: [],
+            oponentRecive: [],
             setShipCounter:12,
-
             firstLoad: true,
             disable_animation: 'disable-animation',
-            boardTable1: 'board-table1'
+            boardTable1: 'board-table1',
+            fourCounter:2,
+            threeCounter:3,
+            twoCounter:4,
+            oneCounter:5,
+            isCheckFalse: false,
+            isCheckClicked: false,
+            clickedIn: false,
+            clickedNotIn: false,
+            index:0,
+            isAbleToPut: true,
             }
         },
     getters:{ 
         getVLoop(state){
             return state.vLoop;
         },
-        board_table1(state){
-            if(state.firstLoad){
-                return state.disable_animation;
-            }
-            return state.boardTable1;
-        },
-        getClass(state, field){
-            return state.board[field];
+        // getBoardTable1(state){
+        //     if(state.firstLoad){
+        //         return state.disable_animation;
+        //     }
+        //     return state.boardTable1;
+        // },
+        getClass: (state) => (p) => {
+            // console.log(state.board[p])
+            return state.board[p];
             },
         
-        getOponentClass(state, field){
-            return state.oponentBoard[field];
+        getOponentClass: (state) => (p) =>{
+            return state.oponentBoard[p];
         },
-        chooseMethod(state, field){
-            if(state.commit('check', field)){
-                return state.setShip(field);
-            }
-            else if(state.commit('checkClicked')){
-                state.unSetShip(field);
-            }
+        getOneCounter(state){
+            return state.oneCounter;
+        },
+        getTwoCounter(state){
+            return state.twoCounter;
+        },
+        getThreeCounter(state){
+            return state.threeCounter;
+        },
+        getFourCounter(state){
+            return state.fourCounter;
+        }
+    },
+    mutations:{
+        check(state, field){
+            state.isCheckFalse = !state.clicked.includes(field);
+        },
+        checkClicked(state, field){
+            state.isCheckClicked = state.clicked.includes(field);
+        },
+        clickedField(state, field){
+            state.index = state.clicked.indexOf(field);
+        },
+        cutClicked(state, index){
+            state.clicked.splice(index,1);
+        },
+        setBoard(state, payload){
+            state.board[payload] = state.empty2;
+        },
+        setOponentBoard(state, payload){
+            state.oponentBoard[payload.key] = payload.value;
+        },
+        setBoardShip(state, key){
+            state.board[key] = state.ship;
+        },
+        clickedPush(state, field){
+            state.clicked.push(field);
+        },
+        setShipCounter(state, value){
+            state.setShipCounter += value;
+        },
+        setOponentRecive(state, value){
+            state.oponentRecive.push(value);
         },
         selectTag(state, field){
             return state.oponentBoard[field]; 
+        },
+        clickedNotIn(state, field){
+            state.clickedNotIn = !state.clicked.includes(field)
+        },
+        setClickedIn(state, field){
+            state.clickedIn = state.clicked.includes(field)
+        },
+        isAbleToPut(state, value){
+            state.isAbleToPut = value;
+        },
+        incCounter(state, value){
+            state.counter += value;
+        },
+        setOneCounter(state, value){
+           state.oneCounter = value;
+        },
+        setTwoCounter(state, value){
+            state.twoCounter = value;
+        },
+        setThreeCounter(state, value){
+            state.threeCounter = value;
+        },
+        setFourCounter(state, value){
+            state.fourCounter = value;
         }
     },
-    mmutations:{
-        check(state, field){
-            return !state.clicked.includes(field);
-        },
-        checkClicked(state, field){
-            return state.clicked.includes(field);
-        }},
     actions:{
+        chooseMethod({ commit, dispatch, state }, field){
+            commit('check', field);
+            commit('checkClicked', field);
+            if(state.isCheckFalse){
+                return dispatch('setShip', field);
+            }
+            else if(state.isCheckClicked){
+                return dispatch('unSetShip',field);
+            }    
+        },
         setShip(context, field){
             context.firstLoad = false;
-            if(context.dispatch('checkLocation', field) && context.dispatch('checkNeighbor'), field){
-                if (!context.clicked.includes(field)){
-                    context.clicked.push(field);
-                    context.board[field] = context.ship;
-                    console.log(context.board[field]);
+            context.commit('isAbleToPut', true);
+            context.commit('clickedNotIn', field);
+            context.dispatch('checkLocation', field);
+            context.dispatch('checkNeighbor', field);
+            if(context.state.isAbleToPut){
+            // if(context.dispatch('checkLocation', field) && context.dispatch('checkNeighbor', field)){
+                if (context.state.clickedNotIn){
+                    context.commit('clickedPush', field);
+                    context.commit('setBoardShip', field);
                 }
             }
-            context.shipNumber();
+            context.dispatch('shipNumber');
         },
-        unSetShip(context,field){
-            if(context.clicked.includes(field)){
-                context.setShipCounter++;
-                let index = context.clicked.indexOf(field);
-                context.clicked.splice(index,1);
-                context.board[field] = context.empty2;
-                console.log('board', context.board[field]);
-                console.log('tablica', context.clicked);
-            }
-            context.shipNumber()
-        },
-        mark(context, getters, field){//gettery
-            if(getters.selectTag(field) === context.hipOponent || context.emptyOponent){
-                context.oponentRecieve.push(field);
-                if(context.oponentBoard[field] === context.shipOponent){
-                    context.oponentBoard[field] = context.hitOponent;
-                    console.log(context.oponentBoard[field]);
+        unSetShip({ commit, dispatch, state }, field) {
+            commit('setClickedIn', field);
+            if (state.clickedIn) {
+              commit('setShipCounter', 1);
+              commit('clickedField', { key: field, value: state.hitOponent });
+              commit('cutClicked', state.index);
+              commit('setBoard', field);
+            }       
+            dispatch('shipNumber');
+          },
+          
+        // unSetShip({ commit, context }, field){
+        //     commit('setClickedIn', field)
+        //     console.log(field)
+        //     console.log(context.clickedIn)
+        //     if(context.clickedIn){
+        //         context.commit('setShipCounter', 1);
+        //         let index = commit('clickedField', { key: field, value: context.state.hitOponent });
+        //         context.commit('clickedField', index);
+        //         context.commit('setBoard', field);
+        //         console.log('board', context.state.board[field]);
+        //         console.log('tablica', context.state.clicked);
+        //     }
+        //     context.dispatch('shipNumber');
+        //     },
+        mark(context, field){//gettery
+            if(context.commit('selectTag', field) === context.state.hipOponent || context.state.emptyOponent){
+                context.commit('setOponentRecive', field);
+                if(context.state.oponentBoard[field] === context.state.shipOponent){
+                    context.commit('setOponentBoard', { key: field, value: context.state.hitOponent });
+
                 }
-                else if(context.oponentBoard[field] === context.emptyOponent){
-                    context.oponentBoard[field] = context.missedOponent;
+                else if(context.state.oponentBoard[field] === context.state.emptyOponent){
+                    context.commit('setOponentBoard', { key: field, value: context.state.missedOponent });
+                    
                 }
             }
-            else if(getters.selectTag(field) === ('hitOponent' ||  'missedOponent')){
+            else if(context.commit('selectTag', field) === ('hitOponent' ||  'missedOponent')){
                 return
             }
         },
 
         checkLocation(context, field){
-            let isAbleToPut = true;
+            //let isAbleToPut = true;
             let x = parseInt(field[0]);
             let y = parseInt(field[1]);
             let xTmp = x + 1;
             let yTmp = y + 1;
             let position = xTmp.toString() + yTmp.toString();
-            if (context.board[position] === context.ship){
-                isAbleToPut = false;
+            if (context.state.board[position] === context.state.ship){
+                context.commit('isAbleToPut', false);
             }
             xTmp = x + 1;
             yTmp = y - 1;
             position = xTmp.toString() + yTmp.toString();
-            if (context.board[position] === context.ship){
-                isAbleToPut = false;
+            if (context.state.board[position] === context.state.ship){
+                context.commit('isAbleToPut', false);
             }
             xTmp = x - 1;
             yTmp = y + 1;
             position = xTmp.toString() + yTmp.toString();
-            if (context.board[position] === context.ship){
-                isAbleToPut = false;
+            if (context.state.board[position] === context.state.ship){
+                context.commit('isAbleToPut', false);
             }
             xTmp = x - 1;
             yTmp = y - 1;
             position = xTmp.toString() + yTmp.toString();
-            if (context.board[position] === context.ship){
-                isAbleToPut = false;
+            if (context.state.board[position] === context.state.ship){
+                context.commit('isAbleToPut', false);
             }
-            return isAbleToPut;
-        
         },
         checkNeighbor(context, field){
-            let isAbleToPut = true;
+            // let isAbleToPut = true;
             let x = parseInt(field[0]);
             let y = parseInt(field[1]);
             let xTmp = x + 1;
@@ -172,9 +260,9 @@ export default {
             let position2 = xTmp2.toString() + yTmp.toString();
             let position3 = xTmp3.toString() + yTmp.toString();
             let position4 = xTmp4.toString() + yTmp.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
-                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                    isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship) && 
+                (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             xTmp = x - 1;
             xTmp2 = x - 2;
@@ -185,9 +273,9 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
-                && (context.board[position3] === context.ship)&& (context.board[position4] === context.ship)){
-                isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship)
+                && (context.state.board[position3] === context.state.ship)&& (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             xTmp = x + 1;
             xTmp2 = x + 2;
@@ -198,9 +286,9 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
-                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship)
+                && (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             xTmp = x + 1;
             xTmp2 = x - 1;
@@ -211,9 +299,9 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();    
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
-                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship)
+                && (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             xTmp = x + 1;
             xTmp2 = x + 2;
@@ -224,9 +312,9 @@ export default {
             position2 = xTmp2.toString() + yTmp.toString();
             position3 = xTmp3.toString() + yTmp.toString();
             position4 = xTmp4.toString() + yTmp.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
-                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship)
+                && (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             yTmp = y + 1;
             yTmp2 = y + 2;
@@ -237,9 +325,9 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
-                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                    isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship) && 
+                (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             yTmp = y - 1;
             yTmp2 = y - 2;
@@ -250,9 +338,9 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
-                && (context.board[position3] === context.ship)&& (context.board[position4] === context.ship)){
-                isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship)
+                && (context.state.board[position3] === context.state.ship)&& (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             yTmp = y + 1;
             yTmp2 = y + 2;
@@ -263,9 +351,9 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
-                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                    isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship) && 
+                (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
             xTmp = y + 1;
             yTmp2 = y - 1;
@@ -276,9 +364,9 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship)
-                && (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship)
+                && (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
 
             yTmp = y + 1;
@@ -290,15 +378,13 @@ export default {
             position2 = xTmp.toString() + yTmp2.toString();
             position3 = xTmp.toString() + yTmp3.toString();
             position4 = xTmp.toString() + yTmp4.toString();
-            if ((context.board[position] === context.ship) && (context.board[position2] === context.ship) && 
-                (context.board[position3] === context.ship) && (context.board[position4] === context.ship)){
-                    isAbleToPut = false;
+            if ((context.state.board[position] === context.state.ship) && (context.state.board[position2] === context.state.ship) && 
+                (context.state.board[position3] === context.state.ship) && (context.state.board[position4] === context.state.ship)){
+                    context.commit('isAbleToPut', false);
             }
-            return isAbleToPut
         },
 
         shipNumber(context){
-            console.log('enter');
             let oneCounter = 5;
             let twoCounter = 4;
             let threeCounter = 3;
@@ -310,10 +396,10 @@ export default {
                     iTmp = i.toString();
                     jTmp = j.toString();
                     field = iTmp + jTmp;
-                    if(context.board[field] === context.ship){
+                    if(context.state.board[field] === context.state.ship){
                         y1 = j - 1;
                         upField = iTmp + y1.toString();
-                        if(context.board[upField] === context.ship){
+                        if(context.state.board[upField] === context.state.ship){
                             continue;
                         }
                         y1 = j + 1;
@@ -326,24 +412,24 @@ export default {
                         field2 = iTmp + yLower2;
                         field3 = iTmp + yLower3;
 
-                        if(context.board[field1] !== context.ship){
+                        if(context.state.board[field1] !== context.state.ship){
                             counter++;
                         }
-                        if((context.board[field1] === context.ship) && (context.board[field2] !== context.ship)){
+                        if((context.state.board[field1] === context.state.ship) && (context.state.board[field2] !== context.state.ship)){
                             counter = 2;
                         }
-                        else if((context.board[field1] === context.ship) && (context.board[field2] === context.ship) 
-                            && context.board[field1] !== context.ship){
+                        else if((context.state.board[field1] === context.state.ship) && (context.state.board[field2] === context.state.ship) 
+                            && context.state.board[field3] !== context.state.ship){
                                 counter = 3;
                             }
-                        else if((context.board[field1] === context.ship) && (context.board[field2] === context.ship) 
-                            && (context.board[field3] === context.ship)){
+                        else if((context.state.board[field1] === context.state.ship) && (context.state.board[field2] === context.state.ship) 
+                            && (context.state.board[field3] === context.state.ship)){
                                 counter = 4;
                             }
                         }
                     x1 = i + 1;
                     field4 = x1.toString() + jTmp;
-                    if((context.board[field4] !== context.ship)){
+                    if((context.state.board[field4] !== context.state.ship)){
                         if(counter === 1){
                             oneCounter--;
                             counter = 0;
@@ -363,10 +449,10 @@ export default {
                     }
                 }
             }
-            context.oneCounter = oneCounter;
-            context.twoCounter = twoCounter;
-            context.threeCounter = threeCounter;
-            context.fourCounter = fourCounter;
+            context.commit('setOneCounter', oneCounter);
+            context.commit('setTwoCounter', twoCounter);
+            context.commit('setThreeCounter', threeCounter);
+            context.commit('setFourCounter', fourCounter);
         }
     }
 }

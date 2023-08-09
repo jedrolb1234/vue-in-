@@ -1,14 +1,12 @@
 <template>
-    <div class="modal-backdrop">
-        <transition class="modal" name="modal">
-            <div >
-            <slot></slot>
-                <div class="buttons"> 
-                    <base-small-button @click="deleteFromFriends(id)">Potwierdz</base-small-button>
-                    <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
-                </div>
-            </div>
-        </transition>
+  <div class="modal-backdrop">
+    <div class="modal" name="modal">
+      <slot></slot>
+        <div class="buttons"> 
+          <base-small-button @click="deleteFromFriends(id)">Potwierdz</base-small-button>
+          <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -27,11 +25,11 @@ export default {
           console.log('message')
           this.$emit('visibleMessage', false);
       },
-      deleteFromFriends(id){
-          id = null          
-          this.$emit('visibleMessage', false);
-          return id;
-  }
+  //     deleteFromFriends(id){
+  //         id = null          
+  //         this.$emit('visibleMessage', false);
+  //         return id;
+  // }
   }
 }
 

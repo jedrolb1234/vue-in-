@@ -12,7 +12,7 @@
                 v-for="( h, index ) in currentPage" :key="index">
                 <td>{{ h.game }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
               </tr>
-              <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+              <tr :style="{height: getDynamicHeight + 'px'}"></tr>
 
             </table>
             <div class="buttons">
@@ -55,16 +55,10 @@ import { mapGetters, mapActions } from 'vuex';
     },
     computed:{
       ...mapGetters('History', ['isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory',
-                                'getCurrentPage', 'getItemsPerPage']),
+                                'getCurrentPage', 'getItemsPerPage', 'getDynamicHeight']),
         },
     methods:{
       ...mapActions('History', ['previousPage', 'nextPage']),
-      dynamicHeight(){
-            let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
-            let endIndex = startIndex + this.getItemsPerPage;
-            let sliced = this.getHistory.slice(startIndex, endIndex);           
-            return (10 - sliced.length ) * 38;
-        }
     },
   }
   </script>

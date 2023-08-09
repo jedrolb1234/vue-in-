@@ -12,132 +12,180 @@ export default {
       currentPageWar: 1,
       currentPageStat: 1,
       currentPagePol: 1,
-      warcabyRank:{
-        Andrzej:{
+      warcabyRank:[
+          {
             rank: 1,
             name: 'Andrzej',
             surname: 'Bidermann',
             points: 100
-        },
-        Tomek:{
+          },
+          {
             rank: 2,
             name: 'Tomek',
             surname: 'B',
             points: 99
-        },
-        Rafal:{
+          },
+          {
             rank: 3,
             name: 'Rafał',
             surname: 'Rafał',
             points: 98
-        },
-        Daniel:{
+          },
+          {
             rank: 4,
             name: 'Daniel',
             surname: 'Daniel',
             points: 97
-        },
-        1:{
-          rank: 1,
-          name: 'Andrzej',
-          surname: 'Bidermann',
-          points: 100
-      },
-      2:{
-          rank: 2,
-          name: 'Tomek',
-          surname: 'B',
-          points: 99
-      },
-      3:{
-          rank: 3,
-          name: 'Rafał',
-          surname: 'Rafał',
-          points: 98
-      },
-      4:{
-          rank: 4,
-          name: 'Daniel',
-          surname: 'Daniel',
-          points: 97
-      },
-      5:{
-        rank: 1,
-        name: 'Andrzej',
-        surname: 'Bidermann',
-        points: 100
-    },
-    6:{
-        rank: 2,
-        name: 'Tomek',
-        surname: 'B',
-        points: 99
-    },
-    7:{
-        rank: 3,
-        name: 'Rafał',
-        surname: 'Rafał',
-        points: 98
-    },
-    8:{
-        rank: 4,
-        name: 'Daniel',
-        surname: 'Daniel',
-        points: 97
-    }
-      },
-    statkiRank:{
-      Andrzej:{
-          rank: 1,
-          name: 'Andrzej',
-          surname: 'Bidermann',
-          points: 100
-      },
-      Tomek:{
-          rank: 2,
-          name: 'Tomek',
-          surname: 'B',
-          points: 99
-      },
-      Rafal:{
-          rank: 3,
-          name: 'Rafał',
-          surname: 'Rafał',
-          points: 98
-      },
-      Daniel:{
-          rank: 4,
-          name: 'Daniel',
-          surname: 'Daniel',
-          points: 97
-      }
-    },
-    polacz4Rank: {
-      Andrzej:{
-          rank: 1,
-          name: 'Andrzej',
-          surname: 'Bidermann',
-          points: 100
-      },
-      Tomek:{
-          rank: 2,
-          name: 'Tomek',
-          surname: 'B',
-          points: 99
-      },
-      Rafal:{
-          rank: 3,
-          name: 'Rafał',
-          surname: 'Rafał',
-          points: 98
-      },
-      Daniel:{
-          rank: 4,
-          name: 'Daniel',
-          surname: 'Daniel',
-          points: 97
-      }
-    },
+          },
+          {
+            rank: 1,
+            name: 'Andrzej',
+            surname: 'Bidermann',
+            points:  100
+          },
+          {
+            rank: 2,
+            name: 'Tomek',
+            surname: 'B',
+            points: 99
+          },
+          {
+            rank: 3,
+            name: 'Rafał',
+            surname: 'Rafał',
+            points: 98
+          },
+          {
+            rank: 4,
+            name: 'Daniel',
+            surname: 'Daniel',
+            points: 97
+          },
+          {
+            rank: 1,
+            name: 'Andrzej',
+            surname: 'Bidermann',
+            points: 100
+          },
+          {
+            rank: 2,
+            name: 'Tomek',
+            surname: 'B',
+            points: 99
+          },
+          {
+            rank: 3,
+            name: 'Rafał',
+            surname: 'Rafał',
+            points: 98
+          },
+          {
+            rank: 4,
+            name: 'Daniel',
+            surname: 'Daniel',
+            points: 97
+          }
+        ],
+        statkiRank:[
+          {
+            rank: 1,
+            name: 'Andrzej',
+            surname: 'Bidermann',
+            points: 100
+          },
+          {
+            rank: 2,
+            name: 'Tomek',
+            surname: 'B',
+            points: 99
+          },
+          {
+            rank: 3,
+            name: 'Rafał',
+            surname: 'Rafał',
+            points: 98
+          },
+          {
+            rank: 4,
+            name: 'Daniel',
+            surname: 'Daniel',
+            points: 97
+          }
+        ],
+        polacz4Rank: [
+          {
+            rank: 1,
+            name: 'Andrzej',
+            surname: 'Bidermann',
+            points: 100
+          },
+          {
+            rank: 2,
+            name: 'Tomek',
+            surname: 'B',
+            points: 99
+          },
+          {
+            rank: 3,
+            name: 'Rafał',
+            surname: 'Rafał',
+            points: 98
+          },
+          {
+            rank: 4,
+            name: 'Daniel',
+            surname: 'Daniel',
+             points: 97
+          },
+          {
+            rank: 1,
+            name: 'Andrzej',
+            surname: 'Bidermann',
+            points: 100
+          },
+          {
+            rank: 2,
+            name: 'Tomek',
+            surname: 'B',
+            points: 99
+          },
+          {
+            rank: 3,
+            name: 'Rafał',
+            surname: 'Rafał',
+            points: 98
+          },
+          {
+            rank: 4,
+            name: 'Daniel',
+            surname: 'Daniel',
+            points: 97
+          },
+          {
+            rank: 1,
+            name: 'Andrzej',
+            surname: 'Bidermann',
+            points: 100
+          },
+          {
+            rank: 2,
+            name: 'Tomek',
+            surname: 'B',
+            points: 99
+          },
+          {
+            rank: 3,
+            name: 'Rafał',
+            surname: 'Rafał',
+            points: 98
+          },
+          {
+            rank: 4,
+            name: 'Daniel',
+            surname: 'Daniel',
+            points: 97
+          }
+      ],
     }
   },
   mutations: {
@@ -150,20 +198,19 @@ export default {
     isPolacz4Hidden(state) {
       state.polacz4Hidden = !state.polacz4Hidden;
     },
-    ifLoading(state, info) {
-      if (info === 'W'){
-          console.log('isloading', info === 'W', state.isLoadingWar)
-        state.isLoadingWar=!state.isLoadingWar;
-        }
-      if (info === 'S'){
-        state.isLoadingStat=!state.isLoadingStat;
-        }
-      if (info === 'P'){
-        state.isLoadingPol=!state.isLoadingPol
-        }
-      },
+    // ifLoading(state, info) {
+    //   if (info === 'W'){
+    //     state.isLoadingWar=!state.isLoadingWar;
+    //     }
+    //   if (info === 'S'){
+    //     state.isLoadingStat=!state.isLoadingStat;
+    //     }
+    //   if (info === 'P'){
+    //     state.isLoadingPol=!state.isLoadingPol
+    //     }
+    //   },
  
-    previousPageW(state){
+      previousPageW(state){
         if (state.currentPageWar > 1){
           console.log('--')
           state.currentPageWar--;
@@ -182,11 +229,11 @@ export default {
       }
     },
     
-  nextPageW(state){
-    console.log('+++')
-      if (state.currentPageWar < Math.ceil(Object.keys(state.warcabyRank).length / state.itemsPerPage)){
-      console.log('++')
-      state.currentPageWar++;
+    nextPageW(state){
+      console.log('+++')
+        if (state.currentPageWar < Math.ceil(Object.keys(state.warcabyRank).length / state.itemsPerPage)){
+        console.log('++')
+        state.currentPageWar++;
       }
     },
     nextPageS(state){
@@ -206,18 +253,19 @@ export default {
     toogleWarcabyTable(context){
       context.commit('isWarcabyHidden');
     },
-    toogleStatkiTable(contex){
-        contex.commit('isStatkiHidden');
+    toogleStatkiTable(context){
+        context.commit('isStatkiHidden');
     },
-    tooglePolacz4Table(contex){
-      contex.commit('isPolacz4Hidden');
+    tooglePolacz4Table(context){
+      console.log('aaaa')
+      context.commit('isPolacz4Hidden');
     },
     isLoading(context, info){
-      context.commit('isLoading', info)
+      context.commit('isLoading', info);
     },
-    loading(context, info){
-      context.commit('ifLoading', info);
-    },
+    // loading(context, info){
+    //   context.commit('ifLoading', info);
+    // },
     nextPageW(context){
       context.commit('nextPageW');
     },
@@ -258,13 +306,13 @@ export default {
       return state.polacz4Hidden;
     },
     getWarcaby(state){
-      console.log('warcaby state: ', state.warcabyRank)
       return state.warcabyRank;
     },
     getStatki(state){
       return state.statkiRank;
     },
     getPolacz4(state){
+      console.log('+++++++')
       return state.polacz4Rank;
     },
     getCurrentPageWar(state){
@@ -278,8 +326,55 @@ export default {
     },
     getItemsPerPage(state){
       return state.itemsPerPage;
-    }
+    },
+    getDynamicHeightP(state){
+      return state.dynamicHeightP;
+    },
+    getDynamicHeightW(state){
+      return state.dynamicHeightW;
+    },
+    getDynamicHeightS(state){
+      return state.dynamicHeightS;
+    },
+    currentPageW(state){//, info){
+        let startIndex = (state.currentPageWar - 1) * state.itemsPerPage;
+        let endIndex = startIndex + state.itemsPerPage;
+        let sliced = state.warcabyRank.slice(startIndex, endIndex);   
+        state.dynamicHeightW= (10 - sliced.length ) * 38;
+        return sliced;
+    },
+    currentPageS(state){//, info){
+        let startIndex = (state.currentPageStat - 1) * state.itemsPerPage;
+        let endIndex = startIndex + state.itemsPerPage;
+        let sliced = state.statkiRank.slice(startIndex, endIndex); 
+        state.dynamicHeightS = (10 - sliced.length ) * 38;
+        return sliced;
+    },  
+    currentPageP(state){//, info){
+      let startIndex = (state.currentPagePol - 1) * state.itemsPerPage;
+      let endIndex = startIndex + state.itemsPerPage;
+      let sliced = state.polacz4Rank.slice(startIndex, endIndex); 
+      state.dynamicHeightP = (10 - sliced.length ) * 38;
+      console.log(sliced, state.polacz4Rank)
+      return sliced;
+  },  
+    pageNrW(state){
+        return state.currentPageWar;
+      },
+    PageNrS(state){
+        return state.currentPageStat;
+    },
+    PageNrP(state){
+        return state.currentPagePol;
+    },
+    allPagesW(state){
+        return Math.ceil(state.warcabyRank.length / state.itemsPerPage);
+    },
+    allPagesS(state){
+        return Math.ceil(state.statkiRank.length / state.itemsPerPage);
+    },
+    allPagesP(state){
+        return Math.ceil(state.polacz4Rank.length / state.itemsPerPage);
+    },
   }
-  // actions: {
-  // }
 }

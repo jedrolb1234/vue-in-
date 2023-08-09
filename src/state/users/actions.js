@@ -80,6 +80,10 @@ export default {
     context.commit('logout');
     Router.push({ name: 'landing-page' });
   },
+  redirectPassword(context) {
+    context.commit('logout');
+    Router.push({ name: 'resetpassword' });
+  },
   async requestPasswordChange(context, email) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const axios = require('axios');
@@ -116,6 +120,27 @@ export default {
       }
     }
   },
+  async deleteAccount(context){
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const axios = require('axios');
+    let res;
+    // const token = JSON.parse(sessionStorage.getItem('token'))
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    //   };
+    try {
+      res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VVUE_APP_ACCOUNT);
+      if (res.status == 200) {
+        context.dispatch('showNotification', notificationTemplates.password_changed, { root: true });
+      }
+    } catch (error) {
+      if (error.response) {
+        informUserAbouErrors(context, error.response.data.errors);
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
+  },
   async refreshToken(context) {
     console.log('refreshToken')
     console.log(context.getters.getLastLogin + process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT)
@@ -140,6 +165,74 @@ export default {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
+    }
+  },
+  async downloadSettings(context){
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const token = JSON.parse(sessionStorage.getItem('token'))
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      };
+    const axios = require('axios');
+    let res;
+    try { 
+    res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, { headers }); 
+    
+    if (res.status === 200) {  
+      context.commit('setSettings', res.data)
+      context.commit('setUserAvatar', res.data.avatar)
+    }
+    } catch (error) {
+    if (error.response) {
+      if(error.response.data === "UserNotExist"){
+        context.commit('toogleFindUser', false);
+      }else{
+        context.dispatch('showNotification',
+        {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+        },
+        { root: true });
+      }
+    } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+    }
+    }
+  },
+
+  async sendSettings(context){
+    let settings = context.state.settings;
+    let parts = settings.dateOfBirth.split('-');
+    let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+    settings.dateOfBirth = parsedDate.toISOString();
+    // console.log(settings)
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const token = JSON.parse(sessionStorage.getItem('token'))
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      };
+    const axios = require('axios');
+    let res;
+    try { 
+    res = await axios.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings, {headers}); 
+    console.log(res.data)
+    if (res.status === 200) {  
+      console.log(res)
+    }
+    } catch (error) {
+    if (error.response) {
+      console.log(error)
+        context.dispatch('showNotification',
+        {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+        },
+        { root: true });
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+    }
     }
   },
   setUserAvatar(context, avatar) {
@@ -189,5 +282,18 @@ export default {
         context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
       }
     }
+  },
+  resetPassword(context){
+    context.commit('popupPassword', true)
+  },
+  hidePopup(context){
+    context.commit('popupPassword', false)
+  },
+  showDeletePopup(context){
+    context.commit('popupDelete', true)
+  },
+  hideDeletePopup(context){
+    context.commit('popupDelete', false)
   }
+  
 }

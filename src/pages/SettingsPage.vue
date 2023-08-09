@@ -5,7 +5,7 @@
         Ustawienia
       </BaseHeader>
       <div class="settings">
-        <UserProfile></UserProfile>
+        <UserProfile :userAvatar="getProfileAvatar" :id="getId"></UserProfile>
         <div class="settings-module" @mouseenter="this.mouseOverProfileSettings = true;"
           @mouseleave="this.mouseOverProfileSettings = false;">
           <div class="settings-module__head">
@@ -76,7 +76,7 @@
           <hr>
           <div class="settings-module__content">
             <div>Motyw strony</div>
-            <select name="theme" id="theme" v-model="theme">
+            <select name="theme" id="theme" v-model="this.theme">
               <option value="light">Podstawowy</option>
               <option value="dark">Ciemny</option>
             </select>
@@ -88,12 +88,11 @@
           </div>
           <hr>
           <div class="settings-module__content">
-            <div>Nowe hasło</div>
-            <input type="password" />
-            <div>Powtórz hasło</div>
-            <input type="password" />
             <div></div>
-            <BaseButton type="secondary-medium">Zmień hasło</BaseButton>
+            <BaseButton type="secondary-medium" @click="resetPassword">Zmień hasło</BaseButton>             
+            <div></div>      
+            <div>Zostaniesz przekierowany do strony zmiany hasła.</div>
+            <Transition><BaseChangePassword v-if="getVisibleMessageP === true" @visibleMessageP="hidePopup">Zostaniesz wylogowany</BaseChangePassword></Transition>
           </div>
         </div>
         <div class="settings-module">
@@ -103,8 +102,10 @@
           <hr>
           <div class="settings-module__content">
             <div>Usunięcie konta jest nieodwrcalne.</div>
-            <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);">Usuń
+            <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);" @click="showDeletePopup">Usuń
               konto</BaseButton>
+            <Transition><base-delete-message :id="id" v-if="getVisibleMessage === true" @visibleMessage="hideDeletePopup"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message></Transition>
+
           </div>
         </div>
       </div>
@@ -124,7 +125,9 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { mapActions, mapGetters } from 'vuex';
 import AvatarPickerModal from '@/components/TheSettingsPage/AvatarPickerModal.vue';
 import BaseButtonWithTooltip from '@/components/base/BaseButtonWithTooltip.vue';
-
+import inputValidators from '@/mixins/inputValidators';
+import BaseDeleteMessage from '@/components/base/BaseDeleteAccount.vue';
+import BaseChangePassword from '@/components/base/BaseChangePassword.vue';
 export default {
   components: {
     BasePageLayout,
@@ -132,8 +135,11 @@ export default {
     UserProfile,
     BaseButton,
     AvatarPickerModal,
-    BaseButtonWithTooltip
+    BaseButtonWithTooltip,
+    BaseDeleteMessage,
+    BaseChangePassword
   },
+  mixins: [inputValidators],
   data() {
     return {
       mouseOverProfileSettings: false,
@@ -145,52 +151,78 @@ export default {
       surname: '',
       birthDate: null,
       email: '',
-
+      theme: 1,
+      password:'',
+      rpassword:'',
       mouseOverUserDataSettings: false,
       mouseOverThemeSettings: false,
-      theme: null,
-
       isAvatarPickerVisible: false
     }
   },
   computed: {
-    ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail'])
+    ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
+                    'getSettins', 'getProfileAvatar', 'getId','getVisibleMessageP', 'getVisibleMessage'])
   },
   methods: {
-    ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 'setName', 'setSurname', 'setBirthDate', 'setEmail']),
+    ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
+                  'setName', 'setSurname', 'setBirthDate', 'setEmail', 'downloadSettings', 'sendSettings',
+                  'changePassword', 'delete', 'resetPassword', 'hidePopup','showDeletePopup','hideDeletePopup']),
+    isFormValid() {
+      this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
+      return this.isPasswordValid;
+    },
     saveThemeSettings() {
       this.setTheme(this.theme);
+      this.sendSettings(this.getSettings)
     },
     restoreThemeSettings() {
       this.theme = this.getTheme;
+      this.setTheme(this.theme)
+      console.log(this.theme)
     },
     saveProfileSettings() {
       this.setUsername(this.username);
       this.setDescription(this.description);
+      this.sendSettings(this.getSettings);
     },
     restoreProfileSettings() {
       this.username = this.getUsername;
       this.description = this.getDescription;
-    },
+   },
     saveUserDataSettigs() {
       this.setName(this.name);
       this.setSurname(this.surname);
       this.setBirthDate(this.birthDate);
+      console.log(this.getBirthDate)
       this.setEmail(this.email);
+      this.sendSettings(this.getSettings)
+
     },
     restoreUserDataSettings() {
       this.name = this.getName;
       this.surname = this.getSurname;
       this.birthDate = this.getBirthDate;
       this.email = this.getEmail;
-    }
+      console.log(this.birthDate, this.getBirthDate)
+    },
   },
-  created() {
+  async created() {
+    await this.downloadSettings();
     this.restoreThemeSettings();
+    // this.saveThemeSettings();
+    // console.log(this.restoreThemeSettings())
     this.restoreProfileSettings();
     this.restoreUserDataSettings();
+  },
+  // watch: {
+  //   getTheme(newTheme, oldTheme) {
+  //     document.body.classList.remove(oldTheme)
+  //     document.body.classList.add(newTheme);
+  //     document.documentElement.style.colorScheme=newTheme;
+  //   }
+  // }
   }
-}
+
 </script>
 <style scoped>
 .page {
@@ -273,11 +305,27 @@ textarea {
 
 .v-enter-active,
 .v-leave-active {
+  animation: modal;
   transition: opacity 0.5s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
+  animation:modal;
   opacity: 0;
-}</style>
+}
+
+
+  @keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
   

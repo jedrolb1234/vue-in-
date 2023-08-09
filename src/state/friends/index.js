@@ -1,5 +1,5 @@
 import Notifications from '@/state/notifications/index.js';
-// import refreshToken from '@/state/users/actions.js'
+import Router from '@/router';Router
 
 export default {
     namespaced: true,
@@ -17,9 +17,11 @@ export default {
         findUser: null,
         itemsPerPage: 10,
         currentPage: 1,
+        invCurrentPage: 1,
         username: '',
         friends:[ ],
-        invitations:[ ]
+        invitations:[ ],
+        dynamicHeight: 0,
         }
   },
   mutations: {
@@ -73,6 +75,9 @@ export default {
          console.log(state.invitations)
         }
       }
+    },
+    setVisibleMessage(state, payload){
+      state.isVisibleMessage = payload;
     }
   },
   getters: {
@@ -82,13 +87,28 @@ export default {
     currentPage(state){
       let startIndex = (state.currentPage - 1) * state.itemsPerPage;
       let endIndex = startIndex + state.itemsPerPage;
-      return state.friends.slice(startIndex, endIndex);     
+      let sliced = state.friends.slice(startIndex, endIndex);   
+      state.dynamicHeight = (10 - sliced.length ) * 38;
+      return sliced;     
     },
     pageNr(state){
       return state.currentPage;
     },
     allPages(state){
       return Math.ceil(state.friends.length / state.itemsPerPage);
+    },
+    invCurrentPage(state){
+      let startIndex = (state.invCurrentPage - 1) * state.itemsPerPage;
+      let endIndex = startIndex + state.itemsPerPage;
+      let sliced = state.invitations.slice(startIndex, endIndex);   
+      state.dynamicHeight = (10 - sliced.length ) * 38;
+      return sliced;     
+    },
+    invPageNr(state){
+      return state.invCurrentPage;
+    },
+    invAllPages(state){
+      return Math.ceil(state.invitations.length / state.itemsPerPage);
     },
     getFriends(state){
       return state.friends;
@@ -110,9 +130,27 @@ export default {
     },
     getInvitations(state){
       return state.invitations;
+    },
+    getDynamicHeight(state){
+      return state.dynamicHeight;
+    },
+    getIsVisibleMessage(state){
+      return state.isVisibleMessage;
     }
   },
   actions: {
+    find(context, username){
+      if (username.length === 0){
+        const notificationTemplates = context.rootGetters.getNotificationTemplates;
+          context.dispatch('showNotification', notificationTemplates.user_name_to_short);
+      }else
+      return context.dispatch('findFriend', username);
+  },
+  //   isVisibleMessage(context, payload){
+  //     context.commit('setVisibleMessage', payload);
+  // },
+    
+
     async removeFriend(context, payload){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = context.rootGetters.getToken;
@@ -246,9 +284,10 @@ export default {
       try { 
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, {headers}); 
       if (res.status === 200) {
-        console.log(res.data)
+        console.log(res.data, 'aaa')
           context.commit('setFriends', res.data);          
           context.commit('tooleIsLoading', false);
+          console.log(res.data)
       }
       } catch (error) {
       if (error.response) {
@@ -270,14 +309,11 @@ export default {
     nextPage({ commit }) {
       commit('nextPage');
     },
-  //   addFriend(context){
-  //       context.commit('addFriend');
-  //   },
-  //   removeFriend(context, payload){
-  //     context.commit('removeFriend', payload)
-  //   },
-  //   removeFriendInvitation(context, payload){
-  //     context.commit('removeInvitation', payload)
-  //   }
+    invPreviousPage({ commit }) {
+      commit('invPreviousPage');
+    },
+    invNextPage({ commit }) {
+      commit('invNextPage');
+    },
   },
 }

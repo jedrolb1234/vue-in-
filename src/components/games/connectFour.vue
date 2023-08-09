@@ -9,82 +9,27 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-    data() {
-        return {
-            board: Array(6).fill().map(() => Array(7).fill(0)),
-            empty: 0,
-            red: 1,
-            blue: 2,
-            winner: null,
-            winnerPawns: [],
-            playerTurn: 1
-        }
+    computed:{
+        ...mapGetters('Polacz4', ['getBoard', 'getWinnerPawns']),
     },
-    methods: {
+    methods:{
+        ...mapActions('Polacz4', ['dropBall']),
         getPawn(i, j) {
-            for (let k = 0; k < this.winnerPawns.length; k++) {
-                if (this.winnerPawns[k][0] == i && this.winnerPawns[k][1] == j) {
+            console.log('sss')
+            for (let k = 0; k < this.getWinnerPawns.length; k++) {
+                if (this.getWinnerPawns[k][0] == i && this.getWinnerPawns[k][1] == j) {
+                    console.log('winner')
                     return 'winner'
                 }
             }
-            if (this.board[i][j] == 1)
-                return 'red';
-            if (this.board[i][j] == 2)
-                return 'blue';
-            return 'empty';
-        },
-        dropBall(c) {
-            if (this.winner != null)
-                return
-            for (let i = 5; i >= 0; i--) {
-                if (this.board[i][c] == this.empty) {
-                    this.board[i][c] = this.playerTurn;
-                    this.checkWinner();
-                    if (this.playerTurn === this.red) {
-                        this.playerTurn = this.blue;
-                    }
-                    else {
-                        this.playerTurn = this.red;
-                    }
-                    break;
-                }
-            }
-        },
-        checkWinner() {
-            const height = this.board.length;
-            const width = this.board[0].length;
-            for (let i = 0; i < height; i++) {
-                for (let j = 0; j < width; j++) {
-                    const slot = this.board[i][j];
-                    if (slot != this.playerTurn) {
-                        continue;
-                    }
-                    if (j + 3 < width && this.playerTurn == this.board[i][j + 1] && this.playerTurn == this.board[i][j + 2] && this.playerTurn == this.board[i][j + 3]) {
-                        this.winner = this.playerTurn;
-                        this.winnerPawns = [[i, j], [i, j + 1], [i, j + 2], [i, j + 3]]
-                        return
-                    }
-                    if (i + 3 < height) {
-                        if (slot == this.board[i + 1][j] && slot == this.board[i + 2][j] && slot == this.board[i + 3][j]) {
-                            this.winner = this.playerTurn;
-                            this.winnerPawns = [[i, j], [i + 1, j], [i + 2, j], [i + 3, j]]
-                            return
-                        }
-                        if (j + 3 < width && slot == this.board[i + 1][j + 1] && slot == this.board[i + 2][j + 2] && slot == this.board[i + 3][j + 3]) {
-                            this.winner = this.playerTurn;
-                            this.winnerPawns = [[i, j], [i + 1, j + 1], [i + 2, j + 2], [i + 3, j + 3]]
-                            return
-                        }
-                        if (j - 3 < width && slot == this.board[i + 1][j - 1] && slot == this.board[i + 2][j - 2] && slot == this.board[i + 3][j - 3]) {
-                            this.winner = this.playerTurn;
-                            this.winnerPawns = [[i, j], [i + 1, j - 1], [i + 2, j - 2], [i + 3, j - 3]]
-                            return
-                        }
-                    }
-
-                }
-            }
+            if (this.getBoard[i][j] == 1)
+                return 'red'
+            if (this.getBoard[i][j] == 2)
+                return 'blue'
+            return 'empty'
         },
     }
 }

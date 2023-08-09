@@ -41,7 +41,7 @@
 <script>
 import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import GameItem from '@/components/GamesPage/GameItem.vue';
 import BaseSearchInput from '@/components/base/BaseSearchInput.vue';
 
@@ -58,9 +58,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getGames', 'getFavoriteGames'])
+    ...mapGetters(['getGames', 'getFavoriteGames', 'getStateTheme', 'getTheme'])
   },
   methods: {
+    ...mapActions(['downloadTheme', 'setTheme']),
     redirect(link) {
       if (link != null)
         this.$router.push(link);
@@ -71,6 +72,10 @@ export default {
   },
   created() {
     this.filteredGames = this.getGames;
+    this.downloadTheme();
+    this.setTheme(this.getTheme);
+    console.log(this.getTheme)
+
   }
 }
 </script>

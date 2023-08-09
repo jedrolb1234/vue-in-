@@ -5,6 +5,7 @@ export default {
       isLoading: false,
       itemsPerPage: 10,
       currentPage: 1,
+      dynamigHeight:0,
       history:[
         {
           id:0,
@@ -146,6 +147,8 @@ export default {
     currentPage(state){
       let startIndex = (state.currentPage - 1) * state.itemsPerPage;
       let endIndex = startIndex + state.itemsPerPage;
+      let sliced = state.history.slice(startIndex, endIndex);           
+      state.dynamicHeight = (10 - sliced.length ) * 38;
       return state.history.slice(startIndex, endIndex);     
     },
     pageNr(state){
@@ -164,6 +167,9 @@ export default {
     },
     getItemsPerPage(state){
       return state.itemsPerPage
+    },
+    getDynamicHeight(state){
+      return state.dynamicHeight;
     }
   },
   actions: {

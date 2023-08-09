@@ -2,7 +2,7 @@
   <div class="content">
     <div id="user-profile">
       <div id="user-profile__image">
-        <img :src="this.getUserAvatar" />
+        <img :src="userAvatar" />
       </div>
       <div id="user-profile__data">
         <div class="username">
@@ -15,7 +15,7 @@
 
     </div>
     <div id="user-profile__link">
-      <BaseButton type="secondary-medium" class="clickable">Pokaż profil</BaseButton>
+      <BaseButton type="secondary-medium" class="clickable" @click="redirect()">Pokaż profil</BaseButton>
     </div>
   </div>
 </template>
@@ -28,10 +28,20 @@ export default {
   components: {
     BaseButton
   },
+  props:['userAvatar', 'id'],
+  methods:{
+    redirect(){
+      console.log(this.id)
+      return this.$router.push({
+                          name: 'uhp',
+                          params: { id: this.id, isFriend: false , invId: 'null'},
+                          });
+    }
+  },
   computed: {
-    ...mapGetters(['getUserAvatar', 'getUsername', 'getDescription'])
+    ...mapGetters(['getProfileAvatar', 'getUsername', 'getDescription', 'getId'])
+  },
   }
-}
 </script>
 
 <style scoped>

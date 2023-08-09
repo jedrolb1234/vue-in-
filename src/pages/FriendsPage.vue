@@ -7,7 +7,7 @@
                 <hr class="hr1">
                 <div v-if="getIsLoading === true">
                     <table class="spinnerTable">
-                        <tr :style="{height: dynamicHeight()+38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
+                        <tr :style="{height: getDynamicHeight +38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
                     </table>
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
@@ -16,9 +16,9 @@
                         <tbody>
                             <tr class="friendsList"
                                 v-for="(f, index) in currentPage" :key="index">
-                                <td class="tableButton"><base-look-button @click="redirect(f.id, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
+                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
                             </tr>
-                            <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+                            <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
                     </table>
                     <div class="buttons">
@@ -40,11 +40,18 @@
                                 <tr><th class="tableButton">Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                                 
                                     <tr class="invitationsList"
-                                        v-for="(i, index) in getInvitations" :key="index">
+                                        v-for="(i, index) in invCurrentPage" :key="index">
                                         <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
+                        <transition-group name="fade" tag="table" class="invContainer">
+                            <div class="buttons" v-if="getAvilabeInvitations > 10">
+                                <base-previous-button @click="invPreviousPage"></base-previous-button>
+                                <base-next-button @click="invNextPage"></base-next-button>
+                                <p class="page">{{ invPageNr }}</p>
+                            </div>
+                        </transition-group>
                     </ul> 
                 </transition>
                 <ul v-if="getAvilabeInvitations === 0"><p>Nie otrzymano zaproszeń od znajomych.</p></ul>
@@ -86,7 +93,6 @@ import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
 import BaseDeleteMessage from'@/components/base/BaseDeleteMessage.vue'
 
-
 export default {
     props: ['history'],
     components:{
@@ -119,29 +125,24 @@ export default {
         
     computed: {
         ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
-                    'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 
-                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations']),
-        ...mapGetters(['getNotificationTemplates']),
+                    'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 'getDynamicHeight', 
+                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations',
+                    'invCurrentPage', 'invPageNr', 'invAllPages']),
     },
     methods:{
-        ...mapActions('Friends', ['nextPage', 'previousPage', 'findFriend', 'addFriend', 
-                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation']),
+        ...mapActions('Friends', ['nextPage', 'previousPage', 'find', 'addFriend', 
+                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation',
+                    'redirect','invNextPage', 'invPreviousPage',]),
         ...mapActions(['showNotification']),
 //sprawdzic jaka strukture ma invitations id
-        find(username){
-            if (username.length === 0){
-                this.showNotification(this.getNotificationTemplates.user_name_to_short);
-            }else
-            return this.findFriend(username);
-        },
         redirect(id, invId){
+            console.log('uhp')
             if (invId !== 'null'){
                 return this.$router.push({
                     name: 'uhp',
                     params: { id: id, isFriend: false, invId: invId },
                     }); 
             }
-            console.log(id,'blblbl')
             for(let i = 0; i < this.getFriends.length; i++){
                 if (id === this.getFriends[i].id){
                     return this.$router.push({
@@ -164,16 +165,8 @@ export default {
                 params: { id: id, isFriend: false, invId: 'null' },
                 }); 
         },
-
-        isVisibleMessage(payload){
-            this.visibleMessage = payload;
-        },
-
-        dynamicHeight(){
-            let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
-            let endIndex = startIndex + this.getItemsPerPage;
-            let sliced = this.getFriends.slice(startIndex, endIndex);   
-            return (10 - sliced.length ) * this.rowHeight;
+        isVisibleMessage(){
+            this.visibleMessage = this.isVisibleMessage;
         }
     },
     mutations:{

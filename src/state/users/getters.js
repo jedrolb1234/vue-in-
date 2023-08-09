@@ -8,29 +8,38 @@ export default {
       return false;
     return true;
   },
-  getUserAvatar(state) {
+  getLastLogin(state) {
+    return state.lastLogin;
+  },
+  getProfileAvatar(state) {
     return state.userAvatar;
   },
   getAvatars(state) {
     return state.avatars;
   },
+  getUserAvatar:(state) => (nr) =>{
+    console.log(nr,'avatarNR')
+    return state.avatars[nr];
+  },
   getTheme(state) {
-    return state.theme;
+    if(state.settings.theme === 0)
+      return 'light';
+    else if(state.settings.theme !== 0)return 'dark';
   },
   getUsername(state) {
-    return state.username;
+    return state.settings.userName;
   },
   getDescription(state) {
-    return state.description;
+    return state.settings.description;
   },
   getName(state) {
-    return state.name;
+    return state.settings.firstName;
   },
   getSurname(state) {
-    return state.surname;
+    return state.settings.surName;
   },
   getBirthDate(state) {
-    return state.birthDate;
+    return state.settings.dateOfBirth;
   },
   getEmail(state) {
     return state.email;
@@ -46,5 +55,18 @@ export default {
   },
   getLastLogin() {
     return JSON.parse(localStorage.getItem('last_login'));
+    return state.settings.email;
+  },
+  getId(state){
+    return state.settings.id
+  },
+  getVisibleMessageP(state){
+    return state.visibleMessageP;
+  },
+  getVisibleMessage(state){
+    return state.visibleMessage;
+  },
+  getOwnId(state, value){
+    return state.settings.id === value;
   }
 }

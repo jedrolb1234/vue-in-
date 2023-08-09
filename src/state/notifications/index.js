@@ -57,6 +57,12 @@ export default {
           description: 'Zostałeś przekierowany do strony gry.',
           type: 'info',
         }
+        },
+        account_deleted: {
+          label:'Konto zostało skosowane.',
+          description:'Konto o podanym login nie istnieje.',
+          type: 'info'
+        },
       }
     }
   },
