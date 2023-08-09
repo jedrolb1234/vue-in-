@@ -25,7 +25,6 @@ export default {
       document.body.classList.remove(oldTheme)
       document.body.classList.add(newTheme);
       document.documentElement.style.colorScheme=newTheme;
-      console.log('to jest watch')
       localStorage.setItem('theme', newTheme);
     },
   }

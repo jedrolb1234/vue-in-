@@ -7,6 +7,7 @@ export default {
   },
   logout(state) {
     sessionStorage.setItem('token', null);
+    // localStorage.setItem('theme', null);
     sessionStorage.setItem('refresh_token', null);
     state.lastLogin = null;
   },
@@ -61,10 +62,8 @@ export default {
     document.documentElement.style.colorScheme=theme;
     state.settings.theme = theme;
     state.theme = theme;
+    // localStorage.setItem('theme', theme);
     console.log(document.body.classList, document.documentElement.style.colorScheme)
-    // if(theme === 0)
-    //   state.theme = 'light';
-    //  else state.theme = 'dark';
   },
   popupPassword(state, value) {
     console.log('password')

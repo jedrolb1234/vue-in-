@@ -51,7 +51,12 @@ export default {
           label: 'Pokój gry został poprawnie utowrzony!',
           description: 'Zaproś znajomych i rozpocznij rozgrywkę.',
           type: 'info',
-        }
+        },
+        account_deleted: {
+          label:'Konto zostało skosowane.',
+          description:'Konto o podanym login nie istnieje.',
+          type: 'info'
+        },
       }
     }
   },

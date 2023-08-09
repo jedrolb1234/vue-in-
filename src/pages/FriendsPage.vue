@@ -136,6 +136,7 @@ export default {
         ...mapActions(['showNotification']),
 //sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
+            console.log('uhp')
             if (invId !== 'null'){
                 return this.$router.push({
                     name: 'uhp',
