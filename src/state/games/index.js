@@ -160,8 +160,9 @@ export default {
       context.commit('toggleIsFavorite', id);
     },
     async downloadTheme(context){
+      context.dispatch('refreshToken', {}, { root: true });
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken;
       const headers = {
         Authorization: `Bearer ${token}`,
         };
