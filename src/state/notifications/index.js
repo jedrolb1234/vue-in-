@@ -52,6 +52,11 @@ export default {
           description: 'Zaproś znajomych i rozpocznij rozgrywkę.',
           type: 'info',
         },
+        game_room_closed: {
+          label: 'Pokój gry został poprawnie zamknięty!',
+          description: 'Zostałeś przekierowany do strony gry.',
+          type: 'info',
+        },
         account_deleted: {
           label:'Konto zostało skosowane.',
           description:'Konto o podanym login nie istnieje.',

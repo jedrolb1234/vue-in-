@@ -6,9 +6,12 @@
         <div>1550 graczy online</div>
       </div>
       <div class="action-bar">
-        <BaseButton type="primary-medium" @click="this.createNewGameRoom({ gameTypeId: 0, roomName: 'abcdef' })">Stwórz
+        <div class="buttons">
+          <BaseButton type="primary-medium" @click="this.createNewGameRoom({ gameTypeId: gameId, roomName: `Pokój gracza ${this.getUsername}` })">Stwórz
           nowy
           pokój</BaseButton>
+        <BaseButton type="secondary-medium" @click="this.refreshGameRooms()">Odśwież</BaseButton> 
+        </div>
         <BaseSearchInput :searchFunction="this.searchGameRooms" fontSize="16px"></BaseSearchInput>
       </div>
       <table class="game-room-list">
@@ -22,8 +25,8 @@
             <td>Akcja</td>
           </tr>
         </thead>
+        <BaseLoadingSpinner v-if="this.isLoading"></BaseLoadingSpinner>
         <tbody>
-          <BaseLoadingSpinner v-if="this.isLoading"></BaseLoadingSpinner>
           <tr v-for="room in this.rooms.slice((this.selectedPage - 1) * this.pageSize, this.selectedPage * this.pageSize)"
             class="game-room-list-element" :key="room.id">
             <td>{{ room.name }}</td>
@@ -33,8 +36,7 @@
             </td>
             <td>{{ room.rquiredNumberOfPlayers }}</td>
             <td>{{ room.isPrivate }}</td>
-            <!-- <td><span class="material-symbols-outlined">slideshow</span></td> -->
-            <td><span class="material-symbols-outlined">play_circle</span></td>
+            <td><span class="material-symbols-outlined" @click="this.$router.push({'path':`/play/${room.id}`})">play_circle</span></td>
           </tr>
         </tbody>
         <tfoot>
@@ -69,7 +71,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getGameRooms']),
+    ...mapGetters(['getGameRooms','getUsername']),
   },
   methods: {
     ...mapActions(['createNewGameRoom', 'obtainGameRooms']),
@@ -79,18 +81,25 @@ export default {
     searchGameRooms(query) {
       this.rooms = this.getGameRooms.filter(room => room.name.includes(query));
       this.selectedPage = 1;
+    },
+    async refreshGameRooms() {
+      this.rooms=[];
+      this.isLoading=true;
+      await this.obtainGameRooms();
+      this.isLoading=false;
+      this.rooms = this.getGameRooms;
     }
   },
   async created() {
-    this.isLoading=true;
-    await this.obtainGameRooms();
-    this.rooms = this.getGameRooms;
-    this.isLoading=false;
+    this.refreshGameRooms()
   }
 }
 </script>
 
 <style scoped>
+span {
+  cursor: pointer;
+}
 .game-room-modal {
   display: flex;
   height: auto;
@@ -108,6 +117,11 @@ export default {
   gap: 50px;
 }
 
+.action-bar > .buttons {
+  display: flex;
+  gap: 15px;
+}
+
 .game-room-list {
   display: flex;
   flex-direction: column;
@@ -119,6 +133,12 @@ table {
   background-color: var(--secondaryBtn);
   padding: 10px;
   border: 1px solid var(--primary);
+}
+
+table >div {
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 tbody {
