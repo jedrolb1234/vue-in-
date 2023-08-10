@@ -19,6 +19,7 @@ export default {
       BaseSmallButton,
 },
   props:['id'],
+  emits:['visibleMessage'],
 
   methods:{
     ...mapActions('Friends', ['removeFriend']),
