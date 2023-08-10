@@ -8,6 +8,8 @@ export default {
     },
     state() {
       return {
+        id: null,
+        index: null,
         searchedUser:{ },
         isLoading: true,
         // hasFriends: true,
@@ -22,6 +24,7 @@ export default {
         friends:[ ],
         invitations:[ ],
         dynamicHeight: 0,
+        visibleMessage: false,
         }
   },
   mutations: {
@@ -76,8 +79,13 @@ export default {
         }
       }
     },
-    setVisibleMessage(state, payload){
-      state.isVisibleMessage = payload;
+    showPopup(state, payload){
+      state.visibleMessage = payload.visible;
+      state.id = payload.id;
+      state.index = payload.index;
+    },
+    hidePopup(state, payload){
+      state.visibleMessage = payload;
     }
   },
   getters: {
@@ -111,6 +119,7 @@ export default {
       return Math.ceil(state.invitations.length / state.itemsPerPage);
     },
     getFriends(state){
+      console.log(state.friends)
       return state.friends;
     },
     getUser(state){
@@ -135,7 +144,13 @@ export default {
       return state.dynamicHeight;
     },
     getIsVisibleMessage(state){
-      return state.isVisibleMessage;
+      return state.visibleMessage;
+    },
+    getId(state){
+      return state.id;
+    },
+    getIndex(state){
+      return state.index;
     }
   },
   actions: {
@@ -146,11 +161,6 @@ export default {
       }else
       return context.dispatch('findFriend', username);
   },
-  //   isVisibleMessage(context, payload){
-  //     context.commit('setVisibleMessage', payload);
-  // },
-    
-
     async removeFriend(context, payload){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = context.rootGetters.getToken;
@@ -257,7 +267,7 @@ export default {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_INVITATIONS_ENDPOINT, {headers}); 
       if (res.status === 200) {
           context.commit('setInvitations', res.data.items);
-          console.log(res.data)
+          // console.log(res.data)
       }
       } catch (error) {
       if (error.response) {
@@ -318,5 +328,11 @@ export default {
     invNextPage({ commit }) {
       commit('invNextPage');
     },
+    showRemovePopup(context, userId, index){
+      context.commit('showPopup', {visible:true, id:userId, index:index});
+    },
+    hideRemovePopup(context){
+      context.commit('hidePopup', false);
+    }
   },
 }

@@ -68,7 +68,7 @@ export default {
       nextPage(state){
         console.log('+++')
         if (state.currentPage < Math.ceil(state.history.length / state.itemsPerPage)){
-          console.log('++')
+          // console.log('++')
           state.currentPage++;
         }
       },
@@ -80,15 +80,15 @@ export default {
       },
       setIsFriend(state, value){
         state.isFriend = value;
-        console.log('isFriend', state.isFriends)
+        // console.log('isFriend', state.isFriends)
       },
       setInvSended(state, value){
         state.invSended = value;
-        console.log('invSended', state.invSended)
+        // console.log('invSended', state.invSended)
       },
       setHasInvitation(state, value){
         state.invId = value;
-        console.log('invId', state.invId)
+        // console.log('invId', state.invId)
       },
       setInvitations(state, value){
         state.invitations = value;
@@ -101,7 +101,7 @@ export default {
         let formattedDate = `${year}-${month}-${day}`;
         state.user = user;
         state.user.dateOfBirth = formattedDate;
-        console.log(state.user)
+        // console.log(state.user)
       }
     },
     getters: {
@@ -131,14 +131,18 @@ export default {
       getHasInvitation(state){
         return state.hasInvitation;
       },
+      // getIsFriend(state){
+      //   return state.isFriend;
+      // },
       getIsFriend(state){
-        return state.isFriend;
+        console.log(state.user.isFriendStatus)
+        return state.user.isFriendStatus
       },
       getIsInvSended(state){
         return state.invSended;
       },
       getName(state){
-        console.log(state.user)
+        // console.log(state.user)
         return state.user.firstName;
       },
       getSurname(state){
@@ -150,6 +154,16 @@ export default {
       getUser(state){
         return state.user;
       },
+      getOwnId(state){
+        return state.id === JSON.parse(localStorage.getItem('user_id'));
+      },
+      getId(state){
+        // console.log(state.id)
+        return state.id;
+      },
+      getInvId(state){
+        return state.invId;
+      }
     },
     actions: {
         previousPage(context) {
@@ -164,7 +178,6 @@ export default {
         const headers = {
           Authorization: `Bearer ${token}`,
           };
-          console.log(headers)
         const axios = require('axios');
         let res;
         console.log(payload)
@@ -203,7 +216,7 @@ export default {
           }
         }
       },
-      async acceptInvitation(context, payload){
+      async acceptInvitation(context, userId){
         const notificationTemplates = context.rootGetters.getNotificationTemplates;
         const token = context.rootGetters.getToken
         const headers = {
@@ -211,9 +224,10 @@ export default {
           };
         const axios = require('axios');
         let res;
+        console.log(userId)
         try { 
         res = await axios.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
-                              + "/" + payload + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null, {headers}); 
+                              + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null, {headers}); 
           if (res.status === 200) {
             context.commit('setIsFriend', true);
             context.commit('setHasInvitation', 'null');
@@ -264,19 +278,17 @@ export default {
       },
       async getData(context,userId){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = JSON.parse(sessionStorage.getItem('token'))
+      const token = context.rootGetters.getToken;
       const headers = {
         Authorization: `Bearer ${token}`,
         };
       const axios = require('axios');
       let res;
       try { 
-        // console.log(userId)
-        // console.log(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + userId + process.env.VUE_APP_PROFILE) 
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + "/account/" + userId + "/profile", {headers}); 
       if (res.status === 200) {  
-        context.commit('setUser', res.data)
-        console.log(res.data)
+        context.commit('setUser', res.data);
+        console.log(res.data, 'data')
       }
       } catch (error) {
       if (error.response) {

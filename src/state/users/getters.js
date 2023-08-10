@@ -15,7 +15,7 @@ export default {
     return state.avatars;
   },
   getUserAvatar:(state) => (nr) =>{
-    console.log(nr,'avatarNR')
+    // console.log(nr,'avatarNR')
     return state.avatars[nr];
   },
   getTheme(state) {
@@ -33,7 +33,7 @@ export default {
     return state.settings.firstName;
   },
   getSurname(state) {
-    return state.settings.surName;
+    return state.settings.lastName;
   },
   getBirthDate(state) {
     return state.settings.dateOfBirth;

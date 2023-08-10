@@ -12,24 +12,27 @@
   
 <script>
 import BaseSmallButton from'@/components/base/BaseSmallButton.vue';
+import { mapActions } from 'vuex';
 
 export default {
-  props: ['id', 'visibleMessage'],
-  emits: ['visibleMessage'],
   component: {
       BaseSmallButton,
 },
+  props:['id'],
 
   methods:{
+    ...mapActions('Friends', ['removeFriend']),
+
       emitVisibleMessage() {
-          console.log('message')
+          console.log('message');
           this.$emit('visibleMessage', false);
+          
       },
-  //     deleteFromFriends(id){
-  //         id = null          
-  //         this.$emit('visibleMessage', false);
-  //         return id;
-  // }
+      deleteFromFriends(id){
+          id = null          
+          this.$emit('visibleMessage', false);
+          this.removeFriend(id);
+  }
   }
 }
 

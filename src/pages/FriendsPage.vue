@@ -12,11 +12,11 @@
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
                     <table class="friend">
-                        <tr><th class="tableButton">Podgląd</th><th>Imię</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
+                        <tr><th class="tableButton">Podgląd</th><th>nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                         <tbody>
                             <tr class="friendsList"
                                 v-for="(f, index) in currentPage" :key="index">
-                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.name }}</td><td>{{ f.lastLogin }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriend(f.userId)"></base-remove-button></td>   
+                                <td class="tableButton"><base-look-button @click="redirect(f.id, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="showRemovePopup(f.id, index)"></base-remove-button></td>   
                             </tr>
                             <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
@@ -29,7 +29,9 @@
                 </ul>
                 <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
             </div>
-            <base-delete-message :id="id" v-if="visibleMessage === true" @visibleMessage="isVisibleMessage"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id].name }} ? </base-delete-message>
+            <Transition>
+                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup" @click="showRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika <!--{{ getFriends[getIndex].userName }} --> ? </base-delete-message>
+            </Transition>
             <div class="invitations">
                 <h2 class="invMargin">Twoje zaproszenia:</h2>
                 <hr class="hr2">
@@ -41,7 +43,7 @@
                                 
                                     <tr class="invitationsList"
                                         v-for="(i, index) in invCurrentPage" :key="index">
-                                        <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.name }}</td><td>{{ i.lastLogin }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
+                                        <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.userName }}</td><td>{{ i.lastActivityDate }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
@@ -126,48 +128,48 @@ export default {
     computed: {
         ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
                     'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 'getDynamicHeight', 
-                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations',
-                    'invCurrentPage', 'invPageNr', 'invAllPages']),
+                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId',
+                    'invCurrentPage', 'invPageNr', 'invAllPages', 'getIsVisibleMessage',
+                    'getIndex']),
     },
+
     methods:{
         ...mapActions('Friends', ['nextPage', 'previousPage', 'find', 'addFriend', 
-                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriend', 'removeFriendInvitation',
-                    'redirect','invNextPage', 'invPreviousPage',]),
+                    'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriendInvitation',
+                    'redirect','invNextPage', 'invPreviousPage', 'showRemovePopup', 'hideRemovePopup']),
         ...mapActions(['showNotification']),
+
 //sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
             console.log('uhp')
             if (invId !== 'null'){
                 return this.$router.push({
                     name: 'uhp',
-                    params: { id: id, isFriend: false, invId: invId },
+                    params: { id: id, invId: invId },
                     }); 
             }
             for(let i = 0; i < this.getFriends.length; i++){
-                if (id === this.getFriends[i].id){
+                if (id === this.getFriends[i].userId){
                     return this.$router.push({
                         name: 'uhp',
-                        params: { id: id, isFriend: true , invId: 'null'},
+                        params: { id: id, invId: 'null'},
                         });
                 }
             const inv = this.getInvitations;
             const user = this.getUser;          
             for(let i = 0; i< inv.length; i++){
-                if (inv[i].userId === user.id)
+                if (inv[i].userId === user.id){
                 console.log(inv[i].userId)
                 return this.$router.push({
                     name: 'uhp',
-                    params: { id: id, isFriend: false, invId: inv[i].userId },
+                    params: { id: id, invId: inv[i].userId },
                     }); 
-                }                    
+                }}          
             } return this.$router.push({
                 name: 'uhp',
-                params: { id: id, isFriend: false, invId: 'null' },
+                params: { id: id, invId: 'null' },
                 }); 
         },
-        isVisibleMessage(){
-            this.visibleMessage = this.isVisibleMessage;
-        }
     },
     mutations:{
         ...mapGetters('Friends', ['setUserName'])
@@ -332,7 +334,7 @@ p{
     margin-left: 35px;
 }
 .invMargin{
- margin-left: 80px;
+    margin-left: 80px;
 }
 .invitations{
     margin-left: -20px;
@@ -373,5 +375,29 @@ p{
 .avInvs-enter,
 .avInvs-leave-to {
   opacity: 0;
+}
+.v-enter-active,
+.v-leave-active {
+  animation: modal;
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  animation:modal;
+  opacity: 0;
+}
+
+
+  @keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 </style>
