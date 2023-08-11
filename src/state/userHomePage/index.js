@@ -6,16 +6,13 @@ export default {
         id: null,
         isLoading: false,
         hasInvitation: false,
-        isFriend: false,
         invId:null,
         itemsPerPage: 10,
         currentPage: 1,
-        name: 'Andrzej',
-        surname: 'Bidermann',
-        birthDate: '1984-09-27',
-        invitations: null,
-        invitation: null,
-        invSended: false,
+        name: '',
+        surname: '',
+        birthDate: '',
+        userId: null,
         user: { },
         history:[
           {
@@ -102,6 +99,9 @@ export default {
         state.user = user;
         state.user.dateOfBirth = formattedDate;
         // console.log(state.user)
+      },
+      setUserId(state, value){
+        state.userId = value;
       }
     },
     getters: {
@@ -131,15 +131,9 @@ export default {
       getHasInvitation(state){
         return state.hasInvitation;
       },
-      // getIsFriend(state){
-      //   return state.isFriend;
-      // },
       getIsFriend(state){
         console.log(state.user.isFriendStatus)
         return state.user.isFriendStatus
-      },
-      getIsInvSended(state){
-        return state.invSended;
       },
       getName(state){
         // console.log(state.user)
@@ -187,12 +181,12 @@ export default {
 
           if (res.status === 200) {
             console.log(res.status)
-            context.commit('setInvSended', true)
             }
         } catch (error) {
-          console.log(error)
+          // console.log(error)
           if(error.response.data === "FriendshipIsAlreadyPendingOrAccepted"){
             context.commit('setInvSended', true)
+            context.dispatch('getData', context.state.userId);
           }
           else if(error.response.data === "FriendHasToBeAnotherUser"){
             context.dispatch('showNotification',
@@ -229,9 +223,7 @@ export default {
         res = await axios.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT 
                               + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null, {headers}); 
           if (res.status === 200) {
-            context.commit('setIsFriend', true);
-            context.commit('setHasInvitation', 'null');
-            context.commit('setInvSended', false);
+            context.dispatch('getData', context.state.userId);
             }
           } catch (error) {
             console.log(error)
@@ -248,35 +240,7 @@ export default {
           }
         }
       },
-
-      async downloadInvitations(context){
-        const notificationTemplates = context.rootGetters.getNotificationTemplates;
-        const token = context.rootGetters.getToken
-        const headers = {
-              Authorization: `Bearer ${token}`,
-          };
-        const axios = require('axios');
-        let res;
-        try { 
-        res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_INVITATIONS_ENDPOINT, {headers}); 
-        if (res.status === 200) {
-            context.commit('setInvitations', res.data);
-        }
-        } catch (error) {
-        if (error.response) {
-            context.dispatch('showNotification',
-            {
-                label: 'Wystąpiły błędy!',
-                description: 'Nie udało się pobrać danych.',
-                type: 'error'
-            },
-            { root: true });
-        } else {
-            context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-        }
-        }
-      },
-      async getData(context,userId){
+    async getData(context,userId){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const token = context.rootGetters.getToken;
       const headers = {
@@ -288,6 +252,7 @@ export default {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + "/account/" + userId + "/profile", {headers}); 
       if (res.status === 200) {  
         context.commit('setUser', res.data);
+        context.commit('setUserId', userId);
         console.log(res.data, 'data')
       }
       } catch (error) {

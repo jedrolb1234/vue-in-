@@ -38,23 +38,12 @@
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
                           'getIsInvSended', 'getId']),
       ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
-      getIsFriend(){
-        console.log(this.isFriend, 'isfriend')
-        return this.isFriend;
-      },
-      getHasInvitation(){
-        console.log(this.invId, 'invId')
-        return this.invId !== 'null';
-      },
       getInvId(){
         return this.invId;
       },
     },
-    mounted(){
-      this.downloadInvitations();
-    },
     methods: {
-      ...mapActions('UHP',['sendInvitation', 'acceptInvitation', 'downloadInvitations']),
+      ...mapActions('UHP',['sendInvitation', 'acceptInvitation']),
     },
   }
   </script>
