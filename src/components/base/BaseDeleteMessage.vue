@@ -2,9 +2,9 @@
   <div class="modal-backdrop">
     <div class="modal" name="modal">
       <slot></slot>
-        <div class="buttons"> {{  this.id }}
-          <base-small-button @click="deleteFromFriends(this.id)">Potwierdz</base-small-button>
-          <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
+        <div class="buttons">
+          <base-small-button @click="deleteFromFriends(this.id)" class="confirm-button">Potwierdz</base-small-button>
+          <base-small-button @click="emitVisibleMessage" class="confirm-button">Odrzuć</base-small-button>
         </div>
       </div>
     </div>
@@ -29,8 +29,7 @@ export default {
           this.$emit('visibleMessage', false);
           
       },
-      deleteFromFriends(id){
-          id = null          
+      deleteFromFriends(id){       
           this.$emit('visibleMessage', false);
           console.log(id)
           this.removeFriend(id);
@@ -46,7 +45,7 @@ export default {
 </script>
   
 <style scoped>
-.modal {
+/* .modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -59,7 +58,7 @@ export default {
   height: 150px;
   top: calc(50% - 75px);
   left: calc(50% - 200px);
-  border: 5px solid black; /* Zaktualizowano */
+  border: 5px solid black;
   border-radius: 16px;
   padding: 10px;
   gap: 10px;
@@ -74,7 +73,6 @@ export default {
   opacity: 0.95;
   text-align: center;
 }
-
 .modal-backdrop > * {
   border: none; 
 }
@@ -94,25 +92,54 @@ export default {
 .buttons > * {
   flex: 1;
   margin: 0 5px;
+} */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 150px;
+  transform: translate(-50%, -50%);
+  background-color: rgb(243, 104, 104);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.modal-enter-active {
-  animation: modal 0.3s ease-out;
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.confirm-button{
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  width: 400px;
+  border-radius: 8px;
+}
+.reject-button {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  width:400px;
+  border-radius: 8px;
 }
 
-.modal-leave-active {
-  animation: modal 0.3s ease-in reverse;
+.confirm-button {
+  background-color: #28a745;
+  color: white;
+  margin: 0 5px;
 }
 
-@keyframes modal {
-  from {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.reject-button {
+  background-color: #dc3545;
+  color: white;
 }
+
   </style>

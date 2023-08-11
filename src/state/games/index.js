@@ -170,8 +170,8 @@ export default {
       let res;
       try { 
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/account/settings', {headers}); 
-      console.log(res.data)
-      console.log('aaa')
+      // console.log(res.data)
+      // console.log('aaa')
       if (res.status === 200) {  
         context.commit('setTheme', res.data.theme)
       }

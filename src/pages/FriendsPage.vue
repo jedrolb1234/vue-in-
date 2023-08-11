@@ -12,11 +12,11 @@
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
                     <table class="friend">
-                        <tr><th class="tableButton">Podgląd</th><th>nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
+                        <tr><th>Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th></th></tr>
                         <tbody>
                             <tr class="friendsList"
-                                v-for="(f, index) in currentPage" :key="index">
-                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="showRemovePopup(f.userId, index)"></base-remove-button></td>   
+                                v-for="(f, index) in getFriends" :key="index">
+                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="showRemovePopup(f)"></base-remove-button></td>   
                             </tr>
                             <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
@@ -29,8 +29,8 @@
                 </ul>
                 <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
             </div>
-            <Transition>
-                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup" @click="showRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id] }} ? </base-delete-message>
+            <Transition name="v">
+                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getRemUser }} ? </base-delete-message>
             </Transition>
             <div class="invitations">
                 <h2 class="invMargin">Twoje zaproszenia:</h2>
@@ -42,13 +42,13 @@
                                 <tr><th class="tableButton">Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                                 
                                     <tr class="invitationsList"
-                                        v-for="(i, index) in invCurrentPage" :key="index">
+                                        v-for="(i, index) in getInvitations" :key="index">
                                         <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.userName }}</td><td>{{ i.lastActivityDate }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
                         <transition-group name="fade" tag="table" class="invContainer">
-                            <div class="buttons" v-if="getAvilabeInvitations > 10">
+                            <div class="invButtons" v-if="getInvPages > 1">
                                 <base-previous-button @click="invPreviousPage"></base-previous-button>
                                 <base-next-button @click="invNextPage"></base-next-button>
                                 <p class="page">{{ invPageNr }}</p>
@@ -70,11 +70,11 @@
                     <div v-if="this.getFindUser === true" class="findUser">
                         <p>Znaleziono:</p>
                         <table class="findFriend">
-                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id, 'null')"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ "20023-010-01" }}</td><td>{{ "Warcaby" }}</td>
+                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id, 'null')"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ getUser.dateOfBirth }}</td><td>{{ "Warcaby" }}</td>
                             </tr>
                         </table>
                     </div>
-                    <div v-else-if="this.getFindUser === false" class="findUser">{{ notFindUser }}</div>
+                    <div v-else-if="this.getFindUser === false" class="findUser">Nie znaleziono użytkownika o podnym imieniu.</div>
                 </transition>
             </div>
         </div>
@@ -113,24 +113,21 @@ export default {
     data(){
         return {
             username: '',
-            notFindUser: 'Nie znaleziono użytkownika o podnym imieniu.',
-            visibleMessage: false,
-            rowHeight: 38,
+
             findUser: null,
         }
     },
     mounted() {
         this.downloadFriends();
         this.downloadInvitations();
-        console.log(this.getFindUser)
         },
         
     computed: {
         ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
-                    'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 'getDynamicHeight', 
+                    'getFriends', 'getFindFriend', 'getFindUser', 'getDynamicHeight', 
                     'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId',
-                    'invCurrentPage', 'invPageNr', 'invAllPages', 'getIsVisibleMessage',
-                    'getIndex', 'getFriendsCount']),
+                    'invPageNr', 'invAllPages', 'getIsVisibleMessage', 'getInvPages',
+                    'getFriendsCount', 'getRemUser']),
     },
 
     methods:{
@@ -246,20 +243,27 @@ tr{
     border-radius: 8px;
     width: 800px;
 }
-tr:first-child{
-    width:60px;
-}
-tr:last-child{
-    width:100px;
-}
+
 th{
     width: 160px;
     height:51px;
 }
+.table.button,
+th:first-child,
+th:last-child{
+    margin-left:0px;
+    padding-left:5px;
+    width:60px !important;
+}
+th:nth-child(2):nth-child(4),
+td:nth-child(2):nth-child(4){
+    margin-left:0px;
+    padding-left:10px;
+    width:calc((100% - 4 * 10px) / 3);
+}
 td{
     padding: 1.2px;
     background-color: var(--secondary);
-    width: 160px;
     height: 38px;
     font-size: 18px;
     color: var(--primary);
@@ -301,11 +305,17 @@ p{
     font-size: 22px;
     color: var(--primary);
 }
-.buttons{
+.buttons, .invButtons{
   display: flex;
   flex-direction: row;
   width: 70px;
   justify-content: space-between;
+}
+.invButtons{
+    margin-left:30px;
+}
+.invContainer{
+  border: none;
 }
 .spinnerTable{
     width: 800px;
@@ -387,8 +397,6 @@ p{
   animation:modal;
   opacity: 0;
 }
-
-
   @keyframes modal {
   from {
     opacity: 0;
