@@ -1,7 +1,7 @@
 <template>
     <base-page-layout>
         <div class="container">           
-            <BaseHeader>Znajomi ( {{ getFriends.length }} )</BaseHeader>
+            <BaseHeader>Znajomi ( {{ getFriendsCount }} )</BaseHeader>
             <div class="FriendsContainer">
                 <h2 class="friendsHeader">Twoi przyjaciele</h2>
                 <hr class="hr1">
@@ -16,7 +16,7 @@
                         <tbody>
                             <tr class="friendsList"
                                 v-for="(f, index) in currentPage" :key="index">
-                                <td class="tableButton"><base-look-button @click="redirect(f.id, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="showRemovePopup(f.id, index)"></base-remove-button></td>   
+                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="showRemovePopup(f.userId, index)"></base-remove-button></td>   
                             </tr>
                             <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
@@ -30,7 +30,7 @@
                 <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
             </div>
             <Transition>
-                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup" @click="showRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika <!--{{ getFriends[getIndex].userName }} --> ? </base-delete-message>
+                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup" @click="showRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getFriends[id] }} ? </base-delete-message>
             </Transition>
             <div class="invitations">
                 <h2 class="invMargin">Twoje zaproszenia:</h2>
@@ -130,7 +130,7 @@ export default {
                     'getFriends', 'getFindFriend', 'getFindUser', 'getCurrentPage', 'getDynamicHeight', 
                     'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId',
                     'invCurrentPage', 'invPageNr', 'invAllPages', 'getIsVisibleMessage',
-                    'getIndex']),
+                    'getIndex', 'getFriendsCount']),
     },
 
     methods:{

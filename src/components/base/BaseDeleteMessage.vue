@@ -2,8 +2,8 @@
   <div class="modal-backdrop">
     <div class="modal" name="modal">
       <slot></slot>
-        <div class="buttons"> 
-          <base-small-button @click="deleteFromFriends(id)">Potwierdz</base-small-button>
+        <div class="buttons"> {{  this.id }}
+          <base-small-button @click="deleteFromFriends(this.id)">Potwierdz</base-small-button>
           <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
         </div>
       </div>
@@ -17,7 +17,7 @@ import { mapActions } from 'vuex';
 export default {
   component: {
       BaseSmallButton,
-},
+  },
   props:['id'],
   emits:['visibleMessage'],
 
@@ -32,7 +32,13 @@ export default {
       deleteFromFriends(id){
           id = null          
           this.$emit('visibleMessage', false);
+          console.log(id)
           this.removeFriend(id);
+  },
+  computed:{
+    getId(){
+      return this.id;
+    }
   }
   }
 }

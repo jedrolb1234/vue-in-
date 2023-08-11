@@ -10,6 +10,8 @@ export default {
       return {
         id: null,
         index: null,
+        friendsCount:0,
+        friendsPages:0,
         searchedUser:{ },
         isLoading: true,
         // hasFriends: true,
@@ -86,6 +88,12 @@ export default {
     },
     hidePopup(state, payload){
       state.visibleMessage = payload;
+    },
+    setFriendsCount(state, value){
+      state.friendsCount = value;
+    },
+    setFriendsPages(state, value){
+      state.friendsPages = value;
     }
   },
   getters: {
@@ -144,13 +152,21 @@ export default {
       return state.dynamicHeight;
     },
     getIsVisibleMessage(state){
+      console.log(state.visibleMessage)
       return state.visibleMessage;
     },
     getId(state){
+      console.log(state.id)
       return state.id;
     },
     getIndex(state){
       return state.index;
+    },
+    getFriendsPages(state){
+      return state.friendsPages;
+    },
+    getFriendsCount(state){
+      return state.friendsCount;
     }
   },
   actions: {
@@ -174,6 +190,8 @@ export default {
                             + "/" + payload, {headers}); 
       if (res.status === 200) {
         context.commit('cutFriends', payload)
+        context.commit('showPopup', {visible:false, id:null, index:null});
+        //zrobic downloadFriends z numerem strony na ktrej kasowalismy uzytkownika
         }
       } catch (error) {
       if (error.response) {
@@ -300,6 +318,8 @@ export default {
         console.log(res.data, 'aaa')
           context.commit('setFriends', res.data.items);          
           context.commit('tooleIsLoading', false);
+          context.commit('setFriendCount', res.data.totalItemsCount)
+          context.commit('setFriendsPages', res.data.totalPages)
           console.log(res.data)
       }
       } catch (error) {

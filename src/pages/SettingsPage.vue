@@ -24,7 +24,7 @@
           <hr>
           <div class="settings-module__content">
             <div>Nazwa użytkownika</div>
-            <input type="text" v-model="this.username" />
+            <input type="text" v-model="this.username"/>
             <div>Opis</div>
             <textarea v-model="this.description"></textarea>
             <div>Avatar użytkownika</div>
@@ -105,7 +105,6 @@
             <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);" @click="showDeletePopup">Usuń
               konto</BaseButton>
             <Transition><base-delete-message :id="id" v-if="getVisibleMessage === true" @visibleMessage="hideDeletePopup"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message></Transition>
-
           </div>
         </div>
       </div>
