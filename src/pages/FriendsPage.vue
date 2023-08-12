@@ -113,7 +113,6 @@ export default {
     data(){
         return {
             username: '',
-
             findUser: null,
         }
     },

@@ -12,10 +12,10 @@ export default {}
 <style module>
   .container {
     width: 540px;
-    background-color: #262A2C;
+    background-color: black;
     box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
-    color: #FBF5F3;
+    color: var(--secondary);
     padding:20px 35px 20px 35px;
   }
 </style>

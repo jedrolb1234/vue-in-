@@ -8,8 +8,8 @@
         <p v-if="!isPasswordValid">Wypełnij formularz poprawnymi danymi. Pamiętaj, że hasło musi posiadać minimum 8 znaków
           oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.</p>
       </div>
-      <base-button v-if="!isSending" type="green-large">Wyślij</base-button>
-      <BaseLoadingSpinner v-if="isSending"></BaseLoadingSpinner>
+      <base-button v-if="!isSending" type="primary-large">Wyślij</base-button>
+      <BaseLoadingSpinner v-if="isSending" style="--primary:white"></BaseLoadingSpinner>
     </form>
   </base-form>
 </template>
@@ -52,7 +52,7 @@ export default {
       if (this.isFormValid()) {
         this.isSending = true;
         await this.changePassword({ password: this.password, encodedUserIdAndToken: this.token })
-        await new Promise(r => setTimeout(r, 2000));
+        // await new Promise(r => setTimeout(r, 2000));
         this.isSending = false;
         this.$router.push({name:'login'});
       }
@@ -78,6 +78,10 @@ export default {
   gap: 10px;
 }
 
+h1 {
+  color:white;
+}
+
 form {
   display: flex;
   gap: 20px;
@@ -86,6 +90,7 @@ form {
 }
 
 p {
+  color: white;
   font-size: medium;
   margin: 0;
   text-align: justify;

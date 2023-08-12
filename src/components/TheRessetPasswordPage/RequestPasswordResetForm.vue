@@ -6,8 +6,8 @@
         <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending"></base-input>
         <p v-if="!isEmailValid">Podaj poprawny adres email.</p>
       </div>
-      <base-button v-if="!isSending" type="green-large">Wyślij</base-button>
-      <BaseLoadingSpinner v-if="isSending"></BaseLoadingSpinner>
+      <base-button v-if="!isSending" type="primary-large">Wyślij</base-button>
+      <BaseLoadingSpinner v-if="isSending" style="--primary:white"></BaseLoadingSpinner>
       <div>
         <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{ name: 'signup' }">formularza rejestracji
           </RouterLink>.</p>
@@ -80,6 +80,10 @@ export default {
   align-items: center;
 }
 
+h1 {
+  color:white;
+}
+
 form {
   display: flex;
   gap: 20px;
@@ -88,6 +92,7 @@ form {
 }
 
 p {
+  color: white;
   font-size: medium;
   margin: 0;
   text-align: justify;

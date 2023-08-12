@@ -82,7 +82,7 @@ section {
     align-items: center;
     gap: 20px;
     width: 470px;
-    background: #262A2C;
+    background: black;
     box-shadow: 5px 5px 50px 15px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(25px);
     border-radius: 30px;
@@ -100,7 +100,7 @@ section {
     font-size: 14px;
     line-height: 21px;
     text-align: justify;
-    color: #FFFFFF;
+    color: white;
 }
 .icon{
     text-align: center;
@@ -116,7 +116,7 @@ section {
 }
 
 .c-green {
-  color: #ACC12F;
+  color: var(--accent);
 }
 
 .b-white {
@@ -128,10 +128,10 @@ section {
 }
 
 .b-green {
-  border: 5px solid #ACC12F;
+  border: 5px solid var(--accent);
 }
 
 a {
-  color: white;
+  color: var(--secondary);
 }
 </style>

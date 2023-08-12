@@ -6,7 +6,7 @@
       <div :class="$style.text">
         <p :class="$style.h1">Najlepsza w Polsce internetowa platforma z grami planszowymi online.</p>
         <p :class="$style.h2">Zagraj ze znajomymi już dziś</p>
-        <base-button type="dark-large" @click="register" :class="$style.button">Zarejestruj się</base-button>
+        <base-button type="secondary-large" @click="register" :class="$style.button">Zarejestruj się</base-button>
       </div>
     </div>
   </div>
@@ -31,6 +31,8 @@ export default{
 
 <style module>
 .content {
+  background-image: url('@/assets/background.png');
+  background-size: cover;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -49,13 +51,13 @@ export default{
 }
 
 .h1 {
-  color: #FBF5F3;
+  color: black;
   font-size: 48px;
   font-weight: bold;
 }
 
 .h2 {
-  color: #FBF5F3;
+  color: black;
   font-size: 24px;
   margin-top:50px;
   font-weight: bold;

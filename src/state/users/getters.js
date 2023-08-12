@@ -19,9 +19,9 @@ export default {
     return state.avatars[nr];
   },
   getTheme(state) {
-    if(state.settings.theme === 0)
+    if(state.settings.theme == 0)
       return 'light';
-    else if(state.settings.theme !== 0)return 'dark';
+    return 'dark';
   },
   getUsername(state) {
     return state.settings.userName;

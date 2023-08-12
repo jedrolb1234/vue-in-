@@ -18,7 +18,7 @@ export default {
     console.log(state.settings.avatar, state.userAvatar)
   },
   changeTheme(state, theme) {
-    console.log(theme)
+    // console.log(theme)
     if(theme === 'light')
       state.settings.theme = 0;
     else state.settings.theme = 1;
@@ -54,7 +54,7 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
-    // console.log(state.settings.dateOfBirth)
+    console.log(state.settings.theme)
   
     console.log(state.settings)
   },

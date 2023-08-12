@@ -34,6 +34,8 @@ export default {
   
 <style scoped>
   .content {
+    background: url('@/assets/background.png');
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheMainPage from '@/pages/TheMainPage';
-import TheDashboard from '@/pages/TheDashboard';
 import PageNotFound from '@/pages/PageNotFound.vue';
 import RegisterUserPage from '@/pages/RegisterUserPage';
 import LoginPage from '@/pages/LogInPage.vue';
@@ -25,7 +24,6 @@ const router = createRouter({
     { path: '/', name: 'landing-page', component: TheMainPage, meta: {requiresGuest: true} },
     { path: '/signup', name: 'signup', component: RegisterUserPage, meta: {requiresGuest: true} },
     { path: '/login', name:'login', component: LoginPage, meta: {requiresGuest: true} },
-    { path: '/dashboard', name:'dashboard', component: TheDashboard, meta: {requiresAuth: true} },
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
     { path: '/resetpassword/:token', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },

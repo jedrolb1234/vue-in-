@@ -178,7 +178,7 @@
 table{
     justify-content: center; 
     width: auto;
-    color:black;
+    color: var(--secondary);
     border-collapse: collapse;
     border-radius: 0px 0px 8px 8px;
     border-spacing: 0px;

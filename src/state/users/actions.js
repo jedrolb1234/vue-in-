@@ -96,11 +96,7 @@ export default {
         context.dispatch('showNotification', notificationTemplates.resetpassword_email_sent, { root: true });
       }
     } catch (error) {
-      if (error.response) {
-        informUserAbouErrors(context, error.response.data.errors);
-      } else {
-        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-      }
+      context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
     }
   },
   async changePassword(context, payload) {
@@ -114,8 +110,6 @@ export default {
       }
     } catch (error) {
       if (error.response) {
-        informUserAbouErrors(context, error.response.data.errors);
-      } else {
         context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
       }
     }
@@ -179,7 +173,7 @@ export default {
       if (res.status === 200) {
         context.commit('setSettings', res.data)
         context.commit('setUserAvatar', res.data.avatar)
-        
+
       }
     } catch (error) {
       if (error.response) {
@@ -265,17 +259,13 @@ export default {
       Authorization: 'Bearer ' + context.rootGetters.getToken
     };
     try {
-      res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT_ENDPOINT + '/' + context.getters.getUserId, { headers });
+      res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + '/' + context.getters.getUserId, { headers });
       if (res.status == 200) {
         console.log(res.data);
         // context.dispatch('showNotification', notificationTemplates.game_room_closed, { root: true });
       }
     } catch (error) {
-      if (error.response) {
-        //informUserAbouErrors(context, error.response.data.errors);
-      } else {
-        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-      }
+      context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
     }
   },
   resetPassword(context) {

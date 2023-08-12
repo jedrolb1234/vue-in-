@@ -1,5 +1,7 @@
 <template>
+  <div class="content"> 
     <BaseActivationMessage :state="state"></BaseActivationMessage>
+  </div>
 </template>
 
 <script>
@@ -24,3 +26,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.content {
+  height:100%;
+  background: url('@/assets/background.png');
+  background-size: cover;
+}
+</style>
