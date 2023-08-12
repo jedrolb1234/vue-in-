@@ -3,7 +3,7 @@
         <div class="page">
             <BaseHeader>Strona użytkownika</BaseHeader>
             <div class="profile">
-                <UserProfile :id="id" :invId="getInvId" :isFriend="isFriend" :user="getUser"></UserProfile>
+                <UserProfile :id="id" :invId="getInvId" :isFriend="getIsFriend" :user="getUser"></UserProfile>
                 <div class="module__head">
                 <h1>Dane użytkownika</h1>
                 </div>
@@ -31,15 +31,15 @@
                         <td>{{ h.game }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
                     </tr>
                     <tr :style="{height: dynamicHeight() + 'px'}"></tr>
-
                     </table>
-                    <div class="buttons">
-                    <base-previous-button @click="previousPage"></base-previous-button>
-                    <base-next-button @click="nextPage"></base-next-button>
-                    <p class="pageNr">{{ pageNr }}</p>
+                    <div v-if="getOwnId" class="buttons">
+                      <base-previous-button @click="previousPage"></base-previous-button>
+                      <base-next-button @click="nextPage"></base-next-button>
+                      <p class="pageNr">{{ pageNr }}</p>
                     </div>
                 </div>
             </div>
+            <div class="spacer"><br></div>
         </div>
     </BasePageLayout>
   </template>
@@ -59,7 +59,7 @@
       BaseNextButton,
       BasePreviousButton
     },
-    props:['id', 'isFriend', 'invId', 'userAvatar'],
+    props:['id', 'invId', 'userAvatar'],
     
     data() {
       return {
@@ -78,15 +78,18 @@
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
-                             'getItemsPerPage', 'getUser']),
-      getIsFriend(){
-        return this.isFriend;
-      },
+                             'getItemsPerPage', 'getUser', 'getIsFriend', 'getInvId']),
+      // getIsFriend(){
+      //   return this.isFriend;
+      // },
       getId(){
         return this.id;
       },
       getInvId(){
         return this.invId;
+      },
+      getOwnId(){
+        return this.id === JSON.parse(localStorage.getItem('user_id'));
       }
     },
     methods: {
@@ -140,26 +143,26 @@
     gap: 15px;
   }
   
-  .-module__content {
+  .module__content {
     display: grid;
     width: max(700px, 50%);
     grid-template-columns: 1fr 2fr;
     gap: 15px;
     margin-top: 15px;
+    font-size: 18px;
   }
   
   .module:last-child {
     margin-bottom: 30px;
-  }
-  
+  }  
   .icon {
     font-size: 20px;
   }
-  
   .showHistoryTable{
     margin-left: 40px;
     color: var(--secondary);
     gap:15px;
+    margin-bottom: 50px;
 }
 .historyHeader
 {
@@ -180,7 +183,6 @@ table{
     border-radius: 0px 0px 8px 8px;
     border-spacing: 0px;
     background-color: var(--secondary);
-    
 }
 tr{
     border: 1px solid var(--primary);
@@ -199,11 +201,10 @@ th{
     height: 51px;
     color: var(--primary);
     text-align: center;
-
 }
-table:last-child{
+/* table:last-child{
     border-radius: 0px 0px 8px 8px;
-}
+} */
 td{
     padding: 5px;
     background-color: var(--secondary);
@@ -237,6 +238,10 @@ td{
     margin-right: 0px;
     margin-left: 0px;
     padding: 0px;
+}
+.spacer{
+  height:50px;
+  margin-top: 50px;
 }
   .v-enter-active,
   .v-leave-active {

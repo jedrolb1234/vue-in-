@@ -22,8 +22,15 @@
           <span :class="iconStyles">stars</span>
           <span>Ranking</span>
         </div>
-        <div class="tabsItem clickable" @click="$router.push({ name: 'history' })">
+        <!-- <div class="tabsItem clickable" @click="$router.push({ name: 'history' })">
           <span :class="iconStyles">device_reset</span>
+          <span>Historia gier</span>
+        </div> -->
+        <div class="tabsItem clickable" @click="$router.push({
+                          name: 'uhp',
+                          params: { id: getUserId, invId: 'null'},
+                          })">
+          <span :class="iconStyles">search</span>
           <span>Historia gier</span>
         </div>
         <div class="tabsItem clickable" @click="$router.push({ name: 'settings' })">
@@ -47,7 +54,7 @@ export default {
     ...mapActions(['toogleLeftPanel', 'logOutUser'])
   },
   computed: {
-    ...mapGetters(['isLeftPanelHidden', 'getProfileAvatar']),
+    ...mapGetters(['isLeftPanelHidden', 'getProfileAvatar', 'getUserId']),
     iconStyles() {
       return ['material-symbols-outlined', 'icon'].join(' ');
     },

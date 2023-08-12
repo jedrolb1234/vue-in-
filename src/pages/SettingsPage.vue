@@ -24,7 +24,7 @@
           <hr>
           <div class="settings-module__content">
             <div>Nazwa użytkownika</div>
-            <input type="text" v-model="this.username" />
+            <input type="text" v-model="this.username"/>
             <div>Opis</div>
             <textarea v-model="this.description"></textarea>
             <div>Avatar użytkownika</div>
@@ -105,7 +105,6 @@
             <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);" @click="showDeletePopup">Usuń
               konto</BaseButton>
             <Transition><base-delete-message :id="id" v-if="getVisibleMessage === true" @visibleMessage="hideDeletePopup"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message></Transition>
-
           </div>
         </div>
       </div>
@@ -178,7 +177,6 @@ export default {
     restoreThemeSettings() {
       this.theme = this.getTheme;
       this.setTheme(this.theme)
-      console.log(this.theme)
     },
     saveProfileSettings() {
       this.setUsername(this.username);
@@ -193,7 +191,6 @@ export default {
       this.setName(this.name);
       this.setSurname(this.surname);
       this.setBirthDate(this.birthDate);
-      console.log(this.getBirthDate)
       this.setEmail(this.email);
       this.sendSettings(this.getSettings)
 
@@ -203,24 +200,14 @@ export default {
       this.surname = this.getSurname;
       this.birthDate = this.getBirthDate;
       this.email = this.getEmail;
-      console.log(this.birthDate, this.getBirthDate)
     },
   },
   async created() {
     await this.downloadSettings();
     this.restoreThemeSettings();
-    // this.saveThemeSettings();
-    // console.log(this.restoreThemeSettings())
     this.restoreProfileSettings();
     this.restoreUserDataSettings();
   },
-  // watch: {
-  //   getTheme(newTheme, oldTheme) {
-  //     document.body.classList.remove(oldTheme)
-  //     document.body.classList.add(newTheme);
-  //     document.documentElement.style.colorScheme=newTheme;
-  //   }
-  // }
   }
 
 </script>

@@ -33,7 +33,7 @@ export default {
     state.settings.firstName = name;
   },
   changeSurname(state, surname) {
-    state.settings.surName = surname;
+    state.settings.lastName = surname;
   },
   changeBirthDate(state, birthDate) {
     console.log(birthDate)
@@ -44,6 +44,7 @@ export default {
   },
   changeId(state, id) {
     state.id=id;
+    
   },
   setSettings(state, value){
     let inputDate = new Date(value.dateOfBirth);
@@ -53,7 +54,7 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
-    console.log(state.settings.dateOfBirth)
+    // console.log(state.settings.dateOfBirth)
   
     console.log(state.settings)
   },
@@ -70,11 +71,11 @@ export default {
     console.log(document.body.classList, document.documentElement.style.colorScheme)
   },
   popupPassword(state, value) {
-    console.log('password')
+    // console.log('password')
     state.visibleMessageP = value;
     },
   popupDelete(state, value){
-    console.log('delete')
+    // console.log('delete')
     state.visibleMessage = value;
     }
 }

@@ -14,11 +14,11 @@
         </div>
       </div>
       <div id="user-profile__invitation">
-        <BaseButton v-if="(getHasInvitation===true) && (getIsFriend === false)" :type="secondary-medium" class="clickable" @click="acceptInvitation(getInvId)">Dodaj znajomego</BaseButton>
-        <BaseButton v-if="(getIsFriend===false) && (getHasInvitation === false) && (getIsInvSended === false) && (getOwnId ===false)" :type="secondary-medium" class="clickable" @click="sendInvitation(getId)">Wyślij zaproszenie</BaseButton>
-        <div v-if="(getIsFriend===false) && (getIsInvSended === true) && (getHasInvitation === false)">Zaproszenie wysłane</div>
-        <div v-if="(getIsFriend===true) && (getHasInvitation === false)">Jesteście znajomymi</div>
-        <div v-if="(getIsFriend===false) && (getHasInvitation === false) && (getIsInvSended === false) && (getOwnId === true)" :type="secondary-medium" class="clickable"></div>
+        <div v-if="(this.isFriend===1)">Jesteście znajomymi</div>
+        <BaseButton v-if="(this.isFriend===2) " :type="secondary-medium" class="clickable" @click="sendInvitation(this.id)">Wyślij zaproszenie</BaseButton>
+        <BaseButton v-if="(this.isFriend ===3)" :type="secondary-medium" class="clickable" @click="acceptInvitation(getInvId)">Dodaj znajomego</BaseButton>
+        <div v-if="(this.isFriend===4)">Zaproszenie wysłane</div>
+        <!-- <div v-if="(getOwnId === true)" class="clickable"></div> -->
 
       </div>
     </div>
@@ -32,27 +32,18 @@
     components: {
       BaseButton
     },
-    props:['isFriend','invId', 'id', 'user'],
+    props:['isFriend', 'invId', 'id', 'user'],
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
-                          'getIsInvSended']),
-      ...mapGetters(['getProfileAvatar', 'getUserAvatar', '`getOwnId`']),
-      getIsFriend(){
-        return this.isFriend === true;
-      },
-      getHasInvitation(){
-        return this.invId !== 'null';
-      },
+                          'getIsInvSended', 'getId']),
+      ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
       getInvId(){
         return this.invId;
       },
     },
-    mounted(){
-      this.downloadInvitations();
-    },
     methods: {
-      ...mapActions('UHP',['sendInvitation', 'acceptInvitation', 'downloadInvitations']),
+      ...mapActions('UHP',['sendInvitation', 'acceptInvitation']),
     },
   }
   </script>

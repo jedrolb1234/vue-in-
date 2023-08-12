@@ -142,9 +142,6 @@ export default {
     }
   },
   async refreshToken(context) {
-    // console.log('refreshToken')
-    // console.log(context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT));
-    // console.log(Date.now());
     if (context.getters.getLastLogin == null || context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT) < Date.now()) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const axios = require('axios');
@@ -176,13 +173,13 @@ export default {
     };
     const axios = require('axios');
     let res;
-    console.log(headers);
+    // console.log(headers);
     try {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, { headers });
-
       if (res.status === 200) {
         context.commit('setSettings', res.data)
         context.commit('setUserAvatar', res.data.avatar)
+        
       }
     } catch (error) {
       if (error.response) {
@@ -218,13 +215,11 @@ export default {
     let res;
     try {
       res = await axios.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings, { headers });
-      console.log(res.data)
       if (res.status === 200) {
         console.log(res)
       }
     } catch (error) {
       if (error.response) {
-        console.log(error)
         context.dispatch('showNotification',
           {
             label: 'Wystąpiły błędy!',
@@ -269,11 +264,9 @@ export default {
     const headers = {
       Authorization: 'Bearer ' + context.rootGetters.getToken
     };
-    console.log(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT_ENDPOINT + '/' + context.getters.getUserId);
     try {
       res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT_ENDPOINT + '/' + context.getters.getUserId, { headers });
       if (res.status == 200) {
-        console.log('FFFFFFFFFFFFF');
         console.log(res.data);
         // context.dispatch('showNotification', notificationTemplates.game_room_closed, { root: true });
       }
