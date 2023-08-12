@@ -8,8 +8,12 @@ class CallHub {
     }).build();
   }
 
-  start() {
-    this.client.start();
+  async start() {
+    await this.client.start();
+  }
+
+  async stop() {
+    await this.client.stop();
   }
 }
 

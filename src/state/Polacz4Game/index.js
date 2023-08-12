@@ -9,7 +9,6 @@ export default {
       blue: 2,
       board: Array(6).fill().map(() => Array(7).fill(0)),
       winner: null,
-      winnerPawns: [],
       playerTurn: null,
       pawnClass: '',
     }
@@ -75,42 +74,6 @@ export default {
         }
       }
     },
-    checkWinner(context) {
-      console.log('bbbb')
-      const height = context.state.board.length;
-      const width = context.state.board[0].length;
-      for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
-          const slot = context.state.board[i][j];
-          if (slot != context.state.playerTurn) {
-            continue;
-          }
-          if (j + 3 < width && context.state.playerTurn == context.state.board[i][j + 1] && context.state.playerTurn == context.state.board[i][j + 2] && context.state.playerTurn == context.state.board[i][j + 3]) {
-            context.commit('setWinner', context.state.playerTurn);
-            context.commit('setWinnerPawns', [[i, j], [i, j + 1], [i, j + 2], [i, j + 3]])
-            break
-          }
-          if (i + 3 < height) {
-            if (slot == context.state.board[i + 1][j] && slot == context.state.board[i + 2][j] && slot == context.state.board[i + 3][j]) {
-              context.commit('setWinner', context.state.playerTurn);
-              context.commit('setWinnerPawns', [[i, j], [i + 1, j], [i + 2, j], [i + 3, j]])
-              break
-            }
-            if (j + 3 < width && slot == context.state.board[i + 1][j + 1] && slot == context.state.board[i + 2][j + 2] && slot == context.state.board[i + 3][j + 3]) {
-              context.commit('setWinner', context.state.playerTurn);
-              context.commit('setWinnerPawns', [[i, j], [i + 1, j + 1], [i + 2, j + 2], [i + 3, j + 3]])
-              break
-            }
-            if (j - 3 < width && slot == context.state.board[i + 1][j - 1] && slot == context.state.board[i + 2][j - 2] && slot == context.state.board[i + 3][j - 3]) {
-              context.commit('setWinner', context.state.playerTurn);
-              context.commit('setWinnerPawns', [[i, j], [i + 1, j - 1], [i + 2, j - 2], [i + 3, j - 3]])
-              break
-            }
-          }
-
-        }
-      }
-    },
     updateBoard(context, board) {
       context.commit('setBoard', board);
     },
@@ -123,16 +86,34 @@ export default {
     updatePlayers(context, players) {
       const play = players.map(player => player.playerId);
       context.commit('setPlayers', play);
+    },
+    resetGameCoonectFour(context) {
+      const board = Array(6).fill().map(() => Array(7).fill(0));
+      context.dispatch('updateBoard', board);
+      context.dispatch('updateWinner', null);
+      context.dispatch('updatePlayerTurn', null);
     }
-  }
+  } 
 }
 
-CallHub.client.on("GameStarted", () => {
-  Store.dispatch('updatePlayers', Store.getters.getSelectedGameRoom.players, {root: true});
+CallHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
+  CallHub.client.invoke('GetCurrentGameRoomState', roomId);
 })
 
-CallHub.client.on("UpdateBoardState", (board, playerTurn, winner) => {
-  Store.dispatch('updateBoard', board, {root: true});
-  Store.dispatch('updatePlayerTurn', playerTurn, {root: true});
-  Store.dispatch('updateWinner', winner, {root: true});
+CallHub.client.on("GameStarted", () => {
+  Store.dispatch('obtainGameRoom', Store.getters.getSelectedGameRoom.id, { root: true })
+  Store.dispatch('updatePlayers', Store.getters.getSelectedGameRoom.players, { root: true });
 })
+
+CallHub.client.on("GameRoomJoined", () => {
+  Store.dispatch('obtainGameRoom', Store.getters.getSelectedGameRoom.id, { root: true })
+})
+
+CallHub.client.on("UpdateBoardState", (board, playerTurn, winner, isFinished) => {
+  if (isFinished)
+    Store.dispatch('obtainGameRoom', Store.getters.getSelectedGameRoom.id, { root: true })
+  Store.dispatch('updateWinner', winner, { root: true });
+  Store.dispatch('updateBoard', board, { root: true });
+  Store.dispatch('updatePlayerTurn', playerTurn, { root: true });
+}
+)

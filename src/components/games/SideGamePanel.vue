@@ -9,23 +9,26 @@
       </div>
       <hr>
       <div class="panel__players">
+        {{ this.getSelectedGameRoom }}
         <p>Gracze</p>
         <div class="panel__players__box">
-          {{ this.getSelectedGameRoom }}
-          <div v-for="player in this.getSelectedGameRoom.players" :key="player.playerId">
+          <div v-for="player in this.getSelectedGameRoom.players" :key="player.playerId" :class="{playerTurn: this.getPlayerTurn== player.playerId}">
             <span>{{ player.userName }}</span>
-            <span class="material-symbols-outlined kick">
+            <!-- <span class="material-symbols-outlined kick">
               close
-            </span>
+            </span> -->
           </div>
         </div>
       </div>
       <hr>
-      <ul>
+      <div v-if="this.getSelectedGameRoom.status==2">
+        <p>{{ getWinner }} wygrał!</p>
+      </div>
+      <!-- <ul>
         <li>Przebieg gry</li>
         <li>Zaproś znajomych</li>
         <li>Ustawienia</li>
-      </ul>
+      </ul> -->
     </div>
     <div class="action__buttons">
       <BaseButton v-if="this.isStartGameButtonVsible" type="secondary-medium" @click="this.startGame()">Rozpocznij grę
@@ -57,12 +60,13 @@ export default {
     },
     startGame() {
       this.$callHub.client.invoke("StartGame", this.getSelectedGameRoom.id, this.getUserId);
+      // this.obtainGameRoom();
     }
   },
   computed: {
-    ...mapGetters(['getSelectedGameRoom', 'getUserId']),
+    ...mapGetters(['getSelectedGameRoom', 'getUserId', 'getPlayerTurn', 'getWinner']),
     isStartGameButtonVsible() {
-      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.players.length == this.getSelectedGameRoom.requiredNumberOfPlayers)
+      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.players.length == this.getSelectedGameRoom.requiredNumberOfPlayers && this.getSelectedGameRoom.status == 0)
         return true;
       return false;
     },
@@ -77,27 +81,18 @@ export default {
       return false;
     },
     isCloseButtonVisible() {
-      if (this.getUserId == this.getSelectedGameRoom.ownerId)
+      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status != 2)
         return true;
       return false;
     }
-  },
-  created() {
-    // this.$callHub.client.invoke("SendCreatedGameRoomMsg", this.getSelectedGameRoom.id, this.getUserId); //leci po odświerzeniu strony, ma prawo lecieć tylko po stworzeniu pokoju
-    this.$callHub.client.on("GameRoomJoined", () => {
-      this.obtainGameRoom();
-    })
   }
-  // mounted() {
-  //   CallHub.client.on("NewCall", function(newCall) {
-  //     //do something
-  // this.$callHub.client.on()
-  //   })
-  // }
 }
 </script>
 
 <style scoped>
+.playerTurn {
+  border: solid var(--accent) 5px;
+}
 .panel {
   display: flex;
   flex-direction: column;

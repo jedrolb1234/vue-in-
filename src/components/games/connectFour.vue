@@ -12,18 +12,12 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-    computed:{
-        ...mapGetters(['getBoard', 'getWinnerPawns']),
+    computed: {
+        ...mapGetters(['getBoard']),
     },
-    methods:{
-        ...mapActions(['dropBall']),
+    methods: {
+        ...mapActions(['dropBall', 'resetGame']),
         getPawn(i, j) {
-            for (let k = 0; k < this.getWinnerPawns.length; k++) {
-                if (this.getWinnerPawns[k][0] == i && this.getWinnerPawns[k][1] == j) {
-                    console.log('winner')
-                    return 'winner'
-                }
-            }
             if (this.getBoard[i][j] == 1)
                 return 'red'
             if (this.getBoard[i][j] == 2)

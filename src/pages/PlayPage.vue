@@ -6,8 +6,8 @@
       </BaseHeader>
       <div class="board">
         <component :is="'connectFour'"></component>
-      <SideGamePanel>
-      </SideGamePanel>
+        <SideGamePanel>
+        </SideGamePanel>
       </div>
     </div>
   </BasePageLayout>
@@ -18,7 +18,7 @@ import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import BaseHeader from '@/components/base/BaseHeader.vue'
 import connectFour from '@/components/games/connectFour.vue'
 import SideGamePanel from '@/components/games/SideGamePanel.vue'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -28,11 +28,21 @@ export default {
     SideGamePanel
   },
   props: ['gameRoomID'],
-  methods:{
-    ...mapActions(['obtainGameRoom']),
+  methods: {
+    ...mapActions(['obtainGameRoom', 'resetGameCoonectFour']),
   },
-  async created() {
-    this.obtainGameRoom(this.gameRoomID);
+  computed: {
+    ...mapGetters(['getUserId'])
+  },
+  async mounted() {
+    await this.obtainGameRoom(this.gameRoomID);
+    await this.$callHub.start();
+    await this.$callHub.client.invoke('ConnectToGameRoom', this.gameRoomID, this.getUserId)
+  },
+  async unmounted() {
+    await this.$callHub.client.invoke('DisconnectFromGameRoom', this.gameRoomID, this.getUserId)
+    await this.$callHub.stop()
+    await this.resetGameCoonectFour();
   }
 }
 </script>
@@ -41,7 +51,7 @@ export default {
 .page {
   display: flex;
   flex-direction: column;
-  width:100%;
+  width: 100%;
   gap: 30px;
 }
 

@@ -1,8 +1,5 @@
 import Router from '@/router';
 import axios from 'axios';
-import CallHub from '@/mixins/callHub'
-
-// CallHub.start();
 
 export default {
   state() {
@@ -42,7 +39,6 @@ export default {
           context.dispatch('showNotification', notificationTemplates.game_romm_created, { root: true });
           const gameRoomID = res.data;
           Router.push({ name: 'play', params: { gameRoomID: gameRoomID } });
-          CallHub.client.invoke("SendCreatedGameRoomMsg", gameRoomID, context.rootGetters.getUserId);
         }
       } catch (error) {
         console.log(error);
@@ -62,7 +58,7 @@ export default {
         'Accept-Encoding': 'application/json'
       };
       try {
-        res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: { gameTypeId: gameID } }, { headers });
+        res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: { gameTypeId: gameID, status: 0 } }, { headers });
         if (res.status == 200) {
           const gameRooms = res.data;
           console.log(res);

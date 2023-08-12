@@ -142,9 +142,9 @@ export default {
     }
   },
   async refreshToken(context) {
-    console.log('refreshToken')
-    console.log(context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT));
-    console.log(Date.now());
+    // console.log('refreshToken')
+    // console.log(context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT));
+    // console.log(Date.now());
     if (context.getters.getLastLogin == null || context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT) < Date.now()) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       const axios = require('axios');
@@ -161,10 +161,9 @@ export default {
           console.log(res.data);
         }
       } catch (error) {
-        if (error.response) {
-          context.dispatch('logOutUser');
-          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-        }
+        console.log(error);
+        context.dispatch('logOutUser');
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
       }
     }
   },
@@ -203,7 +202,6 @@ export default {
       }
     }
   },
-
   async sendSettings(context) {
     context.dispatch('refreshToken', {}, { root: true });
     let settings = context.state.settings;
