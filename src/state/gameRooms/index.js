@@ -80,18 +80,16 @@ export default {
       const headers = {
         Authorization: 'Bearer ' + context.rootGetters.getToken
       };
-
-      axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: { gameRoomId: gameRoomID } }, { headers }).then((res) => {
-        context.commit('clearSelectedGameRoom');
-        context.commit('setSelectedGameRoom', res.data[0]);
-      }).catch((error => {
-        console.log(error);
-        if (error.response) {
-          // informUserAbouErrors(context, error.response.data.errors);
-        } else {
-          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      try {
+        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: { gameRoomId: gameRoomID } }, { headers })
+        if(res.status == 200) {
+          context.commit('clearSelectedGameRoom');
+          context.commit('setSelectedGameRoom', res.data[0]);
         }
-      }))
+      }
+      catch (error) {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
     },
     async closeGameRoom(context, gameRoomID) {
       context.dispatch('refreshToken', {}, { root: true });

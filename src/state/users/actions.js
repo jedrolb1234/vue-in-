@@ -77,6 +77,7 @@ export default {
     return 'failed';
   },
   logOutUser(context) {
+    context.dispatch('resetUserData');
     context.commit('logout');
     Router.push({ name: 'landing-page' });
   },
@@ -312,4 +313,7 @@ export default {
       }
     }
   },
+  resetUserData(context) {
+    context.commit('setSettings', {});
+  }
 }

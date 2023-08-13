@@ -21,7 +21,9 @@ export default {
   getTheme(state) {
     if(state.settings.theme == 0)
       return 'light';
-    return 'dark';
+    if(state.settings.theme == 1)
+      return 'dark';
+    return null;
   },
   getUsername(state) {
     return state.settings.userName;

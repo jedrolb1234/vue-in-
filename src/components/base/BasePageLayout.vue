@@ -19,10 +19,11 @@ export default {
     BaseNotificationList
   },
   methods: {
-    ...mapActions(['downloadTheme'])
+    ...mapActions(['downloadTheme', 'downloadSettings'])
   },
-  created() {
-    this.downloadTheme();
+  async created() {
+    await this.downloadTheme();
+    await this.downloadSettings();
   }
 }
 </script>
