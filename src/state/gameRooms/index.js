@@ -61,7 +61,6 @@ export default {
         res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: { gameTypeId: gameID, status: 0 } }, { headers });
         if (res.status == 200) {
           const gameRooms = res.data;
-          console.log(res);
           context.commit('clearGameRooms');
           for (let i = 0; i < gameRooms.length; i++) {
             context.commit('addGameRoom', gameRooms[i]);

@@ -11,12 +11,19 @@
 <script>
 import LeftPanel from './LeftPanel.vue';
 import BaseNotificationList from './BaseNotificationList.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
     LeftPanel,
     BaseNotificationList
   },
+  methods: {
+    ...mapActions(['downloadTheme'])
+  },
+  created() {
+    this.downloadTheme();
+  }
 }
 </script>
 

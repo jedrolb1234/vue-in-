@@ -149,7 +149,6 @@ export default {
         res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_REFRESH_TOKEN_ENDPOINT, null, config);
         if (res.status == 200) {
           context.commit('login', res.data);
-          console.log(res.data);
         }
       } catch (error) {
         console.log(error);
@@ -279,6 +278,38 @@ export default {
   },
   hideDeletePopup(context) {
     context.commit('popupDelete', false)
-  }
-
+  },
+  async downloadTheme(context) {
+    context.dispatch('refreshToken', {}, { root: true });
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const token = context.rootGetters.getToken;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const axios = require('axios');
+    let res;
+    try {
+      res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/account/settings', { headers });
+      if (res.status === 200) {
+        context.commit('setTheme', res.data.theme)
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        if (error.response.data === "UserNotExist") {
+          context.commit('toogleFindUser', false);
+        } else {
+          context.dispatch('showNotification',
+            {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie udało się pobrać danych.',
+              type: 'error'
+            },
+            { root: true });
+        }
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
+  },
 }

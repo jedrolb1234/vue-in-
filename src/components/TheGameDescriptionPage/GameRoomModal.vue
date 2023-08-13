@@ -85,7 +85,7 @@ export default {
     async refreshGameRooms() {
       this.rooms=[];
       this.isLoading=true;
-      await this.obtainGameRooms();
+      await this.obtainGameRooms(this.gameId);
       this.isLoading=false;
       this.rooms = this.getGameRooms;
     }

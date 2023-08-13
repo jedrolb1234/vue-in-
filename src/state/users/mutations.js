@@ -54,21 +54,12 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
-    console.log(state.settings.theme)
-  
-    console.log(state.settings)
   },
   setUserAvatar(state, avatar){
     state.userAvatar = state.avatars[avatar];
  },
   setTheme(state, theme){
-    document.body.classList.remove(state.settings.theme)
-    document.body.classList.add(theme);
-    document.documentElement.style.colorScheme=theme;
     state.settings.theme = theme;
-    state.theme = theme;
-    // localStorage.setItem('theme', theme);
-    console.log(document.body.classList, document.documentElement.style.colorScheme)
   },
   popupPassword(state, value) {
     // console.log('password')

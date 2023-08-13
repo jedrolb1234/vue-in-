@@ -9,7 +9,7 @@
       </div>
       <hr>
       <div class="panel__players">
-        {{ this.getSelectedGameRoom }}
+        <!-- {{ this.getSelectedGameRoom }} -->
         <p>Gracze</p>
         <div class="panel__players__box">
           <div v-for="player in this.getSelectedGameRoom.players" :key="player.playerId" :class="{playerTurn: this.getPlayerTurn== player.playerId}">
@@ -71,9 +71,6 @@ export default {
       return false;
     },
     isJoinRoomButtonVisible() {
-      // console.log(this.getSelectedGameRoom.players);
-      // console.log(this.getUserId);
-      // const that = this;
       if(this.getSelectedGameRoom.players===undefined)
         return false;
       if (this.getSelectedGameRoom.players.find((player) => player.playerId == this.getUserId) === undefined && this.getSelectedGameRoom.players.length < this.getSelectedGameRoom.requiredNumberOfPlayers)
@@ -94,6 +91,7 @@ export default {
   border: solid var(--accent) 5px;
 }
 .panel {
+  width:350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

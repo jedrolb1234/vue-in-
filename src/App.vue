@@ -18,7 +18,6 @@ export default {
   },
   watch: {
     getTheme(newTheme, oldTheme) {
-      console.log('xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
       document.body.classList.remove(oldTheme);
       document.body.classList.add(newTheme);
       document.documentElement.style.colorScheme = newTheme;
