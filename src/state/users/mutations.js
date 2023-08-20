@@ -1,10 +1,10 @@
 
 export default {
   login(state, data) {
-    localStorage.setItem('token', JSON.stringify(data.accessToken));
-    localStorage.setItem('refresh_token', JSON.stringify(data.refreshToken));
-    localStorage.setItem('user_id', JSON.stringify(data.id));
-    localStorage.setItem('last_login', JSON.stringify(Date.now()));
+    localStorage.setItem('token', data.accessToken);
+    localStorage.setItem('refresh_token', data.refreshToken);
+    localStorage.setItem('user_id', data.id);
+    localStorage.setItem('last_login', Date.now());
   },
   logout() {
     localStorage.setItem('token', null);

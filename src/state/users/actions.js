@@ -1,5 +1,6 @@
 import Router from '@/router';
 import apiResponseErrors from '@/mixins/apiResponseErrors';
+import AxiosInstance from '@/mixins/axiosInstance';
 
 function informUserAbouErrors(context, errors) {
   let description = "";
@@ -136,48 +137,44 @@ export default {
       }
     }
   },
-  async refreshToken(context) {
-    if (context.getters.getLastLogin == null || context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT) < Date.now()) {
-      const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const axios = require('axios');
-      const config = {
-        headers: {
-          refreshToken: context.rootGetters.getRefreshToken
-        }
-      }
-      let res;
-      try {
-        res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_REFRESH_TOKEN_ENDPOINT, null, config);
-        if (res.status == 200) {
-          context.commit('login', res.data);
-        }
-      } catch (error) {
-        console.log(error);
-        context.dispatch('logOutUser');
-        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-      }
-    }
-  },
+  // async refreshToken(context) {
+  //   if (context.getters.getLastLogin == null || context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT) < Date.now()) {
+  //     const notificationTemplates = context.rootGetters.getNotificationTemplates;
+  //     const axios = require('axios');
+  //     const config = {
+  //       headers: {
+  //         refreshToken: context.rootGetters.getRefreshToken
+  //       }
+  //     }
+  //     let res;
+  //     try {
+  //       res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_REFRESH_TOKEN_ENDPOINT, null, config);
+  //       if (res.status == 200) {
+  //         context.commit('login', res.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //       context.dispatch('logOutUser');
+  //       context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+  //     }
+  //   }
+  // },
   async downloadSettings(context) {
-    context.dispatch('refreshToken', {}, { root: true });
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-    const token = context.rootGetters.getToken;
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const axios = require('axios');
     let res;
     // console.log(headers);
     try {
-      res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING, { headers });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING);
       if (res.status === 200) {
         context.commit('setSettings', res.data)
         context.commit('setUserAvatar', res.data.avatar)
-
       }
     } catch (error) {
       if (error.response) {
-        if (error.response.data === "UserNotExist") {
+        if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
+          context.dispatch('logOutUser');
+        }
+        else if (error.response.data === "UserNotExist") {
           context.commit('toogleFindUser', false);
         } else {
           context.dispatch('showNotification',
@@ -194,26 +191,23 @@ export default {
     }
   },
   async sendSettings(context) {
-    context.dispatch('refreshToken', {}, { root: true });
     let settings = context.state.settings;
     let parts = settings.dateOfBirth.split('-');
     let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
     settings.dateOfBirth = parsedDate.toISOString();
     // console.log(settings)
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-    const token = context.rootGetters.getToken;
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const axios = require('axios');
     let res;
     try {
-      res = await axios.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings, { headers });
+      res = await AxiosInstance.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings);
       if (res.status === 200) {
         console.log(res)
       }
     } catch (error) {
-      if (error.response) {
+      if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
+        context.dispatch('logOutUser');
+      }
+      else if (error.response) {
         context.dispatch('showNotification',
           {
             label: 'Wystąpiły błędy!',
@@ -251,21 +245,21 @@ export default {
     context.commit('changeEmail', email);
   },
   async obtainUserInfo(context) {
-    context.dispatch('refreshToken', {}, { root: true });
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-    const axios = require('axios');
     let res;
-    const headers = {
-      Authorization: 'Bearer ' + context.rootGetters.getToken
-    };
     try {
-      res = await axios.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + '/' + context.getters.getUserId, { headers });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + '/' + context.getters.getUserId);
       if (res.status == 200) {
         console.log(res.data);
         // context.dispatch('showNotification', notificationTemplates.game_room_closed, { root: true });
       }
     } catch (error) {
-      context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
+        context.dispatch('logOutUser');
+      }
+      else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
     }
   },
   resetPassword(context) {
@@ -281,22 +275,18 @@ export default {
     context.commit('popupDelete', false)
   },
   async downloadTheme(context) {
-    context.dispatch('refreshToken', {}, { root: true });
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-    const token = context.rootGetters.getToken;
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const axios = require('axios');
     let res;
     try {
-      res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/account/settings', { headers });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + '/account/settings');
       if (res.status === 200) {
         context.commit('setTheme', res.data.theme)
       }
     } catch (error) {
-      console.log(error);
-      if (error.response) {
+      if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
+        context.dispatch('logOutUser');
+      }
+      else if (error.response) {
         if (error.response.data === "UserNotExist") {
           context.commit('toogleFindUser', false);
         } else {

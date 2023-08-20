@@ -78,7 +78,7 @@
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
-                             'getItemsPerPage', 'getUser', 'getIsFriend', 'getInvId']),
+                             'getItemsPerPage', 'getUser', 'getIsFriend', 'getInvId', 'getUserId']),
       // getIsFriend(){
       //   return this.isFriend;
       // },
@@ -89,7 +89,7 @@
         return this.invId;
       },
       getOwnId(){
-        return this.id === JSON.parse(localStorage.getItem('user_id'));
+        return this.id === this.getUserId;
       }
     },
     methods: {

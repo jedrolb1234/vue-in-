@@ -4,8 +4,10 @@ export default {
     const refresh_token = getters.getRefreshToken;
     const user_id = getters.getUserId;
     const last_login = getters.getLastLogin;
-    if (token == null || refresh_token == null || user_id == null || last_login == null)
+    if (token === 'null' || refresh_token === 'null' || user_id === 'null' || last_login === 'null') {
       return false;
+    }
+      
     return true;
   },
   getProfileAvatar(state) {
@@ -41,16 +43,16 @@ export default {
     return state.settings.dateOfBirth;
   },
   getUserId() {
-    return JSON.parse(localStorage.getItem('user_id'));
+    return localStorage.getItem('user_id');
   },
   getToken() {
-    return JSON.parse(localStorage.getItem('token'));
+    return localStorage.getItem('token');
   },
   getRefreshToken() {
-    return JSON.parse(localStorage.getItem('refresh_token'));
+    return localStorage.getItem('refresh_token');
   },
   getLastLogin() {
-    return JSON.parse(localStorage.getItem('last_login'));
+    return localStorage.getItem('last_login');
   },
   getEmail(state) {
     return state.settings.email;

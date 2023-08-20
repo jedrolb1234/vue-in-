@@ -100,9 +100,11 @@ CallHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
   CallHub.client.invoke('GetCurrentGameRoomState', roomId);
 })
 
-CallHub.client.on("GameStarted", () => {
+CallHub.client.on("GameStarted", (board, playerTurn) => {
   Store.dispatch('obtainGameRoom', Store.getters.getSelectedGameRoom.id, { root: true })
   Store.dispatch('updatePlayers', Store.getters.getSelectedGameRoom.players, { root: true });
+  Store.dispatch('updateBoard', board, { root: true });
+  Store.dispatch('updatePlayerTurn', playerTurn, { root: true });
 })
 
 CallHub.client.on("GameRoomJoined", () => {
