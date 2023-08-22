@@ -3,29 +3,24 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   mounted() {
-    this.theme = localStorage.getItem('theme');
-    if (this.theme){
-      document.body.classList.add(this.theme);
-      document.documentElement.style.colorScheme=this.theme;
-      localStorage.setItem('theme', this.theme);
-    }
+    document.body.classList.add(this.getTheme);
+    document.documentElement.style.colorScheme = this.getTheme;
   },
   computed: {
     ...mapGetters(['getTheme'])
   },
-  methods:{
+  methods: {
     ...mapActions(['setTheme'])
   },
   watch: {
     getTheme(newTheme, oldTheme) {
-      document.body.classList.remove(oldTheme)
+      document.body.classList.remove(oldTheme);
       document.body.classList.add(newTheme);
-      document.documentElement.style.colorScheme=newTheme;
-      localStorage.setItem('theme', newTheme);
+      document.documentElement.style.colorScheme = newTheme;
     },
   }
 }
@@ -35,22 +30,22 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: auto;
-    scrollbar-color: #5da054 #ffffff;
-  }
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #5da054 #ffffff;
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--accent);
-    border-radius: 5px;
-  }
+*::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 5px;
+}
 
 :root {
   --primary: #050505;
@@ -74,7 +69,9 @@ export default {
   box-sizing: border-box;
 }
 
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
 }
 
@@ -101,10 +98,14 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit; /* 1 */
-  font-size: 100%; /* 1 */
-  line-height: 1.15; /* 1 */
-  margin: 0; /* 2 */
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
 }
 
 /**
@@ -113,7 +114,8 @@ textarea {
  */
 
 button,
-input { /* 1 */
+input {
+  /* 1 */
   overflow: visible;
 }
 
@@ -123,7 +125,8 @@ input { /* 1 */
  */
 
 button,
-select { /* 1 */
+select {
+  /* 1 */
   text-transform: none;
 }
 
@@ -144,5 +147,4 @@ button,
 
 .clickable {
   cursor: pointer;
-}
-</style>
+}</style>

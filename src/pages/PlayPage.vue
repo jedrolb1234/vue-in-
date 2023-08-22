@@ -2,10 +2,10 @@
   <BasePageLayout>
     <div class="page">
       <BaseHeader>
-        Test
+        {{ getGameName }}
       </BaseHeader>
       <div class="board">
-        <component :is="'connectFour'"></component>
+        <component :is="this.games[this.getSelectedGameRoom.gameTypeId]"></component>
         <SideGamePanel>
         </SideGamePanel>
       </div>
@@ -15,24 +15,40 @@
 
 <script>
 import BasePageLayout from '@/components/base/BasePageLayout.vue';
-import BaseHeader from '@/components/base/BaseHeader.vue'
-import connectFour from '@/components/games/connectFour.vue'
-import SideGamePanel from '@/components/games/SideGamePanel.vue'
+import BaseHeader from '@/components/base/BaseHeader.vue';
+import ConnectFourGame from '@/components/games/ConnectFourGame.vue';
+import CheckersGame from '@/components/games/CheckersGame.vue';
+import BattleShipsGame from '@/components/games/BattleShipsGame.vue';
+import SideGamePanel from '@/components/games/SideGamePanel.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
     BasePageLayout,
     BaseHeader,
-    connectFour,
-    SideGamePanel
+    ConnectFourGame,
+    SideGamePanel,
+    CheckersGame,
+    BattleShipsGame
+  },
+  data() {
+    return {
+      games: ['CheckersGame', 'BattleShipsGame', 'ConnectFourGame']
+    }
   },
   props: ['gameRoomID'],
   methods: {
     ...mapActions(['obtainGameRoom', 'resetGameCoonectFour']),
   },
   computed: {
-    ...mapGetters(['getUserId'])
+    ...mapGetters(['getUserId', 'getGame', 'getSelectedGameRoom']),
+    getGameName() {
+      if (this.getSelectedGameRoom.gameTypeId != undefined) {
+        const gameInfo = this.getGame(this.getSelectedGameRoom.gameTypeId);
+        return gameInfo.name;
+      }
+      return null;
+    }
   },
   async mounted() {
     await this.obtainGameRoom(this.gameRoomID);
@@ -43,6 +59,7 @@ export default {
     await this.$callHub.client.invoke('DisconnectFromGameRoom', this.gameRoomID, this.getUserId)
     await this.$callHub.stop()
     await this.resetGameCoonectFour();
+
   }
 }
 </script>

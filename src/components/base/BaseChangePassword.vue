@@ -49,7 +49,7 @@ export default {
   height: 150px;
   top: calc(50% - 75px);
   left: calc(50% - 200px);
-  border: 5px solid black; /* Zaktualizowano */
+  border: 5px solid var(--secondary);
   border-radius: 16px;
   padding: 10px;
   gap: 10px;
@@ -58,7 +58,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: rgb(230, 50, 50);
-  color: black;
+  color: var(--secondary);
   z-index: 20;
   overflow: auto;
   opacity: 0.95;

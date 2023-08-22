@@ -5,7 +5,7 @@
       <span :class="$style.name">FunHouse</span>
     </div>
     <div :class="$style.block">
-      <base-button type="dark-small" :class="$style.button" @click="login">Zaloguj</base-button>
+      <base-button type="secondary-medium" :class="$style.button" @click="login">Zaloguj</base-button>
       <!-- Zakomentowałerm, żeby na razie uprosćicć logowanie -->
       <!-- <div v-if="popup" :class="$style.popup">
         <form @submit.prevent="register" :class="$style.form">
@@ -25,7 +25,7 @@ import BaseButton from '../base/BaseButton.vue';
 //import BaseSmallInput from '../base/BaseSmallinput.vue';
 
 export default {
-  data(){ 
+  data() {
     return {
       popup: false
     }
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push({name: 'login'});
+      this.$router.push({ name: 'login' });
     },
     // showPopup() {
     //   this.popup = !this.popup;
@@ -59,46 +59,54 @@ export default {
   color: #262A2C;
   width: 100%;
   background: linear-gradient(270deg, #ACC12F 0%, #D8EC62 50%, #ACC12F 100%);
-  height:75px;
+  /* background: var(--accent); */
+  height: 75px;
   align-items: center;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin-left:150px;
+  margin-left: 150px;
 }
+
 .icon {
   font-size: 75px;
 }
+
 .name {
   margin-left: 40px;
   font-size: 36px;
   font-weight: bold;
 }
+
 .button {
   margin-left: auto;
   margin-right: auto;
 }
-.block{
+
+.block {
   margin-left: auto;
   margin-right: 150px;
   border-radius: 10px;
 }
+
 .form {
-    width: auto;
-    height: auto;
-    background-color: #262A2C;
-    box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: #FBF5F3;
-    padding:5px 8px 5px 8px;
-  }
-.h1{
+  width: auto;
+  height: auto;
+  background-color: #262A2C;
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  color: var(--primary);
+  padding: 5px 8px 5px 8px;
+}
+
+.h1 {
   font-size: large;
   padding: 3px, 0px, 3px, 0px;
 }
-.popup{
+
+.popup {
   width: auto;
   height: auto;
   margin-left: auto;
@@ -112,7 +120,7 @@ export default {
   justify-content: center;
   border-radius: 10px;
 }
-.smallbutton{
+
+.smallbutton {
   margin: 10px 10px 10px 10px;
-}
-</style>
+}</style>

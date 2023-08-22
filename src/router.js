@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheMainPage from '@/pages/TheMainPage';
-import TheDashboard from '@/pages/TheDashboard';
 import PageNotFound from '@/pages/PageNotFound.vue';
 import RegisterUserPage from '@/pages/RegisterUserPage';
 import LoginPage from '@/pages/LogInPage.vue';
@@ -10,9 +9,9 @@ import Friends from '@/pages/FriendsPage.vue';
 import Rank from '@/pages/RankPage.vue';
 import History from '@/pages/HistoryPage.vue';
 import Settings from '@/pages/SettingsPage.vue';
-import Warcaby from '@/components/games/gra-warcaby.vue';
-import Statki from '@/components/games/gra-statki.vue';
-import Polacz4 from '@/components/games/connectFour.vue';
+// import CheckersGame from '@/components/games/CheckersGame.vue';
+// import BattleShipsGame from '@/components/games/BattleShipsGame.vue';
+// import ConnectFourGame from '@/components/games/ConnectFourGame.vue';
 import Store from '@/state/index';
 import ActivateUserPage from '@/pages/ActivateUserPage';
 import UserHomePage from '@/pages/UserHomePage';
@@ -25,7 +24,6 @@ const router = createRouter({
     { path: '/', name: 'landing-page', component: TheMainPage, meta: {requiresGuest: true} },
     { path: '/signup', name: 'signup', component: RegisterUserPage, meta: {requiresGuest: true} },
     { path: '/login', name:'login', component: LoginPage, meta: {requiresGuest: true} },
-    { path: '/dashboard', name:'dashboard', component: TheDashboard, meta: {requiresAuth: true} },
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
     { path: '/resetpassword/:token', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
@@ -36,9 +34,9 @@ const router = createRouter({
     { path: '/rank', name:'rank', component: Rank },
     { path: '/history', name:'history', component: History },
     { path: '/settings', name:'settings', component: Settings },
-    { path: '/warcaby', name:'warcaby', component: Warcaby },
-    { path: '/statki', name:'statki', component: Statki },
-    { path: '/polacz4', name:'polacz4', component: Polacz4 },
+    // { path: '/warcaby', name:'warcaby', component: Warcaby },
+    // { path: '/statki', name:'statki', component: Statki },
+    // { path: '/polacz4', name:'polacz4', component: Polacz4 },
     { path: '/uhp/:id/:invId', name:'uhp', component: UserHomePage, props:true },
     { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]

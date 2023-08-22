@@ -5,7 +5,7 @@
         <h1>Formularz logowania</h1>
         <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending"></base-input>
         <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending"></base-input>
-        <base-button v-if="!isSending" type="green-large">Zaloguj</base-button>
+        <base-button v-if="!isSending" type="primary-large">Zaloguj</base-button>
         <base-loading-spinner v-else></base-loading-spinner>
         <div>
           <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{ name: 'signup' }">formularza rejestracji
@@ -78,6 +78,8 @@ export default {
   
 <style scoped>
 .content {
+  background: url('@/assets/background.png');
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,6 +87,7 @@ export default {
 }
 
 h1 {
+  color: white;
   font-weight: bold;
   font-size: xxx-large;
   margin-bottom: 40px;
@@ -99,6 +102,7 @@ form {
 }
 
 p {
+  color: white;
   font-size: medium;
   margin: 0;
   text-align: justify;

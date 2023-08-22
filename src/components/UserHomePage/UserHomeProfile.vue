@@ -2,7 +2,7 @@
     <div class="content">
       <div id="user-profile">
         <div id="user-profile__image">
-          <img :src="getUserAvatar(user.avatar)" />
+          <img :src="this.getProfileAvatar" />
         </div>
         <div id="user-profile__data">
           <div class="username">
@@ -37,7 +37,7 @@
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
                           'getIsInvSended', 'getId']),
-      ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
+      ...mapGetters(['getProfileAvatar']),
       getInvId(){
         return this.invId;
       },

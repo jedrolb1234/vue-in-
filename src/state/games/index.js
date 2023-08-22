@@ -36,7 +36,7 @@ export default {
           ],
           active: true,
           link: { path: '/games/0'},
-          play: { name: 'warcaby' },
+          // play: { name: 'warcaby' },
           isFavorite: false
         },
         {
@@ -62,7 +62,7 @@ export default {
           ],
           active: true,
           link: { path: '/games/1'},
-          play: { name: 'statki' },
+          // play: { name: 'statki' },
           isFavorite: false
         },
         {
@@ -85,7 +85,7 @@ export default {
           ],
           active: true,
           link: { path: '/games/2'},
-          play: { name: 'polacz4'},
+          // play: { name: 'polacz4'},
           isFavorite: false
         },
         {
@@ -158,41 +158,6 @@ export default {
   actions: {
     toogleFavorite(context, id) {
       context.commit('toggleIsFavorite', id);
-    },
-    async downloadTheme(context){
-      context.dispatch('refreshToken', {}, { root: true });
-      const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      const token = context.rootGetters.getToken;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        };
-      const axios = require('axios');
-      let res;
-      try { 
-      res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/account/settings', {headers}); 
-      // console.log(res.data)
-      // console.log('aaa')
-      if (res.status === 200) {  
-        context.commit('setTheme', res.data.theme)
-      }
-      } catch (error) {
-        console.log(error);
-      if (error.response) {
-        if(error.response.data === "UserNotExist"){
-          context.commit('toogleFindUser', false);
-        }else{
-          context.dispatch('showNotification',
-          {
-              label: 'Wystąpiły błędy!',
-              description: 'Nie udało się pobrać danych.',
-              type: 'error'
-          },
-          { root: true });
-        }
-      } else {
-          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-      }
-      }
     },
   },
   getters: {

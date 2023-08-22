@@ -2,17 +2,17 @@
   <div class="panel">
     <div class="content">
       <div class="panel__title">
-        <p>{{ this.getSelectedGameRoom.roomName }}</p>
-        <span class="material-symbols-outlined edit">
+        <h2>{{ this.getSelectedGameRoom.roomName }}</h2>
+        <!-- <span class="material-symbols-outlined edit">
           edit
-        </span>
+        </span> -->
       </div>
       <hr>
       <div class="panel__players">
-        {{ this.getSelectedGameRoom }}
-        <p>Gracze</p>
+        <!-- {{ this.getSelectedGameRoom }} -->
+        <h3>Gracze</h3>
         <div class="panel__players__box">
-          <div v-for="player in this.getSelectedGameRoom.players" :key="player.playerId" :class="{playerTurn: this.getPlayerTurn== player.playerId}">
+          <div v-for="player in this.getSelectedGameRoom.players" :key="player.playerId">
             <span>{{ player.userName }}</span>
             <!-- <span class="material-symbols-outlined kick">
               close
@@ -21,8 +21,27 @@
         </div>
       </div>
       <hr>
+      <div v-if="this.getSelectedGameRoom.status==0">
+        <h3>Rozgrywka</h3>
+        <p class="playerTurn">Oczekiwanie na rozpoczęcie!</p>
+        <hr>
+      </div>
+      <div v-if="this.getSelectedGameRoom.status==1">
+        <h3>Rozgrywka</h3>
+        <p v-if="this.getPlayerTurn==this.getUserId" class="playerTurn" style="background-color: var(--accent);">Twój ruch!</p>
+        <p v-else class="playerTurn">Ruch gracza {{ getplayerUsername(getPlayerTurn) }}</p>
+        <hr>
+      </div>
       <div v-if="this.getSelectedGameRoom.status==2">
-        <p>{{ getWinner }} wygrał!</p>
+        <h3>Rozgrywka</h3>
+        <p class="playerTurn">Rozgrywka się zakończyła!</p>
+        <hr>
+      </div>
+      <div v-if="this.getSelectedGameRoom.status==2">
+        <h3>Wynik</h3>
+        <p v-if="this.getUserId==this.getSelectedGameRoom.whoWon" class="playerTurn" style="background-color: var(--accent);">Wygrałeś!</p>
+        <p v-else class="playerTurn">{{ getplayerUsername(getSelectedGameRoom.whoWon) }} wygrał!</p>
+        <hr>
       </div>
       <!-- <ul>
         <li>Przebieg gry</li>
@@ -61,6 +80,17 @@ export default {
     startGame() {
       this.$callHub.client.invoke("StartGame", this.getSelectedGameRoom.id, this.getUserId);
       // this.obtainGameRoom();
+    },
+    getplayerUsername(playerId) {
+      const players = this.getSelectedGameRoom.players;
+      if (players != undefined) {
+         const player = players.find(x => x.playerId == playerId);
+         if (player != undefined) {
+          return player.userName;
+         }
+        return null;
+      }
+      return null;
     }
   },
   computed: {
@@ -71,9 +101,6 @@ export default {
       return false;
     },
     isJoinRoomButtonVisible() {
-      // console.log(this.getSelectedGameRoom.players);
-      // console.log(this.getUserId);
-      // const that = this;
       if(this.getSelectedGameRoom.players===undefined)
         return false;
       if (this.getSelectedGameRoom.players.find((player) => player.playerId == this.getUserId) === undefined && this.getSelectedGameRoom.players.length < this.getSelectedGameRoom.requiredNumberOfPlayers)
@@ -81,7 +108,7 @@ export default {
       return false;
     },
     isCloseButtonVisible() {
-      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status != 2)
+      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status == 0)
         return true;
       return false;
     }
@@ -91,9 +118,15 @@ export default {
 
 <style scoped>
 .playerTurn {
-  border: solid var(--accent) 5px;
+  background-color: var(--primaryBtn);
+  padding: 10px;
+  text-align: center;
 }
 .panel {
+  border: 1px solid var(--primary);
+  padding: 15px;
+  background-color: var(--secondaryBtn);
+  width:350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -101,6 +134,7 @@ export default {
 
 .action__buttons {
   display: flex;
+  justify-content: right;
   gap: 15px;
 }
 
@@ -155,11 +189,5 @@ export default {
 hr {
   border: 1px solid var(--accent);
   margin: 10px 0px;
-}
-
-.panel {
-  border: 1px solid var(--primary);
-  padding: 10px;
-  background-color: var(--secondaryBtn);
 }
 </style>

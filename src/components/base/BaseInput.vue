@@ -56,17 +56,18 @@ export default {
 
 <style module>
 .container {
+  border: 1px solid black;
   display: flex;
   align-content: center;
   border-radius: 15px;
 }
 
 .field {
-  background: #FBF5F3;
+  background: white;
   border-radius: 15px 0 0 15px;
   padding: 10px 15px 10px 15px;
   font-size: larger;
-  color: #000000;
+  color: black;
   border:0;
   width: 400px;
 }
@@ -76,9 +77,9 @@ export default {
 }
 
 .icon {
-  color: rgba(0, 0, 0, 0.5);
+  color: black;
   font-size: 40px;
-  background-color: #FBF5F3;
+  background-color: white;
   padding: 10px 15px 10px 15px;
   border-radius: 0 15px 15px 0;
 }

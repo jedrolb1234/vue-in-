@@ -1,10 +1,10 @@
 
 export default {
   login(state, data) {
-    localStorage.setItem('token', JSON.stringify(data.accessToken));
-    localStorage.setItem('refresh_token', JSON.stringify(data.refreshToken));
-    localStorage.setItem('user_id', JSON.stringify(data.id));
-    localStorage.setItem('last_login', JSON.stringify(Date.now()));
+    localStorage.setItem('token', data.accessToken);
+    localStorage.setItem('refresh_token', data.refreshToken);
+    localStorage.setItem('user_id', data.id);
+    localStorage.setItem('last_login', Date.now());
   },
   logout() {
     localStorage.setItem('token', null);
@@ -18,7 +18,7 @@ export default {
     console.log(state.settings.avatar, state.userAvatar)
   },
   changeTheme(state, theme) {
-    console.log(theme)
+    // console.log(theme)
     if(theme === 'light')
       state.settings.theme = 0;
     else state.settings.theme = 1;
@@ -54,21 +54,12 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
-    // console.log(state.settings.dateOfBirth)
-  
-    console.log(state.settings)
   },
   setUserAvatar(state, avatar){
     state.userAvatar = state.avatars[avatar];
  },
   setTheme(state, theme){
-    document.body.classList.remove(state.settings.theme)
-    document.body.classList.add(theme);
-    document.documentElement.style.colorScheme=theme;
     state.settings.theme = theme;
-    state.theme = theme;
-    // localStorage.setItem('theme', theme);
-    console.log(document.body.classList, document.documentElement.style.colorScheme)
   },
   popupPassword(state, value) {
     // console.log('password')
