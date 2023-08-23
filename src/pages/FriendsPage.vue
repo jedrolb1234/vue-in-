@@ -12,7 +12,7 @@
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
                     <table class="friend">
-                        <tr><th>Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th></th></tr>
+                        <tr><th>Podgląd</th><th>Nazwa użytkownika</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th></th></tr>
                         <tbody>
                             <tr class="friendsList"
                                 v-for="(f, index) in getFriends" :key="index">
@@ -30,7 +30,7 @@
                 <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
             </div>
             <Transition name="v">
-                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getRemUser }} ? </base-delete-message>
+                <base-delete-message :id="getId" :hideModal="getIsVisibleMessage" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup" @close-modal="hideRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getRemUser }} ? </base-delete-message>
             </Transition>
             <div class="invitations">
                 <h2 class="invMargin">Twoje zaproszenia:</h2>
@@ -133,37 +133,38 @@ export default {
         ...mapActions('Friends', ['nextPage', 'previousPage', 'find', 'addFriend', 
                     'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriendInvitation',
                     'redirect','invNextPage', 'invPreviousPage', 'showRemovePopup', 'hideRemovePopup']),
-        ...mapActions(['showNotification']),
+        ...mapActions(['showNotification', 'setInvitationId']),
 
 //sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
             console.log('uhp')
             if (invId !== 'null'){
+                sessionStorage.setItem('invId', invId);
                 return this.$router.push({
                     name: 'uhp',
-                    params: { id: id, invId: invId },
+                    params: { id: id },
                     }); 
             }
             for(let i = 0; i < this.getFriends.length; i++){
                 if (id === this.getFriends[i].userId){
                     return this.$router.push({
                         name: 'uhp',
-                        params: { id: id, invId: 'null'},
+                        params: { id: id },
                         });
                 }
             const inv = this.getInvitations;
             const user = this.getUser;          
             for(let i = 0; i< inv.length; i++){
                 if (inv[i].userId === user.id){
-                console.log(inv[i].userId)
+                sessionStorage.setItem('invId', inv[i].userId);
                 return this.$router.push({
                     name: 'uhp',
-                    params: { id: id, invId: inv[i].userId },
+                    params: { id: id },
                     }); 
                 }}          
             } return this.$router.push({
                 name: 'uhp',
-                params: { id: id, invId: 'null' },
+                params: { id: id },
                 }); 
         },
     },

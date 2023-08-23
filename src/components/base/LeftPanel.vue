@@ -28,10 +28,10 @@
         </div> -->
         <div class="tabsItem clickable" @click="$router.push({
                           name: 'uhp',
-                          params: { id: getUserId, invId: 'null'},
+                          params: { id: getUserId },
                           })">
-          <span :class="iconStyles">search</span>
-          <span>Historia gier</span>
+          <span :class="iconStyles">psychology</span>
+          <span>Profil</span>
         </div>
         <div class="tabsItem clickable" @click="$router.push({ name: 'settings' })">
           <span :class="iconStyles">settings</span>

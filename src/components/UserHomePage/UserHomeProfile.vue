@@ -2,7 +2,7 @@
     <div class="content">
       <div id="user-profile">
         <div id="user-profile__image">
-          <img :src="this.getProfileAvatar" />
+          <img :src="getUserAvatar(user.avatar)" />
         </div>
         <div id="user-profile__data">
           <div class="username">
@@ -15,11 +15,10 @@
       </div>
       <div id="user-profile__invitation">
         <div v-if="(this.isFriend===1)">Jesteście znajomymi</div>
-        <BaseButton v-if="(this.isFriend===2) " :type="secondary-medium" class="clickable" @click="sendInvitation(this.id)">Wyślij zaproszenie</BaseButton>
-        <BaseButton v-if="(this.isFriend ===3)" :type="secondary-medium" class="clickable" @click="acceptInvitation(getInvId)">Dodaj znajomego</BaseButton>
+        <BaseButton v-if="(this.isFriend===2)" :type="secondary-medium" class="clickable" @click="sendInvitation(this.id)">Wyślij zaproszenie</BaseButton>
+        <BaseButton v-if="(this.isFriend ===3)" :type="secondary-medium" class="clickable" @click="acceptInvitation(this.getInvId)">Dodaj znajomego</BaseButton>
         <div v-if="(this.isFriend===4)">Zaproszenie wysłane</div>
         <!-- <div v-if="(getOwnId === true)" class="clickable"></div> -->
-
       </div>
     </div>
   </template>
@@ -32,14 +31,17 @@
     components: {
       BaseButton
     },
-    props:['isFriend', 'invId', 'id', 'user'],
+    props:['isFriend','invId', 'id', 'user'],
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',
-                          'getIsInvSended', 'getId']),
-      ...mapGetters(['getProfileAvatar']),
+                            'getIsInvSended', 'getId','getInvitationId']),
+      ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
       getInvId(){
-        return this.invId;
+        const id = sessionStorage.getItem('invId')
+        // console.log(id)
+        localStorage.setItem('invId', null)
+        return id;
       },
     },
     methods: {

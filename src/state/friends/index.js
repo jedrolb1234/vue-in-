@@ -54,11 +54,20 @@ export default {
       state.isLoading = value;
     },
     setSearchedUser(state, value) {
-      let inputDate = new Date(value.dateOfBirth);
-      let day = inputDate.getDate().toString().padStart(2, '0');
-      let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-      let year = inputDate.getFullYear().toString();
-      let formattedDate = `${year}-${month}-${day}`;
+      let formattedDate;
+      console.log(value)
+      if(value.dateOfBirth === ""){  
+        let day = "";
+        let month = "";
+        let year = "";
+        formattedDate = `${year}-${month}-${day}`;
+      }else{
+        let inputDate = new Date(value.dateOfBirth);
+        let day = inputDate.getDate().toString().padStart(2, '0');
+        let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+        let year = inputDate.getFullYear().toString();   
+        formattedDate = `${year}-${month}-${day}`; 
+      }
       state.searchedUser = value;
       state.searchedUser.dateOfBirth = formattedDate;
     },
@@ -74,15 +83,27 @@ export default {
       }
     },
     setFriends(state, value) {
-      state.friends = value;
-      for (let i = 0; i < state.friends.length; i++) {
-        let inputDate = new Date(value.lastActivityDate);
-        let day = inputDate.getDate().toString().padStart(2, '0');
-        let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-        let year = inputDate.getFullYear().toString();
-        let formattedDate = `${year}-${month}-${day}`;
-        state.friends[i].lastActivityDate = formattedDate;
-      } console.log(state.friends)
+      let formattedDate;
+      console.log(value.lastActivityDate)
+      console.log(value)
+      state.friends = value; 
+      for (let i = 0; i < value.length; i++) {      
+        // if(value[i].lastActivityDate === undefined){
+        //   let day = "";
+        //   let month = "";
+        //   let year = "";
+        //   formattedDate = `${year}-${month}-${day}`;
+        //   state.friends[i].lastActivityDate = formattedDate;
+        // }else{
+          var inputDate = new Date(value[i].lastActivityDate);
+          let day = inputDate.getDate().toString().padStart(2, '0');
+          let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+          let year = inputDate.getFullYear().toString();
+          formattedDate = `${year}-${month}-${day}`;
+          console.log(formattedDate)
+          state.friends[i].lastActivityDate = formattedDate;
+        // } 
+      }
       if (state.friends.length != 10) {
         state.dynamicHeight = (state.itemsPerPage - state.friends.length) * state.rowHeight;
       }
@@ -303,7 +324,7 @@ export default {
       try {
         res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, { params: params });
         if (res.status === 200) {
-          console.log(res.data, 'aaa')
+          console.log(res.data.items, 'aaa')
           context.commit('setFriends', res.data.items);
           context.commit('tooleIsLoading', false);
           context.commit('setFriendsCount', res.data.totalItemsCount)

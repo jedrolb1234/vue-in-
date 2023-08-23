@@ -7,6 +7,7 @@ export default {
       id: null,
       isLoading: false,
       hasInvitation: false,
+      invitations: [],
       invId: null,
       itemsPerPage: 10,
       currentPage: 1,
@@ -80,16 +81,9 @@ export default {
       state.isFriend = value;
       // console.log('isFriend', state.isFriends)
     },
-    setInvSended(state, value) {
-      state.invSended = value;
-      // console.log('invSended', state.invSended)
-    },
     setHasInvitation(state, value) {
       state.invId = value;
       // console.log('invId', state.invId)
-    },
-    setInvitations(state, value) {
-      state.invitations = value;
     },
     setUser(state, user) {
       let inputDate = new Date(user.dateOfBirth);
@@ -132,9 +126,10 @@ export default {
     getHasInvitation(state) {
       return state.hasInvitation;
     },
-    getIsFriend(state) {
+    getIsFriend(state) {console.log(state.user)
       console.log(state.user.isFriendStatus)
       return state.user.isFriendStatus
+      
     },
     getName(state) {
       // console.log(state.user)
@@ -149,15 +144,23 @@ export default {
     getUser(state) {
       return state.user;
     },
-    getOwnId(state) {
-      return state.id === JSON.parse(localStorage.getItem('user_id'));
-    },
     getId(state) {
       // console.log(state.id)
       return state.id;
     },
     getInvId(state) {
       return state.invId;
+    },
+    getInvitationId(state){
+      console.log(state.id)
+      console.log(state.invitations)
+      for(let i = 0; i< state.invitations.length; i++){
+        if (state.invitations[i].userId === state.id){
+        console.log(state.invitations[i].userId)
+        return state.invitations[i].userId;
+        }
+      }
+    // return state.rootGetters.getInvitationId;
     }
   },
   actions: {
@@ -172,12 +175,12 @@ export default {
       try {
         await AxiosInstance.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + payload, null);
+          context.dispatch('getData', context.state.userId);
       } catch (error) {
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
         }
         else if (error.response.data === "FriendshipIsAlreadyPendingOrAccepted") {
-          context.commit('setInvSended', true)
           context.dispatch('getData', context.state.userId);
         }
         else if (error.response.data === "FriendHasToBeAnotherUser") {
@@ -208,6 +211,7 @@ export default {
       try {
         await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null);
+          context.dispatch('getData', context.state.userId);
       } catch (error) {
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
@@ -233,7 +237,7 @@ export default {
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);
-          console.log(res.data, 'data')
+          // console.log(res.data, 'data')
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {

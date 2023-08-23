@@ -28,7 +28,7 @@ const state = createStore({
     Polacz4,
     Warcaby,
     GameRooms
-  }
+  },
 });
 
 export default state;
