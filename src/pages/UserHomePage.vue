@@ -3,7 +3,7 @@
         <div class="page">
             <BaseHeader>Strona użytkownika</BaseHeader>
             <div class="profile">
-                <UserProfile :id="id" :invId="getInvId" :isFriend="getIsFriend" :user="getUser"></UserProfile>
+                <UserProfile :id="id" :isFriend="getIsFriend" :user="getUser"></UserProfile>
                 <div class="module__head">
                 <h1>Dane użytkownika</h1>
                 </div>
@@ -27,15 +27,15 @@
                     <tr class="historyList"><th>gra</th><th>data</th><th>status</th><th>Punkty</th></tr>
                     
                     <tr class="historyList"
-                        v-for="( h, index ) in currentPage" :key="index">
-                        <td>{{ h.game }}</td><td>{{ h.date }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
+                        v-for="( h, index ) in getHistory" :key="index">
+                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
                     </tr>
-                    <tr :style="{height: dynamicHeight() + 'px'}"></tr>
+                    <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                     </table>
-                    <div v-if="getOwnId" class="buttons">
-                      <base-previous-button @click="previousPage"></base-previous-button>
-                      <base-next-button @click="nextPage"></base-next-button>
-                      <p class="pageNr">{{ pageNr }}</p>
+                    <div v-if="getOwnId " class="buttons">
+                      <base-previous-button :disabled="(getCurrentPage === 1)" @click="previousPage"></base-previous-button>
+                      <base-next-button :disabled="getAllPages === getCurrentPage" @click="nextPage"></base-next-button>
+                      <p class="pageNr">{{ getHistPage }}</p>
                     </div>
                 </div>
             </div>
@@ -74,14 +74,14 @@
     },
     mounted(){
       this.getData(this.id);
+      this.downloadHistory(this.id);
+      // console.log(this.getHistory)
     },
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
-                            'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHasFriend', 'getHistory', 'getCurrentPage',
-                             'getItemsPerPage', 'getUser', 'getIsFriend', 'getInvId', 'getUserId']),
-      // getIsFriend(){
-      //   return this.isFriend;
-      // },
+                            'isLoading', 'getHasFriend', 'getHistory', 'getCurrentPage', 'getItemsPerPage', 'getUser', 
+                            'getIsFriend', 'getInvId', 'getUserId','getDynamicHeight', 'getHistPage', 'getHistPages',
+                            'getGameName', 'getGameDate']),
       getId(){
         return this.id;
       },
@@ -89,18 +89,13 @@
         return this.invId;
       },
       getOwnId(){
-        return this.id === this.getUserId;
+        // console.log("own", this.id)
+        return this.id === sessionStorage.getItem('ownerId');
       }
     },
     methods: {
-      ...mapActions('UHP', ['setArgs', 'getData']),
-      ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'nextPage', 'previousPage','isFriend']),
-      dynamicHeight(){
-            let startIndex = (this.getCurrentPage - 1) * this.getItemsPerPage;
-            let endIndex = startIndex + this.getItemsPerPage;
-            let sliced = this.getHistory.slice(startIndex, endIndex);           
-            return (10 - sliced.length ) * 38;
-        },
+      ...mapActions('UHP', ['setArgs', 'getData', 'downloadHistory', 'nextPage', 'previousPage',]),
+      ...mapActions(['showAvatarPicker', 'hideAvatarPicker']),
       },
   }
   </script>

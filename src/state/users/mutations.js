@@ -54,6 +54,8 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
+    sessionStorage.setItem('ownerId', state.settings.id)
+    // console.log(state.settings)
   },
   setUserAvatar(state, avatar){
     state.userAvatar = state.avatars[avatar];

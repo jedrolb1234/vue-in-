@@ -74,7 +74,7 @@ export default {
     setInvitations(state, value) {
       state.invitations = value;
       for (let i = 0; i < state.invitations.length; i++) {
-        let inputDate = new Date(value.lastActivityDate);
+        let inputDate = new Date(state.invitations[i].lastActivityDate);
         let day = inputDate.getDate().toString().padStart(2, '0');
         let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
         let year = inputDate.getFullYear().toString();

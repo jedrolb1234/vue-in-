@@ -16,43 +16,10 @@ export default {
       birthDate: '',
       userId: null,
       user: {},
-      history: [
-        {
-          id: 0,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        },
-        {
-          id: 1,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        },
-        {
-          id: 2,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'lose',
-          points: 5
-        },
-        {
-          id: 3,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        },
-        {
-          id: 4,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        }
-      ]
+      history: [],
+      hstoryPages: null,
+      historyCount: 0,
+      rowHeight: 38
     }
   },
   mutations: {
@@ -60,16 +27,10 @@ export default {
       state.isLoading = !state.isLoading;
     },
     previousPage(state) {
-      if (state.currentPage > 1) {
-        state.currentPage--;
-      }
+      state.currentPage--;
     },
     nextPage(state) {
-      console.log('+++')
-      if (state.currentPage < Math.ceil(state.history.length / state.itemsPerPage)) {
-        // console.log('++')
-        state.currentPage++;
-      }
+      state.currentPage++;
     },
     toogleIsFriend(state, value) {
       state.isFriend = value;
@@ -97,24 +58,37 @@ export default {
     },
     setUserId(state, value) {
       state.userId = value;
+    },
+    setHistory(state, value){
+      state.history = value;
+      for (let i = 0; i < state.history.length; i++) {
+        let inputDate = new Date(state.history[i].endDate);
+        let day = inputDate.getDate().toString().padStart(2, '0');
+        let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+        let year = inputDate.getFullYear().toString();
+        let formattedDate = `${year}-${month}-${day}`;
+        console.log(formattedDate)
+        state.history[i].endDate = formattedDate;
+      }if (state.history.length != 10) {
+        state.dynamicHeight = (state.itemsPerPage - state.history.length) * state.rowHeight;
+      }console.log(state.history.endDate)
+    },
+    setHistPages(state, value){
+      state.historyPages = value;
+    },
+    setHistCount(state, value){
+      state.historyCount = value;
     }
   },
   getters: {
     isLoading(state) {
       return state.isLoading;
     },
-    currentPage(state) {
-      let startIndex = (state.currentPage - 1) * state.itemsPerPage;
-      let endIndex = startIndex + state.itemsPerPage;
-      return state.history.slice(startIndex, endIndex);
-    },
-    pageNr(state) {
+    getHistPage(state) {
       return state.currentPage;
     },
-    allPages(state) {
-      return Math.ceil(state.history.length / state.itemsPerPage);
-    },
     getHistory(state) {
+      console.log(state.history)
       return state.history;
     },
     getCurrentPage(state) {
@@ -127,15 +101,15 @@ export default {
       return state.hasInvitation;
     },
     getIsFriend(state) {console.log(state.user)
-      console.log(state.user.isFriendStatus)
-      return state.user.isFriendStatus
-      
+      // console.log(state.user.isFriendStatus)
+      return state.user.isFriendStatus 
     },
     getName(state) {
-      // console.log(state.user)
+      if(state.user.firstName === null) return ""
       return state.user.firstName;
     },
     getSurname(state) {
+      if(state.user.lastName === null) return ""
       return state.user.lastName;
     },
     getBirthDate(state) {
@@ -151,32 +125,80 @@ export default {
     getInvId(state) {
       return state.invId;
     },
-    getInvitationId(state){
-      console.log(state.id)
-      console.log(state.invitations)
-      for(let i = 0; i< state.invitations.length; i++){
-        if (state.invitations[i].userId === state.id){
-        console.log(state.invitations[i].userId)
-        return state.invitations[i].userId;
-        }
-      }
-    // return state.rootGetters.getInvitationId;
+    getDynamicHeight(state){
+      return state.dynamicHeight;
+    },
+    getUserId(state){
+      return state.userId;
+    },
+    getGameName(state){
+      return state.history.gameName;
+    },
+    getGameDate(state){
+      return state.history.endDate;
     }
   },
   actions: {
     previousPage(context) {
-      context.commit('previousPage');
+      if (context.state.currentPage > 1) {
+        context.commit('previousPage');
+        context.dispatch('downloadHistory');
+      }
     },
     nextPage(context) {
-      context.commit('nextPage');
+      if (context.state.currentPage < context.state.historyPages) {
+        context.commit('nextPage');
+        context.dispatch('downloadHistory');
+      }
+    },
+    async downloadHistory(context, id){
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      try {
+        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + id, null);
+        if (res.status === 200){  
+          context.commit('setHistory', res.data.items);
+          context.commit('setHistCount', res.data.totalItemsCount)
+          context.commit('setHistPages', res.data.totalPages)
+          console.log(res)
+        }
+        } catch (error) {
+        if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
+          context.dispatch('logOutUser');
+        }
+        else if (error.response.data === "FriendshipIsAlreadyPendingOrAccepted") {
+          context.dispatch('getData', context.state.userId);
+        }
+        else if (error.response.data === "FriendHasToBeAnotherUser") {
+          context.dispatch('showNotification',
+            {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie możesz wysłać zaproszenie tej osobie.',
+              type: 'error'
+            },
+            { root: true });
+        }
+        else if (error.response) {
+          context.dispatch('showNotification',
+            {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie udało się pobrać danych.',
+              type: 'error'
+            },
+            { root: true });
+        } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+        }
+      }
     },
     async sendInvitation(context, payload) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       try {
-        await AxiosInstance.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
+        const res = await AxiosInstance.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + payload, null);
+        if (res.status === 200){  
           context.dispatch('getData', context.state.userId);
-      } catch (error) {
+        }
+        } catch (error) {
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
         }
@@ -209,9 +231,11 @@ export default {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       console.log(userId)
       try {
-        await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
+        const res = await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null);
-          context.dispatch('getData', context.state.userId);
+          if(res.status===200){
+            context.dispatch('getData', context.state.userId);
+          }
       } catch (error) {
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
@@ -237,7 +261,8 @@ export default {
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);
-          // console.log(res.data, 'data')
+          console.log(res.data, 'data')
+          console.log(userId)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {

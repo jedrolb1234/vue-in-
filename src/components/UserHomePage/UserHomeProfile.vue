@@ -31,7 +31,7 @@
     components: {
       BaseButton
     },
-    props:['isFriend','invId', 'id', 'user'],
+    props:['isFriend','id', 'user'],
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'currentPage', 'allPages', 'pageNr', 'getHistory', 'getCurrentPage', 'getItemsPerPage',

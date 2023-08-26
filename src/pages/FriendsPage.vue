@@ -135,9 +135,8 @@ export default {
                     'redirect','invNextPage', 'invPreviousPage', 'showRemovePopup', 'hideRemovePopup']),
         ...mapActions(['showNotification', 'setInvitationId']),
 
-//sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
-            console.log('uhp')
+            // console.log('uhp')
             if (invId !== 'null'){
                 sessionStorage.setItem('invId', invId);
                 return this.$router.push({
@@ -145,24 +144,25 @@ export default {
                     params: { id: id },
                     }); 
             }
-            for(let i = 0; i < this.getFriends.length; i++){
-                if (id === this.getFriends[i].userId){
-                    return this.$router.push({
-                        name: 'uhp',
-                        params: { id: id },
-                        });
-                }
+            // for(let i = 0; i < this.getFriends.length; i++){
+            //     if (id === this.getFriends[i].userId){
+            //         return this.$router.push({
+            //             name: 'uhp',
+            //             params: { id: id },
+            //             });
+            //     }
             const inv = this.getInvitations;
             const user = this.getUser;          
             for(let i = 0; i< inv.length; i++){
                 if (inv[i].userId === user.id){
-                sessionStorage.setItem('invId', inv[i].userId);
-                return this.$router.push({
-                    name: 'uhp',
-                    params: { id: id },
-                    }); 
-                }}          
-            } return this.$router.push({
+                    sessionStorage.setItem('invId', inv[i].userId);
+                    return this.$router.push({
+                        name: 'uhp',
+                        params: { id: id },
+                        }); 
+                    }
+                }          
+            return this.$router.push({
                 name: 'uhp',
                 params: { id: id },
                 }); 

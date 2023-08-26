@@ -30,7 +30,7 @@
                           name: 'uhp',
                           params: { id: getUserId },
                           })">
-          <span :class="iconStyles">psychology</span>
+          <span :class="iconStyles">account_circle</span>
           <span>Profil</span>
         </div>
         <div class="tabsItem clickable" @click="$router.push({ name: 'settings' })">
