@@ -2,7 +2,7 @@
   <BasePageLayout>
     <div class="page">
       <BaseHeader>Gry</BaseHeader>
-      <div class="favourite-games">
+      <!-- <div class="favourite-games">
         <h1>Ulubione gry</h1>
         <hr>
         <div class="favourite-games__items">
@@ -15,7 +15,7 @@
         </div>
         </div>
         
-      </div>
+      </div> -->
       <div class="games">
         <div class="games__header">
           <h1>Wszystkie gry</h1>

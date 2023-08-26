@@ -29,7 +29,7 @@
       <div v-if="this.getSelectedGameRoom.status==1">
         <h3>Rozgrywka</h3>
         <p v-if="this.getPlayerTurn==this.getUserId" class="playerTurn" style="background-color: var(--accent);">Twój ruch!</p>
-        <p v-else class="playerTurn">Ruch gracza {{ getplayerUsername(getPlayerTurn) }}</p>
+        <p v-else class="playerTurn">Ruch gracza {{ getplayerUsername(this.getPlayerTurn) }}</p>
         <hr>
       </div>
       <div v-if="this.getSelectedGameRoom.status==2">

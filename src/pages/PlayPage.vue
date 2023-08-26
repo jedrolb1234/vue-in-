@@ -57,8 +57,7 @@ export default {
   },
   async unmounted() {
     await this.$callHub.client.invoke('DisconnectFromGameRoom', this.gameRoomID, this.getUserId)
-    await this.$callHub.stop()
-    await this.resetGameCoonectFour();
+    await this.$callHub.stop();
 
   }
 }
