@@ -77,16 +77,39 @@ export default {
         let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
         // (now.getFullYear() - inputDate.getFullYear()) * 12 ;
         if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;}
+          if(Math.floor(diffrentMinutes) === 1)
+            formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
+        }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentHours)} godzin temu`;}
+          if(Math.floor(diffrentHours)  === 1)
+            formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
+          if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
+            formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
+          if(Math.floor(diffrentHours) > 5)
+            formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
+          }        
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentDays)} dni temu`;}
+          if(Math.floor(diffrentDays) === 1)
+            formattedDate = `${Math.floor(diffrentDays)} dzień temu`;
+          if(Math.floor(diffrentDays) > 1)
+            formattedDate = `${Math.floor(diffrentDays)} dni temu`;        
+        }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;}
+          if(Math.floor(diffrentMonths) === 1)
+            formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
+          if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
+          if(Math.floor(diffrentMonths) > 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
+         }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
-          formattedDate = `${Math.floor(diffrentYears)} lat temu`;}
-      
+          if(Math.floor(diffrentYears) === 1)
+            formattedDate = `${Math.floor(diffrentYears)} rok temu`;
+          else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
       state.history[i].endDate = formattedDate;
       }
       if (state.history.length != 10) {

@@ -97,6 +97,11 @@
       ...mapActions('UHP', ['setArgs', 'getData', 'downloadHistory', 'nextPage', 'previousPage',]),
       ...mapActions(['showAvatarPicker', 'hideAvatarPicker']),
       },
+      watch:{
+        getData(oldValue, newValue){
+            this.settings = newValue;
+        }
+      }
   }
   </script>
 

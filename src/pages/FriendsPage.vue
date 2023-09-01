@@ -194,7 +194,7 @@ hr {
 .hr1{
     margin-left: 0px;
     /* -30 */
-    width: 900px;
+    width: auto;
     /* margin-right: -30px; */
 }
 .hr2{
