@@ -24,11 +24,11 @@
                 <hr class="hr2">
                 <div v-if="isLoading===false">
                     <table>
-                    <tr class="historyList"><th>gra</th><th>data</th><th>status</th><th>Punkty</th></tr>
+                    <tr class="historyList"><th>gra</th><th>data</th><th>Zwycięzca</th><th>Punkty</th></tr>
                     
                     <tr class="historyList"
                         v-for="( h, index ) in getHistory" :key="index">
-                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ h.status }}</td><td>{{ h.points }}</td>    
+                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ h.whoWon }}</td><td>{{ h.points }}</td>    
                     </tr>
                     <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                     </table>
@@ -99,152 +99,174 @@
       },
   }
   </script>
-  <style scoped>
-  .page {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    /* margin-top: 30px; */
-    flex-grow: 1;
-  }
-  
-  .profile {
-    flex-grow: 1;
-    margin-bottom: 30px;
-    color: var(--primary);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  hr {
-    width: 100%;
-    border: 1px solid var(--accent);
-    margin-left: 0px;
-  }
-  .hr2{
-    margin-left: -40px;
-    width: 900px;
-  }
-  
-  .module__head {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .module__head__actions {
-    align-items: center;
-    display: flex;
-    gap: 15px;
-  }
-  
-  .module__content {
-    display: grid;
-    width: max(700px, 50%);
-    grid-template-columns: 1fr 2fr;
-    gap: 15px;
-    margin-top: 15px;
-    font-size: 18px;
-  }
-  
-  .module:last-child {
-    margin-bottom: 30px;
-  }  
-  .icon {
-    font-size: 20px;
-  }
-  .showHistoryTable{
-    margin-left: 40px;
-    color: var(--secondary);
-    gap:15px;
-    margin-bottom: 50px;
+
+
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  /* margin-top: 30px; */
+  flex-grow: 1;
+}
+
+.profile {
+  flex-grow: 1;
+  margin-bottom: 30px;
+  color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+hr {
+  width: 100%;
+  border: 1px solid var(--accent);
+  margin-left: 0px;
+}
+.hr2{
+  margin-left: -40px;
+  width: 900px;
+}
+
+.module__head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.module__head__actions {
+  align-items: center;
+  display: flex;
+  gap: 15px;
+}
+
+.module__content {
+  display: grid;
+  width: max(700px, 50%);
+  grid-template-columns: 1fr 2fr;
+  gap: 15px;
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.module:last-child {
+  margin-bottom: 30px;
+}  
+.icon {
+  font-size: 20px;
+}
+.showHistoryTable{
+  margin-left: 40px;
+  color: var(--secondary);
+  gap:15px;
+  margin-bottom: 50px;
 }
 .historyHeader
 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 22px;
-  background-color: var(--secondary);
-  width: 800px;
-  margin: 0px 0px 20px -40px;
-  color: var(--primary);
+display: flex;
+flex-direction: row;
+align-items: center;
+font-size: 22px;
+background-color: var(--secondary);
+width: 800px;
+margin: 0px 0px 20px -40px;
+color: var(--primary);
 }
 table{
-    justify-content: center; 
-    width: auto;
-    color: var(--secondary);
-    border-collapse: collapse;
-    border-radius: 0px 0px 8px 8px;
-    border-spacing: 0px;
-    background-color: var(--secondary);
+  justify-content: center; 
+  width: auto;
+  color: var(--secondary);
+  border-collapse: collapse;
+  border-radius: 0px 0px 8px 8px;
+  border-spacing: 0px;
+  background-color: var(--secondary);
 }
 tr{
-    border: 1px solid var(--primary);
-    text-align: left;
-    border-radius: 8px;
-    width: 800px;
+  border: 1px solid var(--primary);
+  text-align: left;
+  border-radius: 8px;
+  width: 800px;
 }
 tr:first-child{
-    width:60px;
+  width:60px;
 }
 tr:last-child{
-    width:100px;
+  width:100px;
 }
 th{
-    width: 160px;
-    height: 51px;
-    color: var(--primary);
-    text-align: center;
+  width: 160px;
+  height: 51px;
+  color: var(--primary);
+  text-align: center;
+  padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
 }
 /* table:last-child{
-    border-radius: 0px 0px 8px 8px;
+  border-radius: 0px 0px 8px 8px;
 } */
 td{
-    padding: 5px;
-    background-color: var(--secondary);
-    width: 200px;
-    font-size: 18px;
-    color:var(--primary);
-    margin: 0px 0px 0px 0px;
-    text-align: center;
+  padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
+  background-color: var(--secondary);
+  width: 200px;
+  font-size: 18px;
+  color:var(--primary);
+  margin: 0px 0px 0px 0px;
+  text-align: center;
 }
+
+td:nth-child(odd){
+background-color: var(--td-odd-bg-color); 
+color: var(--td-odd-txt-color); 
+}
+td:nth-child(even){ 
+  background-color: var(--td-even-bg-color); 
+color: var(--td-even-txt-color); 
+}
+
+th:nth-child(odd){ 
+background-color: var(--th-odd-bg-color); 
+color: var(--th-odd-txt-color); 
+}
+th:nth-child(even){ 
+background-color: var(--th-even-bg-color); 
+color: var(--th-even-txt-color); 
+}
+
 .historyList{
-  font-size: 24;
-  color: var(--secondary);
+font-size: 24;
+color: var(--secondary);
 }
 .buttons{
-  display: flex;
-  flex-direction: row;
-  width: 70px;
-  justify-content: space-between;
-  color: var(--primary);
+display: flex;
+flex-direction: row;
+width: 70px;
+justify-content: space-between;
+color: var(--primary);
 }
 .spinner{
-  justify-content: center;
-  align-items: center;
-  margin-left: 350px;
+justify-content: center;
+align-items: center;
+margin-left: 350px;
 }
 .pageNr{
-    width: 13px;
-    font-size: 22px;
-    margin-left: 234px;
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-left: 0px;
-    padding: 0px;
+  width: 13px;
+  font-size: 22px;
+  margin-left: 234px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  padding: 0px;
 }
 .spacer{
-  height:50px;
-  margin-top: 50px;
+height:50px;
+margin-top: 50px;
 }
-  .v-enter-active,
-  .v-leave-active {
-    transition: opacity 0.5s ease;
-  }
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}</style>
   
-  .v-enter-from,
-  .v-leave-to {
-    opacity: 0;
-  }</style>
-    

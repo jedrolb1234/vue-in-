@@ -54,6 +54,23 @@ export default {
   --secondaryBtn: #F7F7F8;
   --accent: #0E9A2A;
   --shadow: #B6BBBE;
+
+    /* Tabele */
+    --td-padding-top-bottom: 5px;
+  --td-padding-left-right: 10px;
+
+  --td-odd-bg-color: #dedede;
+  --td-odd-txt-color: black;
+
+  --td-even-bg-color: #FFFFFF;
+  --td-even-txt-color: black;
+
+  --th-odd-bg-color: #a1a1a1;
+  --th-odd-txt-color: white;
+
+  --th-even-bg-color: #777777;
+  --th-even-txt-color: white;
+  /* ------- */
 }
 
 .dark {
@@ -87,6 +104,7 @@ body {
   font-family: Poppins;
   user-select: none;
 }
+
 
 /**
  * 1. Change the font styles in all browsers.

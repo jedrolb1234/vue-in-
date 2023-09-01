@@ -47,6 +47,7 @@ export default {
   margin-bottom: 20px;
   align-items: end;
   gap:20px;
+  z-index: 999;
 }
 
 .notification-move, 

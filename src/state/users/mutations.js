@@ -11,6 +11,7 @@ export default {
     localStorage.setItem('refresh_token', null);
     localStorage.setItem('user_id', null);
     localStorage.setItem('last_login', null);
+    
   },
   changeUserAvatar(state, avatar) {
     state.settings.avatar = avatar;

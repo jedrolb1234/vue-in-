@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
-                  'setName', 'setSurname', 'setBirthDate', 'setEmail', 'sendSettings',
+                  'setName', 'setSurname', 'setBirthDate', 'setEmail', 'sendSettings', 'downloadSettings',
                   'changePassword', 'delete', 'resetPassword', 'hidePopup','showDeletePopup','hideDeletePopup']),
     isFormValid() {
       this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
@@ -203,6 +203,7 @@ export default {
     },
   },
   async created() {
+    await this.downloadSettings();
     this.restoreThemeSettings();
     this.restoreProfileSettings();
     this.restoreUserDataSettings();

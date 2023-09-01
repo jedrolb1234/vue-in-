@@ -61,17 +61,45 @@ export default {
     },
     setHistory(state, value){
       state.history = value;
+      console.log(state.history[0].endDate)
       for (let i = 0; i < state.history.length; i++) {
         let inputDate = new Date(state.history[i].endDate);
-        let day = inputDate.getDate().toString().padStart(2, '0');
-        let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-        let year = inputDate.getFullYear().toString();
-        let formattedDate = `${year}-${month}-${day}`;
-        console.log(formattedDate)
-        state.history[i].endDate = formattedDate;
-      }if (state.history.length != 10) {
+        let formattedDate;   
+        let now = new Date();
+        let diffrentMinutes = Math.floor(Math.abs((inputDate.getTime() - now.getTime())) / (1000 * 60));
+        console.log(diffrentMinutes,"pppp")
+        let diffrentHours =Math.floor(diffrentMinutes / 60);
+        let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
+        console.log(diffrentDays)
+        let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
+        // (Math.abs(inputDate.getFullYear() - now.getFullYear())) * 12 + Math.abs(inputDate.getMonth() - now.getMonth());
+        console.log(diffrentMonths)
+        let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
+        // (now.getFullYear() - inputDate.getFullYear()) * 12 ;
+        if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentHours)} godzin temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentDays)} dni temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
+          formattedDate = `${Math.floor(diffrentYears)} lat temu`;}
+      
+      state.history[i].endDate = formattedDate;
+      }
+      if (state.history.length != 10) {
         state.dynamicHeight = (state.itemsPerPage - state.history.length) * state.rowHeight;
-      }console.log(state.history.endDate)
+      }
+      for (let i = 0; i < state.history.length; i++) {
+      if(state.history[i].whoWon === state.history[i].players[0].item1)
+          {state.history[i].whoWon = state.history[i].players[0].item2;}
+      else
+      {state.history[i].whoWon = state.history[i].players[1].item2;}
+      }
+
+        // console.log(state.history, "AAAAAAAAAA")
     },
     setHistPages(state, value){
       state.historyPages = value;
@@ -261,8 +289,8 @@ export default {
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);
-          console.log(res.data, 'data')
-          console.log(userId)
+          // console.log(res.data, 'data')
+          // console.log(userId)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
