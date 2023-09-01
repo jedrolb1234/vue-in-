@@ -4,9 +4,9 @@
       {{ game.name }}
     </div>
     <div class="game-favorite-button">
-      <span class="material-symbols-outlined" :style="this.isFavorite" @click.stop="this.toogleFavorite(this.game.id)">
+      <!-- <span class="material-symbols-outlined" :style="this.isFavorite" @click.stop="this.toogleFavorite(this.game.id)">
         favorite
-      </span>
+      </span> -->
     </div>
     <div class="game-description">
       {{ game.shortDescription }}

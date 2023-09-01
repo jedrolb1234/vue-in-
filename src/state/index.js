@@ -11,7 +11,7 @@ import UHP from '@/state/userHomePage/index.js';
 import GameRooms from '@/state/gameRooms/index.js';
 import Statki from '@/state/StatkiGame/index.js'
 import Polacz4 from '@/state/connectFour/index.js'
-import Warcaby from '@/state/WarcabyGame/index.js'
+import Checkers from '@/state/Checkers/index.js'
 
 const state = createStore({
   modules: {
@@ -26,7 +26,7 @@ const state = createStore({
     UHP,
     Statki,
     Polacz4,
-    Warcaby,
+    Checkers,
     GameRooms
   },
   state() {

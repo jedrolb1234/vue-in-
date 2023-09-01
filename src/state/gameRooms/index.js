@@ -5,10 +5,14 @@ export default {
   state() {
     return {
       gameRooms: [],
-      selectedGameRoom: {}
+      selectedGameRoom: {},
+      playerTurn: null
     }
   },
   mutations: {
+    setPlayerTurn(state, value) {
+      state.playerTurn = value;
+    },
     clearGameRooms(state) {
       state.gameRooms = [];
     },
@@ -26,6 +30,9 @@ export default {
     }
   },
   actions: {
+    updatePlayerTurn(context, value) {
+      context.commit('setPlayerTurn', value);
+    },
     async createNewGameRoom(context, payload) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       let res;
@@ -107,6 +114,9 @@ export default {
     }
   },
   getters: {
+    getPlayerTurn(state) {
+      return state.playerTurn;
+    },
     getGameRooms(state) {
       return state.gameRooms;
     },
