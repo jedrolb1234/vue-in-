@@ -12,25 +12,26 @@
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
                     <table class="friend">
-                        <tr><th>Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th></th></tr>
+                        <tr><th>Podgląd</th><th>Nazwa użytkownika</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th></th></tr>
                         <tbody>
                             <tr class="friendsList"
                                 v-for="(f, index) in getFriends" :key="index">
-                                <td class="tableButton"><base-look-button @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button @click="showRemovePopup(f)"></base-remove-button></td>   
+                                <td class="tableButton"><base-look-button class="firstCellButton" @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button class="lastCellButton" @click="showRemovePopup(f)"></base-remove-button></td>   
+
                             </tr>
                             <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                         </tbody>
                     </table>
                     <div class="buttons">
-                        <base-previous-button @click="previousPage"></base-previous-button>
-                        <base-next-button @click="nextPage"></base-next-button>
+                        <base-previous-button @click="previousPage" :disable="pPageNr===0"></base-previous-button>
+                        <base-next-button @click="nextPage" :disable="getPageNr===allPages"></base-next-button>
                         <p class="page">{{ pageNr }}</p>
                     </div>
                 </ul>
                 <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
             </div>
             <Transition name="v">
-                <base-delete-message :id="getId" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getRemUser }} ? </base-delete-message>
+                <base-delete-message :id="getId" :hideModal="getIsVisibleMessage" v-if="getIsVisibleMessage === true" @visibleMessage="hideRemovePopup" @close-modal="hideRemovePopup"> Czy na pewno chcesz usunąć <br> użytkownika {{ getRemUser }} ? </base-delete-message>
             </Transition>
             <div class="invitations">
                 <h2 class="invMargin">Twoje zaproszenia:</h2>
@@ -39,11 +40,11 @@
                     <ul v-if="getAvilabeInvitations !== 0">
                         <table class="inv">
                             <transition-group name="fade" tag="table" class="invContainer">
-                                <tr><th class="tableButton">Podgląd</th><th>Nick</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
+                                <tr><th class="tableButton">Podgląd</th><th>Nazwa użytkownika</th><th>Ostatnie logowanie</th><th>Ostatnia gra</th><th class="tableButton"></th></tr>
                                 
                                     <tr class="invitationsList"
                                         v-for="(i, index) in getInvitations" :key="index">
-                                        <td class="tableButton"><base-look-button @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.userName }}</td><td>{{ i.lastActivityDate }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
+                                        <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(i.userId, i.id)"></base-look-button></td><td>{{ i.userName }}</td><td>{{ i.lastActivityDate }}</td><td>{{ i.lastGame }}</td><td class="tableButton"><base-remove-button class="invLastCellButton" @click="removeFriendInvitation(i.id)"></base-remove-button></td>   
                                     </tr>
                             </transition-group>
                         </table>
@@ -59,23 +60,25 @@
                 <ul v-if="getAvilabeInvitations === 0"><p>Nie otrzymano zaproszeń od znajomych.</p></ul>
             </div>
             <div class="searchFriend">
-                <h2>Znajdź przyjaciela</h2>
+                <h2 class="findMargin">Znajdź przyjaciela</h2>
                 <hr class="hr3">
-                <p>Podaj nazwę:</p>
-                <form @submit.prevent="searchFriend" class="inputFriend">
-                    <base-input type="username" v-model.trim="username"></base-input><p></p>
-                    <base-small-button type="green-large" @click="find(username)" @keyup.enter="find(username)">Znajdź</base-small-button>
-                </form>
-                <transition name="slideON">
-                    <div v-if="this.getFindUser === true" class="findUser">
-                        <p>Znaleziono:</p>
-                        <table class="findFriend">
-                            <tr><td class="tableButton"><base-look-button @click="redirect(getUser.id, 'null')"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ getUser.dateOfBirth }}</td><td>{{ "Warcaby" }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div v-else-if="this.getFindUser === false" class="findUser">Nie znaleziono użytkownika o podnym imieniu.</div>
-                </transition>
+                <div class="searchMargin">
+                    <p>Podaj nazwę:</p>
+                    <form @submit.prevent="searchFriend" class="inputFriend">
+                        <base-input type="username" v-model.trim="username"></base-input><p></p>
+                        <base-small-button type="green-large" @click="find(username)" @keyup.enter="find(username)">Znajdź</base-small-button>
+                    </form>
+                    <transition name="slideON">
+                        <div v-if="this.getFindUser === true" class="findUser">
+                            <p>Znaleziono:</p>
+                            <table class="findFriend">
+                                <tr><td class="tableButton"><base-look-button class="friendFirstCellButton" @click="redirect(getUser.id, 'null')"></base-look-button></td><td>{{ getUser.userName }}</td><td>{{ getUser.dateOfBirth }}</td><td>{{ "Warcaby" }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div v-else-if="this.getFindUser === false" class="findUser">Nie znaleziono użytkownika o podnym imieniu.</div>
+                    </transition>
+                </div>    
             </div>
         </div>
     <base-notification-list></base-notification-list>
@@ -133,37 +136,31 @@ export default {
         ...mapActions('Friends', ['nextPage', 'previousPage', 'find', 'addFriend', 
                     'removeFI', 'downloadFriends', 'downloadInvitations', 'removeFriendInvitation',
                     'redirect','invNextPage', 'invPreviousPage', 'showRemovePopup', 'hideRemovePopup']),
-        ...mapActions(['showNotification']),
+        ...mapActions(['showNotification', 'setInvitationId']),
 
-//sprawdzic jaka strukture ma invitations id
         redirect(id, invId){
-            console.log('uhp')
+            // console.log('uhp')
             if (invId !== 'null'){
+                sessionStorage.setItem('invId', invId);
                 return this.$router.push({
                     name: 'uhp',
-                    params: { id: id, invId: invId },
+                    params: { id: id },
                     }); 
             }
-            for(let i = 0; i < this.getFriends.length; i++){
-                if (id === this.getFriends[i].userId){
-                    return this.$router.push({
-                        name: 'uhp',
-                        params: { id: id, invId: 'null'},
-                        });
-                }
             const inv = this.getInvitations;
             const user = this.getUser;          
             for(let i = 0; i< inv.length; i++){
                 if (inv[i].userId === user.id){
-                console.log(inv[i].userId)
-                return this.$router.push({
-                    name: 'uhp',
-                    params: { id: id, invId: inv[i].userId },
-                    }); 
-                }}          
-            } return this.$router.push({
+                    sessionStorage.setItem('invId', inv[i].userId);
+                    return this.$router.push({
+                        name: 'uhp',
+                        params: { id: id },
+                        }); 
+                    }
+                }          
+            return this.$router.push({
                 name: 'uhp',
-                params: { id: id, invId: 'null' },
+                params: { id: id },
                 }); 
         },
     },
@@ -172,11 +169,12 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .container{
     display: flex;    
     flex-direction: column;    
-    align-items: center;
+    align-items: left;
     margin-bottom: 25px;
     padding-bottom: 80px;
     min-height: 1350px;
@@ -194,17 +192,19 @@ hr {
     color: var(--secondary);
 }
 .hr1{
-    margin-left: -30px;
+    margin-left: 0px;
+    /* -30 */
     width: 900px;
-    margin-right: -30px;
+    /* margin-right: -30px; */
 }
 .hr2{
     margin-left: 20px;
-    /* margin-right: -140px; */
+    /* margin-left: 0px; */
     width: 900px;
 }
 .hr3{
-    margin-left: -50px;
+    margin-left: 0px;
+    /* -50 */
     width: 900px;
 }
 h1, h2{
@@ -217,7 +217,7 @@ h1, h2{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   background-color:var(--secondary);
   width: 800px;
   height: 40px;
@@ -246,6 +246,7 @@ tr{
 th{
     width: 160px;
     height:51px;
+    padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
 }
 .table.button,
 th:first-child,
@@ -261,18 +262,36 @@ td:nth-child(2):nth-child(4){
     width:calc((100% - 4 * 10px) / 3);
 }
 td{
-    padding: 1.2px;
+    padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
     background-color: var(--secondary);
     height: 38px;
     font-size: 18px;
     color: var(--primary);
     margin: 0px 0px 0px 0px;
 }
-.firstCell{
-    width: 60px;
+
+td:nth-child(odd){
+  background-color: var(--td-odd-bg-color);
+  color: var(--td-odd-txt-color);
 }
-.lastCell{
-    width: 100px;
+td:nth-child(even){
+  background-color: var(--td-even-bg-color);
+  color: var(--td-even-txt-color);
+}
+
+th:nth-child(odd){ 
+  background-color: var(--th-odd-bg-color); 
+  color: var(--th-odd-txt-color); 
+}
+th:nth-child(even){ 
+  background-color: var(--th-even-bg-color); 
+  color: var(--th-even-txt-color); 
+}
+.lastCellButton{
+    margin-left: 20px;
+}
+.firstCellButton{
+    margin-left: 25px;
 }
 .frinedId{
     width: 100px;
@@ -299,6 +318,9 @@ td{
     color: var(--primary);
     margin-top:0px;
     margin-right: 40px;
+    justify-content: center ;
+    align-items: center;
+    margin-left: 15px;
 }
 p{
     font-size: 22px;
@@ -309,12 +331,16 @@ p{
   flex-direction: row;
   width: 70px;
   justify-content: space-between;
+  margin-left: 10px;
 }
 .invButtons{
     margin-left:30px;
 }
 .invContainer{
   border: none;
+}
+.friendFirstCellButton{
+    margin-left:10px;
 }
 .spinnerTable{
     width: 800px;
@@ -336,6 +362,12 @@ p{
     width: 75px;
     padding-left: 15px;
 }
+.invFirstCell{
+    margin-left: 12px;
+}
+.invLastCellButton{
+    margin-left:7px;
+}
 .inv{
     width: 600px;
     justify-content: center;
@@ -343,7 +375,13 @@ p{
     margin-left: 35px;
 }
 .invMargin{
-    margin-left: 80px;
+    margin-left: 60px;
+}
+.findMargin{
+    margin-left: 50px;
+}
+.searchMargin{
+    margin-left: 60px;
 }
 .invitations{
     margin-left: -20px;

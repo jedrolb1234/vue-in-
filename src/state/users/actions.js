@@ -137,32 +137,9 @@ export default {
       }
     }
   },
-  // async refreshToken(context) {
-  //   if (context.getters.getLastLogin == null || context.getters.getLastLogin + parseInt(process.env.VUE_APP_REFRESH_TOKEN_TIMEOUT) < Date.now()) {
-  //     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-  //     const axios = require('axios');
-  //     const config = {
-  //       headers: {
-  //         refreshToken: context.rootGetters.getRefreshToken
-  //       }
-  //     }
-  //     let res;
-  //     try {
-  //       res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_REFRESH_TOKEN_ENDPOINT, null, config);
-  //       if (res.status == 200) {
-  //         context.commit('login', res.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //       context.dispatch('logOutUser');
-  //       context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-  //     }
-  //   }
-  // },
   async downloadSettings(context) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     let res;
-    // console.log(headers);
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + process.env.VUE_APP_SETTING);
       if (res.status === 200) {

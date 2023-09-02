@@ -2,9 +2,11 @@
   <base-page-layout>
   <!-- <div v-if="warcabyTable === true || statkiTable === true || polacz4Table === true" class="right-strap"></div> -->
     <div class="container">
-      <BaseHeader>Rankingi</BaseHeader>          
+      <BaseHeader>Rankingi</BaseHeader>
+      <h2 class="Header">Warcaby</h2>
+      <hr class="hr1">          
           <div class="warcabyHeader" @click="toogleWarcabyTable">
-            <ul>Warcaby</ul> 
+            <ul>Ranking</ul> 
             <span v-if="warcabyTable===false" :class="iconUpArrow">expand_less</span>
             <span v-else-if="warcabyTable===true" :class="iconUpArrow">expand_more</span>
           </div>
@@ -27,7 +29,7 @@
               </div>
             </transition>
           </div>
-
+      
         <transition name="slideON">
           <div v-if="(getIsLoadingWar===true) & (warcabyTable === false)">
               <table class="tableSlideOn">
@@ -36,8 +38,10 @@
               </table>
           </div>
         </transition>
+      <h2 class="Header">Statki</h2>
+      <hr class="hr1">    
         <div class="statkiHeader" @click="toogleStatkiTable">
-          <ul>Statki</ul> 
+          <ul>Ranking</ul> 
           <span v-if="statkiTable===false" :class="iconUpArrow">expand_less</span>
           <span v-else-if="statkiTable===true" :class="iconUpArrow">expand_more</span>
         </div>
@@ -62,7 +66,7 @@
             </div>
           </transition>
         </div>
-
+      
         <transition name="slideON">
           <div v-if="(getIsLoadingStat===true) & (statkiTable === false)">
               <table class="tableSlideOn">
@@ -72,9 +76,10 @@
           </div>
         </transition>
 
-
+      <h2 class="Header">Połącz 4</h2>
+      <hr class="hr1">    
         <div class="polacz4Header" @click="tooglePolacz4Table">
-          <ul>Polacz 4</ul> 
+          <ul>Ranking</ul> 
           <span v-if="polacz4Table===false" :class="iconUpArrow">expand_less</span>
           <span v-else-if="polacz4Table===true" :class="iconUpArrow">expand_more</span>
         </div>
@@ -151,31 +156,42 @@ export default {
   },
 }
 </script>
-  
+ 
 <style scoped>
 .container{
   max-height: 1600px;
   display: flex;    
   flex-direction: column;    
-  align-items: center;
+  align-items: left;
   width: 100%;
   /* overflow-y: scroll; */
 }
-/* .right-strap {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 16px;
-  background-color: #ebeaea; /* Dostosuj kolor tła diva 
-} */
+
 hr {
   width: 100%;
   border: 1px solid var(--accent);
   margin-top: 15px;
   margin-bottom: 15px;
 }
-
+.hr1{
+    margin-left: 0px;
+    /* -30 */
+    width: 900px;
+    /* margin-right: -30px; */
+}
+.Header
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* align-items: center; */
+  background-color:var(--secondary);
+  width: 800px;
+  height: 40px;
+  margin: 40px 0px 0px 40px;
+  border-radius: 8px 8px 0px 0px;
+  color: var(--primary);
+}
 .warcabyHeader,
 .statkiHeader,
 .polacz4Header{
@@ -187,7 +203,7 @@ hr {
   background-color: var(--secondary);
   width: 800px;
   height: 40px;
-  margin: 40px 0px 0px 0px;
+  margin: 20px 0px 0px 20px;
   border-radius: 8px 8px 0px 0px;
   font-weight: bold;
   /* position: sticky; */
@@ -211,11 +227,9 @@ tr{
     border-radius: 8px;
     max-height: 28px;
 }
-tr:last-child{
-    border-radius: 0px 0px 8px 8px;
-}
+
 td, th{
-    padding: 5px;
+    padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
     background-color: var(--secondary);
     width: 200px;
     max-height: 28px;
@@ -225,6 +239,25 @@ td, th{
     margin: 0px 0px 0px 0px;
     border: none;
 }
+
+td:nth-child(odd){ 
+  background-color: var(--td-odd-bg-color); 
+  color: var(--td-odd-txt-color); 
+}
+td:nth-child(even){ 
+  background-color: var(--td-even-bg-color); 
+  color: var(--td-even-txt-color); 
+}
+
+th:nth-child(odd){ 
+  background-color: var(--th-odd-bg-color); 
+  color: var(--th-odd-txt-color); 
+}
+th:nth-child(even){ 
+  background-color: var(--th-even-bg-color); 
+  color: var(--th-even-txt-color); 
+}
+
 .downArrow{
   font-size: 40px;
   display:flex;

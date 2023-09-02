@@ -7,6 +7,7 @@ export default {
       id: null,
       isLoading: false,
       hasInvitation: false,
+      invitations: [],
       invId: null,
       itemsPerPage: 10,
       currentPage: 1,
@@ -15,43 +16,10 @@ export default {
       birthDate: '',
       userId: null,
       user: {},
-      history: [
-        {
-          id: 0,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        },
-        {
-          id: 1,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        },
-        {
-          id: 2,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'lose',
-          points: 5
-        },
-        {
-          id: 3,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        },
-        {
-          id: 4,
-          game: 'warcaby',
-          date: '2023-09-01',
-          status: 'win',
-          points: 100
-        }
-      ]
+      history: [],
+      hstoryPages: null,
+      historyCount: 0,
+      rowHeight: 38
     }
   },
   mutations: {
@@ -59,16 +27,10 @@ export default {
       state.isLoading = !state.isLoading;
     },
     previousPage(state) {
-      if (state.currentPage > 1) {
-        state.currentPage--;
-      }
+      state.currentPage--;
     },
     nextPage(state) {
-      console.log('+++')
-      if (state.currentPage < Math.ceil(state.history.length / state.itemsPerPage)) {
-        // console.log('++')
-        state.currentPage++;
-      }
+      state.currentPage++;
     },
     toogleIsFriend(state, value) {
       state.isFriend = value;
@@ -80,16 +42,9 @@ export default {
       state.isFriend = value;
       // console.log('isFriend', state.isFriends)
     },
-    setInvSended(state, value) {
-      state.invSended = value;
-      // console.log('invSended', state.invSended)
-    },
     setHasInvitation(state, value) {
       state.invId = value;
       // console.log('invId', state.invId)
-    },
-    setInvitations(state, value) {
-      state.invitations = value;
     },
     setUser(state, user) {
       let inputDate = new Date(user.dateOfBirth);
@@ -103,24 +58,65 @@ export default {
     },
     setUserId(state, value) {
       state.userId = value;
+    },
+    setHistory(state, value){
+      state.history = value;
+      console.log(state.history[0].endDate)
+      for (let i = 0; i < state.history.length; i++) {
+        let inputDate = new Date(state.history[i].endDate);
+        let formattedDate;   
+        let now = new Date();
+        let diffrentMinutes = Math.floor(Math.abs((inputDate.getTime() - now.getTime())) / (1000 * 60));
+        console.log(diffrentMinutes,"pppp")
+        let diffrentHours =Math.floor(diffrentMinutes / 60);
+        let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
+        console.log(diffrentDays)
+        let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
+        // (Math.abs(inputDate.getFullYear() - now.getFullYear())) * 12 + Math.abs(inputDate.getMonth() - now.getMonth());
+        console.log(diffrentMonths)
+        let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
+        // (now.getFullYear() - inputDate.getFullYear()) * 12 ;
+        if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentHours)} godzin temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentDays)} dni temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears === 0){
+          formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;}
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
+          formattedDate = `${Math.floor(diffrentYears)} lat temu`;}
+      
+      state.history[i].endDate = formattedDate;
+      }
+      if (state.history.length != 10) {
+        state.dynamicHeight = (state.itemsPerPage - state.history.length) * state.rowHeight;
+      }
+      for (let i = 0; i < state.history.length; i++) {
+      if(state.history[i].whoWon === state.history[i].players[0].item1)
+          {state.history[i].whoWon = state.history[i].players[0].item2;}
+      else
+      {state.history[i].whoWon = state.history[i].players[1].item2;}
+      }
+
+        // console.log(state.history, "AAAAAAAAAA")
+    },
+    setHistPages(state, value){
+      state.historyPages = value;
+    },
+    setHistCount(state, value){
+      state.historyCount = value;
     }
   },
   getters: {
     isLoading(state) {
       return state.isLoading;
     },
-    currentPage(state) {
-      let startIndex = (state.currentPage - 1) * state.itemsPerPage;
-      let endIndex = startIndex + state.itemsPerPage;
-      return state.history.slice(startIndex, endIndex);
-    },
-    pageNr(state) {
+    getHistPage(state) {
       return state.currentPage;
     },
-    allPages(state) {
-      return Math.ceil(state.history.length / state.itemsPerPage);
-    },
     getHistory(state) {
+      console.log(state.history)
       return state.history;
     },
     getCurrentPage(state) {
@@ -132,15 +128,16 @@ export default {
     getHasInvitation(state) {
       return state.hasInvitation;
     },
-    getIsFriend(state) {
-      console.log(state.user.isFriendStatus)
-      return state.user.isFriendStatus
+    getIsFriend(state) {console.log(state.user)
+      // console.log(state.user.isFriendStatus)
+      return state.user.isFriendStatus 
     },
     getName(state) {
-      // console.log(state.user)
+      if(state.user.firstName === null) return ""
       return state.user.firstName;
     },
     getSurname(state) {
+      if(state.user.lastName === null) return ""
       return state.user.lastName;
     },
     getBirthDate(state) {
@@ -149,35 +146,91 @@ export default {
     getUser(state) {
       return state.user;
     },
-    getOwnId(state) {
-      return state.id === JSON.parse(localStorage.getItem('user_id'));
-    },
     getId(state) {
       // console.log(state.id)
       return state.id;
     },
     getInvId(state) {
       return state.invId;
+    },
+    getDynamicHeight(state){
+      return state.dynamicHeight;
+    },
+    getUserId(state){
+      return state.userId;
+    },
+    getGameName(state){
+      return state.history.gameName;
+    },
+    getGameDate(state){
+      return state.history.endDate;
     }
   },
   actions: {
     previousPage(context) {
-      context.commit('previousPage');
+      if (context.state.currentPage > 1) {
+        context.commit('previousPage');
+        context.dispatch('downloadHistory');
+      }
     },
     nextPage(context) {
-      context.commit('nextPage');
+      if (context.state.currentPage < context.state.historyPages) {
+        context.commit('nextPage');
+        context.dispatch('downloadHistory');
+      }
     },
-    async sendInvitation(context, payload) {
+    async downloadHistory(context, id){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       try {
-        await AxiosInstance.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
-          + "/" + payload, null);
-      } catch (error) {
+        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + id, null);
+        if (res.status === 200){  
+          context.commit('setHistory', res.data.items);
+          context.commit('setHistCount', res.data.totalItemsCount)
+          context.commit('setHistPages', res.data.totalPages)
+          console.log(res)
+        }
+        } catch (error) {
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
         }
         else if (error.response.data === "FriendshipIsAlreadyPendingOrAccepted") {
-          context.commit('setInvSended', true)
+          context.dispatch('getData', context.state.userId);
+        }
+        else if (error.response.data === "FriendHasToBeAnotherUser") {
+          context.dispatch('showNotification',
+            {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie możesz wysłać zaproszenie tej osobie.',
+              type: 'error'
+            },
+            { root: true });
+        }
+        else if (error.response) {
+          context.dispatch('showNotification',
+            {
+              label: 'Wystąpiły błędy!',
+              description: 'Nie udało się pobrać danych.',
+              type: 'error'
+            },
+            { root: true });
+        } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+        }
+      }
+    },
+    async sendInvitation(context, payload) {
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      try {
+        const res = await AxiosInstance.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
+          + "/" + payload, null);
+        if (res.status === 200){  
+          context.dispatch('getData', context.state.userId);
+        }
+        } catch (error) {
+        if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
+          context.dispatch('logOutUser');
+        }
+        else if (error.response.data === "FriendshipIsAlreadyPendingOrAccepted") {
           context.dispatch('getData', context.state.userId);
         }
         else if (error.response.data === "FriendHasToBeAnotherUser") {
@@ -206,8 +259,11 @@ export default {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       console.log(userId)
       try {
-        await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
+        const res = await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null);
+          if(res.status===200){
+            context.dispatch('getData', context.state.userId);
+          }
       } catch (error) {
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
@@ -233,7 +289,8 @@ export default {
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);
-          console.log(res.data, 'data')
+          // console.log(res.data, 'data')
+          // console.log(userId)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {

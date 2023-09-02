@@ -11,6 +11,7 @@ export default {
     localStorage.setItem('refresh_token', null);
     localStorage.setItem('user_id', null);
     localStorage.setItem('last_login', null);
+    
   },
   changeUserAvatar(state, avatar) {
     state.settings.avatar = avatar;
@@ -54,6 +55,8 @@ export default {
     let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
+    sessionStorage.setItem('ownerId', state.settings.id)
+    // console.log(state.settings)
   },
   setUserAvatar(state, avatar){
     state.userAvatar = state.avatars[avatar];

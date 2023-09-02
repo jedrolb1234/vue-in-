@@ -1,5 +1,6 @@
 name: Build and Deploy
 on:
+  workflow_dispatch:
   push:
     branches:
       - develop
@@ -17,6 +18,12 @@ jobs:
         run: |
           npm ci
           npm run build
+          
+      - name: copy file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "dist/index.html"
+          target: "dist/404.html"
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

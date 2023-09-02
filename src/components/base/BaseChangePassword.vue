@@ -1,10 +1,10 @@
 <template>
-  <div class="modal-backdrop">
+  <div class="modal-backdrop" @click="emitVisibleMessage">
         <div class="modal" name="modal">
           <slot></slot>
               <div class="buttons"> 
-                  <base-small-button @click="redirect">Potwierdz</base-small-button>
-                  <base-small-button @click="emitVisibleMessage">Odrzuć</base-small-button>
+                  <base-small-button @click="redirect" class="confirm-button">Potwierdz</base-small-button>
+                  <base-small-button @click="emitVisibleMessage" class="reject-button">Odrzuć</base-small-button>
               </div>
           </div>
   </div>
@@ -36,73 +36,52 @@ export default {
 </script>
   
 <style scoped>
+.modal-backdrop{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  
-}
-.modal-backdrop {
-  position: fixed;
-  width: 400px;
-  height: 150px;
-  top: calc(50% - 75px);
-  left: calc(50% - 200px);
-  border: 5px solid var(--secondary);
-  border-radius: 16px;
-  padding: 10px;
-  gap: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(230, 50, 50);
-  color: var(--secondary);
-  z-index: 20;
-  overflow: auto;
-  opacity: 0.95;
-  text-align: center;
-}
-
-.modal-backdrop > * {
-  border: none; 
-}
-
-.modal-backdrop > *:not(:last-child) {
-  margin-bottom: 10px; 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--secondary);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid var(--primary);
+    text-align: center;
 }
 
 .buttons {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  width: 400px;
-  margin-top: 15px;
+  margin-top: 20px;
 }
-
-.buttons > * {
+.confirm-button{
   flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  width: 113px;
+  border-radius: 8px;  
+  background-color:  #28a745;
+  color: white;
   margin: 0 5px;
 }
-
-/* .modal-enter-active {
-  animation: modal 0.3s ease-out;
+.reject-button {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  width:113px;
+  border-radius: 8px;
+  background-color: rgb(243, 104, 104);; 
+  color: white;
 }
-
-.modal-leave-active {
-  animation: modal 0.3s ease-in reverse;
-}
-
-@keyframes modal {
-  from {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-} */
   </style>

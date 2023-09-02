@@ -74,5 +74,6 @@ export default {
   background-color: #FBF5F3;
   border-radius: 0px 0px 15px 15px;
   padding:5px 10px 5px 10px;
+  white-space: pre-wrap;
 }
 </style>
