@@ -66,9 +66,12 @@ export default {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
         let now = new Date();
-        let diffrentMinutes = Math.floor(Math.abs((inputDate.getTime() - now.getTime())) / (1000 * 60));
+        console.log(inputDate.getMilliseconds(), "LLLLL", inputDate)
+        console.log((now.getTime() - inputDate.getTime())/1000)
+        let diffrentMinutes = Math.floor(Math.abs((now.getTime() - inputDate.getTime()) / (1000 * 60)));
         console.log(diffrentMinutes,"pppp")
-        let diffrentHours =Math.floor(diffrentMinutes / 60);
+        let diffrentHours = Math.floor(diffrentMinutes / 60);
+        console.log(diffrentHours,"pppp")
         let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
         console.log(diffrentDays)
         let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
@@ -113,14 +116,15 @@ export default {
       state.history[i].endDate = formattedDate;
       }
       if (state.history.length != 10) {
-        state.dynamicHeight = (state.itemsPerPage - state.history.length) * state.rowHeight;
-      }
-      for (let i = 0; i < state.history.length; i++) {
-      if(state.history[i].whoWon === state.history[i].players[0].item1)
-          {state.history[i].whoWon = state.history[i].players[0].item2;}
-      else
-      {state.history[i].whoWon = state.history[i].players[1].item2;}
-      }
+        state.dynamicHeight = ((state.currentPage*10 - state.historyCount)) * state.rowHeight;
+        // console.log(state.currentPage*10 - state.historyCount, "History length") 
+      }else {state.dynamicHeight = 0}
+      // for (let i = 0; i < state.history.length; i++) {
+      // if(state.history[i].whoWon === state.history[i].players[0].item1)
+      //     {state.history[i].whoWon = state.history[i].players[0].item2;}
+      // else
+      // {state.history[i].whoWon = state.history[i].players[1].item2;}
+      // }
 
         // console.log(state.history, "AAAAAAAAAA")
     },
@@ -129,7 +133,8 @@ export default {
     },
     setHistCount(state, value){
       state.historyCount = value;
-    }
+    },
+
   },
   getters: {
     isLoading(state) {
@@ -202,17 +207,22 @@ export default {
         context.dispatch('downloadHistory');
       }
     },
-    async downloadHistory(context, id){
+    async downloadHistory(context){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      const params = {
+        PageNumber: context.state.currentPage,
+        PageSize: context.state.itemsPerPage,
+      }
       try {
-        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + id, null);
+        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + context.state.userId, { params: params });
         if (res.status === 200){  
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
-          console.log(res)
+          // console.log(res)
         }
         } catch (error) {
+          console.log(error)
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
         }

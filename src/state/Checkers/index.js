@@ -27,7 +27,8 @@ export default {
       activeMove: false,
       winner: null,
       whitePlayer: null,
-      boardReversed: null
+      boardReversed: null,
+      isMoveValid: true
     }
   },
   getters: {
@@ -79,6 +80,9 @@ export default {
     },
     getClickedCell(state) {
       return state.clickedCell;
+    },
+    getIsMoveValid(state){
+      return state.isMoveValid;
     }
   },
   mutations: {
@@ -150,6 +154,9 @@ export default {
     setWinner(state, winner) {
       state.winner = winner;
     },
+    setIsMoveValid(state, val){
+      state.isMoveValid = val;
+    }
   },
   actions: {
     adjustBoard(context, player) {
@@ -191,6 +198,27 @@ export default {
     updateWinner(context, winner) {
       context.commit('setWinner', winner);
     },
+    isMoveValid(context, start, end) {
+       context.commit('setIsMoveValid', true);
+      if ((end[0] + end[1]) % 2 == 0 || this.getBoard[end[0]][end[1]] != this.getEmpty)
+          context.commit('setIsMoveValid', false);
+      context.dispatch('active', {start: start, end: end});
+
+
+
+
+      // if (this.getBoard[start[0]][start[1]] == this.getBlackPawn) {
+      //   if (start[0] < end[0] && (start[1] + (start[0] - end[0]) == end[1] || start[1] - (start[0] - end[0]) == end[1]))
+      //     return true;
+      // }
+      // if (this.getBoard[start[0]][start[1]] == this.getWhitePawn) {
+      //   if (start[0] > end[0] && (start[1] + (start[0] - end[0]) == end[1] || start[1] - (start[0] - end[0]) == end[1]))
+      //     return true;
+      // }
+      return true;
+    },
+
+
     move(context, key) {
       console.log('0')
       if (context.state.board[key[0]][key[1]] !== context.state.Empty) {
@@ -199,9 +227,9 @@ export default {
           console.log('2')
           if (context.board[key[0]][key[1]]) {// && context.state.turn){
             console.log('3')
-            context.commit('setSelectedField', key);
-            context.commit('setClicked', true);
-            context.commit('setCounter', 1);
+            // context.commit('setSelectedField', key);
+            // context.commit('setClicked', true);
+            // context.commit('setCounter', 1);
             context.commit('setLastClicked', key);
             console.log(context.state.lastClicked)
             context.commit('setClickedCell', key);
@@ -336,7 +364,8 @@ export default {
         context.commit('setBoard', { key: newField, value: context.state.blackKing });
       }
     },
-    active(context, newField) {
+    active(context, x, y) {
+      const newField = `${x}${y}`
       context.dispatch('possibleActiveJump', newField);
       context.dispatch('possibleActiveMove', newField);
     },

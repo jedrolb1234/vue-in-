@@ -21,13 +21,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions('Checkers', ['chooseMethod', 'isMovable', 'move', 'moveTo', 'active', 'setBoard', 'updatePlayers', 'updateBoard', 'updateWinner', 'resetBoardCheckers', 'updateWhitePlayer']),
+    ...mapActions('Checkers', ['isMoveValid', 'isMovable', 'move', 'moveTo', 'active', 'setBoard', 'updatePlayers', 'updateBoard', 'updateWinner', 'resetBoardCheckers', 'updateWhitePlayer']),
     ...mapActions(['obtainGameRoom', 'updatePlayerTurn']),
     getClass(x, y) {
-      if ((this.getClickedCell === [x, y]) && this.getIfMoveIsPossible) {
-        return this.getClickedClass;
-      }
-      else if ((x + y) % 2 == 0) {
+      // if ((this.getClickedCell === [x, y]) && this.getIfMoveIsPossible) {
+      //   return this.getClickedClass;
+      // }
+      if ((x + y) % 2 == 0) {
         return this.getBlackClass;
       }
       // return 'WhiteEmpty'
@@ -47,7 +47,8 @@ export default {
       return classes.join(' ');
     },
     selectPawn(x, y) {
-      if (this.getBoard[x][y] != this.getEmpty) {
+      this.isMovable([x, y])
+      if ((this.getBoard[x][y] != this.getEmpty) && (this.getIfMoveIsPossible)) {
         this.draggedPawn = [x, y];
       }
     },
@@ -56,7 +57,8 @@ export default {
     },
     drop(e, x, y) {
       e.preventDefault();
-      if (this.isMoveValid(this.draggedPawn, [x, y])) {
+      this.isMoveValid(this.draggedPawn, [x, y]);
+      if (this.getIsMoveValid) {
         if (this.isBoardReversed) {
           this.$callHub.client.invoke('MakeMoveCheckers', this.getSelectedGameRoom.id, this.getUserId, 65 - (this.draggedPawn[0] * 8 + this.draggedPawn[1] + 1), 65 - (x * 8 + y + 1));
         }
@@ -65,19 +67,7 @@ export default {
         }
       }
     },
-    isMoveValid(start, end) {
-      if ((end[0] + end[1]) % 2 == 0 || this.getBoard[end[0]][end[1]] != this.getEmpty)
-        return false;
-      // if (this.getBoard[start[0]][start[1]] == this.getBlackPawn) {
-      //   if (start[0] < end[0] && (start[1] + (start[0] - end[0]) == end[1] || start[1] - (start[0] - end[0]) == end[1]))
-      //     return true;
-      // }
-      // if (this.getBoard[start[0]][start[1]] == this.getWhitePawn) {
-      //   if (start[0] > end[0] && (start[1] + (start[0] - end[0]) == end[1] || start[1] - (start[0] - end[0]) == end[1]))
-      //     return true;
-      // }
-      return true;
-    },
+
     isMyPawn(x, y) {
       const index = this.getSelectedGameRoom.players.map(x => x.playerId).indexOf(this.getUserId);
       if (this.getBoard[x][y] == (index + 1) || this.getBoard[x][y] == (index + 3))
@@ -114,9 +104,9 @@ export default {
     // },
   },
   computed: {
-    ...mapGetters('Checkers', ['getBlackClass', 'getW', 'getClickedClass',
-      'getBoard', 'getEmpty', 'getClickedCell', 'getClickedSecondCell', 'getIfMoveIsPossible',
-      'getActiveMove', 'getBlackPawn', 'getBlackKing', 'getWhitePawn', 'getWhiteKing', 'isBoardReversed']),
+    ...mapGetters('Checkers', ['getBlackClass', 'getW', 'getClickedClass','getIsMoveValid',
+                  'getBoard', 'getEmpty', 'getClickedCell', 'getClickedSecondCell', 'getIfMoveIsPossible',
+                  'getActiveMove', 'getBlackPawn', 'getBlackKing', 'getWhitePawn', 'getWhiteKing', 'isBoardReversed']),
     ...mapGetters(['getSelectedGameRoom', 'getUserId']),
 
   },
