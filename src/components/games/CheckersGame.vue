@@ -21,16 +21,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions('Checkers', ['isMoveValid', 'isMovable', 'move', 'moveTo', 'active', 'setBoard', 'updatePlayers', 'updateBoard', 'updateWinner', 'resetBoardCheckers', 'updateWhitePlayer']),
+    ...mapActions('Checkers', ['isMoveValid', 'isMovable', 'move', 'moveTo', 'active', 'setBoard', 
+                  'updatePlayers', 'updateBoard', 'updateWinner', 'resetBoardCheckers', 'updateWhitePlayer']),
     ...mapActions(['obtainGameRoom', 'updatePlayerTurn']),
     getClass(x, y) {
-      // if ((this.getClickedCell === [x, y]) && this.getIfMoveIsPossible) {
-      //   return this.getClickedClass;
-      // }
       if ((x + y) % 2 == 0) {
         return this.getBlackClass;
       }
-      // return 'WhiteEmpty'
     },
     getPawnClass(x, y) {
       const classes = []
@@ -47,7 +44,8 @@ export default {
       return classes.join(' ');
     },
     selectPawn(x, y) {
-      this.isMovable([x, y])
+      console.log([x,y])
+      this.isMovable([x, y]);console.log(this.getIfMoveIsPossible)
       if ((this.getBoard[x][y] != this.getEmpty) && (this.getIfMoveIsPossible)) {
         this.draggedPawn = [x, y];
       }
@@ -57,7 +55,9 @@ export default {
     },
     drop(e, x, y) {
       e.preventDefault();
-      this.isMoveValid(this.draggedPawn, [x, y]);
+      console.log(this.draggedPawn)
+      this.isMoveValid({start: this.draggedPawn, end: [x, y]});
+      console.log(this.getIsMoveValid)
       if (this.getIsMoveValid) {
         if (this.isBoardReversed) {
           this.$callHub.client.invoke('MakeMoveCheckers', this.getSelectedGameRoom.id, this.getUserId, 65 - (this.draggedPawn[0] * 8 + this.draggedPawn[1] + 1), 65 - (x * 8 + y + 1));
@@ -74,34 +74,6 @@ export default {
         return true;
       return false;
     }
-    // getPiecesBetween(start, end) {
-    //   const pieces = []
-    //   let xstep = 1;
-    //   let ystep = 1;
-    //   let counter;
-    //   if (start[0] > end[0])
-    //     xstep = -1;
-    //   if(start[1]>end[1])
-    //     ystep=-1;
-    //   counter=ystep;
-    //   for(let i= start[0];i<=end[0];i+=xstep) {
-    //     if(this.getBoard[i][start[1]+ystep] != this.getEmpty) {
-    //       pieces.push(this.getBoard[i][start[1]+counter])
-    //     }
-    //     counter+=ystep;
-    //   }
-    //   return pieces
-    // }
-    // chooseMethod(x, y) {
-    //   this.isMovable([x,y]);
-    //   this.active([x,y]);
-    //   if (this.getIfMoveIsPossible) {
-    //     return this.move([x,y])
-    //   } else if (this.getClickedSecondCell && this.getActiveMove) {
-    //     return this.moveTo([x,y])
-    //   }
-    //   return
-    // },
   },
   computed: {
     ...mapGetters('Checkers', ['getBlackClass', 'getW', 'getClickedClass','getIsMoveValid',
@@ -109,6 +81,11 @@ export default {
                   'getActiveMove', 'getBlackPawn', 'getBlackKing', 'getWhitePawn', 'getWhiteKing', 'isBoardReversed']),
     ...mapGetters(['getSelectedGameRoom', 'getUserId']),
 
+  },
+  getters:{
+    getDraggedPawn(){
+      return this.draggedPawn;
+    }
   },
   created() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
@@ -121,6 +98,7 @@ export default {
       this.updateBoard(board);
       this.updatePlayerTurn(playerTurn);
       this.updateWhitePlayer(whitePlayer);
+      console.log(whitePlayer)
     })
 
     this.$callHub.client.on("GameRoomJoined", () => {

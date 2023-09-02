@@ -10,7 +10,7 @@
                 <hr>
                 <div class="module__content">
                 <div>Imię</div>
-                <div>{{ getName }}</div>
+                <div>{{ getName }} {{ tab[-1] }}</div>
                 <div>Nazwisko</div>
                 <div>{{ getSurname }}</div>
                 <div>Data urodzenia</div>
@@ -70,11 +70,13 @@
         surname: '',
         birthDate: null,
         email: '',
+        tab : [1 ,2, 3 ,4],
       }
     },
     async mounted(){
       await this.getData(this.id);
       this.downloadHistory();
+      console.log(this.tab[-1], this.tab[5])
       
       // console.log(this.getHistory)
     },

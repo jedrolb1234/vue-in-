@@ -66,22 +66,12 @@ export default {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
         var now = new Date();
-        // let now =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),date.getUTCDate(), date.getUTCHours(),date.getUTCMinutes(), date.getUTCSeconds());
-        console.log(now)
-        // inputDate = inputDate.setHours(inputDate.getHours() + 2)
-        console.log(inputDate.getTime(), "LLLLL", inputDate)
-        // console.log((now.getTime() - inputDate.getTime())/1000)
-        let diffrentMinutes = Math.floor(Math.abs((now - inputDate.getTime()) / (1000 * 60)));
-        console.log(diffrentMinutes,"pppp")
+        inputDate = inputDate.setHours(inputDate.getHours() + 2)
+        let diffrentMinutes = Math.floor(Math.abs((now - inputDate) / (1000 * 60)));
         let diffrentHours = Math.floor(diffrentMinutes / 60);
-        console.log(diffrentHours,"pppp")
         let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
-        console.log(diffrentDays)
         let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
-        // (Math.abs(inputDate.getFullYear() - now.getFullYear())) * 12 + Math.abs(inputDate.getMonth() - now.getMonth());
-        console.log(diffrentMonths)
         let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
-        // (now.getFullYear() - inputDate.getFullYear()) * 12 ;
         if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
           if(Math.floor(diffrentMinutes) === 1)
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
