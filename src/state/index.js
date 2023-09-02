@@ -9,7 +9,7 @@ import Rank from '@/state/rankTables/index.js'
 import Games from '@/state/games/index.js';
 import UHP from '@/state/userHomePage/index.js';
 import GameRooms from '@/state/gameRooms/index.js';
-import Statki from '@/state/StatkiGame/index.js'
+import BattleShips from '@/state/BattleShips/index.js'
 import Polacz4 from '@/state/connectFour/index.js'
 import Checkers from '@/state/Checkers/index.js'
 
@@ -24,7 +24,7 @@ const state = createStore({
     Rank,
     Games,
     UHP,
-    Statki,
+    BattleShips,
     Polacz4,
     Checkers,
     GameRooms
