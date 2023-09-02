@@ -6,56 +6,71 @@
 
 <script>
 export default {
-  props: ['type']
+    props: ["type"]
 }
 </script>
 
 <style module>
-.dark-small {
-  height: 45px;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-size: medium;
-  color: #FBF5F3;
-  background-color: #262A2C;
-  border-radius: 15px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+.primary-medium {
+  padding: 1em;
+  font-size: 16px;
+  color: var(--primary);
+  background-color: var(--primaryBtn);
+  border-radius: 7px;
   border: 0px;
+  transition: transform 0.3s ease;
 }
 
-.dark-small:hover {
-  background-color: black;
+.primary-medium:hover {
+  transform: translateY(-5px);
   cursor: pointer;
 }
 
-.dark-large {
+.secondary-medium {
+  padding: 1em;
+  font-size: 16px;
+  color: var(--primary);
+  background-color: var(--secondaryBtn);
+  border-radius: 7px;
+  border: 1px solid var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.secondary-medium:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+.primary-large {
   height: 90px;
-  padding: 30px 40px 30px 40px;
-  font-size: xx-large;
-  color: #FBF5F3;
-  background-color: #262A2C;
-  border-radius: 15px;
-  box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
+  padding: 1em;
+  font-size: 24px;
+  color: var(--primary);
+  background-color: var(--primaryBtn);
+  border-radius: 7px;
   border: 0px;
+  transition: transform 0.3s ease;
 }
 
-.dark-large:hover {
-  background-color: black;
+.primary-large:hover {
   cursor: pointer;
+  transform: translateY(-5px);
 }
 
-.green-large {
-  padding: 30px 40px 30px 40px;
-  font-size: xx-large;
-  color: #FBF5F3;
-  background-color: #ACC12F;
-  border-radius: 15px;
-  box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.25);
+.secondary-large {
+  height: 90px;
+  padding: 1em;
+  font-size: 24px;
+  color: var(--primary);
+  background-color: var(--secondaryBtn);
+  border-radius: 7px;
   border: 0px;
+  transition: transform 0.3s ease;
+  border: 1px solid var(--primary);
 }
 
-.green-large:hover {
-  background-color: #c3e40a;
+.secondary-large:hover {
   cursor: pointer;
+  transform: translateY(-5px);
 }
 </style>

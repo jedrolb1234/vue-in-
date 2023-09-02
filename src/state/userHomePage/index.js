@@ -65,10 +65,16 @@ export default {
       for (let i = 0; i < state.history.length; i++) {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
-        let now = new Date();
-        let diffrentMinutes = Math.floor(Math.abs((inputDate.getTime() - now.getTime())) / (1000 * 60));
+        var now = new Date();
+        // let now =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),date.getUTCDate(), date.getUTCHours(),date.getUTCMinutes(), date.getUTCSeconds());
+        console.log(now)
+        // inputDate = inputDate.setHours(inputDate.getHours() + 2)
+        console.log(inputDate.getTime(), "LLLLL", inputDate)
+        // console.log((now.getTime() - inputDate.getTime())/1000)
+        let diffrentMinutes = Math.floor(Math.abs((now - inputDate.getTime()) / (1000 * 60)));
         console.log(diffrentMinutes,"pppp")
-        let diffrentHours =Math.floor(diffrentMinutes / 60);
+        let diffrentHours = Math.floor(diffrentMinutes / 60);
+        console.log(diffrentHours,"pppp")
         let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
         console.log(diffrentDays)
         let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
@@ -77,27 +83,51 @@ export default {
         let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
         // (now.getFullYear() - inputDate.getFullYear()) * 12 ;
         if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;}
+          if(Math.floor(diffrentMinutes) === 1)
+            formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
+        }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentHours)} godzin temu`;}
+          if(Math.floor(diffrentHours)  === 1)
+            formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
+          if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
+            formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
+          if(Math.floor(diffrentHours) > 5)
+            formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
+          }        
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentDays)} dni temu`;}
+          if(Math.floor(diffrentDays) === 1)
+            formattedDate = `${Math.floor(diffrentDays)} dzień temu`;
+          if(Math.floor(diffrentDays) > 1)
+            formattedDate = `${Math.floor(diffrentDays)} dni temu`;        
+        }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears === 0){
-          formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;}
+          if(Math.floor(diffrentMonths) === 1)
+            formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
+          if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
+          if(Math.floor(diffrentMonths) > 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
+         }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
-          formattedDate = `${Math.floor(diffrentYears)} lat temu`;}
-      
+          if(Math.floor(diffrentYears) === 1)
+            formattedDate = `${Math.floor(diffrentYears)} rok temu`;
+          else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
       state.history[i].endDate = formattedDate;
       }
       if (state.history.length != 10) {
-        state.dynamicHeight = (state.itemsPerPage - state.history.length) * state.rowHeight;
-      }
-      for (let i = 0; i < state.history.length; i++) {
-      if(state.history[i].whoWon === state.history[i].players[0].item1)
-          {state.history[i].whoWon = state.history[i].players[0].item2;}
-      else
-      {state.history[i].whoWon = state.history[i].players[1].item2;}
-      }
+        state.dynamicHeight = ((state.currentPage*10 - state.historyCount)) * state.rowHeight;
+        // console.log(state.currentPage*10 - state.historyCount, "History length") 
+      }else {state.dynamicHeight = 0}
+      // for (let i = 0; i < state.history.length; i++) {
+      // if(state.history[i].whoWon === state.history[i].players[0].item1)
+      //     {state.history[i].whoWon = state.history[i].players[0].item2;}
+      // else
+      // {state.history[i].whoWon = state.history[i].players[1].item2;}
+      // }
 
         // console.log(state.history, "AAAAAAAAAA")
     },
@@ -106,7 +136,8 @@ export default {
     },
     setHistCount(state, value){
       state.historyCount = value;
-    }
+    },
+
   },
   getters: {
     isLoading(state) {
@@ -179,17 +210,22 @@ export default {
         context.dispatch('downloadHistory');
       }
     },
-    async downloadHistory(context, id){
+    async downloadHistory(context){
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      const params = {
+        PageNumber: context.state.currentPage,
+        PageSize: context.state.itemsPerPage,
+      }
       try {
-        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + id, null);
+        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + context.state.userId, { params: params });
         if (res.status === 200){  
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
-          console.log(res)
+          // console.log(res)
         }
         } catch (error) {
+          console.log(error)
         if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
           context.dispatch('logOutUser');
         }

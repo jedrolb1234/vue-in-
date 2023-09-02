@@ -28,7 +28,7 @@
                     
                     <tr class="historyList"
                         v-for="( h, index ) in getHistory" :key="index">
-                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ h.whoWon }}</td><td>{{ h.points }}</td>    
+                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ }}</td><td>{{ h.points }}</td>    
                     </tr>
                     <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                     </table>
@@ -72,16 +72,17 @@
         email: '',
       }
     },
-    mounted(){
-      this.getData(this.id);
-      this.downloadHistory(this.id);
+    async mounted(){
+      await this.getData(this.id);
+      this.downloadHistory();
+      
       // console.log(this.getHistory)
     },
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'getHasFriend', 'getHistory', 'getCurrentPage', 'getItemsPerPage', 'getUser', 
                             'getIsFriend', 'getInvId', 'getUserId','getDynamicHeight', 'getHistPage', 'getHistPages',
-                            'getGameName', 'getGameDate']),
+                            'getGameName', 'getGameDate', 'getAllPages']),
       getId(){
         return this.id;
       },
@@ -94,9 +95,14 @@
       }
     },
     methods: {
-      ...mapActions('UHP', ['setArgs', 'getData', 'downloadHistory', 'nextPage', 'previousPage',]),
+      ...mapActions('UHP', ['getData', 'downloadHistory', 'nextPage', 'previousPage', 'setId']),
       ...mapActions(['showAvatarPicker', 'hideAvatarPicker']),
       },
+      watch:{
+        getData(oldValue, newValue){
+            this.settings = newValue;
+        }
+      }
   }
   </script>
 

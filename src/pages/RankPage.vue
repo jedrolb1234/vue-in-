@@ -172,12 +172,7 @@ hr {
   border: 1px solid var(--accent);
   margin-top: 15px;
   margin-bottom: 15px;
-}
-.hr1{
-    margin-left: 0px;
-    /* -30 */
-    width: 900px;
-    /* margin-right: -30px; */
+  margin-left: 0px;
 }
 .Header
 {
