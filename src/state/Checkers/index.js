@@ -364,287 +364,349 @@ export default {
         context.commit('setBoard', { key: newField, value: context.state.blackKing });
       }
     },
-    active(context, x, y) {
-      const newField = `${x}${y}`
-      context.dispatch('possibleActiveJump', newField);
-      context.dispatch('possibleActiveMove', newField);
+    active(context, payload) {
+      context.dispatch('possibleActiveJump', payload);
+      context.dispatch('possibleActiveMove', payload);
     },
 
-    possibleActiveMove(context, newField) {
-      if (context.state.lastClicked === null)
-        return null;
-      let pawn = context.state.lastClicked;
-      let xTmp1;
-      let yTmp1;
-      let tmpPosition1;
-      let x = parseInt(pawn[0]);
-      let y = parseInt(pawn[1]);
-      if (context.state.turn && ((context.state.board[pawn] === context.state.whitePawn))) {
-        xTmp1 = x - 1;
-        yTmp1 = y + 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((newField === tmpPosition1) &&
-          (context.state.board[tmpPosition1] === context.state.Empty) &&
-          ((context.state.board[pawn] === context.state.whitePawn))) {
-          context.commit('setActiveMove', true);
+    possibleActiveMove(context, payload) {
+      // if (context.state.lastClicked === null)
+      //   return null;
+      const from = payload.start;
+      const to = payload.end;
+      // let xTmp1;
+      // let yTmp1;
+      let tmpPosition1 = from;
+      // let x = parseInt(pawn[0]);
+      // let y = parseInt(pawn[1]);
+      if (context.state.turn && ((context.state.board[from[0]][from[1]] === context.state.whitePawn))) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y + 1;
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[1] = from[1] + 1;
+        if ((to === tmpPosition1) &&
+          (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          ((context.state.board[from[0]][from[1]] === context.state.whitePawn))) {
+          context.commit('setIsMoveValid', true);
         }
-        xTmp1 = x - 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        console.log('activeJump', context.state.board[tmpPosition1], tmpPosition1)
-        console.log('activeJump', newField, tmpPosition1, context.state.board[tmpPosition1], context.state.Empty, context.state.board[pawn], context.state.whitePawn)
-        if ((newField === tmpPosition1) &&
-          (context.state.board[tmpPosition1] === context.state.Empty) &&
-          ((context.state.board[pawn] === context.state.whitePawn))) {
-          context.commit('setActiveMove', true); console.log(']]]]]]')
+        // xTmp1 = x - 1;
+        // yTmp1 = y - 1;
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[1] = from[1] - 1;
+        // console.log('activeJump', context.state.board[tmpPosition[0]][tmpPosition[1]], tmpPosition1)
+        // console.log('activeJump', newField, tmpPosition1, context.state.board[tmpPosition[0]][tmpPosition[1]], context.state.Empty, context.state.board[from[0]][from[1]], context.state.whitePawn)
+        if ((to === tmpPosition1) &&
+          (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          ((context.state.board[from[0]][from[1]] === context.state.whitePawn))) {
+          context.commit('setIsMoveValid', true); console.log(']]]]]]')
         }
 
-      } else if (context.state.turn && (context.state.board[pawn] == context.state.whiteKing)) {
+      } else if (context.state.turn && (context.state.board[from[0]][from[1]] == context.state.whiteKing)) {
         let defeated = 0;
-        xTmp1 = x - 1;
-        yTmp1 = y + 1;
-        while ((xTmp1 >= 0) && (yTmp1 <= 7)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          xTmp1--;
-          yTmp1++;
-          if ((newField === tmpPosition1) &&
-            context.state.board[tmpPosition1] === context.state.Empty) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y + 1;
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[1] = from[1] + 1;
+        while ((tmpPosition1[0] >= 0) && (tmpPosition1[1] <= 7)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          // xTmp1--;
+          // yTmp1++;
+          tmpPosition1[0]--;
+          tmpPosition1[1]++;
+          if ((to === tmpPosition1) &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true); console.log(']]]]]]')
+              context.commit('setIsMoveValid', true); console.log(']]]]]]')
               break;
             }
           }
-          else if ((context.state.board[tmpPosition1] === context.state.blackPawn ||
-            context.state.board[tmpPosition1] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
             }
           }
         }
-        xTmp1 = x - 1;
-        yTmp1 = y - 1;
-        while ((xTmp1 >= 0) && (yTmp1 >= 0)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          xTmp1--;
-          yTmp1--;
-          if ((newField === tmpPosition1) &&
-            context.state.board[tmpPosition1] === context.state.Empty) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y - 1;
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[0] = from[1] - 1;
+        while ((tmpPosition1[0] >= 0) && (tmpPosition1[1] >= 0)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          // xTmp1--;
+          // yTmp1--;
+          tmpPosition1[0]--;
+          tmpPosition1[1]--;
+          if ((to === tmpPosition1) &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true); console.log(']]]]]]')
+              context.commit('setIsMoveValid', true); console.log(']]]]]]')
               break;
             }
           }
-          else if ((context.state.board[tmpPosition1] === context.state.blackPawn ||
-            context.state.board[tmpPosition1] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
             }
           }
         }
-        xTmp1 = x + 1;
-        yTmp1 = y - 1;
+        // xTmp1 = x + 1;
+        // yTmp1 = y - 1;
+        tmpPosition1[0] = from[0] + 1;
+        tmpPosition1[1] = from[1] - 1;
 
-        while ((xTmp1 <= 7) && (yTmp1 >= 0)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          if ((newField === tmpPosition1) &&
-            context.state.board[tmpPosition1] === context.state.Empty) {
+        while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] >= 0)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          if ((to === tmpPosition1) &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true); console.log(']]]]]]')
+              context.commit('setIsMoveValid', true); console.log(']]]]]]')
               break;
             }
           }
-          else if ((context.state.board[tmpPosition1] === context.state.blackPawn ||
-            context.state.board[tmpPosition1] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
             }
           }
-          xTmp1++;
-          yTmp1--;
+          // xTmp1++;
+          // yTmp1--;
+          tmpPosition1[0]++;
+          tmpPosition1[1]--;
         }
 
-        xTmp1 = x + 1;
-        yTmp1 = y + 1;
-        while ((xTmp1 <= 7) && (yTmp1 <= 7)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          if ((newField === tmpPosition1) &&
-            context.state.board[tmpPosition1] === context.state.Empty) {
+        // xTmp1 = x + 1;
+        // yTmp1 = y + 1;
+        tmpPosition1[0] = from[0] + 1; 
+        tmpPosition1[1] = from[1] + 1;
+        while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] <= 7)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          if ((to === tmpPosition1) &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true); console.log(']]]]]]')
+              context.commit('setIsMoveValid', true); console.log(']]]]]]')
               break;
             }
           }
-          else if ((context.state.board[tmpPosition1] === context.state.blackPawn ||
-            context.state.board[tmpPosition1] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
             }
           }
-          xTmp1++;
-          yTmp1++;
+          // xTmp1++;
+          // yTmp1++;
+          tmpPosition1[0]++;
+          tmpPosition1[1]++;
         }
       }
-      else if (!context.state.turn && (context.state.board[pawn] == context.state.blackPawn)) {
-        xTmp1 = x + 1;
-        yTmp1 = y + 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((newField === tmpPosition1) &&
-          (context.state.board[tmpPosition1] === context.state.Empty) &&
-          (context.state.board[pawn] === context.state.blackPawn)) {
-          context.commit('setActiveMove', true); console.log(']]]]]]')
+      else if (!context.state.turn && (context.state.board[from[0]][from[1]] == context.state.blackPawn)) {
+        // xTmp1 = x + 1;
+        // yTmp1 = y + 1;
+        tmpPosition1[0] = from[0] + 1;
+        tmpPosition1[1] = from[1] + 1; 
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        if ((to === tmpPosition1) &&
+          (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          (context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
+          context.commit('setIsMoveValid', true); console.log(']]]]]]')
 
         }
-        xTmp1 = x + 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((newField === tmpPosition1) &&
-          (context.state.board[tmpPosition1] === context.state.Empty) &&
-          (context.state.board[pawn] === context.state.blackPawn)) {
-          context.commit('setActiveMove', true); console.log(']]]]]]')
+        // xTmp1 = x + 1;
+        // yTmp1 = y - 1;
+        tmpPosition1[0] = from[0] + 1;
+        tmpPosition1[1] = from[1] - 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        if ((to === tmpPosition1) &&
+          (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          (context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
+          context.commit('setIsMoveValid', true); console.log(']]]]]]')
         }
-        xTmp1 = x - 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp1 = x - 1;
+        // yTmp1 = y - 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[1] = from[1] - 1;
       }
-      else if (!context.state.turn && (context.state.board[pawn] == context.state.blackKing)) {
-        xTmp1 = x - 1;
-        yTmp1 = y + 1;
-        while ((xTmp1 >= 0) && yTmp1 <= 7) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          if ((newField.toString() === tmpPosition1) &&
-            (context.state.board[tmpPosition1] === context.state.Empty) &&
-            ((context.state.board[pawn] === context.state.blackKing))) {
-            context.commit('setActiveMove', true); console.log(']]]]]]')
+      else if (!context.state.turn && (context.state.board[from[0]][from[1]] == context.state.blackKing)) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y + 1;
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[1] = from[1] + 1;
+        while ((tmpPosition1[0] >= 0) && tmpPosition1[1] <= 7) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          if ((to === tmpPosition1) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            ((context.state.board[from[0]][from[1]] === context.state.blackKing))) {
+            context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
-          xTmp1--;
-          yTmp1++;
+          // xTmp1--;
+          // yTmp1++;
+          tmpPosition1[0]--;
+          tmpPosition1[1]++
         }
-        xTmp1 = x - 1;
-        yTmp1 = y - 1;
-        while ((xTmp1 >= 0) && (yTmp1 >= 0)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          if ((newField === tmpPosition1) &&
-            (context.state.board[tmpPosition1] === context.state.Empty) &&
-            ((context.state.board[pawn] === context.state.blackKing))) {
-            context.commit('setActiveMove', true); console.log(']]]]]]')
+        // xTmp1 = x - 1;
+        // yTmp1 = y - 1;
+        tmpPosition1[0] = from[0] - 1;
+        tmpPosition1[1] = from[1] - 1;
+        while ((tmpPosition1[0] >= 0) && (tmpPosition1[1] >= 0)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          if ((to === tmpPosition1) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            ((context.state.board[from[0]][from[1]] === context.state.blackKing))) {
+            context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
-          xTmp1--;
-          yTmp1--;
+          // xTmp1--;
+          // yTmp1--;
+          tmpPosition1[0]--;
+          tmpPosition1[1]--;
         }
-        xTmp1 = x + 1;
-        yTmp1 = y - 1;
+        // xTmp1 = x + 1;
+        // yTmp1 = y - 1;
+        tmpPosition1[0] = from[0] + 1;
+        tmpPosition1[1] = from [1] + 1; 
+        while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] >= 0)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          if ((to === tmpPosition1) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
+            context.commit('setIsMoveValid', true); console.log(']]]]]]')
+          }
+          // xTmp1++;
+          // yTmp1--;
+          tmpPosition1[0]++;
+          tmpPosition1[1]--;
+        }
 
-        while ((xTmp1 <= 7) && (yTmp1 >= 0)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          if ((newField === tmpPosition1) &&
-            (context.state.board[tmpPosition1] === context.state.Empty) &&
-            (context.state.board[pawn] === context.state.blackKing)) {
-            context.commit('setActiveMove', true); console.log(']]]]]]')
+        // xTmp1 = x + 1;
+        // yTmp1 = y + 1;
+        tmpPosition1[0] = from[0] + 1;
+        tmpPosition1[1] = from[1] + 1;
+        while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] <= 7)) {
+          // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+          if ((to === tmpPosition1) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
+            context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
-          xTmp1++;
-          yTmp1--;
-        }
-
-        xTmp1 = x + 1;
-        yTmp1 = y + 1;
-        while ((xTmp1 <= 7) && (yTmp1 <= 7)) {
-          tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-          if ((newField === tmpPosition1) &&
-            (context.state.board[tmpPosition1] === context.state.Empty) &&
-            (context.state.board[pawn] === context.state.blackKing)) {
-            context.commit('setActiveMove', true); console.log(']]]]]]')
-          }
-          xTmp1++;
-          yTmp1++;
+          // xTmp1++;
+          // yTmp1++;
+          tmpPosition1[0]++;
+          tmpPosition1[1]++;
         }
       }
     },
 
-    possibleActiveJump(context, newField) {
-      let pawn = context.state.lastClicked;// czy to jest dobrze
-      if (context.state.lastClicked === null)
-        return null;
+    possibleActiveJump(context, payload) {
+      // let pawn = context.state.lastClicked;// czy to jest dobrze
+      // if (context.state.lastClicked === null)
+      //   return null;
 
-      context.commit('setActiveMove', false);
-      let x = parseInt(pawn[0]);
-      let y = parseInt(pawn[1]);
-      let xTmp1, xTmp2, yTmp1, yTmp2, tmpPosition1, tmpPosition2;
-      console.log(x, y, pawn)
-      if (context.state.turn && ((context.state.board[pawn] === context.state.whitePawn))) {
-        xTmp1 = x + 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+      context.commit('setIsMoveValid', false);
+      // let x = parseInt(pawn[0]);
+      // let y = parseInt(pawn[1]);
+      const from = payload.start;
+      const to = payload.end;
+      let tmpPosition1, tmpPosition2;
+      // console.log(x, y, pawn)
+      if (context.state.turn && ((context.state.board[from[0]][from[1]] === context.state.whitePawn))) {
+        // xTmp1 = x + 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = from[0] + 2;
+        tmpPosition1[1] = from[1] + 2;
+        tmpPosition2[0] = from[0] + 1;
+        tmpPosition2[1] = from[1] + 1;
 
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
-          context.commit('setActiveMove', true);
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
+          context.commit('setIsMoveValid', true);
         }
-        xTmp1 = x - 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
-          context.commit('setActiveMove', true);
-        }
-        xTmp1 = x + 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        // xTmp1 = x - 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = from[0] - 2;
+        tmpPosition1[1] = from[1] + 2;
+        tmpPosition2[0] = from[0] - 1;
+        tmpPosition2[1] = from[1] + 1;
 
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
-          context.commit('setActiveMove', true);
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
+          context.commit('setIsMoveValid', true);
         }
-        xTmp1 = x - 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        // xTmp1 = x + 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = from[0] + 2;
+        tmpPosition1[1] = from[1] - 2;
+        tmpPosition2[0] = from[0] + 1;
+        tmpPosition2[1] = from[1] - 1;
 
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
-          context.commit('setActiveMove', true);
+
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
+          context.commit('setIsMoveValid', true);
+        }
+        // xTmp1 = x - 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+
+        tmpPosition1[0] = from[0] - 2;
+        tmpPosition1[1] = from[1] - 2;
+        tmpPosition2[0] = from[0] - 1;
+        tmpPosition2[1] = from[1] - 1;
+
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
+          context.commit('setIsMoveValid', true);
         }
       }
-      else if (context.state.turn && (context.state.board[pawn] === context.state.whiteKing)) {
+      else if (context.state.turn && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
         let m = 1;
-        let tmpPosition = pawn;
+        let tmpPosition = from;
         let defeated = 0;
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x + m;
-          yTmp1 = y + m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
-          m++; console.log(context.state.board[tmpPosition])
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x + m;
+          // yTmp1 = y + m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] + m;
+          tmpPosition[1] = from[1] + m;
+          m++; console.log(context.state.board[tmpPosition[0]][tmpPosition[1]])
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true);
+              context.commit('setIsMoveValid', true);
               break;
             }
           }
-          else if ((context.state.board[tmpPosition] === context.state.blackPawn ||
-            context.state.board[tmpPosition] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
@@ -653,22 +715,25 @@ export default {
         }
         m = 1;
         defeated = 0;
-        tmpPosition = pawn;
+        tmpPosition = from;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x - m;
-          yTmp1 = y + m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
-          m++; console.log(context.state.board[tmpPosition], '-+')
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x - m;
+          // yTmp1 = y + m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+
+          tmpPosition[0] = from[0] - m;
+          tmpPosition[1] = from[1] + m;
+          m++; console.log(context.state.board[tmpPosition[0]][tmpPosition[1]], '-+')
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true);
+              context.commit('setIsMoveValid', true);
               break;
             }
           }
-          else if ((context.state.board[tmpPosition] === context.state.blackPawn ||
-            context.state.board[tmpPosition] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
@@ -678,22 +743,25 @@ export default {
 
         m = 1;
         defeated = 0;
-        tmpPosition = pawn;
+        tmpPosition = from;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x + m;
-          yTmp1 = y - m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
-          m++; console.log(context.state.board[tmpPosition], 'pppppppppppppp')
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x + m;
+          // yTmp1 = y - m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] + m;
+          tmpPosition[1] = from[1] - m;
+
+          m++; console.log(context.state.board[tmpPosition[0]][tmpPosition[1]], 'pppppppppppppp')
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true);
+              context.commit('setIsMoveValid', true);
               break;
             }
           }
-          else if ((context.state.board[tmpPosition] === context.state.blackPawn ||
-            context.state.board[tmpPosition] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
@@ -702,22 +770,25 @@ export default {
         }
         m = 1;
         defeated = 0;
-        tmpPosition = pawn;
+        tmpPosition = from;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x - m;
-          yTmp1 = y - m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
-          m++; console.log(context.state.board[tmpPosition])
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x - m;
+          // yTmp1 = y - m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] - m;
+          tmpPosition[1] = from[1] - m;
+
+          m++; console.log(context.state.board[tmpPosition[0]][tmpPosition[1]])
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
             if (defeated !== 2) {
-              context.commit('setActiveMove', true);
+              context.commit('setIsMoveValid', true);
               break;
             }
           }
-          else if ((context.state.board[tmpPosition] === context.state.blackPawn ||
-            context.state.board[tmpPosition] === context.state.blackKing)) {
+          else if ((context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing)) {
             defeated++;
             if (defeated === 2) {
               break;
@@ -727,75 +798,95 @@ export default {
 
       }
       //black turn
-      else if (!context.state.turn && (context.state.board[pawn] === context.state.blackPawn)) {
-        xTmp1 = x + 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
-          context.commit('setActiveMove', true);
+      else if (!context.state.turn && (context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
+        // xTmp1 = x + 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+
+        tmpPosition1[0] = from[0] + 2;
+        tmpPosition1[1] = from[1] + 2;
+        tmpPosition2[0] = from[0] + 1;
+        tmpPosition2[1] = from[1] + 1;
+
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
+          context.commit('setIsMoveValid', true);
         }
-        xTmp1 = x - 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
-          context.commit('setActiveMove', true);
+        // xTmp1 = x - 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = from[0] - 2;
+        tmpPosition1[1] = from[1] + 2;
+        tmpPosition2[0] = from[0] - 1;
+        tmpPosition2[1] = from[1] + 1;
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
+          context.commit('setIsMoveValid', true);
         }
-        xTmp1 = x + 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
-          context.commit('setActiveMove', true);
+        // xTmp1 = x + 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = from[0] + 2;
+        tmpPosition1[1] = from[1] - 2;
+        tmpPosition2[0] = from[0] + 1;
+        tmpPosition2[1] = from[1] - 1;
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
+          context.commit('setIsMoveValid', true);
         }
-        xTmp1 = x - 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if ((newField === tmpPosition1) &&
-          context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
-          context.commit('setActiveMove', true);
-        }
-      } else if (!context.state.turn && (context.state.board[pawn] === context.state.blackKing)) {
-        const x = parseInt(pawn[0]);
-        const y = parseInt(pawn[1]);
-        let tmpPosition = pawn;
+        // xTmp1 = x - 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = from[0] - 2;
+        tmpPosition1[1] = from[1] - 2;
+        tmpPosition2[0] = from[0] - 1;
+        tmpPosition2[1] = from[1] - 1;
+
+        if ((to === tmpPosition1) &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
+          context.commit('setIsMoveValid', true);
+        }///////////////////////////////////////////////////////
+      } else if (!context.state.turn && (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
+        // const x = parseInt(pawn[0]);
+        // const y = parseInt(pawn[1]);
+        let tmpPosition = from;
         let m = 1;
         let defeated = 0;
-        tmpPosition = pawn;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x + m;
-          yTmp1 = y + m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x + m;
+          // yTmp1 = y + m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] + m;
+          tmpPosition[1] = from[1] + m;
           m++;
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
-            context.commit('setActiveMove', true);
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.commit('setIsMoveValid', true);
           }
-          else if ((newField === tmpPosition) &&
-            (context.state.board[tmpPosition] === context.state.whitePawn ||
-              context.state.board[tmpPosition] === context.state.whiteKing)) {
+          else if ((to === tmpPosition) &&
+            (context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn ||
+              context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing)) {
             defeated++
 
             if (defeated === 1) { break; }
@@ -804,20 +895,22 @@ export default {
 
         m = 1;
         defeated = 0;
-        tmpPosition = pawn;
+        tmpPosition = from;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x - m;
-          yTmp1 = y + m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x - m;
+          // yTmp1 = y + m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] - m;
+          tmpPosition[1] = from[1] + m;
           m++;
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
-            context.commit('setActiveMove', true);
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.commit('setIsMoveValid', true);
           }
-          else if ((newField === tmpPosition) &&
-            (context.state.board[tmpPosition] === context.state.whitePawn ||
-              context.state.board[tmpPosition] === context.state.whiteKing)) {
+          else if ((to === tmpPosition) &&
+            (context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn ||
+              context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing)) {
             defeated++
 
             if (defeated === 1) { break; }
@@ -825,20 +918,22 @@ export default {
         }
         m = 1;
         defeated = 0;
-        tmpPosition = pawn;
+        tmpPosition = from;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x + m;
-          yTmp1 = y - m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x + m;
+          // yTmp1 = y - m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] + m;
+          tmpPosition[1] = from[1] - m;
           m++;
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
-            context.commit('setActiveMove', true);
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.commit('setIsMoveValid', true);
           }
-          else if ((newField === tmpPosition) &&
-            (context.state.board[tmpPosition] === context.state.whitePawn ||
-              context.state.board[tmpPosition] === context.state.whiteKing)) {
+          else if ((to === tmpPosition) &&
+            (context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn ||
+              context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing)) {
             defeated++
 
             if (defeated === 1) { break; }
@@ -846,20 +941,22 @@ export default {
         }
         m = 1;
         defeated = 0;
-        tmpPosition = pawn;
+        tmpPosition = from;
 
-        while (context.state.board[tmpPosition] !== undefined) {
-          xTmp1 = x + m;
-          yTmp1 = y + m;
-          tmpPosition = xTmp1.toString() + yTmp1.toString();
+        while (context.state.board[tmpPosition[0]][tmpPosition[1]] !== undefined) {
+          // xTmp1 = x + m;
+          // yTmp1 = y + m;
+          // tmpPosition = xTmp1.toString() + yTmp1.toString();
+          tmpPosition[0] = from[0] + m;
+          tmpPosition[1] = from[1] + m;
           m++;
-          if ((newField === tmpPosition) &&
-            context.state.board[tmpPosition] === context.state.Empty) {
-            context.commit('setActiveMove', true);
+          if ((to === tmpPosition) &&
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.commit('setIsMoveValid', true);
           }
-          else if ((newField === tmpPosition) &&
-            (context.state.board[tmpPosition] === context.state.whitePawn ||
-              context.state.board[tmpPosition] === context.state.whiteKing)) {
+          else if ((to === tmpPosition) &&
+            (context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn ||
+              context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing)) {
             defeated++
 
             if (defeated === 1) { break; }
@@ -868,183 +965,228 @@ export default {
       }
     },
     ///
-    isMovable(context, pawn) {
-      console.log(pawn)
-      let x = pawn[0]
-      let y = pawn[1]
-      context.dispatch('PossibleJump', { x: x, y: y, pawn: pawn });
-      context.dispatch('PossibleMove', { x: x, y: y, pawn: pawn });
+    isMovable(context, from) {
+      context.dispatch('PossibleJump', from);
+      context.dispatch('PossibleMove', from);
     },
 
-    PossibleJump(context, payload) {
+    PossibleJump(context, from) {
       context.commit('setIfMoveIsPossible', false);
-      let xTmp1, xTmp2, yTmp1, yTmp2, tmpPosition1, tmpPosition2;
-      const x = payload.x;
-      const y = payload.y;
-      const pawn = payload.pawn;
-      if (context.state.turn && ((context.state.board[pawn] === context.state.whitePawn) ||
-        (context.state.board[pawn] === context.state.whiteKing))) {
-        xTmp1 = x + 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
+      let tmpPosition1, tmpPosition2;
+      const x = from[0];
+      const y = from[1];
+      if (context.state.turn && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
+        (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
+        // xTmp1 = x + 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x + 2;
+        tmpPosition1[1] = y + 2;
+        tmpPosition2[0] = x + 1;
+        tmpPosition2[1] = y + 1;
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
           context.commit('setIfMoveIsPossible', true);
         }
-        xTmp1 = x - 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
+        // xTmp1 = x - 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x - 2;
+        tmpPosition1[1] = y + 2;
+        tmpPosition2[0] = x - 1;
+        tmpPosition2[1] = y + 1;
+
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
-        xTmp1 = x + 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        // xTmp1 = x + 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
 
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
+        tmpPosition1[0] = x + 2;
+        tmpPosition1[1] = y - 2;
+        tmpPosition2[0] = x + 1;
+        tmpPosition2[1] = y - 1;
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
-        xTmp1 = x - 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        // xTmp1 = x - 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x - 2;
+        tmpPosition1[1] = y - 2;
+        tmpPosition2[0] = x - 1;
+        tmpPosition2[1] = y - 1;
 
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.blackPawn ||
-            context.state.board[tmpPosition2] === context.state.blackKing)) {
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
       }
 
       //black turn
-      else if (!context.state.turn && ((context.state.board[pawn] === context.state.blackPawn) ||
-        (context.state.board[pawn] == context.state.blackKing))) {
-        xTmp1 = x + 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
+      else if (!context.state.turn && ((context.state.board[from[0]][from[1]] === context.state.blackPawn) ||
+        (context.state.board[from[0]][from[1]] == context.state.blackKing))) {
+        // xTmp1 = x + 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x + 2;
+        tmpPosition1[1] = y + 2;
+        tmpPosition2[0] = x + 1;
+        tmpPosition2[1] = y + 1;
+
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
-        xTmp1 = x - 2;
-        yTmp1 = y + 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y + 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
+        // xTmp1 = x - 2;
+        // yTmp1 = y + 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y + 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x - 2;
+        tmpPosition1[1] = y + 2;
+        tmpPosition2[0] = x - 1;
+        tmpPosition2[1] = y + 1;
+
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
-        xTmp1 = x + 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x + 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
+        // xTmp1 = x + 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x + 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x + 2;
+        tmpPosition1[1] = y -2;
+        tmpPosition2[0] = x + 1;
+        tmpPosition2[1] = y - 1;
+
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
-        xTmp1 = x - 2;
-        yTmp1 = y - 2;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        xTmp2 = x - 1;
-        yTmp2 = y - 1;
-        tmpPosition2 = xTmp2.toString() + yTmp2.toString();
-        if (context.state.board[tmpPosition1] === context.state.Empty &&
-          (context.state.board[tmpPosition2] === context.state.whitePawn ||
-            context.state.board[tmpPosition2] === context.state.whiteKing)) {
+        // xTmp1 = x - 2;
+        // yTmp1 = y - 2;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        // xTmp2 = x - 1;
+        // yTmp2 = y - 1;
+        // tmpPosition2 = xTmp2.toString() + yTmp2.toString();
+        tmpPosition1[0] = x - 2;
+        tmpPosition1[1] = y - 2;
+        tmpPosition2[0] = x - 1;
+        tmpPosition2[1] = y - 1;
+        if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
+            context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
         }
       }
     },
-    PossibleMove(context, payload) {
+    PossibleMove(context, from) {
       // context.commit('setIfMoveIsPossible', false);
-      let xTmp1;
-      let yTmp1;
       let tmpPosition1;
-      const x = payload.x;
-      const y = payload.y;
-      const pawn = payload.pawn;
-      if (context.state.turn && ((context.state.board[pawn] === context.state.whitePawn) || (context.state.board[pawn] == context.state.whiteKing))) {
-        xTmp1 = x - 1;
-        yTmp1 = y + 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) && ((context.state.board[pawn] === context.state.whitePawn) ||
-          (context.state.board[pawn] === context.state.whiteKing))) {
+      const x = from[0];
+      const y = from[1];
+      if (context.state.turn && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) || (context.state.board[from[0]][from[1]] == context.state.whiteKing))) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y + 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x - 1;
+        tmpPosition1[1] = y + 1;
+
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
+          (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
           console.log('eee')
           context.commit('setIfMoveIsPossible', true);
         }
-        xTmp1 = x - 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) && ((context.state.board[pawn] === context.state.whitePawn) ||
-          (context.state.board[pawn] === context.state.whiteKing))) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y - 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x - 1;
+        tmpPosition1[1] = y - 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
+          (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
           context.commit('setIfMoveIsPossible', true); console.log('eee')
         }
-        xTmp1 = x + 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) && (context.state.board[pawn] === context.state.whiteKing)) {
+        // xTmp1 = x + 1;
+        // yTmp1 = y - 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x + 1;
+        tmpPosition1[1] = y - 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
           context.commit('setIfMoveIsPossible', true); console.log('eee')
         }
-        xTmp1 = x + 1;
-        yTmp1 = y + 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) && (context.state.board[pawn] === context.state.whiteKing)) {
+        // xTmp1 = x + 1;
+        // yTmp1 = y + 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x + 1;
+        tmpPosition1[1] = y + 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
           context.commit('setIfMoveIsPossible', true); console.log('eee')
         }
       }
       else if (!context.state.turn) {
-        xTmp1 = x + 1;
-        yTmp1 = y + 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) &&
-          (context.state.board[pawn] === (context.state.blackKing) || (context.state.board[pawn] === context.state.blackPawn))) {
+        // xTmp1 = x + 1;
+        // yTmp1 = y + 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x + 1;
+        tmpPosition1[1] = y + 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          (context.state.board[from[0]][from[1]] === (context.state.blackKing) || (context.state.board[from[0]][from[1]] === context.state.blackPawn))) {
           context.commit('setIfMoveIsPossible', true);
 
         }
-        xTmp1 = x + 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) &&
-          (context.state.board[pawn] === (context.state.blackKing) || (context.state.board[pawn] === context.state.blackPawn))) {
+        // xTmp1 = x + 1;
+        // yTmp1 = y - 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x + 1;
+        tmpPosition1[1] = y - 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          (context.state.board[from[0]][from[1]] === (context.state.blackKing) || (context.state.board[from[0]][from[1]] === context.state.blackPawn))) {
           context.commit('setIfMoveIsPossible', true);
         }
-        xTmp1 = x - 1;
-        yTmp1 = y - 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-
-        if ((context.state.board[tmpPosition1] === context.state.Empty) && (context.state.board[pawn] === context.state.blackKing)) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y - 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x - 1;
+        tmpPosition1[1] = y - 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
           context.commit('setIfMoveIsPossible', true);
         }
-        xTmp1 = x - 1;
-        yTmp1 = y + 1;
-        tmpPosition1 = xTmp1.toString() + yTmp1.toString();
-        if ((context.state.board[tmpPosition1] === context.state.Empty) && (context.state.board[pawn] === context.state.blackKing)) {
+        // xTmp1 = x - 1;
+        // yTmp1 = y + 1;
+        // tmpPosition1 = xTmp1.toString() + yTmp1.toString();
+        tmpPosition1[0] = x - 1;
+        tmpPosition1[1] = y + 1;
+        if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
           context.commit('setIfMoveIsPossible', true);
         }
       }

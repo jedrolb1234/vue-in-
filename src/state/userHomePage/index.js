@@ -65,10 +65,13 @@ export default {
       for (let i = 0; i < state.history.length; i++) {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
-        let now = new Date();
-        console.log(inputDate.getMilliseconds(), "LLLLL", inputDate)
-        console.log((now.getTime() - inputDate.getTime())/1000)
-        let diffrentMinutes = Math.floor(Math.abs((now.getTime() - inputDate.getTime()) / (1000 * 60)));
+        var now = new Date();
+        // let now =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),date.getUTCDate(), date.getUTCHours(),date.getUTCMinutes(), date.getUTCSeconds());
+        console.log(now)
+        // inputDate = inputDate.setHours(inputDate.getHours() + 2)
+        console.log(inputDate.getTime(), "LLLLL", inputDate)
+        // console.log((now.getTime() - inputDate.getTime())/1000)
+        let diffrentMinutes = Math.floor(Math.abs((now - inputDate.getTime()) / (1000 * 60)));
         console.log(diffrentMinutes,"pppp")
         let diffrentHours = Math.floor(diffrentMinutes / 60);
         console.log(diffrentHours,"pppp")
