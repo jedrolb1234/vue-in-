@@ -41,10 +41,10 @@
         </table>
       </div>
     </div>
-    <div style="text-align: center;">
+    <div style="text-align: center;" v-if="this.prepareBoard">
       Ułóż statki na planszy i potwierdź gotowość do gry!
     </div>
-    <div id="actions">
+    <div id="actions" v-if="this.prepareBoard">
       <BaseButton type="primary-medium" @click="this.generateRandomBoard()">Generuj losowe</BaseButton>
       <BaseButton type="secondary-medium" @click="this.confirmBoard()">Zatwierdź</BaseButton>
     </div>
@@ -201,7 +201,12 @@ export default {
   computed: {
     ...mapGetters('BattleShips', ['getBoard', 'getBoardTable1', 'getOponentBoard', 'getEmpty', 'getShip', 'getHit', 'getMiss',
       'getOneCounter', 'getTwoCounter', 'getThreeCounter', 'getFourCounter']),
-    ...mapGetters(['getSelectedGameRoom', 'getUserId'])
+    ...mapGetters(['getSelectedGameRoom', 'getUserId', 'getPlayerTurn']),
+    prepareBoard() {
+      if(this.getSelectedGameRoom.status == 1 && this.getPlayerTurn == null)
+        return true;
+      return false;
+    }
   },
   beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
