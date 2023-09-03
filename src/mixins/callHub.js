@@ -2,7 +2,7 @@ import { HubConnectionBuilder, HttpTransportType } from "@aspnet/signalr"
 
 class CallHub {
   constructor() {
-    this.client = new HubConnectionBuilder().withUrl("https://localhost:7216/game-room", {
+    this.client = new HubConnectionBuilder().withUrl(process.env.VUE_APP_WEBSOCKET_URL, {
       skipNegotiation: true,
       transport: HttpTransportType.WebSockets
     }).build();

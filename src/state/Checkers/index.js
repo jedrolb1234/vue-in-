@@ -88,7 +88,7 @@ export default {
       state.blackKing = val;
     },
     setWhitePlayer(state, player) {
-      console.log(state.whitePlayer)
+      // console.log(state.whitePlayer)
       state.whitePlayer = player;
     },
     setActive(state, value) {

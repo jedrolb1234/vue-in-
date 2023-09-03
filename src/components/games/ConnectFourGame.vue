@@ -45,7 +45,7 @@ export default {
       return false;
     }
   },
-  created() {
+  beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
       this.$callHub.client.invoke('GetCurrentGameRoomState', roomId);
     })
@@ -70,12 +70,12 @@ export default {
     }
     )
   },
-  async unmounted() {
+  beforeUnmount() {
     this.$callHub.client.off('NewUserConnectedToTheRoom');
     this.$callHub.client.off('GameStarted');
     this.$callHub.client.off('GameRoomJoined');
     this.$callHub.client.off('UpdateBoardState');
-    await this.resetGameCoonectFour();
+    this.resetGameCoonectFour();
   }
 }
 </script>
@@ -86,7 +86,7 @@ p {
 }
 
 table {
-  background-color: var(--primaryBtn);
+  background-color: blue;
   border-spacing: 0px;
   border-collapse: collapse;
   border: 1px solid var(--primary);
@@ -117,7 +117,7 @@ table {
 }
 
 .myPawn {
-  background-color: var(--accent);
+  background-color: red;
   width: 80px;
   height: 80px;
   border-radius: 40px;
@@ -128,8 +128,8 @@ table {
 
 .empty {
   border-radius: 50%;
-  border: 1px solid var(--primary);
-  background-color: white;
+  border: 1px solid var(--secondary);
+  background-color: var(--primaryBtn);
   width: 80px;
   height: 80px;
   transition: all;

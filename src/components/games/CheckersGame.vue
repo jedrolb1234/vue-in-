@@ -86,27 +86,28 @@ export default {
       return this.draggedPawn;
     }
   },
-  created() {
+  beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
       this.$callHub.client.invoke('GetCurrentGameRoomState', roomId);
     })
 
-    this.$callHub.client.on("GameStarted", (board, playerTurn, whitePlayer) => {
-      this.obtainGameRoom(this.getSelectedGameRoom.id);
+    this.$callHub.client.on('GameStarted', async (board, playerTurn, whitePlayer) => {
+      await this.obtainGameRoom(this.getSelectedGameRoom.id);
       // this.updatePlayers(this.getSelectedGameRoom.players);
       this.updateBoard(board);
       this.updatePlayerTurn(playerTurn);
       this.updateWhitePlayer(whitePlayer);
-      console.log(whitePlayer)
+      // console.log(whitePlayer)
     })
 
-    this.$callHub.client.on("GameRoomJoined", () => {
-      this.obtainGameRoom(this.getSelectedGameRoom.id);
+    this.$callHub.client.on('GameRoomJoined', async () => {
+      console.log('xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
+      await this.obtainGameRoom(this.getSelectedGameRoom.id);
     })
 
-    this.$callHub.client.on("UpdateBoardState", (board, playerTurn, winner, isFinished, whitePlayer) => {
+    this.$callHub.client.on('UpdateBoardState', async (board, playerTurn, winner, isFinished, whitePlayer) => {
       if (isFinished)
-        this.obtainGameRoom(this.getSelectedGameRoom.id);
+        await this.obtainGameRoom(this.getSelectedGameRoom.id);
       this.updateWinner(winner);
       this.updateBoard(board);
       this.updatePlayerTurn(playerTurn);
@@ -114,7 +115,7 @@ export default {
     }
     )
   },
-  async unmounted() {
+  beforeUnmount() {
     this.$callHub.client.off('NewUserConnectedToTheRoom');
     this.$callHub.client.off('GameStarted');
     this.$callHub.client.off('GameRoomJoined');
