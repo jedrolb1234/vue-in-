@@ -10,7 +10,7 @@
                 <hr>
                 <div class="module__content">
                 <div>Imię</div>
-                <div>{{ getName }} {{ tab[-1] }}</div>
+                <div>{{ getName }}</div>
                 <div>Nazwisko</div>
                 <div>{{ getSurname }}</div>
                 <div>Data urodzenia</div>
@@ -20,8 +20,6 @@
             <h1>Historia gier</h1>
             <hr>                    
             <div class="showHistoryTable">
-                <h2 class="historyHeader">Rozegrane gry</h2>
-                <hr class="hr2">
                 <div v-if="isLoading===false">
                     <table>
                     <tr class="historyList"><th>gra</th><th>data</th><th>Zwycięzca</th><th>Punkty</th></tr>
@@ -60,31 +58,16 @@
       BasePreviousButton
     },
     props:['id', 'invId', 'userAvatar'],
-    
-    data() {
-      return {
-        username: null,
-        description: null,
-        avatarId: null,
-        name: '',
-        surname: '',
-        birthDate: null,
-        email: '',
-        tab : [1 ,2, 3 ,4],
-      }
-    },
+
     async mounted(){
       await this.getData(this.id);
       this.downloadHistory();
-      console.log(this.tab[-1], this.tab[5])
-      
-      // console.log(this.getHistory)
     },
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'getHasFriend', 'getHistory', 'getCurrentPage', 'getItemsPerPage', 'getUser', 
                             'getIsFriend', 'getInvId', 'getUserId','getDynamicHeight', 'getHistPage', 'getHistPages',
-                            'getGameName', 'getGameDate', 'getAllPages']),
+                            'getGameName', 'getGameDate', 'getAllPages', 'getId']),
       getId(){
         return this.id;
       },
@@ -101,10 +84,10 @@
       ...mapActions(['showAvatarPicker', 'hideAvatarPicker']),
       },
       watch:{
-        getData(oldValue, newValue){
-            this.settings = newValue;
-        }
-      }
+        id: function(){
+          this.getData(this.id);
+      },
+    }
   }
   </script>
 
