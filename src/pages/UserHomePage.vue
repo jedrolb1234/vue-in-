@@ -20,8 +20,6 @@
             <h1>Historia gier</h1>
             <hr>                    
             <div class="showHistoryTable">
-                <h2 class="historyHeader">Rozegrane gry</h2>
-                <hr class="hr2">
                 <div v-if="isLoading===false">
                     <table>
                     <tr class="historyList"><th>gra</th><th>data</th><th>Zwycięzca</th><th>Punkty</th></tr>

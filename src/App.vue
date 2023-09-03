@@ -56,20 +56,20 @@ export default {
   --shadow: #B6BBBE;
 
     /* Tabele */
-    --td-padding-top-bottom: 5px;
+  --td-padding-top-bottom: 5px;
   --td-padding-left-right: 10px;
 
-  --td-odd-bg-color: #dedede;
+  --td-odd-bg-color: #dddddd;
   --td-odd-txt-color: black;
 
-  --td-even-bg-color: #FFFFFF;
+  --td-even-bg-color: #AAAAAA;
   --td-even-txt-color: black;
 
-  --th-odd-bg-color: #a1a1a1;
-  --th-odd-txt-color: white;
+  --th-odd-bg-color: #CCCCCC;
+  --th-odd-txt-color: black;
 
-  --th-even-bg-color: #777777;
-  --th-even-txt-color: white;
+  --th-even-bg-color: #888888;
+  --th-even-txt-color: black;
   /* ------- */
 }
 
@@ -80,6 +80,21 @@ export default {
   --secondaryBtn: #070808;
   --accent: #0E9A2A;
   --shadow: #070808;
+  
+  --td-padding-top-bottom: 5px;
+  --td-padding-left-right: 10px;
+
+  --td-odd-bg-color: #555555;
+  --td-odd-txt-color: white;
+
+  --td-even-bg-color: #333333;
+  --td-even-txt-color: white;
+
+  --th-odd-bg-color: #444444;
+  --th-odd-txt-color: white;
+
+  --th-even-bg-color: #222222;
+  --th-even-txt-color: white;
 }
 
 * {

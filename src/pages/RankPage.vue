@@ -3,33 +3,33 @@
   <!-- <div v-if="warcabyTable === true || statkiTable === true || polacz4Table === true" class="right-strap"></div> -->
     <div class="container">
       <BaseHeader>Rankingi</BaseHeader>
-      <h2 class="Header">Warcaby</h2>
+      <div class="warcabyHeader" @click="toogleWarcabyTable">      
+        <ul>Warcaby</ul> 
+        <span v-if="warcabyTable===false" :class="iconArrow">expand_less</span>
+        <span v-else-if="warcabyTable===true" :class="iconArrow">expand_more</span>
+      </div>
+
       <hr class="hr1">          
-          <div class="warcabyHeader" @click="toogleWarcabyTable">
-            <ul>Ranking</ul> 
-            <span v-if="warcabyTable===false" :class="iconUpArrow">expand_less</span>
-            <span v-else-if="warcabyTable===true" :class="iconUpArrow">expand_more</span>
-          </div>
-          <div class="test" v-if="(getIsLoadingWar=== false) & (warcabyTable === false)">
-            <transition name="slidOFF">
-              <div v-show="warcabyTable===false" class="tableContainer">
-                <table>
-                  <tr class="warcabyList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
-                  <tr class="warcabyList"
-                    v-for="( w, index ) in currentPageW" :key="index">
-                    <td class="">{{ w.rank }}</td><td>{{ w.name }}</td><td>{{ w.surname }}</td><td>{{ w.points }}</td>    
-                  </tr>
-                  <tr :style="{height: getDynamicHeightW + 'px'}"></tr>
-                </table>
-                <div class="buttons" v-show="warcabyTable===false">
-                  <base-previous-button @click="previousPageW">Poprzednia</base-previous-button>
-                  <base-next-button @click="nextPageW">Następna</base-next-button>
-                  <p class="page">{{ pageNrW }}</p>
-                </div>
+        <div class="test" v-if="(getIsLoadingWar=== false) & (warcabyTable === false)">
+          <transition name="slidOFF">
+            <div v-show="warcabyTable===false" class="tableContainer">
+              <table>
+                <tr class="warcabyList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+                <tr class="warcabyList"
+                  v-for="( w, index ) in currentPageW" :key="index">
+                  <td class="">{{ w.rank }}</td><td>{{ w.name }}</td><td>{{ w.surname }}</td><td>{{ w.points }}</td>    
+                </tr>
+                <tr :style="{height: getDynamicHeightW + 'px'}"></tr>
+              </table>
+              <div class="buttons" v-show="warcabyTable===false">
+                <base-previous-button @click="previousPageW">Poprzednia</base-previous-button>
+                <base-next-button @click="nextPageW">Następna</base-next-button>
+                <p class="page">{{ pageNrW }}</p>
               </div>
-            </transition>
-          </div>
-      
+            </div>
+          </transition>
+        </div>
+    
         <transition name="slideON">
           <div v-if="(getIsLoadingWar===true) & (warcabyTable === false)">
               <table class="tableSlideOn">
@@ -38,18 +38,17 @@
               </table>
           </div>
         </transition>
-      <h2 class="Header">Statki</h2>
+      <div class="statkiHeader" @click="toogleStatkiTable">
+        <ul>Statki</ul>
+        <span v-if="statkiTable===false" :class="iconArrow">expand_less</span>
+        <span v-else-if="statkiTable===true" :class="iconArrow">expand_more</span>
+      </div>
       <hr class="hr1">    
-        <div class="statkiHeader" @click="toogleStatkiTable">
-          <ul>Ranking</ul> 
-          <span v-if="statkiTable===false" :class="iconUpArrow">expand_less</span>
-          <span v-else-if="statkiTable===true" :class="iconUpArrow">expand_more</span>
-        </div>
         <div v-if="(getIsLoadingStat=== false) & (statkiTable === false)">
           <transition name="slideOFF">
             <div v-show="statkiTable === false" class="tableContainer">
               <table >
-                <tr class="statkiList"><td>Pozycja</td><td>Imię</td><td>Nazwisko</td><td>Punkty</td></tr>
+                <tr class="statkiList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tbody>
                   <tr class="statkiList"
                     v-for="( s, index ) in currentPageS" :key="index">
@@ -76,19 +75,18 @@
           </div>
         </transition>
 
-      <h2 class="Header">Połącz 4</h2>
-      <hr class="hr1">    
-        <div class="polacz4Header" @click="tooglePolacz4Table">
-          <ul>Ranking</ul> 
-          <span v-if="polacz4Table===false" :class="iconUpArrow">expand_less</span>
-          <span v-else-if="polacz4Table===true" :class="iconUpArrow">expand_more</span>
+      <div class="polacz4Header" @click="tooglePolacz4Table">
+          <ul>Połącz 4</ul> 
+          <span v-if="polacz4Table===false" :class="iconArrow">expand_less</span>
+          <span v-else-if="polacz4Table===true" :class="iconArrow">expand_more</span>
         </div>
+      <hr class="hr1">    
           <transition name="slideON">
             <div v-if="(getIsLoadingPol=== false) & (polacz4Table === false)">
               <transition name="slideOFF">
                 <div v-show="polacz4Table === false" class="tableContainer">
                   <table>
-                    <tr><td>Pozycja</td><td>Imię</td><td>Nazwisko</td><td>Punkty</td></tr>
+                    <tr><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
                     <tbody>
                       <tr
                         v-for="( p, index ) in currentPageP" :key="index">
@@ -150,7 +148,7 @@ export default {
     iconDownArrow(){
       return ['material-symbols-outlined', 'downArrow'].join(' ');
     },
-    iconUpArrow(){
+    iconArrow(){
       return ['material-symbols-outlined', 'upArrow'].join(' ');
     }
   },
@@ -174,19 +172,7 @@ hr {
   margin-bottom: 15px;
   margin-left: 0px;
 }
-.Header
-{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  /* align-items: center; */
-  background-color:var(--secondary);
-  width: 800px;
-  height: 40px;
-  margin: 40px 0px 0px 40px;
-  border-radius: 8px 8px 0px 0px;
-  color: var(--primary);
-}
+
 .warcabyHeader,
 .statkiHeader,
 .polacz4Header{
@@ -196,7 +182,7 @@ hr {
   align-items: center;
   font-size: 22px;
   background-color: var(--secondary);
-  width: 800px;
+  width: 100%;
   height: 40px;
   margin: 20px 0px 0px 20px;
   border-radius: 8px 8px 0px 0px;
@@ -253,21 +239,20 @@ th:nth-child(even){
   color: var(--th-even-txt-color); 
 }
 
-.downArrow{
+.downArrow,
+.upArrow{
   font-size: 40px;
   display:flex;
-  margin-right: 15px;
+  height: 30px;
+  padding-right: 30px;
+
 }
 .warcabyHeader:hover,
 .statkiHeader:hover,
 .polacz4Header:hover{
   cursor:pointer;
 }
-.upArrow{
-  font-size: 40px;
-  display:flex;
-  margin-right: 15px;
-}
+
 .ul{
   display:flex;
 }

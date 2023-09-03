@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('Checkers', ['isMoveValid', 'isMovable', 'move', 'moveTo', 'active', 'setBoard', 
+    ...mapActions('Checkers', ['isMoveValid', 'isMovable', 'move', 'moveTo', 'setBoard', 
                   'updatePlayers', 'updateBoard', 'updateWinner', 'resetBoardCheckers', 'updateWhitePlayer']),
     ...mapActions(['obtainGameRoom', 'updatePlayerTurn']),
     getClass(x, y) {
@@ -76,9 +76,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Checkers', ['getBlackClass', 'getW', 'getClickedClass','getIsMoveValid',
-                  'getBoard', 'getEmpty', 'getClickedCell', 'getClickedSecondCell', 'getIfMoveIsPossible',
-                  'getActiveMove', 'getBlackPawn', 'getBlackKing', 'getWhitePawn', 'getWhiteKing', 'isBoardReversed']),
+    ...mapGetters('Checkers', ['getBlackClass', 'getIsMoveValid', 'getBoard', 'getIfMoveIsPossible',
+                  'getBlackPawn', 'getBlackKing', 'getWhitePawn', 'getWhiteKing', 'isBoardReversed']),
     ...mapGetters(['getSelectedGameRoom', 'getUserId']),
 
   },

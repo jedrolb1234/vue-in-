@@ -8,23 +8,9 @@ export default {
       blackKing: 4,
       whitePawn: 1,
       whiteKing: 3,
-      clickedClass: 'clicked',
       blackClass: 'Black',
-      whiteEmpty: 'WhiteEmpty',
-      w: 1,
-      selectedField: '',
-      Empty: 0,
-      clicked: false,
-      counter: 0,
-      lastClicked: null,
-      clickedCell: null,
-      clickedSecondCell: false,
-      clickedMoveToCell: null,
-      isMovable: true,
-      active: false,
-      ifMoveIsPossible: false,
-      classValue: '',
-      activeMove: false,
+      whiteempty: 'Whiteempty',
+      empty: 0,
       winner: null,
       whitePlayer: null,
       boardReversed: null,
@@ -60,8 +46,8 @@ export default {
     getBlackClass(state) {
       return state.blackClass;
     },
-    getEmpty(state) {
-      return state.Empty;
+    getempty(state) {
+      return state.empty;
     },
     getClickedClass(state) {
       return state.clickedClass
@@ -196,7 +182,7 @@ export default {
     },
     isMoveValid(context, payload) {
        context.commit('setIsMoveValid', true);
-      if ((payload.end[0] + payload.end[1]) % 2 === 0 || context.state.board[payload.end[0]][payload.end[1]] !== context.state.Empty)
+      if ((payload.end[0] + payload.end[1]) % 2 === 0 || context.state.board[payload.end[0]][payload.end[1]] !== context.state.empty)
           context.commit('setIsMoveValid', false);
       context.dispatch('active', payload);
       return true;
@@ -224,7 +210,7 @@ export default {
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
           console.log("wszedlem w 1 ifa", from, tmpPosition1, to, context.state.board[tmpPosition1[0]][tmpPosition1[1]], context.state.board[from[0]][from[1]])
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === context.state.whitePawn)) {
             context.commit('setIsMoveValid', true);
             console.log('drugi if')
@@ -237,7 +223,7 @@ export default {
 
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             ((context.state.board[from[0]][from[1]] === context.state.whitePawn))) {
             context.commit('setIsMoveValid', true);console.log('drugi if')
           }
@@ -253,7 +239,7 @@ export default {
             tmpPosition1[0]--;
             tmpPosition1[1]++;
             if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-              context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
+              context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) {
               if (defeated !== 2) {
                 context.commit('setIsMoveValid', true); console.log(']]]]]]')
                 break;
@@ -273,7 +259,7 @@ export default {
           tmpPosition1[0]--;
           tmpPosition1[1]--;
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true); console.log(']]]]]]')
               break;
@@ -293,7 +279,7 @@ export default {
         while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] >= 0)) {
           console.log(to, tmpPosition1)
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true); console.log('+-')
               break;
@@ -313,7 +299,7 @@ export default {
         tmpPosition1[1] = from[1] + 1;
         while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] <= 7)) {
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) {
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true); console.log(']]]]]]')
               break;
@@ -336,7 +322,7 @@ export default {
         tmpPosition1[1] = from[1] + 1; 
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
             context.commit('setIsMoveValid', true); console.log(']]]]]]')
 
@@ -346,7 +332,7 @@ export default {
         tmpPosition1[1] = from[1] - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
             context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
@@ -357,7 +343,7 @@ export default {
         tmpPosition1[1] = from[1] + 1;
         while ((tmpPosition1[0] >= 0) && tmpPosition1[1] <= 7) {
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             ((context.state.board[from[0]][from[1]] === context.state.blackKing))) {
             context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
@@ -368,7 +354,7 @@ export default {
         tmpPosition1[1] = from[1] - 1;
         while ((tmpPosition1[0] >= 0) && (tmpPosition1[1] >= 0)) {
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             ((context.state.board[from[0]][from[1]] === context.state.blackKing))) {
             context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
@@ -379,7 +365,7 @@ export default {
         tmpPosition1[1] = from [1] + 1; 
         while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] >= 0)) {
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
             context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
@@ -391,7 +377,7 @@ export default {
         tmpPosition1[1] = from[1] + 1;
         while ((tmpPosition1[0] <= 7) && (tmpPosition1[1] <= 7)) {
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+            (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
             context.commit('setIsMoveValid', true); console.log(']]]]]]')
           }
@@ -423,7 +409,7 @@ export default {
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0 
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
           (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
             context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
           context.commit('setIsMoveValid', true);
@@ -436,7 +422,7 @@ export default {
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0 
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
             context.commit('setIsMoveValid', true);
@@ -450,7 +436,7 @@ export default {
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0 
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
             context.commit('setIsMoveValid', true);
@@ -464,7 +450,7 @@ export default {
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0 
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
           if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+            context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
             context.commit('setIsMoveValid', true);
@@ -480,7 +466,7 @@ export default {
         let defeated = 0;
         while ((tmpPosition[0] <= 7) && tmpPosition[1] <= 7) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true);
               break;
@@ -504,7 +490,7 @@ export default {
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] <= 7) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true);
               break;
@@ -528,7 +514,7 @@ export default {
 
         while ((tmpPosition[0] <= 7) && tmpPosition[1] >= 0) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true);
               break;
@@ -551,7 +537,7 @@ export default {
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] >= 0) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             if (defeated !== 2) {
               context.commit('setIsMoveValid', true);
               break;
@@ -577,7 +563,7 @@ export default {
         tmpPosition2[1] = from[1] + 1;
 
         if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
           (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
             context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIsMoveValid', true);
@@ -587,7 +573,7 @@ export default {
         tmpPosition2[0] = from[0] - 1;
         tmpPosition2[1] = from[1] + 1;
         if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
           (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
             context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIsMoveValid', true);
@@ -597,7 +583,7 @@ export default {
         tmpPosition2[0] = from[0] + 1;
         tmpPosition2[1] = from[1] - 1;
         if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
           (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
             context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIsMoveValid', true);
@@ -608,7 +594,7 @@ export default {
         tmpPosition2[1] = from[1] - 1;
 
         if ((to[0] === tmpPosition1[0] && to[1] === tmpPosition1[1]) &&
-          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
           (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
             context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
           context.commit('setIsMoveValid', true);
@@ -622,7 +608,7 @@ export default {
         tmpPosition[1] = from[1] + 1;
         while ((tmpPosition[0] <= 7) && tmpPosition[1] <= 7) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             context.commit('setIsMoveValid', true);
           }
           else if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
@@ -646,7 +632,7 @@ export default {
           tmpPosition[1] = from[1] + m;
           m++;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             context.commit('setIsMoveValid', true);
           }
           else if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
@@ -667,7 +653,7 @@ export default {
 
         while ((tmpPosition[0] <= 7) && tmpPosition[1] >= 0) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             context.commit('setIsMoveValid', true);
           }
           else if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
@@ -687,7 +673,7 @@ export default {
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] >= 0) {
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
-            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.Empty) {
+            context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             context.commit('setIsMoveValid', true);
           }
           else if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
@@ -724,7 +710,7 @@ export default {
         tmpPosition2[1] = y + 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0  
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
-          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
             context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
@@ -736,7 +722,7 @@ export default {
         tmpPosition2[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0  
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
-          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackPawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.blackKing)) {
             context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
@@ -752,7 +738,7 @@ export default {
         tmpPosition2[1] = y + 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0  
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
-          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
             context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
@@ -765,7 +751,7 @@ export default {
         console.log(tmpPosition1, tmpPosition2)
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0  
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
-          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
             context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
@@ -777,7 +763,7 @@ export default {
         tmpPosition2[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0  
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
-          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
             context.commit('setIfMoveIsPossible', true); console.log(']]]]]]]')
@@ -789,7 +775,7 @@ export default {
         tmpPosition2[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0  
           && tmpPosition2[0] < 8 && tmpPosition2[1] < 8 && tmpPosition2[0] >= 0 && tmpPosition2[1] >= 0){
-          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty &&
+          if (context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty &&
             (context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whitePawn ||
               context.state.board[tmpPosition2[0]][tmpPosition2[1]] === context.state.whiteKing)) {
             context.commit('setIfMoveIsPossible', true);
@@ -810,7 +796,7 @@ export default {
         tmpPosition1[1] = y + 1;
 
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
             (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
             console.log('eee')
             context.commit('setIfMoveIsPossible', true);
@@ -819,7 +805,7 @@ export default {
         tmpPosition1[0] = x - 1;
         tmpPosition1[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
             (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
             context.commit('setIfMoveIsPossible', true); console.log('eee')
           }
@@ -827,7 +813,7 @@ export default {
         tmpPosition1[0] = x + 1;
         tmpPosition1[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && 
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) && 
           (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
             context.commit('setIfMoveIsPossible', true); console.log('eee')
           }
@@ -835,7 +821,7 @@ export default {
         tmpPosition1[0] = x + 1;
         tmpPosition1[1] = y + 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
             context.commit('setIfMoveIsPossible', true); console.log('eee')
           }
         }
@@ -844,7 +830,7 @@ export default {
         tmpPosition1[0] = x - 1;
         tmpPosition1[1] = y + 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === context.state.blackKing) || 
             (context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
             context.commit('setIfMoveIsPossible', true);
@@ -853,7 +839,7 @@ export default {
         tmpPosition1[0] = x - 1;
         tmpPosition1[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) &&
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) &&
             (context.state.board[from[0]][from[1]] === (context.state.blackKing) || 
             (context.state.board[from[0]][from[1]] === context.state.blackPawn))) {
             context.commit('setIfMoveIsPossible', true);
@@ -862,7 +848,7 @@ export default {
         tmpPosition1[0] = x + 1;
         tmpPosition1[1] = y - 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && 
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) && 
           (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
             context.commit('setIfMoveIsPossible', true); console.log('eee')
           }
@@ -870,7 +856,7 @@ export default {
         tmpPosition1[0] = x + 1;
         tmpPosition1[1] = y + 1;
         if(tmpPosition1[0] < 8 && tmpPosition1[1] < 8 && tmpPosition1[0] >= 0 && tmpPosition1[1] >= 0){
-          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.Empty) && 
+          if ((context.state.board[tmpPosition1[0]][tmpPosition1[1]] === context.state.empty) && 
           (context.state.board[from[0]][from[1]] === context.state.blackKing)) {
             context.commit('setIfMoveIsPossible', true); console.log('eee')
           }
