@@ -419,9 +419,10 @@ export default {
       context.commit('setThreeCounter', threeCounter);
       context.commit('setFourCounter', fourCounter);
     },
-    resetBoardBattleShips({commit}) {
+    resetBoardBattleShips({commit, dispatch}) {
       commit('setBoard', Array(10).fill().map(() => Array(10).fill(0)));
       commit('setOponentBoard', Array(10).fill().map(() => Array(10).fill(0)));
+      dispatch('updatePlayerTurn', null);
     }
   }
 }
