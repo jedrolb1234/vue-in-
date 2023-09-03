@@ -47,7 +47,7 @@ export default {
   },
   beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
-      this.$callHub.client.invoke('GetCurrentGameRoomState', roomId);
+      this.$callHub.client.invoke('GetCurrentGameRoomState', roomId, this.getUserId);
     })
 
     this.$callHub.client.on("GameStarted", (board, playerTurn) => {

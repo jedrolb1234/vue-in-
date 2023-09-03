@@ -205,7 +205,7 @@ export default {
   },
   beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
-      this.$callHub.client.invoke('GetCurrentGameRoomState', roomId);
+      this.$callHub.client.invoke('GetCurrentGameRoomState', roomId, this.getUserId);
     })
 
     this.$callHub.client.on("GameStarted", (board, oponentBoard, playerTurn) => {
@@ -227,8 +227,22 @@ export default {
       this.updateBoards([boards, oponentBoard]);
       this.updatePlayerTurn(playerTurn);
       // this.updateWhitePlayer(whitePlayer);
-    }
-    )
+    })
+
+    this.$callHub.client.on("PlayerReadyToStart", (user, playerTurn) => {
+      if(playerTurn!=null) {
+        this.updatePlayerTurn(playerTurn);
+      }
+    })  
+
+    this.$callHub.client.on("UpdateBoardState", (boards, oponentBoard, playerTurn, winner, isFinished) => {
+      if (isFinished)
+        this.obtainGameRoom(this.getSelectedGameRoom.id);
+      // this.updateWinner(winner);
+      this.updateBoards([boards, oponentBoard]);
+      this.updatePlayerTurn(playerTurn);
+      // this.updateWhitePlayer(whitePlayer);
+    })
   },
   beforeUnmount() {
     this.$callHub.client.off('NewUserConnectedToTheRoom');
