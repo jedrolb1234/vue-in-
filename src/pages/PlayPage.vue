@@ -50,12 +50,12 @@ export default {
       return null;
     }
   },
-  async mounted() {
+  async created() {
     await this.obtainGameRoom(this.gameRoomID);
     await this.$callHub.start();
     await this.$callHub.client.invoke('ConnectToGameRoom', this.gameRoomID, this.getUserId)
   },
-  async unmounted() {
+  async beforeUnmount() {
     await this.$callHub.client.invoke('DisconnectFromGameRoom', this.gameRoomID, this.getUserId)
     await this.$callHub.stop();
 

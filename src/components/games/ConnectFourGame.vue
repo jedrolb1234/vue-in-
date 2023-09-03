@@ -45,7 +45,7 @@ export default {
       return false;
     }
   },
-  created() {
+  beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
       this.$callHub.client.invoke('GetCurrentGameRoomState', roomId);
     })
@@ -70,12 +70,12 @@ export default {
     }
     )
   },
-  async unmounted() {
+  beforeUnmount() {
     this.$callHub.client.off('NewUserConnectedToTheRoom');
     this.$callHub.client.off('GameStarted');
     this.$callHub.client.off('GameRoomJoined');
     this.$callHub.client.off('UpdateBoardState');
-    await this.resetGameCoonectFour();
+    this.resetGameCoonectFour();
   }
 }
 </script>

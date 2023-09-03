@@ -161,8 +161,8 @@ export default {
 }
 
 .panel__players__box {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-content: center;
   gap: 10px;
@@ -173,6 +173,7 @@ export default {
   padding: 10px;
   text-align: center;
   position: relative;
+  overflow: hidden;
 }
 
 .material-symbols-outlined {

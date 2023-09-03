@@ -80,8 +80,8 @@ export default {
     setBoard(state, board) {
       state.board = board
     },
-    setOponentBoard(state, payload) {
-      state.oponentBoard[payload.key] = payload.value;
+    setOponentBoard(state,board) {
+      state.oponentBoard = board;
     },
     setBoardShip(state, key) {
       state.board[key] = state.ship;
@@ -126,6 +126,10 @@ export default {
   actions: {
     updateBoard({commit}, board) {
       commit('setBoard', board);
+    },
+    updateBoards({commit}, boards) {
+      commit('setBoard', boards[0]);
+      commit('setOponentBoard', boards[1]);
     },
     chooseMethod({ getters, dispatch }, field) {
       const board = getters.getBoard
@@ -177,22 +181,6 @@ export default {
     //     }
     //     context.dispatch('shipNumber');
     //     },
-    mark(context, field) {//gettery
-      if (context.commit('selectTag', field) === context.state.hipOponent || context.state.emptyOponent) {
-        context.commit('setOponentRecive', field);
-        if (context.state.oponentBoard[field] === context.state.shipOponent) {
-          context.commit('setOponentBoard', { key: field, value: context.state.hitOponent });
-
-        }
-        else if (context.state.oponentBoard[field] === context.state.emptyOponent) {
-          context.commit('setOponentBoard', { key: field, value: context.state.missedOponent });
-
-        }
-      }
-      else if (context.commit('selectTag', field) === ('hitOponent' || 'missedOponent')) {
-        return
-      }
-    },
 
     checkLocation(context, field) {
       //let isAbleToPut = true;
@@ -430,6 +418,10 @@ export default {
       context.commit('setTwoCounter', twoCounter);
       context.commit('setThreeCounter', threeCounter);
       context.commit('setFourCounter', fourCounter);
+    },
+    resetBoardBattleShips({commit}) {
+      commit('setBoard', Array(10).fill().map(() => Array(10).fill(0)));
+      commit('setOponentBoard', Array(10).fill().map(() => Array(10).fill(0)));
     }
   }
 }
