@@ -86,7 +86,7 @@ p {
 }
 
 table {
-  background-color: var(--primaryBtn);
+  background-color: blue;
   border-spacing: 0px;
   border-collapse: collapse;
   border: 1px solid var(--primary);
@@ -117,7 +117,7 @@ table {
 }
 
 .myPawn {
-  background-color: var(--accent);
+  background-color: red;
   width: 80px;
   height: 80px;
   border-radius: 40px;
@@ -128,8 +128,8 @@ table {
 
 .empty {
   border-radius: 50%;
-  border: 1px solid var(--primary);
-  background-color: white;
+  border: 1px solid var(--secondary);
+  background-color: var(--primaryBtn);
   width: 80px;
   height: 80px;
   transition: all;
