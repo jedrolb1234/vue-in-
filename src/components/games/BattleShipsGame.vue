@@ -4,7 +4,7 @@
       <div class="player1-container">
         <table class="board-table1">
           <tr v-for="(t, key) in this.getBoard" :key='key'>
-            <td v-for="(p, idx) in t" :key="idx" :class="getClass(key, idx)" @click="chooseMethod([key, idx])"></td>
+            <td v-for="(p, idx) in t" :key="idx" :class="getClass(key, idx)"></td>
           </tr>
         </table>
         <!-- <div class="shipCounter">
@@ -90,7 +90,8 @@ export default {
         return 'hit';
       if (this.getBoard[x][y] == this.getMiss)
         return 'miss';
-
+      if (this.getBoard[x][y] == 4)
+        return 'blocked';
     },
     getOponentClass(x, y) {
       if (this.getOponentBoard[x][y] == this.getEmpty)
@@ -101,6 +102,8 @@ export default {
         return 'hit';
       if (this.getOponentBoard[x][y] == this.getMiss)
         return 'miss';
+      if (this.getOponentBoard[x][y] == 4)
+        return 'blocked';
     },
     getShipFields(origin, size, direction) {
       console.log(origin, size, direction);
@@ -291,6 +294,7 @@ gap: 50px;
   background-color: darkcyan;
   height: 500px;
   width: 500px;
+  cursor: pointer;
 }
 
 .board-table1 {
@@ -419,6 +423,13 @@ img {
 .miss {
   animation: explosion 350ms;
   background-image: url('@/assets/games/image/cross.png');
+  background-size: cover;
+}
+
+.blocked {
+  animation: explosion 350ms;
+  background-image: url('@/assets/games/image/cross.png');
+  filter: grayscale(100%);
   background-size: cover;
 }
 
