@@ -75,5 +75,6 @@ export default {
   justify-content: center;
   display: flex;
   flex-direction: row;
+  gap:20px;
 }
 </style>
