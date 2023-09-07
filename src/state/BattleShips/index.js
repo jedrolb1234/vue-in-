@@ -8,11 +8,13 @@ export default {
       ship: 1,
       hit: 2,
       miss: 3,
+      emptyHint: 4,
       shipOponent: 'shipOponent',
       empty2: 'empty2',
       emptyOponent: 'emptyOponent',
       hitOponent: 'hitOponent',
       missedOponent: 'missedOponent',
+      emptyField: 'emptyField',
       counter: 12,
       clicked: [],
       oponentRecive: [],
@@ -62,6 +64,9 @@ export default {
     },
     getFourCounter(state) {
       return state.fourCounter;
+    },
+    getEmptyHint(state){
+      return state.emptyField;
     }
   },
   mutations: {

@@ -61,7 +61,7 @@ export default {
     },
     setHistory(state, value){
       state.history = value;
-      console.log(state.history[0].endDate)
+      console.log(state.history)
       for (let i = 0; i < state.history.length; i++) {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
@@ -110,16 +110,14 @@ export default {
       }
       if (state.history.length != 10) {
         state.dynamicHeight = ((state.currentPage*10 - state.historyCount)) * state.rowHeight;
-        // console.log(state.currentPage*10 - state.historyCount, "History length") 
       }else {state.dynamicHeight = 0}
-      // for (let i = 0; i < state.history.length; i++) {
-      // if(state.history[i].whoWon === state.history[i].players[0].item1)
-      //     {state.history[i].whoWon = state.history[i].players[0].item2;}
-      // else
-      // {state.history[i].whoWon = state.history[i].players[1].item2;}
-      // }
-
-        // console.log(state.history, "AAAAAAAAAA")
+      for (let i = 0; i < state.history.length; i++) {
+      if(state.history[i].whoWon === state.history[i].players[0].item1)
+          {state.history[i].whoWon = state.history[i].players[0].item2;}
+      else
+      {state.history[i].whoWon = state.history[i].players[1].item2;}
+      }
+        console.log(state.history, "AAAAAAAAAA")
     },
     setHistPages(state, value){
       state.historyPages = value;

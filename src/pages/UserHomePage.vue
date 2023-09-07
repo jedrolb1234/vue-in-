@@ -22,17 +22,17 @@
             <div class="showHistoryTable">
                 <div v-if="isLoading===false">
                     <table>
-                    <tr class="historyList"><th>gra</th><th>data</th><th>Zwycięzca</th><th>Punkty</th></tr>
+                    <tr class="historyList"><th>Gra</th><th>Data</th><th>Zwycięzca</th><th>Punkty</th></tr>
                     
                     <tr class="historyList"
                         v-for="( h, index ) in getHistory" :key="index">
-                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ }}</td><td>{{ h.points }}</td>    
+                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ h.whoWon }}</td><td>{{ h.points }}</td>    
                     </tr>
                     <tr :style="{height: getDynamicHeight + 'px'}"></tr>
                     </table>
                     <div v-if="getOwnId " class="buttons">
                       <base-previous-button :disabled="(getCurrentPage === 1)" @click="previousPage"></base-previous-button>
-                      <base-next-button :disabled="getAllPages === getCurrentPage" @click="nextPage"></base-next-button>
+                      <base-next-button :disabled="getHistPage === getCurrentPage" @click="nextPage"></base-next-button>
                       <p class="pageNr">{{ getHistPage }}</p>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
     computed: {
       ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
                             'isLoading', 'getHasFriend', 'getHistory', 'getCurrentPage', 'getItemsPerPage', 'getUser', 
-                            'getIsFriend', 'getInvId', 'getUserId','getDynamicHeight', 'getHistPage', 'getHistPages',
+                            'getIsFriend', 'getInvId', 'getUserId','getDynamicHeight', 'getHistPage',
                             'getGameName', 'getGameDate', 'getAllPages', 'getId']),
       getId(){
         return this.id;

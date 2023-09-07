@@ -189,6 +189,14 @@ hr {
   font-weight: bold;
   /* position: sticky; */
 }
+.warcabyHeader{
+  margin-top: 50px;
+}
+.warcabyHeader:hover,
+.statkiHeader:hover,
+.polacz4Header:hover{
+  cursor:pointer;
+}
 table{
     justify-content: center; 
     width: 800px;
@@ -247,12 +255,6 @@ th:nth-child(even){
   padding-right: 30px;
 
 }
-.warcabyHeader:hover,
-.statkiHeader:hover,
-.polacz4Header:hover{
-  cursor:pointer;
-}
-
 .ul{
   display:flex;
 }
