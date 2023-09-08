@@ -8,13 +8,12 @@ export default {
       ship: 1,
       hit: 2,
       miss: 3,
-      emptyHint: 4,
+      blocked: 4,
       shipOponent: 'shipOponent',
       empty2: 'empty2',
       emptyOponent: 'emptyOponent',
       hitOponent: 'hitOponent',
       missedOponent: 'missedOponent',
-      emptyField: 'emptyField',
       counter: 12,
       clicked: [],
       oponentRecive: [],
@@ -35,6 +34,9 @@ export default {
     }
   },
   getters: {
+    getBlocked(state) {
+      return state.blocked;
+    },
     getEmpty(state) {
       return state.empty
     },
@@ -64,9 +66,6 @@ export default {
     },
     getFourCounter(state) {
       return state.fourCounter;
-    },
-    getEmptyHint(state){
-      return state.emptyField;
     }
   },
   mutations: {
@@ -427,7 +426,7 @@ export default {
     resetBoardBattleShips({commit, dispatch}) {
       commit('setBoard', Array(10).fill().map(() => Array(10).fill(0)));
       commit('setOponentBoard', Array(10).fill().map(() => Array(10).fill(0)));
-      dispatch('updatePlayerTurn', null);
+      dispatch('updatePlayerTurn', null, {root:true});
     }
   }
 }

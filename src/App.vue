@@ -33,7 +33,7 @@ export default {
 /* Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: #5da054 #ffffff;
+  scrollbar-color: var(--accent) #ffffff;
 }
 
 /* Chrome, Edge, and Safari */

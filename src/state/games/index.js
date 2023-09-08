@@ -93,7 +93,7 @@ export default {
         },
         {
           id: 3,
-          name: 'Placeholder',
+          name: 'Gra 4',
           img: PlaceholderImg,
           description: 'Short description for placeholder game',
           active: false,
@@ -101,7 +101,7 @@ export default {
         },
         {
           id: 4,
-          name: 'Placeholder',
+          name: 'Gra 5',
           img: PlaceholderImg,
           description: 'Short description for placeholder game',
           active: false,
@@ -109,7 +109,7 @@ export default {
         },
         {
           id: 5,
-          name: 'Placeholder',
+          name: 'Gra 6',
           img: PlaceholderImg,
           description: 'Short description for placeholder game',
           active: false,
@@ -117,7 +117,7 @@ export default {
         },
         {
           id: 6,
-          name: 'Placeholder',
+          name: 'Gra 7',
           img: PlaceholderImg,
           description: 'Short description for placeholder game',
           active: false,
@@ -125,7 +125,7 @@ export default {
         },
         {
           id: 7,
-          name: 'Placeholder',
+          name: 'Gra 8',
           img: PlaceholderImg,
           description: 'Short description for placeholder game',
           active: false,
@@ -133,7 +133,7 @@ export default {
         },
         {
           id: 8,
-          name: 'Placeholder',
+          name: 'Gra 9',
           img: PlaceholderImg,
           description: 'Short description for placeholder game',
           active: false,
