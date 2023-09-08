@@ -18,7 +18,7 @@ export default {
   methods: {
     ...mapActions(['dropBall', 'resetGameCoonectFour', 'obtainGameRoom', 'updatePlayers', 'updateBoard', 'updatePlayerTurn', 'updateWinner']),
     getPawn(i, j) {
-      if (this.isMyPawn(this.getBoard[i][j]))
+      if (this.getBoard[i][j] == 1)
         return 'myPawn'
       else if (this.getBoard[i][j] !=0)
         return 'enemyPawn'
@@ -90,7 +90,7 @@ table {
   border-spacing: 0px;
   border-collapse: collapse;
   border: 1px solid var(--primary);
-  border-right: 0px;
+  margin-bottom: 30px;
 }
 
 @keyframes fadeIn {
@@ -129,7 +129,7 @@ table {
 .empty {
   border-radius: 50%;
   border: 1px solid var(--secondary);
-  background-color: var(--primaryBtn);
+  background-color: white;
   width: 80px;
   height: 80px;
   transition: all;
