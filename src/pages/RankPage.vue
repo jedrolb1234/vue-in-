@@ -16,7 +16,7 @@
               <table>
                 <tr class="warcabyList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tr class="warcabyList"
-                  v-for="( w, index ) in currentPageW" :key="index">
+                  v-for="( w, index ) in getWarcaby" :key="index">
                   <td class="">{{ w.rank }}</td><td>{{ w.name }}</td><td>{{ w.surname }}</td><td>{{ w.points }}</td>    
                 </tr>
                 <tr :style="{height: getDynamicHeightW + 'px'}"></tr>
@@ -51,7 +51,7 @@
                 <tr class="statkiList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tbody>
                   <tr class="statkiList"
-                    v-for="( s, index ) in currentPageS" :key="index">
+                    v-for="( s, index ) in getStatki" :key="index">
                     <td>{{ s.rank }}</td><td>{{ s.name }}</td><td>{{ s.surname }}</td><td>{{ s.points }}</td>    
                   </tr>
                   <tr :style="{height: getDynamicHeightS + 'px'}"></tr>
@@ -89,7 +89,7 @@
                     <tr><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
                     <tbody>
                       <tr
-                        v-for="( p, index ) in currentPageP" :key="index">
+                        v-for="( p, index ) in getPolacz4" :key="index">
                         <td>{{ p.rank }}</td><td>{{ p.name }}</td><td>{{ p.surname }}</td><td>{{ p.points }}</td>    
                       </tr>
                       <tr :style="{height: getDynamicHeightP + 'px'}"></tr>
@@ -134,9 +134,9 @@ export default {
 
   },
   methods:{
-    ...mapActions('Rank', ['toogleWarcabyTable', 'toogleStatkiTable',
-                            'tooglePolacz4Table', 'previousPageW', 'nextPageW',
-                            'previousPageS', 'nextPageS', 'previousPageP', 'nextPageP',]),  
+    ...mapActions('Rank', ['toogleWarcabyTable', 'toogleStatkiTable', 'downloadWarcaby', 'downloadPolacz4',
+                            'tooglePolacz4Table', 'previousPageW', 'nextPageW', 'downloadStatki',
+                            'previousPageS', 'nextPageS', 'previousPageP', 'nextPageP']),  
 
   },  
   computed: {
@@ -150,7 +150,8 @@ export default {
     },
     iconArrow(){
       return ['material-symbols-outlined', 'upArrow'].join(' ');
-    }
+    },
+
   },
 }
 </script>

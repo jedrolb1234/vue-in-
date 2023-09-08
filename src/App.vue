@@ -56,6 +56,10 @@ export default {
   --shadow: #B6BBBE;
 
     /* Tabele */
+
+  --table-header: #003344;  
+  --table-header-color: white;
+  --table-row: #88ff88;
   --td-padding-top-bottom: 5px;
   --td-padding-left-right: 10px;
 
@@ -81,6 +85,7 @@ export default {
   --accent: #0E9A2A;
   --shadow: #070808;
   
+  --table-row: #006600;
   --td-padding-top-bottom: 5px;
   --td-padding-left-right: 10px;
 

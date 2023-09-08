@@ -57,7 +57,7 @@ export default {
     },
     selectPawn(x, y) {
       console.log([x,y])
-      this.isMovable([x, y]);console.log(this.getIfMoveIsPossible)
+      this.isMovable([x, y]);
       if ((this.getBoard[x][y] != this.getEmpty) && (this.getIfMoveIsPossible)) {
         this.draggedPawn = [x, y];
       }
@@ -67,9 +67,7 @@ export default {
     },
     drop(e, x, y) {
       e.preventDefault();
-      console.log(this.draggedPawn)
       this.isMoveValid({start: this.draggedPawn, end: [x, y]});
-      console.log(this.getIsMoveValid)
       if (this.getIsMoveValid) {
         if (this.isBoardReversed) {
           this.$callHub.client.invoke('MakeMoveCheckers', this.getSelectedGameRoom.id, this.getUserId, 65 - (this.draggedPawn[0] * 8 + this.draggedPawn[1] + 1), 65 - (x * 8 + y + 1));
@@ -113,7 +111,6 @@ export default {
     })
 
     this.$callHub.client.on('GameRoomJoined', async () => {
-      console.log('xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
       await this.obtainGameRoom(this.getSelectedGameRoom.id);
     })
 

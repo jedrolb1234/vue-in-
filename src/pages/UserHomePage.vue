@@ -196,7 +196,7 @@ th{
 } */
 td{
   padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
-  background-color: var(--secondary);
+  /* background-color: var(--secondary); */
   width: 200px;
   font-size: 18px;
   color:var(--primary);
@@ -204,24 +204,13 @@ td{
   text-align: center;
 }
 
-td:nth-child(odd){
-background-color: var(--td-odd-bg-color); 
-color: var(--td-odd-txt-color); 
+th{
+  background-color: var(--accent);
+  color: var(--table-header-color)
 }
-td:nth-child(even){ 
-  background-color: var(--td-even-bg-color); 
-color: var(--td-even-txt-color); 
+tr:nth-child(even){
+  background-color: var(--primaryBtn);
 }
-
-th:nth-child(odd){ 
-background-color: var(--th-odd-bg-color); 
-color: var(--th-odd-txt-color); 
-}
-th:nth-child(even){ 
-background-color: var(--th-even-bg-color); 
-color: var(--th-even-txt-color); 
-}
-
 .historyList{
 font-size: 24;
 color: var(--secondary);

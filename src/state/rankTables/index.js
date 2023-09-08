@@ -1,3 +1,5 @@
+import AxiosInstance from '@/mixins/axiosInstance';
+
 export default {
   namespaced: true,
   state() {
@@ -12,180 +14,18 @@ export default {
       currentPageWar: 1,
       currentPageStat: 1,
       currentPagePol: 1,
-      warcabyRank:[
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points: 100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-            points: 97
-          },
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points:  100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-            points: 97
-          },
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points: 100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-            points: 97
-          }
-        ],
-        statkiRank:[
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points: 100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-            points: 97
-          }
-        ],
-        polacz4Rank: [
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points: 100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-             points: 97
-          },
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points: 100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-            points: 97
-          },
-          {
-            rank: 1,
-            name: 'Andrzej',
-            surname: 'Bidermann',
-            points: 100
-          },
-          {
-            rank: 2,
-            name: 'Tomek',
-            surname: 'B',
-            points: 99
-          },
-          {
-            rank: 3,
-            name: 'Rafał',
-            surname: 'Rafał',
-            points: 98
-          },
-          {
-            rank: 4,
-            name: 'Daniel',
-            surname: 'Daniel',
-            points: 97
-          }
-      ],
+      warcabyRank: [],
+      warcabyCount: 0,
+      warcabyPages: 0,
+      statkiRank: [],
+      statkiCount:0,
+      statkiPages: 0,
+      polacz4Rank: [],
+      polacz4Count: 0,
+      polacz4Pages:0,
+      dynamicHeightP:0,
+      dynamicHeightS:0,
+      dynamicHeightW:0,
     }
   },
   mutations: {
@@ -198,18 +38,6 @@ export default {
     isPolacz4Hidden(state) {
       state.polacz4Hidden = !state.polacz4Hidden;
     },
-    // ifLoading(state, info) {
-    //   if (info === 'W'){
-    //     state.isLoadingWar=!state.isLoadingWar;
-    //     }
-    //   if (info === 'S'){
-    //     state.isLoadingStat=!state.isLoadingStat;
-    //     }
-    //   if (info === 'P'){
-    //     state.isLoadingPol=!state.isLoadingPol
-    //     }
-    //   },
- 
       previousPageW(state){
         if (state.currentPageWar > 1){
           console.log('--')
@@ -228,7 +56,26 @@ export default {
           state.currentPagePol--;
       }
     },
-    
+    setWarcaby(state, value){
+      state.warcabyRank = value;
+      if (state.warcabyRank.length != 10) {
+        state.dynamicHeightW = (state.itemsPerPage - state.warcabyRank.length) * state.rowHeight;
+      }state.dynamicHeightW = 0;
+    },
+    setStatki(state, value){
+      state.statkiRank = value;
+      if (state.statkiRank.length != 10) {
+        state.dynamicHeightS = (state.itemsPerPage - state.statkiRank.length) * state.rowHeight;
+      }
+      else state.dynamicHeightS = 0;
+
+    },
+    setPolacz4(state, value){
+      state.polacz4Rank = value;
+      if (state.polacz4Rank.length != 10) {
+        state.dynamicHeightP = (state.itemsPerPage - state.polacz4Rank.length) * state.rowHeight;
+      }else state.dynamicHeightP = 0;
+    },
     nextPageW(state){
       console.log('+++')
         if (state.currentPageWar < Math.ceil(Object.keys(state.warcabyRank).length / state.itemsPerPage)){
@@ -247,25 +94,27 @@ export default {
         console.log('++')
         state.currentPagePol++;
       }
-    }
+    },
+
   },
   actions: {
     toogleWarcabyTable(context){
-      context.commit('isWarcabyHidden');
+      context.commit('isWarcabyHidden', false)
+      context.dispatch('downloadWarcaby', 0);
     },
     toogleStatkiTable(context){
-        context.commit('isStatkiHidden');
+      context.commit('isStatkiHidden', false)
+        context.dispatch('downloadStatki', 1);
     },
     tooglePolacz4Table(context){
       console.log('aaaa')
-      context.commit('isPolacz4Hidden');
+      context.commit('isPolacz4Hidden', false)
+      context.dispatch('downloadPolacz4', 2);
     },
     isLoading(context, info){
       context.commit('isLoading', info);
     },
-    // loading(context, info){
-    //   context.commit('ifLoading', info);
-    // },
+
     nextPageW(context){
       context.commit('nextPageW');
     },
@@ -284,7 +133,107 @@ export default {
     previousPageP(context){
       context.commit('previousPageP')
     },
+  
+  async downloadWarcaby(context, index) {
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    // const params = {
+    //   // pageNumber: context.state.currentPageWar,
+    //   // pageSize: context.state.itemsPerPage,
+    // }
+    let res;
+    try {
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: null });
+      if (res.status === 200) {
+        console.log(res.data.items, 'aaa')
+        context.commit('setWarcaby', res.data.items);
+        context.commit('toogleIsWarcabyHidden');
+        context.commit('setWarcabyCount', res.data.totalItemsCount)
+        context.commit('setWarcabyPages', res.data.totalPages)
+      }
+    } catch (error) {
+      if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
+        context.dispatch('logOutUser');
+      }
+      else if (error.response) {
+        context.dispatch('showNotification',
+          {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+          },
+          { root: true });
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
   },
+  async downloadStatki(context, index) {
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const params = {
+      PageNumber: context.state.currentPageStat,
+      PageSize: context.state.itemsPerPage,
+    }
+    let res;
+    try {
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
+      if (res.status === 200) {
+        console.log(res.data.items, 'aaa')
+        context.commit('setWarcaby', res.data.items);
+        context.commit('toogleIsStatkiHidden');
+        context.commit('setWarcabyCount', res.data.totalItemsCount)
+        context.commit('setWarcabyPages', res.data.totalPages)
+      }
+    } catch (error) {
+      if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
+        context.dispatch('logOutUser');
+      }
+      else if (error.response) {
+        context.dispatch('showNotification',
+          {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+          },
+          { root: true });
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
+  },
+  async downloadPolacz4(context, index) {
+    const notificationTemplates = context.rootGetters.getNotificationTemplates;
+    const params = {
+      PageNumber: context.state.currentPagePol,
+      PageSize: context.state.itemsPerPage,
+    }
+    let res;
+    try {
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
+      if (res.status === 200) {
+        console.log(res.data.items, 'aaa')
+        context.commit('setWarcaby', res.data.items);
+        context.commit('toogleIsCheckersHidden');
+        context.commit('setWarcabyCount', res.data.totalItemsCount)
+        context.commit('setWarcabyPages', res.data.totalPages)
+      }
+    } catch (error) {
+      if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
+        context.dispatch('logOutUser');
+      }
+      else if (error.response) {
+        context.dispatch('showNotification',
+          {
+            label: 'Wystąpiły błędy!',
+            description: 'Nie udało się pobrać danych.',
+            type: 'error'
+          },
+          { root: true });
+      } else {
+        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+      }
+    }
+  }
+},
   getters: {    
     getIsLoadingWar(state){
       return state.isLoadingWar;
@@ -336,31 +285,9 @@ export default {
     getDynamicHeightS(state){
       return state.dynamicHeightS;
     },
-    currentPageW(state){//, info){
-        let startIndex = (state.currentPageWar - 1) * state.itemsPerPage;
-        let endIndex = startIndex + state.itemsPerPage;
-        let sliced = state.warcabyRank.slice(startIndex, endIndex);   
-        state.dynamicHeightW= (10 - sliced.length ) * 38;
-        return sliced;
-    },
-    currentPageS(state){//, info){
-        let startIndex = (state.currentPageStat - 1) * state.itemsPerPage;
-        let endIndex = startIndex + state.itemsPerPage;
-        let sliced = state.statkiRank.slice(startIndex, endIndex); 
-        state.dynamicHeightS = (10 - sliced.length ) * 38;
-        return sliced;
-    },  
-    currentPageP(state){//, info){
-      let startIndex = (state.currentPagePol - 1) * state.itemsPerPage;
-      let endIndex = startIndex + state.itemsPerPage;
-      let sliced = state.polacz4Rank.slice(startIndex, endIndex); 
-      state.dynamicHeightP = (10 - sliced.length ) * 38;
-      console.log(sliced, state.polacz4Rank)
-      return sliced;
-  },  
     pageNrW(state){
         return state.currentPageWar;
-      },
+    },
     PageNrS(state){
         return state.currentPageStat;
     },
@@ -378,3 +305,4 @@ export default {
     },
   }
 }
+
