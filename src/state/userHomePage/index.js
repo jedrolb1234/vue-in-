@@ -19,10 +19,14 @@ export default {
       history: [],
       hstoryPages: null,
       historyCount: 0,
-      rowHeight: 38
+      rowHeight: 38,
+      gamesInProgress: []
     }
   },
   mutations: {
+    setGamesInProgress(state, data) {
+      state.gamesInProgress = data;
+    },
     loading(state) {
       state.isLoading = !state.isLoading;
     },
@@ -130,6 +134,9 @@ export default {
 
   },
   getters: {
+    getGamesInProgress(state) {
+      return state.gamesInProgress;
+    },
     isLoading(state) {
       return state.isLoading;
     },
@@ -335,6 +342,23 @@ export default {
               { root: true });
           }
         } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+        }
+      }
+    },
+    async obtainGamesInProgress(context, payload) {
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      try {
+        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: payload })
+        if (res.status == 200) {
+          context.commit('setGamesInProgress', res.data);
+        }
+      }
+      catch (error) {
+        if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
+          context.dispatch('logOutUser');
+        }
+        else {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }

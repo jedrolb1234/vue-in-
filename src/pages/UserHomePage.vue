@@ -1,95 +1,127 @@
 <template>
-    <BasePageLayout>
-        <div class="page">
-            <BaseHeader>Strona użytkownika</BaseHeader>
-            <div class="profile">
-                <UserProfile :id="id" :isFriend="getIsFriend" :user="getUser"></UserProfile>
-                <div class="module__head">
-                <h1>Dane użytkownika</h1>
-                </div>
-                <hr>
-                <div class="module__content">
-                <div>Imię</div>
-                <div>{{ getName }}</div>
-                <div>Nazwisko</div>
-                <div>{{ getSurname }}</div>
-                <div>Data urodzenia</div>
-                <div> {{ getBirthDate }}</div>
-                </div>
-            </div>
-            <h1>Historia gier</h1>
-            <hr>                    
-            <div class="showHistoryTable">
-                <div v-if="isLoading===false">
-                    <table>
-                    <tr class="historyList"><th>gra</th><th>data</th><th>Zwycięzca</th><th>Punkty</th></tr>
-                    
-                    <tr class="historyList"
-                        v-for="( h, index ) in getHistory" :key="index">
-                        <td>{{ h.gameName }}</td><td>{{ h.endDate }}</td><td>{{ }}</td><td>{{ h.points }}</td>    
-                    </tr>
-                    <tr :style="{height: getDynamicHeight + 'px'}"></tr>
-                    </table>
-                    <div v-if="getOwnId " class="buttons">
-                      <base-previous-button :disabled="(getCurrentPage === 1)" @click="previousPage"></base-previous-button>
-                      <base-next-button :disabled="getAllPages === getCurrentPage" @click="nextPage"></base-next-button>
-                      <p class="pageNr">{{ getHistPage }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="spacer"><br></div>
+  <BasePageLayout>
+    <div class="page">
+      <BaseHeader>Strona użytkownika</BaseHeader>
+      <div class="profile">
+        <UserProfile :id="id" :isFriend="getIsFriend" :user="getUser"></UserProfile>
+        <div class="module__head">
+          <h1>Dane użytkownika</h1>
         </div>
-    </BasePageLayout>
-  </template>
-  <script>
-  import BasePageLayout from '@/components/base/BasePageLayout.vue';
-  import BaseHeader from '@/components/base/BaseHeader.vue';
-  import UserProfile from '@/components/UserHomePage/UserHomeProfile.vue'
-  import BaseNextButton from '@/components/base/BaseNextButton.vue'
-  import BasePreviousButton from '@/components/base/BasePreviousButton.vue'
-  import { mapActions, mapGetters } from 'vuex';
-  
-  export default {
-    components: {
-      BasePageLayout,
-      BaseHeader,
-      UserProfile,
-      BaseNextButton,
-      BasePreviousButton
-    },
-    props:['id', 'invId', 'userAvatar'],
+        <hr>
+        <div class="module__content">
+          <div>Imię</div>
+          <div>{{ getName }}</div>
+          <div>Nazwisko</div>
+          <div>{{ getSurname }}</div>
+          <div>Data urodzenia</div>
+          <div> {{ getBirthDate }}</div>
+        </div>
+      </div>
+        <div v-if="this.getUserId == this.id">
+          <h1>Aktywne rozgrywki</h1>
+        </div>
+        <hr v-if="this.getUserId == this.id">
+        <table v-if="this.getUserId == this.id" class="showHistoryTable" style="width: 800px; margin-left: 40px;">
+          <thead style="font-weight: bold;">
+            <tr>
+              <td>Gra</td>
+              <td>Przeciwnik</td>
+              <td>Data rozpoczęcia</td>
+              <td style="width: 50px;">Dołącz</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(room, index) in this.getGamesInProgress" :key="index">
+              <td>{{ this.getGame(room.gameTypeId).name }}</td>
+              <td>{{ room.players.filter(x => x.playerId != this.getUserId)[0].userName }}</td>
+              <td> {{ new Date(room.createDate).toLocaleString() }}</td>
+              <td style="width: 50px"><span style="cursor: pointer;" class="material-symbols-outlined"
+                  @click="this.$router.push({ 'path': `/play/${room.id}` })">play_circle</span></td>
+            </tr>
+          </tbody>
+        </table>
+      <h1>Historia gier</h1>
+      <hr>
+      <div class="showHistoryTable">
+        <div v-if="isLoading === false">
+          <table>
+            <tr class="historyList">
+              <th>gra</th>
+              <th>data</th>
+              <th>Zwycięzca</th>
+              <th>Punkty</th>
+            </tr>
 
-    async mounted(){
-      await this.getData(this.id);
-      this.downloadHistory();
+            <tr class="historyList" v-for="( h, index ) in getHistory" :key="index">
+              <td>{{ h.gameName }}</td>
+              <td>{{ h.endDate }}</td>
+              <td>{{ }}</td>
+              <td>{{ h.points }}</td>
+            </tr>
+            <tr :style="{ height: getDynamicHeight + 'px' }"></tr>
+          </table>
+          <div v-if="getOwnId" class="buttons">
+            <base-previous-button :disabled="(getCurrentPage === 1)" @click="previousPage"></base-previous-button>
+            <base-next-button @click="nextPage"></base-next-button>
+            <p class="pageNr">{{ getHistPage }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="spacer"><br></div>
+    </div>
+  </BasePageLayout>
+</template>
+<script>
+import BasePageLayout from '@/components/base/BasePageLayout.vue';
+import BaseHeader from '@/components/base/BaseHeader.vue';
+import UserProfile from '@/components/UserHomePage/UserHomeProfile.vue'
+import BaseNextButton from '@/components/base/BaseNextButton.vue'
+import BasePreviousButton from '@/components/base/BasePreviousButton.vue'
+import { mapActions, mapGetters } from 'vuex';
+
+export default {
+  components: {
+    BasePageLayout,
+    BaseHeader,
+    UserProfile,
+    BaseNextButton,
+    BasePreviousButton
+  },
+  props: ['id', 'invId', 'userAvatar'],
+  computed: {
+    ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
+      'isLoading', 'getHasFriend', 'getHistory', 'getCurrentPage', 'getItemsPerPage', 'getUser',
+      'getIsFriend', 'getInvId', 'getUserId', 'getDynamicHeight', 'getHistPage', 'getHistPages',
+      'getGameName', 'getGameDate', 'getId', 'getGamesInProgress']),
+    ...mapGetters(['getUserId', 'getGame']),
+    getId() {
+      return this.id;
     },
-    computed: {
-      ...mapGetters('UHP', ['isAvatarPickerVisible', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
-                            'isLoading', 'getHasFriend', 'getHistory', 'getCurrentPage', 'getItemsPerPage', 'getUser', 
-                            'getIsFriend', 'getInvId', 'getUserId','getDynamicHeight', 'getHistPage', 'getHistPages',
-                            'getGameName', 'getGameDate', 'getAllPages', 'getId']),
-      getId(){
-        return this.id;
-      },
-      getInvId(){
-        return this.invId;
-      },
-      getOwnId(){
-        // console.log("own", this.id)
-        return this.id === sessionStorage.getItem('ownerId');
-      }
+    getInvId() {
+      return this.invId;
     },
-    methods: {
-      ...mapActions('UHP', ['getData', 'downloadHistory', 'nextPage', 'previousPage', 'setId']),
-      ...mapActions(['showAvatarPicker', 'hideAvatarPicker']),
-      },
-      watch:{
-        id: function(){
-          this.getData(this.id);
-      },
+    getOwnId() {
+      // console.log("own", this.id)
+      return this.id === sessionStorage.getItem('ownerId');
     }
-  }
-  </script>
+  },
+  methods: {
+    ...mapActions('UHP', ['getData', 'downloadHistory', 'nextPage', 'previousPage', 'setId', 'obtainGamesInProgress']),
+    ...mapActions(['showAvatarPicker', 'hideAvatarPicker']),
+  },
+  watch: {
+    id: function () {
+      this.getData(this.id);
+      this.obtainGamesInProgress({ status: 1, playerId: this.getUserID })
+    },
+  },
+  async mounted() {
+    await this.getData(this.id);
+    this.downloadHistory();
+    this.obtainGamesInProgress({ status: 1, playerId: this.getUserID })
+  },
+}
+</script>
 
 
 <style scoped>
@@ -115,7 +147,8 @@ hr {
   border: 1px solid var(--accent);
   margin-left: 0px;
 }
-.hr2{
+
+.hr2 {
   margin-left: -40px;
   width: 900px;
 }
@@ -142,29 +175,32 @@ hr {
 
 .module:last-child {
   margin-bottom: 30px;
-}  
+}
+
 .icon {
   font-size: 20px;
 }
-.showHistoryTable{
+
+.showHistoryTable {
   margin-left: 40px;
   color: var(--secondary);
-  gap:15px;
+  gap: 15px;
   margin-bottom: 50px;
 }
-.historyHeader
-{
-display: flex;
-flex-direction: row;
-align-items: center;
-font-size: 22px;
-background-color: var(--secondary);
-width: 800px;
-margin: 0px 0px 20px -40px;
-color: var(--primary);
+
+.historyHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 22px;
+  background-color: var(--secondary);
+  width: 800px;
+  margin: 0px 0px 20px -40px;
+  color: var(--primary);
 }
-table{
-  justify-content: center; 
+
+table {
+  justify-content: center;
   width: auto;
   color: var(--secondary);
   border-collapse: collapse;
@@ -172,73 +208,85 @@ table{
   border-spacing: 0px;
   background-color: var(--secondary);
 }
-tr{
+
+tr {
   border: 1px solid var(--primary);
   text-align: left;
   border-radius: 8px;
   width: 800px;
 }
-tr:first-child{
-  width:60px;
+
+tr:first-child {
+  width: 60px;
 }
-tr:last-child{
-  width:100px;
+
+tr:last-child {
+  width: 100px;
 }
-th{
+
+th {
   width: 160px;
   height: 51px;
   color: var(--primary);
   text-align: center;
-  padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
+  padding: var(--td-padding-top-bottom) var(--td-padding-left-right);
+  /* odstępy */
 }
+
 /* table:last-child{
   border-radius: 0px 0px 8px 8px;
 } */
-td{
-  padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
+td {
+  padding: var(--td-padding-top-bottom) var(--td-padding-left-right);
+  /* odstępy */
   background-color: var(--secondary);
   width: 200px;
   font-size: 18px;
-  color:var(--primary);
+  color: var(--primary);
   margin: 0px 0px 0px 0px;
   text-align: center;
 }
 
-td:nth-child(odd){
-background-color: var(--td-odd-bg-color); 
-color: var(--td-odd-txt-color); 
-}
-td:nth-child(even){ 
-  background-color: var(--td-even-bg-color); 
-color: var(--td-even-txt-color); 
+td:nth-child(odd) {
+  background-color: var(--td-odd-bg-color);
+  color: var(--td-odd-txt-color);
 }
 
-th:nth-child(odd){ 
-background-color: var(--th-odd-bg-color); 
-color: var(--th-odd-txt-color); 
-}
-th:nth-child(even){ 
-background-color: var(--th-even-bg-color); 
-color: var(--th-even-txt-color); 
+td:nth-child(even) {
+  background-color: var(--td-even-bg-color);
+  color: var(--td-even-txt-color);
 }
 
-.historyList{
-font-size: 24;
-color: var(--secondary);
+th:nth-child(odd) {
+  background-color: var(--th-odd-bg-color);
+  color: var(--th-odd-txt-color);
 }
-.buttons{
-display: flex;
-flex-direction: row;
-width: 70px;
-justify-content: space-between;
-color: var(--primary);
+
+th:nth-child(even) {
+  background-color: var(--th-even-bg-color);
+  color: var(--th-even-txt-color);
 }
-.spinner{
-justify-content: center;
-align-items: center;
-margin-left: 350px;
+
+.historyList {
+  font-size: 24;
+  color: var(--secondary);
 }
-.pageNr{
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: 70px;
+  justify-content: space-between;
+  color: var(--primary);
+}
+
+.spinner {
+  justify-content: center;
+  align-items: center;
+  margin-left: 350px;
+}
+
+.pageNr {
   width: 13px;
   font-size: 22px;
   margin-left: 234px;
@@ -247,10 +295,12 @@ margin-left: 350px;
   margin-left: 0px;
   padding: 0px;
 }
-.spacer{
-height:50px;
-margin-top: 50px;
+
+.spacer {
+  height: 50px;
+  margin-top: 50px;
 }
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
@@ -259,5 +309,6 @@ margin-top: 50px;
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
-}</style>
+}
+</style>
   

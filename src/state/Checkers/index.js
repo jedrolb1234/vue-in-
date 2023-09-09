@@ -173,7 +173,7 @@ export default {
       const board= Array(8).fill().map(() => Array(8).fill(0));
       context.commit('setBoard', board);
       context.commit('setWhitePlayer', null);
-      context.dispatch('updatePlayerTurn', null);
+      context.dispatch('updatePlayerTurn', null, {root:true});
     },
     updateBoard(context, board) {
       context.commit('setBoard', board);
