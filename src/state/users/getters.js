@@ -17,7 +17,6 @@ export default {
     return state.avatars;
   },
   getUserAvatar:(state) => (nr) =>{
-    // console.log(nr,'avatarNR')
     return state.avatars[nr];
   },
   getTheme(state) {

@@ -139,7 +139,6 @@ export default {
         ...mapActions(['showNotification', 'setInvitationId']),
 
         redirect(id, invId){
-            // console.log('uhp')
             if (invId !== 'null'){
                 sessionStorage.setItem('invId', invId);
                 return this.$router.push({

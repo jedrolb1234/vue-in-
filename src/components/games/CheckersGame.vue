@@ -56,7 +56,6 @@ export default {
       return classes.join(' ');
     },
     selectPawn(x, y) {
-      console.log([x,y])
       this.isMovable([x, y]);
       if ((this.getBoard[x][y] != this.getEmpty) && (this.getIfMoveIsPossible)) {
         this.draggedPawn = [x, y];
@@ -103,11 +102,9 @@ export default {
 
     this.$callHub.client.on('GameStarted', async (board, playerTurn, whitePlayer) => {
       await this.obtainGameRoom(this.getSelectedGameRoom.id);
-      // this.updatePlayers(this.getSelectedGameRoom.players);
       this.updateBoard(board);
       this.updatePlayerTurn(playerTurn);
       this.updateWhitePlayer(whitePlayer);
-      // console.log(whitePlayer)
     })
 
     this.$callHub.client.on('GameRoomJoined', async () => {

@@ -15,7 +15,6 @@ const refreshToken = async () => {
       localStorage.setItem('refresh_token', res.data.refreshToken);
     }
   } catch (error) {
-    console.log(error);
     return Promise.reject(error);
   }
   // }
@@ -45,7 +44,6 @@ const refreshToken = async () => {
         originalConfig._retry = true;
         await refreshToken();
         // instance.defaults.headers.common["Authorization"] = 'Bearer ' + localStorage.getItem('token');
-        console.log(localStorage.getItem('token'))
         return instance(originalConfig);
       }
       return Promise.reject(error);

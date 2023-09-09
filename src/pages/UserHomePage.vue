@@ -101,7 +101,6 @@ export default {
       return this.invId;
     },
     getOwnId() {
-      // console.log("own", this.id)
       return this.id === sessionStorage.getItem('ownerId');
     }
   },

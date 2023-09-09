@@ -40,19 +40,16 @@ export default {
     },
       previousPageW(state){
         if (state.currentPageWar > 1){
-          console.log('--')
           state.currentPageWar--;
         }
       },
       previousPageS(state){
         if (state.currentPageStat > 1){
-          console.log('--')
           state.currentPageStat--;
         }
       },
       previousPageP(state){
         if (state.currentPagePol > 1){
-          console.log('--')
           state.currentPagePol--;
       }
     },
@@ -77,21 +74,17 @@ export default {
       }else state.dynamicHeightP = 0;
     },
     nextPageW(state){
-      console.log('+++')
         if (state.currentPageWar < Math.ceil(Object.keys(state.warcabyRank).length / state.itemsPerPage)){
-        console.log('++')
         state.currentPageWar++;
       }
     },
     nextPageS(state){
       if (state.currentPageStat < Math.ceil(Object.keys(state.statkiRank).length / state.itemsPerPage)){
-        console.log('++')
         state.currentPageStat++;
       }
     },
     nextPageP(state){
       if (state.currentPagePol < Math.ceil(Object.keys(state.polacz4Rank).length / state.itemsPerPage)){
-        console.log('++')
         state.currentPagePol++;
       }
     },
@@ -146,7 +139,6 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
-        console.log(res.data.items, 'aaa')
         context.commit('setWarcaby', res.data.items);
         context.commit('toogleIsWarcabyHidden');
         context.commit('setWarcabyCount', res.data.totalItemsCount)
@@ -179,7 +171,6 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
-        console.log(res.data.items, 'aaa')
         context.commit('setWarcaby', res.data.items);
         context.commit('toogleIsStatkiHidden');
         context.commit('setWarcabyCount', res.data.totalItemsCount)
@@ -212,7 +203,6 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
-        console.log(res.data.items, 'aaa')
         context.commit('setWarcaby', res.data.items);
         context.commit('toogleIsCheckersHidden');
         context.commit('setWarcabyCount', res.data.totalItemsCount)
@@ -247,7 +237,6 @@ export default {
       return state.isLoadingPol;
     },
     warcabyTable(state) {
-      console.log('warcaby', state.warcabyHidden)
       return state.warcabyHidden;
     },
     statkiTable(state) {
@@ -263,7 +252,6 @@ export default {
       return state.statkiRank;
     },
     getPolacz4(state){
-      console.log('+++++++')
       return state.polacz4Rank;
     },
     getCurrentPageWar(state){

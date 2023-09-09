@@ -31,7 +31,6 @@ export default {
   props:['userAvatar', 'id'],
   methods:{
     redirect(){
-      console.log(this.id)
       return this.$router.push({
                           name: 'uhp',
                           params: { id: this.id, isFriend: false , invId: 'null'},

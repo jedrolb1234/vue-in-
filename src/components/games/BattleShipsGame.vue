@@ -311,7 +311,6 @@ export default {
     })
 
     this.$callHub.client.on("ShotTaken", (boards, oponentBoard, playerTurn, winner, isFinished) => {
-      console.log(this.getSelectedGameRoom.id);
       if (isFinished==1)
         this.obtainGameRoom(this.getSelectedGameRoom.id);
       // this.updateWinner(winner);
@@ -321,7 +320,6 @@ export default {
     })
 
     this.$callHub.client.on("UpdateBoardState", (boards, oponentBoard, playerTurn, winner, isFinished) => {
-      console.log(this.getSelectedGameRoom.id);
       if (isFinished==1)
         this.obtainGameRoom(this.getSelectedGameRoom.id);
       // this.updateWinner(winner);

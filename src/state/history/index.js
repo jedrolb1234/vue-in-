@@ -128,14 +128,11 @@ export default {
     },
     previousPage(state){
       if (state.currentPage > 1){
-        console.log('--')
         state.currentPage--;
       }
     },
     nextPage(state){
-      console.log('+++')
       if (state.currentPage < Math.ceil(state.history.length / state.itemsPerPage)){
-        console.log('++')
         state.currentPage++;
       }
     }
@@ -152,7 +149,6 @@ export default {
       return state.history.slice(startIndex, endIndex);     
     },
     pageNr(state){
-      console.log('page')
       return state.currentPage;
 
     },

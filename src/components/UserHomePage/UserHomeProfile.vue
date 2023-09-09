@@ -39,7 +39,6 @@
       ...mapGetters(['getProfileAvatar', 'getUserAvatar']),
       getInvId(){
         const id = sessionStorage.getItem('invId')
-        // console.log(id)
         localStorage.setItem('invId', null)
         return id;
       },
