@@ -23,8 +23,8 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                        <base-previous-button @click="previousPage" :disable="pPageNr===0"></base-previous-button>
-                        <base-next-button @click="nextPage" :disable="getPageNr===allPages"></base-next-button>
+                        <base-previous-button @click="previousPage" :disable="getCurrentPage===0"></base-previous-button>
+                        <base-next-button @click="nextPage" :disable="getCurrentPage===getFriendsPages"></base-next-button>
                         <p class="page">{{ pageNr }}</p>
                     </div>
                 </ul>
@@ -125,9 +125,9 @@ export default {
         },
         
     computed: {
-        ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
-                    'getFriends', 'getFindFriend', 'getFindUser', 'getDynamicHeight', 
-                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId',
+        ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'getFriendsPages', 'getUser', 
+                    'getFriends', 'getFindFriend', 'getFindUser', 'getDynamicHeight', 'pPageNr', 'getPageNr',
+                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId', 'getCurrentPage',
                     'invPageNr', 'invAllPages', 'getIsVisibleMessage', 'getInvPages',
                     'getFriendsCount', 'getRemUser']),
     },

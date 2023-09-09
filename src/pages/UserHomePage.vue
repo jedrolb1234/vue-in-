@@ -46,8 +46,8 @@
         <div v-if="isLoading === false">
           <table>
             <tr class="historyList">
-              <th>gra</th>
-              <th>data</th>
+              <th>Gra</th>
+              <th>Data</th>
               <th>Zwycięzca</th>
               <th>Punkty</th>
             </tr>
@@ -55,14 +55,14 @@
             <tr class="historyList" v-for="( h, index ) in getHistory" :key="index">
               <td>{{ h.gameName }}</td>
               <td>{{ h.endDate }}</td>
-              <td>{{ }}</td>
+              <td>{{ h.WhoWon }}</td>
               <td>{{ h.points }}</td>
             </tr>
             <tr :style="{ height: getDynamicHeight + 'px' }"></tr>
           </table>
           <div v-if="getOwnId" class="buttons">
             <base-previous-button :disabled="(getCurrentPage === 1)" @click="previousPage"></base-previous-button>
-            <base-next-button @click="nextPage"></base-next-button>
+            <base-next-button :disabled="getHistPage === getCurrentPage" @click="nextPage"></base-next-button>
             <p class="pageNr">{{ getHistPage }}</p>
           </div>
         </div>
@@ -236,10 +236,9 @@ th {
 /* table:last-child{
   border-radius: 0px 0px 8px 8px;
 } */
-td {
-  padding: var(--td-padding-top-bottom) var(--td-padding-left-right);
-  /* odstępy */
-  background-color: var(--secondary);
+td{
+  padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
+  /* background-color: var(--secondary); */
   width: 200px;
   font-size: 18px;
   color: var(--primary);
@@ -247,29 +246,16 @@ td {
   text-align: center;
 }
 
-td:nth-child(odd) {
-  background-color: var(--td-odd-bg-color);
-  color: var(--td-odd-txt-color);
+th{
+  background-color: var(--accent);
+  color: var(--table-header-color)
 }
-
-td:nth-child(even) {
-  background-color: var(--td-even-bg-color);
-  color: var(--td-even-txt-color);
+tr:nth-child(even){
+  background-color: var(--primaryBtn);
 }
-
-th:nth-child(odd) {
-  background-color: var(--th-odd-bg-color);
-  color: var(--th-odd-txt-color);
-}
-
-th:nth-child(even) {
-  background-color: var(--th-even-bg-color);
-  color: var(--th-even-txt-color);
-}
-
-.historyList {
-  font-size: 24;
-  color: var(--secondary);
+.historyList{
+font-size: 24;
+color: var(--secondary);
 }
 
 .buttons {

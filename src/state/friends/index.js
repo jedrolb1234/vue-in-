@@ -84,17 +84,8 @@ export default {
     },
     setFriends(state, value) {
       let formattedDate;
-      console.log(value.lastActivityDate)
-      console.log(value)
       state.friends = value; 
       for (let i = 0; i < value.length; i++) {      
-        // if(value[i].lastActivityDate === undefined){
-        //   let day = "";
-        //   let month = "";
-        //   let year = "";
-        //   formattedDate = `${year}-${month}-${day}`;
-        //   state.friends[i].lastActivityDate = formattedDate;
-        // }else{
           var inputDate = new Date(value[i].lastActivityDate);
           let day = inputDate.getDate().toString().padStart(2, '0');
           let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
