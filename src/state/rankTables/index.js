@@ -99,16 +99,18 @@ export default {
   },
   actions: {
     toogleWarcabyTable(context){
-      context.commit('isWarcabyHidden', false)
+      context.commit('isWarcabyHidden')
+      if(context.state.warcabyHidden === false)
       context.dispatch('downloadWarcaby', 0);
     },
     toogleStatkiTable(context){
-      context.commit('isStatkiHidden', false)
+      context.commit('isStatkiHidden')
+      if(context.state.statkiHidden === false)
         context.dispatch('downloadStatki', 1);
     },
     tooglePolacz4Table(context){
-      console.log('aaaa')
-      context.commit('isPolacz4Hidden', false)
+      context.commit('isPolacz4Hidden')
+      if(context.state.polacz4Hidden === false)
       context.dispatch('downloadPolacz4', 2);
     },
     isLoading(context, info){
@@ -136,13 +138,13 @@ export default {
   
   async downloadWarcaby(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-    // const params = {
-    //   // pageNumber: context.state.currentPageWar,
-    //   // pageSize: context.state.itemsPerPage,
-    // }
+    const params = {
+      PageNumber: context.state.currentPageWar,
+      PageSize: context.state.itemsPerPage,
+    }
     let res;
     try {
-      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: null });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
         console.log(res.data.items, 'aaa')
         context.commit('setWarcaby', res.data.items);
