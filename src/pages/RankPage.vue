@@ -60,7 +60,7 @@
               <div class="buttons" v-show="statkiTable===false">
                 <base-previous-button @click="previousPageS">Poprzednia</base-previous-button>
                 <base-next-button @click="nextPageS">Następna</base-next-button>
-                <p class="page">{{ pageNr('S') }}</p>
+                <p class="page">{{ pageNrS }}</p>
               </div>
             </div>
           </transition>

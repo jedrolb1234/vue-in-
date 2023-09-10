@@ -9,7 +9,7 @@ export default {
       polacz4Hidden: true,
       isLoadingWar: true,
       isLoadingStat: true,
-      isLoadingPol: false,
+      isLoadingPol: true,
       itemsPerPage: 10,
       currentPageWar: 1,
       currentPageStat: 1,
@@ -95,7 +95,33 @@ export default {
         state.currentPagePol++;
       }
     },
-
+    toogleIsLoadingWar(state, value){
+      state.isLoadingWar = value;
+    },
+    toogleIsLoadingStat(state, value){
+      state.isLoadingStat = value;
+    },
+    toogleIsLoadingPol(state, value){
+      state.isLoadingPol = value;
+    },
+    setWarcabyCount(state, value){
+      state.setWarcabyCount = value;
+    },
+    setWarcabyPages(state, value){
+      state.warcabyPages = value;
+    },
+    setStatkiPages(state, value){
+      state.statkiPages = value;
+    },    
+    setStatkiCount(state, value){
+      state.statkiCount = value;
+    },
+    setPolacz4Pages(state, value){
+      state.polacz4Pages = value;
+    },
+    setPolacz4Count(state, value){
+      state.polacz4Count = value;
+    }
   },
   actions: {
     toogleWarcabyTable(context){
@@ -148,7 +174,7 @@ export default {
       if (res.status === 200) {
         console.log(res.data.items, 'aaa')
         context.commit('setWarcaby', res.data.items);
-        context.commit('toogleIsWarcabyHidden');
+        context.commit('toogleIsLoadingWar', false);
         context.commit('setWarcabyCount', res.data.totalItemsCount)
         context.commit('setWarcabyPages', res.data.totalPages)
       }
@@ -180,10 +206,11 @@ export default {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
         console.log(res.data.items, 'aaa')
-        context.commit('setWarcaby', res.data.items);
-        context.commit('toogleIsStatkiHidden');
-        context.commit('setWarcabyCount', res.data.totalItemsCount)
-        context.commit('setWarcabyPages', res.data.totalPages)
+        context.commit('setStatki', res.data.items);
+        context.commit('toogleIsLoadingStat', false);
+        context.commit('setStatkiCount', res.data.totalItemsCount)
+        context.commit('setStatkiPages', res.data.totalPages)
+        console.log(res)
       }
     } catch (error) {
       if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -213,10 +240,10 @@ export default {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
         console.log(res.data.items, 'aaa')
-        context.commit('setWarcaby', res.data.items);
-        context.commit('toogleIsCheckersHidden');
-        context.commit('setWarcabyCount', res.data.totalItemsCount)
-        context.commit('setWarcabyPages', res.data.totalPages)
+        context.commit('setPolacz4', res.data.items);
+        context.commit('toogleIsLoadingPol', false);
+        context.commit('setPolacz4Count', res.data.totalItemsCount)
+        context.commit('setPolacz4Pages', res.data.totalPages)
       }
     } catch (error) {
       if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -264,6 +291,7 @@ export default {
     },
     getPolacz4(state){
       console.log('+++++++')
+      console.log(state.polacz4Rank)
       return state.polacz4Rank;
     },
     getCurrentPageWar(state){
@@ -290,10 +318,10 @@ export default {
     pageNrW(state){
         return state.currentPageWar;
     },
-    PageNrS(state){
+    pageNrS(state){
         return state.currentPageStat;
     },
-    PageNrP(state){
+    pageNrP(state){
         return state.currentPagePol;
     },
     allPagesW(state){
