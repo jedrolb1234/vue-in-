@@ -44,11 +44,6 @@ export default {
     login() {
       this.$router.push({ name: 'login' });
     },
-    // showPopup() {
-    //   this.popup = !this.popup;
-    //   console.log(this.popup);
-    //   return this.popup;
-    //  }
   }
 }
 </script>

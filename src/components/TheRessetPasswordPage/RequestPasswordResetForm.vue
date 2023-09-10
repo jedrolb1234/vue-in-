@@ -64,9 +64,6 @@ export default {
         await this.requestPasswordChange(this.email);
         this.isSending = false;
       }
-      else {
-        console.log()
-      }
     }
   }
 }

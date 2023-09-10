@@ -16,10 +16,8 @@ export default {
   changeUserAvatar(state, avatar) {
     state.settings.avatar = avatar;
     state.userAvatar = state.avatars[avatar];
-    console.log(state.settings.avatar, state.userAvatar)
   },
   changeTheme(state, theme) {
-    // console.log(theme)
     if(theme === 'light')
       state.settings.theme = 0;
     else state.settings.theme = 1;
@@ -37,7 +35,6 @@ export default {
     state.settings.lastName = surname;
   },
   changeBirthDate(state, birthDate) {
-    console.log(birthDate)
     state.settings.dateOfBirth = birthDate;
   },
   changeEmail(state, email) {
@@ -56,7 +53,6 @@ export default {
     state.settings = value;
     state.settings.dateOfBirth = formattedDate;
     sessionStorage.setItem('ownerId', state.settings.id)
-    // console.log(state.settings)
   },
   setUserAvatar(state, avatar){
     state.userAvatar = state.avatars[avatar];
@@ -65,11 +61,9 @@ export default {
     state.settings.theme = theme;
   },
   popupPassword(state, value) {
-    // console.log('password')
     state.visibleMessageP = value;
     },
   popupDelete(state, value){
-    // console.log('delete')
     state.visibleMessage = value;
     }
 }

@@ -28,6 +28,7 @@
         </thead>
         <BaseLoadingSpinner v-if="this.isLoading"></BaseLoadingSpinner>
         <tbody>
+          <p v-if="this.rooms.length == 0" style="text-align: center; padding: 10px;">Stwórz nowy pokój, żeby rozpocząć rozgrywkę!</p>
           <tr v-for="room in this.rooms.slice((this.selectedPage - 1) * this.pageSize, this.selectedPage * this.pageSize)"
             class="game-room-list-element" :key="room.id">
             <td>{{ room.name }}</td>

@@ -170,22 +170,6 @@ export default {
       }
       dispatch('shipNumber');
     },
-
-    // unSetShip({ commit, context }, field){
-    //     commit('setClickedIn', field)
-    //     console.log(field)
-    //     console.log(context.clickedIn)
-    //     if(context.clickedIn){
-    //         context.commit('setShipCounter', 1);
-    //         let index = commit('clickedField', { key: field, value: context.state.hitOponent });
-    //         context.commit('clickedField', index);
-    //         context.commit('setBoard', field);
-    //         console.log('board', context.state.board[field]);
-    //         console.log('tablica', context.state.clicked);
-    //     }
-    //     context.dispatch('shipNumber');
-    //     },
-
     checkLocation(context, field) {
       //let isAbleToPut = true;
       let x = parseInt(field[0]);

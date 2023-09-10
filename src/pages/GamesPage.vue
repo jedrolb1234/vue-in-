@@ -71,9 +71,6 @@ export default {
   },
   created() {
     this.filteredGames = this.getGames;
-    // this.setTheme(this.getTheme);
-    // console.log(this.getTheme)
-
   }
 }
 </script>

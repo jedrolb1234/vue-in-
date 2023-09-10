@@ -55,7 +55,6 @@ export default {
     },
     setSearchedUser(state, value) {
       let formattedDate;
-      console.log(value)
       if(value.dateOfBirth === ""){  
         let day = "";
         let month = "";
@@ -91,7 +90,6 @@ export default {
           let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
           let year = inputDate.getFullYear().toString();
           formattedDate = `${year}-${month}-${day}`;
-          console.log(formattedDate)
           state.friends[i].lastActivityDate = formattedDate;
         // } 
       }
@@ -163,7 +161,6 @@ export default {
       return state.visibleMessage;
     },
     getId(state) {
-      console.log(state.id)
       return state.id;
     },
     getIndex(state) {
@@ -286,7 +283,6 @@ export default {
           context.commit('setInvitations', res.data.items);
           context.commit('setInvCount', res.data.totalItemsCount)
           context.commit('setInvPages', res.data.totalPages)
-          // console.log(res.data)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -315,12 +311,10 @@ export default {
       try {
         res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, { params: params });
         if (res.status === 200) {
-          console.log(res.data.items, 'aaa')
           context.commit('setFriends', res.data.items);
           context.commit('tooleIsLoading', false);
           context.commit('setFriendsCount', res.data.totalItemsCount)
           context.commit('setFriendsPages', res.data.totalPages)
-          console.log(res.data)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
