@@ -117,6 +117,7 @@ export default {
       else
       {state.history[i].whoWon = state.history[i].players[1].item2;}
       }
+      console.log(state.history)
     },
     setHistPages(state, value){
       state.historyPages = value;

@@ -250,35 +250,24 @@ td:nth-child(2):nth-child(4){
 }
 td{
     padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
-    background-color: var(--secondary);
     height: 38px;
     font-size: 18px;
     color: var(--primary);
     margin: 0px 0px 0px 0px;
 }
 
-td:nth-child(odd){
-  background-color: var(--td-odd-bg-color);
-  color: var(--td-odd-txt-color);
+th{
+    background-color: var(--accent);
+  color: var(--table-header-color)
 }
-td:nth-child(even){
-  background-color: var(--td-even-bg-color);
-  color: var(--td-even-txt-color);
-}
-
-th:nth-child(odd){ 
-  background-color: var(--th-odd-bg-color); 
-  color: var(--th-odd-txt-color); 
-}
-th:nth-child(even){ 
-  background-color: var(--th-even-bg-color); 
-  color: var(--th-even-txt-color); 
+tr:nth-child(odd){
+  background-color: var(--primaryBtn);
 }
 .lastCellButton{
-    margin-left: 20px;
+    margin-left: 15px;
 }
 .firstCellButton{
-    margin-left: 25px;
+    margin-left: 20px;
 }
 .frinedId{
     width: 100px;

@@ -55,7 +55,7 @@
             <tr class="historyList" v-for="( h, index ) in getHistory" :key="index">
               <td>{{ h.gameName }}</td>
               <td>{{ h.endDate }}</td>
-              <td>{{ h.WhoWon }}</td>
+              <td>{{ h.whoWon }}</td>
               <td>{{ h.points }}</td>
             </tr>
             <tr :style="{ height: getDynamicHeight + 'px' }"></tr>

@@ -14,10 +14,10 @@
           <transition name="slidOFF">
             <div v-show="warcabyTable===false" class="tableContainer">
               <table>
-                <tr class="warcabyList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+                <tr class="warcabyList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tr class="warcabyList"
                   v-for="( w, index ) in getWarcaby" :key="index">
-                  <td class="">{{ w.rank }}</td><td>{{ w.name }}</td><td>{{ w.surname }}</td><td>{{ w.points }}</td>    
+                  <td class="">{{ w.rank }}</td><td>{{ w.userName }}</td><td>{{ w.surname }}</td><td>{{ w.points }}</td>    
                 </tr>
                 <tr :style="{height: getDynamicHeightW + 'px'}"></tr>
               </table>
@@ -33,7 +33,7 @@
         <transition name="slideON">
           <div v-if="(getIsLoadingWar===true) & (warcabyTable === false)">
               <table class="tableSlideOn">
-                <tr class="warcabyList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+                <tr class="warcabyList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tr><td class="loadingSpinner" colspan="4"><base-loading-spinner></base-loading-spinner></td></tr>
               </table>
           </div>
@@ -48,11 +48,11 @@
           <transition name="slideOFF">
             <div v-show="statkiTable === false" class="tableContainer">
               <table >
-                <tr class="statkiList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+                <tr class="statkiList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tbody>
                   <tr class="statkiList"
                     v-for="( s, index ) in getStatki" :key="index">
-                    <td>{{ s.rank }}</td><td>{{ s.name }}</td><td>{{ s.surname }}</td><td>{{ s.points }}</td>    
+                    <td>{{ s.rank }}</td><td>{{ s.userName }}</td><td>{{ s.surname }}</td><td>{{ s.points }}</td>    
                   </tr>
                   <tr :style="{height: getDynamicHeightS + 'px'}"></tr>
                 </tbody>
@@ -69,7 +69,7 @@
         <transition name="slideON">
           <div v-if="(getIsLoadingStat===true) & (statkiTable === false)">
               <table class="tableSlideOn">
-                  <tr class="statkiList"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+                  <tr class="statkiList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                   <tr><td class="loadingSpinner" colspan="4"><base-loading-spinner></base-loading-spinner></td></tr>
               </table>
           </div>
@@ -86,11 +86,11 @@
               <transition name="slideOFF">
                 <div v-show="polacz4Table === false" class="tableContainer">
                   <table>
-                    <tr><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+                    <tr><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                     <tbody>
                       <tr
                         v-for="( p, index ) in getPolacz4" :key="index">
-                        <td>{{ p.rank }}</td><td>{{ p.name }}</td><td>{{ p.surname }}</td><td>{{ p.points }}</td>    
+                        <td>{{ p.rank }}</td><td>{{ p.userName }}</td><td>{{ p.surname }}</td><td>{{ p.points }}</td>    
                       </tr>
                       <tr :style="{height: getDynamicHeightP + 'px'}"></tr>
                     </tbody>
@@ -98,7 +98,7 @@
                   <div class="buttons" v-show="polacz4Table===false">
                     <base-previous-button @click="previousPageP">Poprzednia</base-previous-button>
                     <base-next-button @click="nextPageP">Następna</base-next-button>
-                    <p class="page">{{ PageNrP }}</p>
+                    <p class="page">{{ pageNrP }}</p>
                   </div>
                 </div>
               </transition>
@@ -107,7 +107,7 @@
 
       <div v-if="(getIsLoadingPol===true) & (polacz4Table === false)">
         <table class="tableSlideOn">
-            <tr class="polacz4List"><th>Pozycja</th><th>Imię</th><th>Nazwisko</th><th>Punkty</th></tr>
+            <tr class="polacz4List"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
             <tr><td class="loadingSpinner" colspan="4"><base-loading-spinner></base-loading-spinner></td></tr>
         </table>
       </div>
@@ -142,7 +142,7 @@ export default {
   computed: {
     ...mapGetters('Rank', [ 'warcabyTable','statkiTable', 'polacz4Table', 'getWarcaby', 'getItemsPerPage', 
                   'getStatki', 'getPolacz4', 'getCurrentPagePol', 'getCurrentPageStat', 'getCurrentPageWar',
-                  'getIsLoadingWar', 'getIsLoadingStat', 'getIsLoadingPol', 'pageNrW',  'pageNrS', 'PageNrP',
+                  'getIsLoadingWar', 'getIsLoadingStat', 'getIsLoadingPol', 'pageNrW',  'pageNrS', 'pageNrP',
                   'currentPageW', 'currentPageS', 'currentPageP', 'allPagesW', 'allPagesS',
                   'allPagesP', 'getDynamicHeightP', 'getDynamicHeightS', 'getDynamicHeightW']),
     iconDownArrow(){
@@ -199,53 +199,41 @@ hr {
   cursor:pointer;
 }
 table{
-    justify-content: center; 
-    width: 800px;
-    height: auto;
-    color:var(--primary);;
-    border-collapse: collapse;
-    border-radius: 0px 0px 8px 8px;
-    padding: 0px;
-    border-spacing: 0px;
-    table-layout: fixed;
-    background-color: var(--secondary);
-    margin-left: 40px;
+  justify-content: center; 
+  width: 800px;
+  height: auto;
+  color:var(--primary);;
+  border-collapse: collapse;
+  border-radius: 0px 0px 8px 8px;
+  padding: 0px;
+  border-spacing: 0px;
+  table-layout: fixed;
+  background-color: var(--secondary);
+  margin-left: 40px;
   }
 tr{
-    border: 1px solid var(--primary);;
-    text-align: left;
-    border-radius: 8px;
-    max-height: 28px;
+  border: 1px solid var(--primary);;
+  text-align: left;
+  border-radius: 8px;
+  max-height: 28px;
 }
 
 td, th{
-    padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
-    background-color: var(--secondary);
-    width: 200px;
-    max-height: 28px;
-    font-size: 18px;
-    font-weight: 400;
-    color:var(--primary);
-    margin: 0px 0px 0px 0px;
-    border: none;
+  padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
+  width: 200px;
+  max-height: 28px;
+  font-size: 18px;
+  font-weight: 400;
+  color:var(--primary);
+  margin: 0px 0px 0px 0px;
+  border: none;
 }
-
-td:nth-child(odd){ 
-  background-color: var(--td-odd-bg-color); 
-  color: var(--td-odd-txt-color); 
+th{
+  background-color: var(--accent);
+  color: var(--table-header-color)
 }
-td:nth-child(even){ 
-  background-color: var(--td-even-bg-color); 
-  color: var(--td-even-txt-color); 
-}
-
-th:nth-child(odd){ 
-  background-color: var(--th-odd-bg-color); 
-  color: var(--th-odd-txt-color); 
-}
-th:nth-child(even){ 
-  background-color: var(--th-even-bg-color); 
-  color: var(--th-even-txt-color); 
+tr:nth-child(odd){
+  background-color: var(--primaryBtn);
 }
 
 .downArrow,
