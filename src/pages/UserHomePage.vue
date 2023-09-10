@@ -24,10 +24,10 @@
         <table v-if="this.getUserId == this.id" class="showHistoryTable" style="width: 800px; margin-left: 40px;">
           <thead style="font-weight: bold;">
             <tr>
-              <td>Gra</td>
-              <td>Przeciwnik</td>
-              <td>Data rozpoczęcia</td>
-              <td style="width: 50px;">Dołącz</td>
+              <th>Gra</th>
+              <th>Przeciwnik</th>
+              <th>Data rozpoczęcia</th>
+              <th style="width: 50px;">Dołącz</th>
             </tr>
           </thead>
           <tbody>
@@ -45,20 +45,21 @@
       <div class="showHistoryTable">
         <div v-if="isLoading === false">
           <table>
-            <tr class="historyList">
-              <th>Gra</th>
-              <th>Data</th>
-              <th>Zwycięzca</th>
-              <th>Punkty</th>
-            </tr>
-
+            <thead>
+              <tr class="historyList">
+                <th>Gra</th>
+                <th>Data</th>
+                <th>Zwycięzca</th>
+                <th>Punkty</th>
+              </tr>
+            </thead>
             <tr class="historyList" v-for="( h, index ) in getHistory" :key="index">
               <td>{{ h.gameName }}</td>
               <td>{{ h.endDate }}</td>
               <td>{{ h.whoWon }}</td>
               <td>{{ h.points }}</td>
             </tr>
-            <tr :style="{ height: getDynamicHeight + 'px' }"></tr>
+            <!-- <tr :style="{ height: getDynamicHeight + 'px' }"></tr> -->
           </table>
           <div v-if="getOwnId" class="buttons">
             <base-previous-button :disabled="(getCurrentPage === 1)" @click="previousPage"></base-previous-button>
@@ -179,14 +180,13 @@ hr {
 .icon {
   font-size: 20px;
 }
-
 .showHistoryTable {
   margin-left: 40px;
   color: var(--secondary);
   gap: 15px;
   margin-bottom: 50px;
+  width: 800px;
 }
-
 .historyHeader {
   display: flex;
   flex-direction: row;
@@ -229,12 +229,8 @@ th {
   color: var(--primary);
   text-align: center;
   padding: var(--td-padding-top-bottom) var(--td-padding-left-right);
-  /* odstępy */
-}
+ }
 
-/* table:last-child{
-  border-radius: 0px 0px 8px 8px;
-} */
 td{
   padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
   /* background-color: var(--secondary); */
@@ -265,12 +261,6 @@ color: var(--secondary);
   color: var(--primary);
 }
 
-.spinner {
-  justify-content: center;
-  align-items: center;
-  margin-left: 350px;
-}
-
 .pageNr {
   width: 13px;
   font-size: 22px;
@@ -286,14 +276,5 @@ color: var(--secondary);
   margin-top: 50px;
 }
 
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>
   

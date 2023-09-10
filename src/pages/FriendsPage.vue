@@ -7,7 +7,7 @@
                 <hr class="hr1">
                 <div v-if="getIsLoading === true">
                     <table class="spinnerTable">
-                        <tr :style="{height: getDynamicHeight +38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
+                        <tr :style="{height: 38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
                     </table>
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
@@ -19,7 +19,7 @@
                                 <td class="tableButton"><base-look-button class="firstCellButton" @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button class="lastCellButton" @click="showRemovePopup(f)"></base-remove-button></td>   
 
                             </tr>
-                            <tr :style="{height: getDynamicHeight + 'px'}"></tr>
+                            <!-- <tr :style="{height: getDynamicHeight + 'px'}"></tr> -->
                         </tbody>
                     </table>
                     <div class="buttons">

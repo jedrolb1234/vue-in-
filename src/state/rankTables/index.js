@@ -4,96 +4,80 @@ export default {
   namespaced: true,
   state() {
     return {
-      warcabyHidden: true,
-      statkiHidden: true,
-      polacz4Hidden: true,
-      isLoadingWar: true,
-      isLoadingStat: true,
-      isLoadingPol: true,
+      checkersHidden: true,
+      warShipHidden: true,
+      connect4Hidden: true,
+      // isLoadingWar: true,
+      // isLoadingStat: true,
+      // isLoadingPol: true,
       itemsPerPage: 10,
       currentPageWar: 1,
       currentPageStat: 1,
       currentPagePol: 1,
-      warcabyRank: [],
-      warcabyCount: 0,
-      warcabyPages: 0,
-      statkiRank: [],
-      statkiCount:0,
-      statkiPages: 0,
-      polacz4Rank: [],
-      polacz4Count: 0,
-      polacz4Pages:0,
-      dynamicHeightP:0,
-      dynamicHeightS:0,
-      dynamicHeightW:0,
+      checkersRank: [],
+      checkersCount: 0,
+      checkersPages: 0,
+      warShipRank: [],
+      warShipCount:0,
+      warShipPages: 0,
+      connect4Rank: [],
+      connect4Count: 0,
+      connect4Pages:0,
     }
   },
   mutations: {
-    isWarcabyHidden(state) {
-      state.warcabyHidden = !state.warcabyHidden;
+    isCheckersHidden(state) {
+      state.checkersHidden = !state.checkersHidden;
     },
-    isStatkiHidden(state) {
-      state.statkiHidden = !state.statkiHidden;
+    isWarShipHidden(state) {
+      state.warShipHidden = !state.warShipHidden;
     },
-    isPolacz4Hidden(state) {
-      state.polacz4Hidden = !state.polacz4Hidden;
+    isConnect4Hidden(state) {
+      state.connect4Hidden = !state.connect4Hidden;
     },
       previousPageW(state){
         if (state.currentPageWar > 1){
-          console.log('--')
           state.currentPageWar--;
         }
       },
       previousPageS(state){
         if (state.currentPageStat > 1){
-          console.log('--')
           state.currentPageStat--;
         }
       },
       previousPageP(state){
         if (state.currentPagePol > 1){
-          console.log('--')
           state.currentPagePol--;
       }
     },
-    setWarcaby(state, value){
-      state.warcabyRank = value;
-      if (state.warcabyRank.length != 10) {
-        state.dynamicHeightW = (state.itemsPerPage - state.warcabyRank.length) * state.rowHeight;
-      }state.dynamicHeightW = 0;
+    setCheckers(state, value){
+      state.checkersRank = value;
+      // if (state.checkersRank.length != 10) {
+      //   state.dynamicHeightW = (state.itemsPerPage - state.checkersRank.length) * state.rowHeight;
+      // }state.dynamicHeightW = 0;
     },
-    setStatki(state, value){
-      state.statkiRank = value;
-      if (state.statkiRank.length != 10) {
-        state.dynamicHeightS = (state.itemsPerPage - state.statkiRank.length) * state.rowHeight;
-      }
-      else state.dynamicHeightS = 0;
+    setWarShip(state, value){
+      state.warShipRank = value;
+      // if (state.warShipRank.length != 10) {
+      //   state.dynamicHeightS = (state.itemsPerPage - state.warShipRank.length) * state.rowHeight;
+      // }
+      // else state.dynamicHeightS = 0;
 
     },
-    setPolacz4(state, value){
-      state.polacz4Rank = value;
-      if (state.polacz4Rank.length != 10) {
-        state.dynamicHeightP = (state.itemsPerPage - state.polacz4Rank.length) * state.rowHeight;
-      }else state.dynamicHeightP = 0;
+    setConnect4(state, value){
+      state.connect4Rank = value;
+      // if (state.connect4Rank.length != 10) {
+      //   state.dynamicHeightP = (state.itemsPerPage - state.connect4Rank.length) * state.rowHeight;
+      // }else state.dynamicHeightP = 0;
     },
     nextPageW(state){
-      console.log('+++')
-        if (state.currentPageWar < Math.ceil(Object.keys(state.warcabyRank).length / state.itemsPerPage)){
-        console.log('++')
         state.currentPageWar++;
-      }
     },
     nextPageS(state){
-      if (state.currentPageStat < Math.ceil(Object.keys(state.statkiRank).length / state.itemsPerPage)){
-        console.log('++')
         state.currentPageStat++;
-      }
     },
     nextPageP(state){
-      if (state.currentPagePol < Math.ceil(Object.keys(state.polacz4Rank).length / state.itemsPerPage)){
-        console.log('++')
         state.currentPagePol++;
-      }
     },
     toogleIsLoadingWar(state, value){
       state.isLoadingWar = value;
@@ -104,40 +88,41 @@ export default {
     toogleIsLoadingPol(state, value){
       state.isLoadingPol = value;
     },
-    setWarcabyCount(state, value){
-      state.setWarcabyCount = value;
+    setCheckersCount(state, value){
+      state.setCheckersCount = value;
     },
-    setWarcabyPages(state, value){
-      state.warcabyPages = value;
+    setCheckersPages(state, value){
+      state.checkersPages = value;
     },
-    setStatkiPages(state, value){
-      state.statkiPages = value;
+    setWarShipPages(state, value){
+      state.warShipPages = value;
     },    
-    setStatkiCount(state, value){
-      state.statkiCount = value;
+    setWarShipCount(state, value){
+      state.warShipCount = value;
     },
-    setPolacz4Pages(state, value){
-      state.polacz4Pages = value;
+    setConnect4Pages(state, value){
+      state.connect4Pages = value;
     },
-    setPolacz4Count(state, value){
-      state.polacz4Count = value;
+    setConnect4Count(state, value){
+      state.connect4Count = value;
     }
   },
   actions: {
-    toogleWarcabyTable(context){
-      context.commit('isWarcabyHidden')
-      if(context.state.warcabyHidden === false)
-      context.dispatch('downloadWarcaby', 0);
+    toogleCheckersTable(context){
+      context.commit('isCheckersHidden')
+      console.log('aaa')
+      // if(context.state.checkersHidden === false)
+      // context.dispatch('downloadCheckers', 0);
     },
-    toogleStatkiTable(context){
-      context.commit('isStatkiHidden')
-      if(context.state.statkiHidden === false)
-        context.dispatch('downloadStatki', 1);
+    toogleWarShipTable(context){
+      context.commit('isWarShipHidden')
+      // if(context.state.warShipHidden === false)
+        // context.dispatch('downloadWarShip', 1);
     },
-    tooglePolacz4Table(context){
-      context.commit('isPolacz4Hidden')
-      if(context.state.polacz4Hidden === false)
-      context.dispatch('downloadPolacz4', 2);
+    toogleConnect4Table(context){
+      context.commit('isConnect4Hidden')
+      // if(context.state.connect4Hidden === false)
+      // context.dispatch('downloadConnect4', 2);
     },
     isLoading(context, info){
       context.commit('isLoading', info);
@@ -162,7 +147,7 @@ export default {
       context.commit('previousPageP')
     },
   
-  async downloadWarcaby(context, index) {
+  async downloadCheckers(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
       PageNumber: context.state.currentPageWar,
@@ -171,12 +156,13 @@ export default {
     let res;
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
+      console.log(res)
       if (res.status === 200) {
-        console.log(res.data.items, 'aaa')
-        context.commit('setWarcaby', res.data.items);
-        context.commit('toogleIsLoadingWar', false);
-        context.commit('setWarcabyCount', res.data.totalItemsCount)
-        context.commit('setWarcabyPages', res.data.totalPages)
+        // console.log(res.data.items, 'aaa')
+        context.commit('setCheckers', res.data.items);
+        // context.commit('toogleIsLoadingWar', false);
+        context.commit('setCheckersCount', res.data.totalItemsCount)
+        context.commit('setCheckersPages', res.data.totalPages)
       }
     } catch (error) {
       if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -195,7 +181,7 @@ export default {
       }
     }
   },
-  async downloadStatki(context, index) {
+  async downloadWarShip(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
       PageNumber: context.state.currentPageStat,
@@ -205,11 +191,11 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
-        console.log(res.data.items, 'aaa')
-        context.commit('setStatki', res.data.items);
-        context.commit('toogleIsLoadingStat', false);
-        context.commit('setStatkiCount', res.data.totalItemsCount)
-        context.commit('setStatkiPages', res.data.totalPages)
+        // console.log(res.data.items, 'aaa')
+        context.commit('setWarShip', res.data.items);
+        // context.commit('toogleIsLoadingStat', false);
+        context.commit('setWarShipCount', res.data.totalItemsCount)
+        context.commit('setWarShipPages', res.data.totalPages)
         console.log(res)
       }
     } catch (error) {
@@ -229,7 +215,7 @@ export default {
       }
     }
   },
-  async downloadPolacz4(context, index) {
+  async downloadConnect4(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
       PageNumber: context.state.currentPagePol,
@@ -239,11 +225,11 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
-        console.log(res.data.items, 'aaa')
-        context.commit('setPolacz4', res.data.items);
-        context.commit('toogleIsLoadingPol', false);
-        context.commit('setPolacz4Count', res.data.totalItemsCount)
-        context.commit('setPolacz4Pages', res.data.totalPages)
+        // console.log(res.data.items, 'aaa')
+        context.commit('setConnect4', res.data.items);
+        // context.commit('toogleIsLoadingPol', false);
+        context.commit('setConnect4Count', res.data.totalItemsCount)
+        context.commit('setConnect4Pages', res.data.totalPages)
       }
     } catch (error) {
       if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -273,26 +259,23 @@ export default {
     getIsLoadingPol(state){
       return state.isLoadingPol;
     },
-    warcabyTable(state) {
-      console.log('warcaby', state.warcabyHidden)
-      return state.warcabyHidden;
+    checkersTable(state) {
+      return state.checkersHidden;
     },
-    statkiTable(state) {
-      return state.statkiHidden;
+    warShipTable(state) {
+      return state.warShipHidden;
     },
-    polacz4Table(state) {
-      return state.polacz4Hidden;
+    connect4Table(state) {
+      return state.connect4Hidden;
     },
-    getWarcaby(state){
-      return state.warcabyRank;
+    getCheckers(state){
+      return state.checkersRank;
     },
-    getStatki(state){
-      return state.statkiRank;
+    getWarShip(state){
+      return state.warShipRank;
     },
-    getPolacz4(state){
-      console.log('+++++++')
-      console.log(state.polacz4Rank)
-      return state.polacz4Rank;
+    getConnect4(state){
+      return state.connect4Rank;
     },
     getCurrentPageWar(state){
       return state.currentPageWar;
@@ -325,13 +308,13 @@ export default {
         return state.currentPagePol;
     },
     allPagesW(state){
-        return Math.ceil(state.warcabyRank.length / state.itemsPerPage);
+        return Math.ceil(state.checkersRank.length / state.itemsPerPage);
     },
     allPagesS(state){
-        return Math.ceil(state.statkiRank.length / state.itemsPerPage);
+        return Math.ceil(state.warShipRank.length / state.itemsPerPage);
     },
     allPagesP(state){
-        return Math.ceil(state.polacz4Rank.length / state.itemsPerPage);
+        return Math.ceil(state.connect4Rank.length / state.itemsPerPage);
     },
   }
 }

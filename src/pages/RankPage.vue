@@ -1,101 +1,113 @@
 <template>  
   <base-page-layout>
-  <!-- <div v-if="warcabyTable === true || statkiTable === true || polacz4Table === true" class="right-strap"></div> -->
+  <!-- <div v-if="checkersTable === true || warShipTable === true || connect4Table === true" class="right-strap"></div> -->
     <div class="container">
       <BaseHeader>Rankingi</BaseHeader>
-      <div class="warcabyHeader" @click="toogleWarcabyTable">      
+      <div class="checkersHeader" @click="toogleCheckersTable">      
         <ul>Warcaby</ul> 
-        <span v-if="warcabyTable===false" :class="iconArrow">expand_less</span>
-        <span v-else-if="warcabyTable===true" :class="iconArrow">expand_more</span>
+        <span v-if="checkersTable===false" :class="iconArrow">expand_less</span>
+        <span v-else-if="checkersTable===true" :class="iconArrow">expand_more</span>
       </div>
 
-      <hr class="hr1">          
-        <div class="test" v-if="(getIsLoadingWar=== false) & (warcabyTable === false)">
-          <transition name="slidOFF">
-            <div v-show="warcabyTable===false" class="tableContainer">
-              <table>
-                <tr class="warcabyList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
-                <tr class="warcabyList"
-                  v-for="( w, index ) in getWarcaby" :key="index">
+      <hr class="hr1">    
+        <transition name="slideON">
+          <div class="test" v-if=" (checkersTable === false)">
+            <transition name="slideOFF">
+              <div v-show="checkersTable===false" class="tableContainer">
+                <table>
+                  <tr class="checkersList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
+                  <tr class="checkersList"
+                    v-for="( w, index ) in getCheckers" :key="index">
+                    <td class="">{{ w.rank }}</td><td>{{ w.userName }}</td><td>{{ }}</td><td>{{ w.points }}</td>    
+                  </tr>
+                  <!-- <tr :style="{height: getDynamicHeightW + 'px'}"></tr> -->
+                </table>
+                <div class="buttons" v-show="checkersTable===false">
+                  <base-previous-button @click="previousPageW">Poprzednia</base-previous-button>
+                  <base-next-button @click="nextPageW">Następna</base-next-button>
+                  <p class="page">{{ pageNrW }}</p>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </transition>
+      
+        <!-- <transition name="slideON">
+          <div v-if="(checkersTable === false)">
+              <table class="tableSlideOn">
+                <tr class="checkersList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
+                <tr class="checkersList"
+                  v-for="( w, index ) in getCheckers" :key="index">
                   <td class="">{{ w.rank }}</td><td>{{ w.userName }}</td><td>{{ w.surname }}</td><td>{{ w.points }}</td>    
                 </tr>
-                <tr :style="{height: getDynamicHeightW + 'px'}"></tr>
-              </table>
-              <div class="buttons" v-show="warcabyTable===false">
-                <base-previous-button @click="previousPageW">Poprzednia</base-previous-button>
-                <base-next-button @click="nextPageW">Następna</base-next-button>
-                <p class="page">{{ pageNrW }}</p>
-              </div>
-            </div>
-          </transition>
-        </div>
-    
-        <transition name="slideON">
-          <div v-if="(getIsLoadingWar===true) & (warcabyTable === false)">
-              <table class="tableSlideOn">
-                <tr class="warcabyList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                 <tr><td class="loadingSpinner" colspan="4"><base-loading-spinner></base-loading-spinner></td></tr>
               </table>
           </div>
-        </transition>
-      <div class="statkiHeader" @click="toogleStatkiTable">
+        </transition> -->
+      <div class="warShipHeader" @click="toogleWarShipTable">
         <ul>Statki</ul>
-        <span v-if="statkiTable===false" :class="iconArrow">expand_less</span>
-        <span v-else-if="statkiTable===true" :class="iconArrow">expand_more</span>
+        <span v-if="warShipTable===false" :class="iconArrow">expand_less</span>
+        <span v-else-if="warShipTable===true" :class="iconArrow">expand_more</span>
       </div>
       <hr class="hr1">    
-        <div v-if="(getIsLoadingStat=== false) & (statkiTable === false)">
-          <transition name="slideOFF">
-            <div v-show="statkiTable === false" class="tableContainer">
-              <table >
-                <tr class="statkiList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
-                <tbody>
-                  <tr class="statkiList"
-                    v-for="( s, index ) in getStatki" :key="index">
+        <transition name="slideON">
+          <div v-if="(warShipTable === false)">
+            <transition name="slideOFF">
+              <div v-show="warShipTable === false" class="tableContainer">
+                <table >
+                  <tr class="warShipList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
+                  <tbody>
+                    <tr class="warShipList"
+                      v-for="( s, index ) in getWarShip" :key="index">
+                      <td>{{ s.rank }}</td><td>{{ s.userName }}</td><td>{{  }}</td><td>{{ s.points }}</td>    
+                    </tr>
+                    <!-- <tr :style="{height: getDynamicHeightS + 'px'}"></tr> -->
+                  </tbody>
+                </table>
+                <div class="buttons" v-show="warShipTable===false">
+                  <base-previous-button @click="previousPageS">Poprzednia</base-previous-button>
+                  <base-next-button @click="nextPageS">Następna</base-next-button>
+                  <p class="page">{{ pageNrS }}</p>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </transition>
+      
+        <!-- <transition name="slideON">
+          <div v-if="(warShipTable === false)">
+              <table class="tableSlideOn">
+                  <tr class="warShipList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
+                  <tr class="warShipList"
+                    v-for="( s, index ) in getWarShip" :key="index">
                     <td>{{ s.rank }}</td><td>{{ s.userName }}</td><td>{{ s.surname }}</td><td>{{ s.points }}</td>    
                   </tr>
-                  <tr :style="{height: getDynamicHeightS + 'px'}"></tr>
-                </tbody>
-              </table>
-              <div class="buttons" v-show="statkiTable===false">
-                <base-previous-button @click="previousPageS">Poprzednia</base-previous-button>
-                <base-next-button @click="nextPageS">Następna</base-next-button>
-                <p class="page">{{ pageNrS }}</p>
-              </div>
-            </div>
-          </transition>
-        </div>
-      
-        <transition name="slideON">
-          <div v-if="(getIsLoadingStat===true) & (statkiTable === false)">
-              <table class="tableSlideOn">
-                  <tr class="statkiList"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                   <tr><td class="loadingSpinner" colspan="4"><base-loading-spinner></base-loading-spinner></td></tr>
               </table>
           </div>
-        </transition>
+        </transition> -->
 
-      <div class="polacz4Header" @click="tooglePolacz4Table">
+      <div class="connect4Header" @click="toogleConnect4Table">
           <ul>Połącz 4</ul> 
-          <span v-if="polacz4Table===false" :class="iconArrow">expand_less</span>
-          <span v-else-if="polacz4Table===true" :class="iconArrow">expand_more</span>
+          <span v-if="connect4Table===false" :class="iconArrow">expand_less</span>
+          <span v-else-if="connect4Table===true" :class="iconArrow">expand_more</span>
         </div>
       <hr class="hr1">    
           <transition name="slideON">
-            <div v-if="(getIsLoadingPol=== false) & (polacz4Table === false)">
+            <div v-if="(connect4Table === false)">
               <transition name="slideOFF">
-                <div v-show="polacz4Table === false" class="tableContainer">
+                <div v-show="connect4Table === false" class="tableContainer">
                   <table>
                     <tr><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
                     <tbody>
                       <tr
-                        v-for="( p, index ) in getPolacz4" :key="index">
-                        <td>{{ p.rank }}</td><td>{{ p.userName }}</td><td>{{ p.surname }}</td><td>{{ p.points }}</td>    
+                        v-for="( p, index ) in getConnect4" :key="index">
+                        <td>{{ p.rank }}</td><td>{{ p.userName }}</td><td>{{  }}</td><td>{{ p.points }}</td>    
                       </tr>
-                      <tr :style="{height: getDynamicHeightP + 'px'}"></tr>
+                      <!-- <tr :style="{height: getDynamicHeightP + 'px'}"></tr> -->
                     </tbody>
                   </table>
-                  <div class="buttons" v-show="polacz4Table===false">
+                  <div class="buttons" v-show="connect4Table===false">
                     <base-previous-button @click="previousPageP">Poprzednia</base-previous-button>
                     <base-next-button @click="nextPageP">Następna</base-next-button>
                     <p class="page">{{ pageNrP }}</p>
@@ -105,12 +117,15 @@
             </div>
           </transition>
 
-      <div v-if="(getIsLoadingPol===true) & (polacz4Table === false)">
+      <!-- <div v-if="(connect4Table === false)">
         <table class="tableSlideOn">
-            <tr class="polacz4List"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
+            <tr class="connect4List"><th>Pozycja</th><th>Nick</th><th>Nazwisko</th><th>Punkty</th></tr>
+            <tr v-for="( p, index ) in getConnect4" :key="index">
+                <td>{{ p.rank }}</td><td>{{ p.userName }}</td><td>{{ p.surname }}</td><td>{{ p.points }}</td>    
+              </tr>
             <tr><td class="loadingSpinner" colspan="4"><base-loading-spinner></base-loading-spinner></td></tr>
         </table>
-      </div>
+      </div> -->
     </div>
   </base-page-layout>
 </template>
@@ -118,7 +133,6 @@
 <script>
 import BasePageLayout from '@/components/base/BasePageLayout.vue';
 import { mapActions, mapGetters } from 'vuex';
-import BaseLoadingSpinner from '@/components/base/BaseLoadingSpinner.vue';
 import BaseNextButton from '@/components/base/BaseNextButton.vue'
 import BasePreviousButton from '@/components/base/BasePreviousButton.vue'
 import BaseHeader from '@/components/base/BaseHeader.vue'
@@ -127,21 +141,19 @@ import BaseHeader from '@/components/base/BaseHeader.vue'
 export default {
   components:{
       BasePageLayout,
-      BaseLoadingSpinner,
       BaseNextButton,
       BasePreviousButton,
       BaseHeader
-
   },
   methods:{
-    ...mapActions('Rank', ['toogleWarcabyTable', 'toogleStatkiTable', 'downloadWarcaby', 'downloadPolacz4',
-                            'tooglePolacz4Table', 'previousPageW', 'nextPageW', 'downloadStatki',
+    ...mapActions('Rank', ['toogleCheckersTable', 'toogleWarShipTable', 'downloadCheckers', 'downloadConnect4',
+                            'toogleConnect4Table', 'previousPageW', 'nextPageW', 'downloadWarShip',
                             'previousPageS', 'nextPageS', 'previousPageP', 'nextPageP']),  
 
   },  
   computed: {
-    ...mapGetters('Rank', [ 'warcabyTable','statkiTable', 'polacz4Table', 'getWarcaby', 'getItemsPerPage', 
-                  'getStatki', 'getPolacz4', 'getCurrentPagePol', 'getCurrentPageStat', 'getCurrentPageWar',
+    ...mapGetters('Rank', [ 'checkersTable','warShipTable', 'connect4Table', 'getCheckers', 'getItemsPerPage', 
+                  'getWarShip', 'getConnect4', 'getCurrentPagePol', 'getCurrentPageStat', 'getCurrentPageWar',
                   'getIsLoadingWar', 'getIsLoadingStat', 'getIsLoadingPol', 'pageNrW',  'pageNrS', 'pageNrP',
                   'currentPageW', 'currentPageS', 'currentPageP', 'allPagesW', 'allPagesS',
                   'allPagesP', 'getDynamicHeightP', 'getDynamicHeightS', 'getDynamicHeightW']),
@@ -151,8 +163,12 @@ export default {
     iconArrow(){
       return ['material-symbols-outlined', 'upArrow'].join(' ');
     },
-
   },
+  async mounted(){
+    await this.downloadCheckers(0);
+    await this.downloadWarShip(1);
+    await this.downloadConnect4(2);
+  }
 }
 </script>
  
@@ -174,9 +190,9 @@ hr {
   margin-left: 0px;
 }
 
-.warcabyHeader,
-.statkiHeader,
-.polacz4Header{
+.checkersHeader,
+.warShipHeader,
+.connect4Header{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -190,12 +206,12 @@ hr {
   font-weight: bold;
   /* position: sticky; */
 }
-.warcabyHeader{
+.checkersHeader{
   margin-top: 50px;
 }
-.warcabyHeader:hover,
-.statkiHeader:hover,
-.polacz4Header:hover{
+.checkersHeader:hover,
+.warShipHeader:hover,
+.connect4Header:hover{
   cursor:pointer;
 }
 table{

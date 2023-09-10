@@ -7,7 +7,6 @@ import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import Games from '@/pages/GamesPage.vue';
 import Friends from '@/pages/FriendsPage.vue';
 import Rank from '@/pages/RankPage.vue';
-import History from '@/pages/HistoryPage.vue';
 import Settings from '@/pages/SettingsPage.vue';
 // import CheckersGame from '@/components/games/CheckersGame.vue';
 // import BattleShipsGame from '@/components/games/BattleShipsGame.vue';
@@ -32,7 +31,6 @@ const router = createRouter({
     { path: '/play/:gameRoomID', name: 'play', component: PlayPage, meta: {requiresAuth: true}, props: true},
     { path: '/friends', name:'friends', component: Friends},
     { path: '/rank', name:'rank', component: Rank },
-    { path: '/history', name:'history', component: History },
     { path: '/settings', name:'settings', component: Settings },
     // { path: '/warcaby', name:'warcaby', component: Warcaby },
     // { path: '/statki', name:'statki', component: Statki },
