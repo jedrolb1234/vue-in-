@@ -206,28 +206,15 @@ export default {
       }
       try {
         const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + context.state.userId, { params: params });
+        console.log(res.status)
         if (res.status === 200){  
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
         }
         } catch (error) {
-        if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
-          context.dispatch('logOutUser');
-        }
-        else if (error.response.data === "FriendshipIsAlreadyPendingOrAccepted") {
-          context.dispatch('getData', context.state.userId);
-        }
-        else if (error.response.data === "FriendHasToBeAnotherUser") {
-          context.dispatch('showNotification',
-            {
-              label: 'Wystąpiły błędy!',
-              description: 'Nie możesz wysłać zaproszenie tej osobie.',
-              type: 'error'
-            },
-            { root: true });
-        }
-        else if (error.response) {
+          console.log(error)
+        if (error.response) {
           context.dispatch('showNotification',
             {
               label: 'Wystąpiły błędy!',
@@ -278,7 +265,7 @@ export default {
       }
     },
     async acceptInvitation(context, userId) {
-      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      // const notificationTemplates = context.rootGetters.getNotificationTemplates;
       try {
         const res = await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null);
@@ -297,8 +284,6 @@ export default {
               type: 'error'
             },
             { root: true });
-        } else {
-          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
     },

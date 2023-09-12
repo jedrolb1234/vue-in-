@@ -192,7 +192,9 @@ hr {
 }
 .hr2{
     margin-left: 20px;
-    max-width: 1234px;;
+    margin-right: 20px;
+    /* max-width: 1234px; */
+    width: 100%;
 }
 h1, h2{
     color: var(--primary);
@@ -267,7 +269,7 @@ tr:nth-child(odd){
     margin-left: 15px;
 }
 .firstCellButton{
-    margin-left: 20px;
+    margin-left: 15px;
 }
 .frinedId{
     width: 100px;
@@ -363,6 +365,7 @@ p{
     margin-left: 0px;
 }
 .invitations{
+    /* width: 100%; */
     margin-left: -20px;
 }
 .findUser{

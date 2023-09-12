@@ -117,7 +117,7 @@ export default {
   },
   async mounted() {
     await this.getData(this.id);
-    this.downloadHistory();
+    await this.downloadHistory();
     this.obtainGamesInProgress({ status: 1, playerId: this.getUserID })
   },
 }

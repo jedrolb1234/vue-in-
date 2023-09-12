@@ -66,6 +66,7 @@ export default {
     },
     setConnect4(state, value){
       state.connect4Rank = value;
+      console.log(state.connect4Rank)
       // if (state.connect4Rank.length != 10) {
       //   state.dynamicHeightP = (state.itemsPerPage - state.connect4Rank.length) * state.rowHeight;
       // }else state.dynamicHeightP = 0;
@@ -102,6 +103,7 @@ export default {
     },
     setConnect4Pages(state, value){
       state.connect4Pages = value;
+
     },
     setConnect4Count(state, value){
       state.connect4Count = value;
@@ -156,7 +158,6 @@ export default {
     let res;
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
-      console.log(res)
       if (res.status === 200) {
         // console.log(res.data.items, 'aaa')
         context.commit('setCheckers', res.data.items);
@@ -225,7 +226,7 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
-        // console.log(res.data.items, 'aaa')
+        console.log(res.data.items, 'aaa')
         context.commit('setConnect4', res.data.items);
         // context.commit('toogleIsLoadingPol', false);
         context.commit('setConnect4Count', res.data.totalItemsCount)

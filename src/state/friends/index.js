@@ -134,6 +134,7 @@ export default {
       return state.invPages;
     },
     getFriends(state) {
+      console.log(state.friends)
       return state.friends;
     },
     getUser(state) {
@@ -149,9 +150,11 @@ export default {
       return state.itemsPerPage;
     },
     getAvilabeInvitations(state) {
+      console.log(state.invitations);
       return state.invitations.length;
     },
     getInvitations(state) {
+      console.log(state.invitations)
       return state.invitations;
     },
     getDynamicHeight(state) {
