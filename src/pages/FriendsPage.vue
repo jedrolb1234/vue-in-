@@ -57,7 +57,7 @@
                         </transition-group>
                     </ul> 
                 </transition>
-                <ul v-if="getAvilabeInvitations === 0" class="noInvMargin"><p>Nie otrzymano zaproszeń od znajomych.</p></ul>
+                <p v-if="getAvilabeInvitations === 0">Nie otrzymano zaproszeń od znajomych.</p>
             </div>
             <div class="searchFriend">
                 <h2 class="findMargin">Znajdź przyjaciela</h2>
@@ -190,12 +190,12 @@ hr {
     margin-left: 50px;
     color: var(--secondary);
 }
-.hr2{
+/* .hr2{
     margin-left: 20px;
     margin-right: 20px;
-    /* max-width: 1234px; */
+    max-width: 1234px;
     width: 100%;
-}
+} */
 h1, h2{
     color: var(--primary);
     align-items: flex-start;
@@ -352,9 +352,9 @@ p{
     align-items: center;
     margin-left: 35px;
 }
-.invMargin{
+/* .invMargin{
     margin-left: 20px;
-}
+} */
 .noInvMargin{
     margin-left: -20px;
 }
@@ -364,10 +364,10 @@ p{
 .searchMargin{
     margin-left: 0px;
 }
-.invitations{
-    /* width: 100%; */
+/* .invitations{
+    width: 100%;
     margin-left: -20px;
-}
+} */
 .findUser{
     color: var(--primary);
 }

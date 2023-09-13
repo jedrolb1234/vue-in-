@@ -95,6 +95,13 @@ export default {
       }
       if (state.friends.length != 10) {
         state.dynamicHeight = (state.itemsPerPage - state.friends.length) * state.rowHeight;
+      }for (let i = 0; i < value.length; i++) {      
+        if(value[i].lastGameTypeId === 0)
+          state.friends[i].lastGame ='Warcaby';
+        if(value[i].lastGameTypeId === 1)
+          state.friends[i].lastGame ='Statki';
+        if(value[i].lastGameTypeId === 2)
+          state.friends[i].lastGame = 'Połącz 4';
       }
     },
     showPopup(state, payload) {

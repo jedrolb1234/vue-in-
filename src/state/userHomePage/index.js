@@ -73,6 +73,8 @@ export default {
         let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
         let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
         if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentMinutes) === 0)
+            formattedDate = `przed chwilą`;
           if(Math.floor(diffrentMinutes) === 1)
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
           if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
@@ -108,9 +110,6 @@ export default {
           else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
       state.history[i].endDate = formattedDate;
       }
-      if (state.history.length != 10) {
-        state.dynamicHeight = ((state.currentPage*10 - state.historyCount)) * state.rowHeight;
-      }else {state.dynamicHeight = 0}
       for (let i = 0; i < state.history.length; i++) {
       if(state.history[i].whoWon === state.history[i].players[0].item1)
           {state.history[i].whoWon = state.history[i].players[0].item2;}
