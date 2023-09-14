@@ -5,21 +5,18 @@ export default {
   state() {
     return {
       checkersHidden: true,
-      warShipHidden: true,
+      battleShipHidden: true,
       connect4Hidden: true,
-      // isLoadingWar: true,
-      // isLoadingStat: true,
-      // isLoadingPol: true,
       itemsPerPage: 10,
+      currentPageCheck: 1,
       currentPageWar: 1,
-      currentPageStat: 1,
-      currentPagePol: 1,
+      currentPageC4: 1,
       checkersRank: [],
       checkersCount: 0,
       checkersPages: 0,
-      warShipRank: [],
-      warShipCount:0,
-      warShipPages: 0,
+      battleShipRank: [],
+      battleShipCount:0,
+      battleShipPages: 0,
       connect4Rank: [],
       connect4Count: 0,
       connect4Pages:0,
@@ -29,25 +26,25 @@ export default {
     isCheckersHidden(state) {
       state.checkersHidden = !state.checkersHidden;
     },
-    isWarShipHidden(state) {
-      state.warShipHidden = !state.warShipHidden;
+    isBattleShipHidden(state) {
+      state.battleShipHidden = !state.battleShipHidden;
     },
     isConnect4Hidden(state) {
       state.connect4Hidden = !state.connect4Hidden;
     },
-      previousPageW(state){
+      previousPageC(state){
+        if (state.currentPageCheck > 1){
+          state.currentPageCheck--;
+        }
+      },
+      previosuPageW(state){
         if (state.currentPageWar > 1){
           state.currentPageWar--;
         }
       },
-      previousPageS(state){
-        if (state.currentPageStat > 1){
-          state.currentPageStat--;
-        }
-      },
       previousPageP(state){
-        if (state.currentPagePol > 1){
-          state.currentPagePol--;
+        if (state.currentPageC4 > 1){
+          state.currentPageC4--;
       }
     },
     setCheckers(state, value){
@@ -56,10 +53,10 @@ export default {
       //   state.dynamicHeightW = (state.itemsPerPage - state.checkersRank.length) * state.rowHeight;
       // }state.dynamicHeightW = 0;
     },
-    setWarShip(state, value){
-      state.warShipRank = value;
-      // if (state.warShipRank.length != 10) {
-      //   state.dynamicHeightS = (state.itemsPerPage - state.warShipRank.length) * state.rowHeight;
+    setBattleShip(state, value){
+      state.battleShipRank = value;
+      // if (state.battleShipRank.length != 10) {
+      //   state.dynamicHeightS = (state.itemsPerPage - state.battleShipRank.length) * state.rowHeight;
       // }
       // else state.dynamicHeightS = 0;
 
@@ -71,35 +68,27 @@ export default {
       //   state.dynamicHeightP = (state.itemsPerPage - state.connect4Rank.length) * state.rowHeight;
       // }else state.dynamicHeightP = 0;
     },
+    nextPageC(state){
+        state.currentPageCheck++;
+    },
     nextPageW(state){
         state.currentPageWar++;
     },
-    nextPageS(state){
-        state.currentPageStat++;
+    nextPageC4(state){
+        state.currentPageC4++;
     },
-    nextPageP(state){
-        state.currentPagePol++;
-    },
-    toogleIsLoadingWar(state, value){
-      state.isLoadingWar = value;
-    },
-    toogleIsLoadingStat(state, value){
-      state.isLoadingStat = value;
-    },
-    toogleIsLoadingPol(state, value){
-      state.isLoadingPol = value;
-    },
+
     setCheckersCount(state, value){
       state.setCheckersCount = value;
     },
     setCheckersPages(state, value){
       state.checkersPages = value;
     },
-    setWarShipPages(state, value){
-      state.warShipPages = value;
+    setBattleShipPages(state, value){
+      state.battleShipPages = value;
     },    
-    setWarShipCount(state, value){
-      state.warShipCount = value;
+    setBattleShipCount(state, value){
+      state.battleShipCount = value;
     },
     setConnect4Pages(state, value){
       state.connect4Pages = value;
@@ -116,10 +105,10 @@ export default {
       // if(context.state.checkersHidden === false)
       // context.dispatch('downloadCheckers', 0);
     },
-    toogleWarShipTable(context){
-      context.commit('isWarShipHidden')
-      // if(context.state.warShipHidden === false)
-        // context.dispatch('downloadWarShip', 1);
+    toogleBattleShipTable(context){
+      context.commit('isBattleShipHidden')
+      // if(context.state.battleShipHidden === false)
+        // context.dispatch('downloadBattleShip', 1);
     },
     toogleConnect4Table(context){
       context.commit('isConnect4Hidden')
@@ -133,26 +122,26 @@ export default {
     nextPageW(context){
       context.commit('nextPageW');
     },
-    nextPageS(context){
-      context.commit('nextPageS');
+    nextPageC(context){
+      context.commit('nextPageC');
     },
-    nextPageP(context){
-      context.commit('nextPageP')
+    nextPageC4(context){
+      context.commit('nextPageC4')
     },
     previousPageW(context){
       context.commit('previousPageW');
     },
-    previousPageS(context){
-      context.commit('previousPageS');
+    previosuPageC(context){
+      context.commit('previosuPageC');
     },
-    previousPageP(context){
-      context.commit('previousPageP')
+    previousPageC4(context){
+      context.commit('previousPageC4')
     },
   
   async downloadCheckers(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
-      PageNumber: context.state.currentPageWar,
+      PageNumber: context.state.currentPageCheck,
       PageSize: context.state.itemsPerPage,
     }
     let res;
@@ -182,10 +171,10 @@ export default {
       }
     }
   },
-  async downloadWarShip(context, index) {
+  async downloadBattleShip(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
-      PageNumber: context.state.currentPageStat,
+      PageNumber: context.state.currentPageWar,
       PageSize: context.state.itemsPerPage,
     }
     let res;
@@ -193,10 +182,10 @@ export default {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
       if (res.status === 200) {
         // console.log(res.data.items, 'aaa')
-        context.commit('setWarShip', res.data.items);
+        context.commit('setBattleShip', res.data.items);
         // context.commit('toogleIsLoadingStat', false);
-        context.commit('setWarShipCount', res.data.totalItemsCount)
-        context.commit('setWarShipPages', res.data.totalPages)
+        context.commit('setBattleShipCount', res.data.totalItemsCount)
+        context.commit('setBattleShipPages', res.data.totalPages)
         console.log(res)
       }
     } catch (error) {
@@ -219,7 +208,7 @@ export default {
   async downloadConnect4(context, index) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
-      PageNumber: context.state.currentPagePol,
+      PageNumber: context.state.currentPageC4,
       PageSize: context.state.itemsPerPage,
     }
     let res;
@@ -251,20 +240,11 @@ export default {
   }
 },
   getters: {    
-    getIsLoadingWar(state){
-      return state.isLoadingWar;
-    },
-    getIsLoadingStat(state){
-      return state.isLoadingStat;
-    },
-    getIsLoadingPol(state){
-      return state.isLoadingPol;
-    },
     checkersTable(state) {
       return state.checkersHidden;
     },
-    warShipTable(state) {
-      return state.warShipHidden;
+    battleShipTable(state) {
+      return state.battleShipHidden;
     },
     connect4Table(state) {
       return state.connect4Hidden;
@@ -272,49 +252,40 @@ export default {
     getCheckers(state){
       return state.checkersRank;
     },
-    getWarShip(state){
-      return state.warShipRank;
+    getBattleShip(state){
+      return state.battleShipRank;
     },
     getConnect4(state){
       return state.connect4Rank;
     },
+    getCurrentPageChec(state){
+      return state.currentPageCheck;
+    },
     getCurrentPageWar(state){
       return state.currentPageWar;
     },
-    getCurrentPageStat(state){
-      return state.currentPageStat;
-    },
-    getCurrentPagePol(state){
-      return state.currentPagePol;
+    getCurrentPageC4(state){
+      return state.currentPageC4;
     },
     getItemsPerPage(state){
       return state.itemsPerPage;
     },
-    getDynamicHeightP(state){
-      return state.dynamicHeightP;
-    },
-    getDynamicHeightW(state){
-      return state.dynamicHeightW;
-    },
-    getDynamicHeightS(state){
-      return state.dynamicHeightS;
+    pageNrC(state){
+        return state.currentPageCheck;
     },
     pageNrW(state){
         return state.currentPageWar;
     },
-    pageNrS(state){
-        return state.currentPageStat;
+    pageNrC4(state){
+        return state.currentPageC4;
     },
-    pageNrP(state){
-        return state.currentPagePol;
-    },
-    allPagesW(state){
+    allPagesC(state){
         return Math.ceil(state.checkersRank.length / state.itemsPerPage);
     },
-    allPagesS(state){
-        return Math.ceil(state.warShipRank.length / state.itemsPerPage);
+    allPagesW(state){
+        return Math.ceil(state.battleShipRank.length / state.itemsPerPage);
     },
-    allPagesP(state){
+    allPagesC4(state){
         return Math.ceil(state.connect4Rank.length / state.itemsPerPage);
     },
   }
