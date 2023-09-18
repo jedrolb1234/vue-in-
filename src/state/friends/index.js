@@ -55,7 +55,6 @@ export default {
     },
     setSearchedUser(state, value) {
       let formattedDate;
-      console.log(value)
       if(value.dateOfBirth === ""){  
         let day = "";
         let month = "";
@@ -84,28 +83,25 @@ export default {
     },
     setFriends(state, value) {
       let formattedDate;
-      console.log(value.lastActivityDate)
-      console.log(value)
       state.friends = value; 
       for (let i = 0; i < value.length; i++) {      
-        // if(value[i].lastActivityDate === undefined){
-        //   let day = "";
-        //   let month = "";
-        //   let year = "";
-        //   formattedDate = `${year}-${month}-${day}`;
-        //   state.friends[i].lastActivityDate = formattedDate;
-        // }else{
           var inputDate = new Date(value[i].lastActivityDate);
           let day = inputDate.getDate().toString().padStart(2, '0');
           let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
           let year = inputDate.getFullYear().toString();
           formattedDate = `${year}-${month}-${day}`;
-          console.log(formattedDate)
           state.friends[i].lastActivityDate = formattedDate;
         // } 
       }
       if (state.friends.length != 10) {
         state.dynamicHeight = (state.itemsPerPage - state.friends.length) * state.rowHeight;
+      }for (let i = 0; i < value.length; i++) {      
+        if(value[i].lastGameTypeId === 0)
+          state.friends[i].lastGame ='Warcaby';
+        if(value[i].lastGameTypeId === 1)
+          state.friends[i].lastGame ='Statki';
+        if(value[i].lastGameTypeId === 2)
+          state.friends[i].lastGame = 'Połącz 4';
       }
     },
     showPopup(state, payload) {
@@ -145,6 +141,7 @@ export default {
       return state.invPages;
     },
     getFriends(state) {
+      console.log(state.friends)
       return state.friends;
     },
     getUser(state) {
@@ -160,9 +157,11 @@ export default {
       return state.itemsPerPage;
     },
     getAvilabeInvitations(state) {
+      console.log(state.invitations);
       return state.invitations.length;
     },
     getInvitations(state) {
+      console.log(state.invitations)
       return state.invitations;
     },
     getDynamicHeight(state) {
@@ -172,7 +171,6 @@ export default {
       return state.visibleMessage;
     },
     getId(state) {
-      console.log(state.id)
       return state.id;
     },
     getIndex(state) {
@@ -295,7 +293,6 @@ export default {
           context.commit('setInvitations', res.data.items);
           context.commit('setInvCount', res.data.totalItemsCount)
           context.commit('setInvPages', res.data.totalPages)
-          // console.log(res.data)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -324,12 +321,10 @@ export default {
       try {
         res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT, { params: params });
         if (res.status === 200) {
-          console.log(res.data.items, 'aaa')
           context.commit('setFriends', res.data.items);
           context.commit('tooleIsLoading', false);
           context.commit('setFriendsCount', res.data.totalItemsCount)
           context.commit('setFriendsPages', res.data.totalPages)
-          console.log(res.data)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {

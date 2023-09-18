@@ -7,7 +7,7 @@
                 <hr class="hr1">
                 <div v-if="getIsLoading === true">
                     <table class="spinnerTable">
-                        <tr :style="{height: getDynamicHeight +38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
+                        <tr :style="{height: 38 + 'px'}" colspan="1"><base-loading-spinner class="spinnerTr"></base-loading-spinner></tr>
                     </table>
                 </div>
                 <ul v-if="(getIsLoading === false) && (getFriends.length !== 0)">
@@ -19,12 +19,12 @@
                                 <td class="tableButton"><base-look-button class="firstCellButton" @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button class="lastCellButton" @click="showRemovePopup(f)"></base-remove-button></td>   
 
                             </tr>
-                            <tr :style="{height: getDynamicHeight + 'px'}"></tr>
+                            <!-- <tr :style="{height: getDynamicHeight + 'px'}"></tr> -->
                         </tbody>
                     </table>
                     <div class="buttons">
-                        <base-previous-button @click="previousPage" :disable="pPageNr===0"></base-previous-button>
-                        <base-next-button @click="nextPage" :disable="getPageNr===allPages"></base-next-button>
+                        <base-previous-button @click="previousPage" :disable="getCurrentPage===0"></base-previous-button>
+                        <base-next-button @click="nextPage" :disable="getCurrentPage===getFriendsPages"></base-next-button>
                         <p class="page">{{ pageNr }}</p>
                     </div>
                 </ul>
@@ -57,7 +57,7 @@
                         </transition-group>
                     </ul> 
                 </transition>
-                <ul v-if="getAvilabeInvitations === 0" class="noInvMargin"><p>Nie otrzymano zaproszeń od znajomych.</p></ul>
+                <p v-if="getAvilabeInvitations === 0">Nie otrzymano zaproszeń od znajomych.</p>
             </div>
             <div class="searchFriend">
                 <h2 class="findMargin">Znajdź przyjaciela</h2>
@@ -125,9 +125,9 @@ export default {
         },
         
     computed: {
-        ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'allPages', 'getUser', 
-                    'getFriends', 'getFindFriend', 'getFindUser', 'getDynamicHeight', 
-                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId',
+        ...mapGetters('Friends',['getIsLoading','currentPage', 'pageNr', 'getFriendsPages', 'getUser', 
+                    'getFriends', 'getFindFriend', 'getFindUser', 'getDynamicHeight', 'pPageNr', 'getPageNr',
+                    'getItemsPerPage', 'getAvilabeInvitations', 'getInvitations', 'getId', 'getCurrentPage',
                     'invPageNr', 'invAllPages', 'getIsVisibleMessage', 'getInvPages',
                     'getFriendsCount', 'getRemUser']),
     },
@@ -139,7 +139,6 @@ export default {
         ...mapActions(['showNotification', 'setInvitationId']),
 
         redirect(id, invId){
-            // console.log('uhp')
             if (invId !== 'null'){
                 sessionStorage.setItem('invId', invId);
                 return this.$router.push({
@@ -191,10 +190,12 @@ hr {
     margin-left: 50px;
     color: var(--secondary);
 }
-.hr2{
+/* .hr2{
     margin-left: 20px;
-    max-width: 1234px;;
-}
+    margin-right: 20px;
+    max-width: 1234px;
+    width: 100%;
+} */
 h1, h2{
     color: var(--primary);
     align-items: flex-start;
@@ -251,35 +252,24 @@ td:nth-child(2):nth-child(4){
 }
 td{
     padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
-    background-color: var(--secondary);
     height: 38px;
     font-size: 18px;
     color: var(--primary);
     margin: 0px 0px 0px 0px;
 }
 
-td:nth-child(odd){
-  background-color: var(--td-odd-bg-color);
-  color: var(--td-odd-txt-color);
+th{
+    background-color: var(--accent);
+  color: var(--table-header-color)
 }
-td:nth-child(even){
-  background-color: var(--td-even-bg-color);
-  color: var(--td-even-txt-color);
-}
-
-th:nth-child(odd){ 
-  background-color: var(--th-odd-bg-color); 
-  color: var(--th-odd-txt-color); 
-}
-th:nth-child(even){ 
-  background-color: var(--th-even-bg-color); 
-  color: var(--th-even-txt-color); 
+tr:nth-child(odd){
+  background-color: var(--primaryBtn);
 }
 .lastCellButton{
-    margin-left: 20px;
+    margin-left: 15px;
 }
 .firstCellButton{
-    margin-left: 25px;
+    margin-left: 15px;
 }
 .frinedId{
     width: 100px;
@@ -362,9 +352,9 @@ p{
     align-items: center;
     margin-left: 35px;
 }
-.invMargin{
+/* .invMargin{
     margin-left: 20px;
-}
+} */
 .noInvMargin{
     margin-left: -20px;
 }
@@ -374,9 +364,10 @@ p{
 .searchMargin{
     margin-left: 0px;
 }
-.invitations{
+/* .invitations{
+    width: 100%;
     margin-left: -20px;
-}
+} */
 .findUser{
     color: var(--primary);
 }

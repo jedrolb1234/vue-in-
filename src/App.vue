@@ -33,7 +33,7 @@ export default {
 /* Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: #5da054 #ffffff;
+  scrollbar-color: var(--accent) #ffffff;
 }
 
 /* Chrome, Edge, and Safari */
@@ -56,19 +56,23 @@ export default {
   --shadow: #B6BBBE;
 
     /* Tabele */
+
+  --table-header: #003344;  
+  --table-header-color: white;
+  --table-row: #88ff88;
   --td-padding-top-bottom: 5px;
   --td-padding-left-right: 10px;
 
-  --td-odd-bg-color: #dddddd;
+  --td-odd-bg-color: #00FF00;
   --td-odd-txt-color: black;
 
-  --td-even-bg-color: #AAAAAA;
+  --td-even-bg-color: #00BB00;
   --td-even-txt-color: black;
 
-  --th-odd-bg-color: #CCCCCC;
+  --th-odd-bg-color: #00DD00;
   --th-odd-txt-color: black;
 
-  --th-even-bg-color: #888888;
+  --th-even-bg-color: #009900;
   --th-even-txt-color: black;
   /* ------- */
 }
@@ -81,19 +85,20 @@ export default {
   --accent: #0E9A2A;
   --shadow: #070808;
   
+  --table-row: #006600;
   --td-padding-top-bottom: 5px;
   --td-padding-left-right: 10px;
 
-  --td-odd-bg-color: #555555;
+  --td-odd-bg-color: #006600;
   --td-odd-txt-color: white;
 
-  --td-even-bg-color: #333333;
+  --td-even-bg-color: #008800;
   --td-even-txt-color: white;
 
-  --th-odd-bg-color: #444444;
+  --th-odd-bg-color: #004400;
   --th-odd-txt-color: white;
 
-  --th-even-bg-color: #222222;
+  --th-even-bg-color: #007700;
   --th-even-txt-color: white;
 }
 

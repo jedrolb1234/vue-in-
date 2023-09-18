@@ -50,7 +50,7 @@ export default {
       return null;
     }
   },
-  async created() {
+  async beforeMount() {
     await this.obtainGameRoom(this.gameRoomID);
     await this.$callHub.start();
     await this.$callHub.client.invoke('ConnectToGameRoom', this.gameRoomID, this.getUserId)
@@ -75,5 +75,6 @@ export default {
   justify-content: center;
   display: flex;
   flex-direction: row;
+  gap:20px;
 }
 </style>

@@ -7,41 +7,45 @@
       </div>
       <div class="action-bar">
         <div class="buttons">
-          <BaseButton type="primary-medium" @click="this.createNewGameRoom({ gameTypeId: gameId, roomName: `Pokój gracza ${this.getUsername}` })">Stwórz
-          nowy
-          pokój</BaseButton>
-        <BaseButton type="secondary-medium" @click="this.refreshGameRooms()">Odśwież</BaseButton> 
+          <BaseButton type="primary-medium"
+            @click="this.createNewGameRoom({ gameTypeId: gameId, roomName: `Pokój gracza ${this.getUsername}` })">Stwórz
+            nowy
+            pokój</BaseButton>
+          <BaseButton type="secondary-medium" @click="this.refreshGameRooms()">Odśwież</BaseButton>
         </div>
         <BaseSearchInput :searchFunction="this.searchGameRooms" fontSize="16px"></BaseSearchInput>
       </div>
       <table class="game-room-list">
         <thead>
-          <tr class="game-room-list-element">
+          <tr class="game-room-list-element table-header">
             <td>Nazwa</td>
-            <td>Właściciel</td>
+            <!-- <td>Właściciel</td> -->
             <td>Gracze</td>
             <td>Wymagana liczba graczy</td>
-            <td>Prywatny</td>
+            <!-- <td>Prywatny</td> -->
             <td>Akcja</td>
           </tr>
         </thead>
         <BaseLoadingSpinner v-if="this.isLoading"></BaseLoadingSpinner>
         <tbody>
+          <p v-if="this.rooms.length == 0" style="text-align: center; padding: 10px;">Stwórz nowy pokój, żeby rozpocząć rozgrywkę!</p>
           <tr v-for="room in this.rooms.slice((this.selectedPage - 1) * this.pageSize, this.selectedPage * this.pageSize)"
             class="game-room-list-element" :key="room.id">
             <td>{{ room.name }}</td>
-            <td>{{ room.owner }}</td>
+            <!-- <td>{{ room.owner }}</td> -->
             <td>
               <p v-for="(player, index) in room.players" :key="index">{{ player }}</p>
             </td>
-            <td>{{ room.rquiredNumberOfPlayers }}</td>
-            <td>{{ room.isPrivate }}</td>
-            <td><span class="material-symbols-outlined" @click="this.$router.push({'path':`/play/${room.id}`})">play_circle</span></td>
+            <td>{{ room.players.length }}/{{ room.rquiredNumberOfPlayers }}</td>
+            <!-- <td>{{ room.isPrivate }}</td> -->
+            <td><span class="material-symbols-outlined"
+                @click="this.$router.push({ 'path': `/play/${room.id}` })">play_circle</span></td>
           </tr>
         </tbody>
         <tfoot>
           <BasePagination v-model:selectedPage="this.selectedPage" v-model:pageSize="this.pageSize"
             :numberOfPages="Math.ceil(this.rooms.length / this.pageSize)"></BasePagination>
+
         </tfoot>
       </table>
       <div class="bottom-action-bar">
@@ -61,7 +65,7 @@ import BaseLoadingSpinner from '../base/BaseLoadingSpinner.vue';
 
 export default {
   components: { BaseModal, BaseButton, BaseSearchInput, BasePagination, BaseLoadingSpinner },
-  props:['gameId'],
+  props: ['gameId'],
   data() {
     return {
       selectedPage: 1,
@@ -71,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getGameRooms','getUsername']),
+    ...mapGetters(['getGameRooms', 'getUsername']),
   },
   methods: {
     ...mapActions(['createNewGameRoom', 'obtainGameRooms']),
@@ -83,10 +87,10 @@ export default {
       this.selectedPage = 1;
     },
     async refreshGameRooms() {
-      this.rooms=[];
-      this.isLoading=true;
+      this.rooms = [];
+      this.isLoading = true;
       await this.obtainGameRooms(this.gameId);
-      this.isLoading=false;
+      this.isLoading = false;
       this.rooms = this.getGameRooms;
     }
   },
@@ -100,6 +104,7 @@ export default {
 span {
   cursor: pointer;
 }
+
 .game-room-modal {
   display: flex;
   height: auto;
@@ -117,7 +122,7 @@ span {
   gap: 50px;
 }
 
-.action-bar > .buttons {
+.action-bar>.buttons {
   display: flex;
   gap: 15px;
 }
@@ -131,11 +136,11 @@ span {
 table {
   height: 100%;
   background-color: var(--secondaryBtn);
-  padding: 10px;
+  padding: 0px;
   border: 1px solid var(--primary);
 }
 
-table >div {
+table>div {
   margin: auto;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -144,14 +149,35 @@ table >div {
 tbody {
   height: 100%;
   overflow: overlay;
-  /* z-index:999; */
+  width: 100% - 100px;
   transition: width 0.3s;
 }
 
 thead {
   font-weight: bold;
-
+  border: 1px solid var(--primary);
 }
+
+tfoot {
+  border-top: 1px solid var(--primary);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+tr {
+  border-bottom: 1px solid var(--primary);
+  /* border-left:0px;
+  border-right: 0px; */
+}
+
+tbody tr:last-child {
+  border: 0px;
+}
+
+/* .table-header {
+  background-color: var(--accent);
+  padding:10px
+} */
 
 .game-room-list-elements {
   display: flex;
@@ -161,14 +187,13 @@ thead {
 }
 
 .game-room-list-element {
+  text-align: center;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 3fr 3fr 2fr 1fr;
   align-items: center;
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid var(--primary);
   font-size: 16px;
-  /* min-height: 0; */
   column-gap: 15px;
+  height: 65px;
 }
 
 .header {
@@ -197,4 +222,5 @@ hr {
 .bottom-action-bar {
   display: flex;
   justify-content: flex-end;
-}</style>
+}
+</style>

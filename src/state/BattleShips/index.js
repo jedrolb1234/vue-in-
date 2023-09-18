@@ -8,6 +8,7 @@ export default {
       ship: 1,
       hit: 2,
       miss: 3,
+      blocked: 4,
       shipOponent: 'shipOponent',
       empty2: 'empty2',
       emptyOponent: 'emptyOponent',
@@ -33,6 +34,9 @@ export default {
     }
   },
   getters: {
+    getBlocked(state) {
+      return state.blocked;
+    },
     getEmpty(state) {
       return state.empty
     },
@@ -166,22 +170,6 @@ export default {
       }
       dispatch('shipNumber');
     },
-
-    // unSetShip({ commit, context }, field){
-    //     commit('setClickedIn', field)
-    //     console.log(field)
-    //     console.log(context.clickedIn)
-    //     if(context.clickedIn){
-    //         context.commit('setShipCounter', 1);
-    //         let index = commit('clickedField', { key: field, value: context.state.hitOponent });
-    //         context.commit('clickedField', index);
-    //         context.commit('setBoard', field);
-    //         console.log('board', context.state.board[field]);
-    //         console.log('tablica', context.state.clicked);
-    //     }
-    //     context.dispatch('shipNumber');
-    //     },
-
     checkLocation(context, field) {
       //let isAbleToPut = true;
       let x = parseInt(field[0]);
@@ -422,7 +410,7 @@ export default {
     resetBoardBattleShips({commit, dispatch}) {
       commit('setBoard', Array(10).fill().map(() => Array(10).fill(0)));
       commit('setOponentBoard', Array(10).fill().map(() => Array(10).fill(0)));
-      dispatch('updatePlayerTurn', null);
+      dispatch('updatePlayerTurn', null, {root:true});
     }
   }
 }

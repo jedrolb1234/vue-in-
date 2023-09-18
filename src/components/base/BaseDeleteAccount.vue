@@ -23,7 +23,6 @@ import { mapActions } from 'vuex';
     methods:{
         ...mapActions(['deleteAccount']),
         emitVisibleMessage() {
-            console.log('message')
             this.$emit('visibleMessage', false);
         },
         deleteFromFriends(id){

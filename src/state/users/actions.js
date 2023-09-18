@@ -42,7 +42,6 @@ export default {
     let res;
     try {
       res = await axios.post(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_LOGIN_ENDPOINT, payload);
-      // console.log(res)
       if (res.status == 200) {
         context.commit('login', res.data);
         context.dispatch('showNotification', notificationTemplates.user_logged, { root: true });
@@ -172,14 +171,12 @@ export default {
     let parts = settings.dateOfBirth.split('-');
     let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
     settings.dateOfBirth = parsedDate.toISOString();
-    // console.log(settings)
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     let res;
     try {
       res = await AxiosInstance.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings);
-      if (res.status === 200) {
-        console.log(res)
-      }
+      if(res ===200 )
+        return;
     } catch (error) {
       if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
         context.dispatch('logOutUser');
@@ -227,8 +224,7 @@ export default {
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + '/' + context.getters.getUserId);
       if (res.status == 200) {
-        console.log(res.data);
-        // context.dispatch('showNotification', notificationTemplates.game_room_closed, { root: true });
+        return;
       }
     } catch (error) {
       if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {

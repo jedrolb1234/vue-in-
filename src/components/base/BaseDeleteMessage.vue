@@ -27,12 +27,10 @@ export default {
     ...mapActions('Friends', ['removeFriend']),
 
       emitVisibleMessage() {
-          console.log('message');
           this.$emit('visibleMessage', false);       
       },
       deleteFromFriends(id){       
           this.$emit('visibleMessage', false);
-          console.log(id)
           this.removeFriend(id);
       },
       // hideModal(){

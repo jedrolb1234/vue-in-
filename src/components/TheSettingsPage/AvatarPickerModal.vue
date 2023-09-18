@@ -39,7 +39,6 @@ export default {
     },
     selectAvatar(index) {
       this.selectedAvatar = index//this.getAvatars.indexOf[avatar];
-      console.log(this.selectedAvatar, index)
     },
     isAvatarSelected(index) {
       return this.selectedAvatar == index//this.getAvatars.indexOf[avatar]; //getIn//avatars[]

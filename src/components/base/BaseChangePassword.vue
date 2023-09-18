@@ -22,11 +22,9 @@ export default {
   methods:{
     ...mapActions['redirectPassword()'],
       emitVisibleMessage() {
-          console.log('message');
           this.$emit('visibleMessageP', false);
       },
       redirect() {
-        console.log('redirect')
           this.$store.dispatch('redirectPassword');        
           this.$emit('visibleMessageP', false);
       }

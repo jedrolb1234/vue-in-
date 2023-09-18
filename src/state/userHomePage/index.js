@@ -19,10 +19,14 @@ export default {
       history: [],
       hstoryPages: null,
       historyCount: 0,
-      rowHeight: 38
+      rowHeight: 38,
+      gamesInProgress: []
     }
   },
   mutations: {
+    setGamesInProgress(state, data) {
+      state.gamesInProgress = data;
+    },
     loading(state) {
       state.isLoading = !state.isLoading;
     },
@@ -40,11 +44,9 @@ export default {
     },
     setIsFriend(state, value) {
       state.isFriend = value;
-      // console.log('isFriend', state.isFriends)
     },
     setHasInvitation(state, value) {
       state.invId = value;
-      // console.log('invId', state.invId)
     },
     setUser(state, user) {
       let inputDate = new Date(user.dateOfBirth);
@@ -54,14 +56,12 @@ export default {
       let formattedDate = `${year}-${month}-${day}`;
       state.user = user;
       state.user.dateOfBirth = formattedDate;
-      // console.log(state.user)
     },
     setUserId(state, value) {
       state.userId = value;
     },
     setHistory(state, value){
       state.history = value;
-      console.log(state.history[0].endDate)
       for (let i = 0; i < state.history.length; i++) {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
@@ -73,6 +73,8 @@ export default {
         let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
         let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
         if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentMinutes) === 0)
+            formattedDate = `przed chwilą`;
           if(Math.floor(diffrentMinutes) === 1)
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
           if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
@@ -108,18 +110,13 @@ export default {
           else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
       state.history[i].endDate = formattedDate;
       }
-      if (state.history.length != 10) {
-        state.dynamicHeight = ((state.currentPage*10 - state.historyCount)) * state.rowHeight;
-        // console.log(state.currentPage*10 - state.historyCount, "History length") 
-      }else {state.dynamicHeight = 0}
-      // for (let i = 0; i < state.history.length; i++) {
-      // if(state.history[i].whoWon === state.history[i].players[0].item1)
-      //     {state.history[i].whoWon = state.history[i].players[0].item2;}
-      // else
-      // {state.history[i].whoWon = state.history[i].players[1].item2;}
-      // }
-
-        // console.log(state.history, "AAAAAAAAAA")
+      for (let i = 0; i < state.history.length; i++) {
+      if(state.history[i].whoWon === state.history[i].players[0].item1)
+          {state.history[i].whoWon = state.history[i].players[0].item2;}
+      else
+      {state.history[i].whoWon = state.history[i].players[1].item2;}
+      }
+      console.log(state.history)
     },
     setHistPages(state, value){
       state.historyPages = value;
@@ -130,6 +127,9 @@ export default {
 
   },
   getters: {
+    getGamesInProgress(state) {
+      return state.gamesInProgress;
+    },
     isLoading(state) {
       return state.isLoading;
     },
@@ -137,7 +137,6 @@ export default {
       return state.currentPage;
     },
     getHistory(state) {
-      console.log(state.history)
       return state.history;
     },
     getCurrentPage(state) {
@@ -149,8 +148,7 @@ export default {
     getHasInvitation(state) {
       return state.hasInvitation;
     },
-    getIsFriend(state) {console.log(state.user)
-      // console.log(state.user.isFriendStatus)
+    getIsFriend(state) {
       return state.user.isFriendStatus 
     },
     getName(state) {
@@ -168,7 +166,6 @@ export default {
       return state.user;
     },
     getId(state) {
-      // console.log(state.id)
       return state.id;
     },
     getInvId(state) {
@@ -208,30 +205,15 @@ export default {
       }
       try {
         const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + context.state.userId, { params: params });
+        console.log(res.status)
         if (res.status === 200){  
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
-          // console.log(res)
         }
         } catch (error) {
           console.log(error)
-        if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
-          context.dispatch('logOutUser');
-        }
-        else if (error.response.data === "FriendshipIsAlreadyPendingOrAccepted") {
-          context.dispatch('getData', context.state.userId);
-        }
-        else if (error.response.data === "FriendHasToBeAnotherUser") {
-          context.dispatch('showNotification',
-            {
-              label: 'Wystąpiły błędy!',
-              description: 'Nie możesz wysłać zaproszenie tej osobie.',
-              type: 'error'
-            },
-            { root: true });
-        }
-        else if (error.response) {
+        if (error.response) {
           context.dispatch('showNotification',
             {
               label: 'Wystąpiły błędy!',
@@ -282,8 +264,7 @@ export default {
       }
     },
     async acceptInvitation(context, userId) {
-      const notificationTemplates = context.rootGetters.getNotificationTemplates;
-      console.log(userId)
+      // const notificationTemplates = context.rootGetters.getNotificationTemplates;
       try {
         const res = await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT
           + "/" + userId + process.env.VUE_APP_INVITATION_ACCEPT_ENDPOINT, null);
@@ -302,8 +283,6 @@ export default {
               type: 'error'
             },
             { root: true });
-        } else {
-          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
     },
@@ -315,8 +294,6 @@ export default {
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);
-          // console.log(res.data, 'data')
-          // console.log(userId)
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
@@ -335,6 +312,23 @@ export default {
               { root: true });
           }
         } else {
+          context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
+        }
+      }
+    },
+    async obtainGamesInProgress(context, payload) {
+      const notificationTemplates = context.rootGetters.getNotificationTemplates;
+      try {
+        const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_OBTAIN_GAME_ROOMS_ENDPOINT, { params: payload })
+        if (res.status == 200) {
+          context.commit('setGamesInProgress', res.data);
+        }
+      }
+      catch (error) {
+        if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
+          context.dispatch('logOutUser');
+        }
+        else {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
