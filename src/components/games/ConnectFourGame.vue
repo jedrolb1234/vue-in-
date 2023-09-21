@@ -85,13 +85,7 @@ p {
   margin: 10px;
 }
 
-table {
-  background-color: blue;
-  border-spacing: 0px;
-  border-collapse: collapse;
-  border: 1px solid var(--primary);
-  margin-bottom: 30px;
-}
+
 
 @keyframes fadeIn {
   from {
@@ -110,19 +104,25 @@ table {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  /* animation-name: fadeIn;
-    animation-duration: 500ms; */
+  animation-name: fadeIn;
+    animation-duration: 500ms;
   border: 1px solid var(--primary);
   overflow: hidden;
 }
-
+table {
+  background-color: blue;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border: 1px solid var(--primary);
+  margin-bottom: 30px;
+}
 .myPawn {
   background-color: red;
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  /* animation-name: fadeIn;
-    animation-duration: 500ms; */
+  animation-name: fadeIn;
+  animation-duration: 500ms;
   border: 1px solid var(--primary);
 }
 
