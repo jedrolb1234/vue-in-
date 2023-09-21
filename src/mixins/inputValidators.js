@@ -13,7 +13,7 @@ export default {
       return false;
     },
     validatePassword(password, rpassword) {
-      const passwordRegex = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/;
+      const passwordRegex = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{10,}$/;
       if (password.match(passwordRegex) && password == rpassword)
         return true;
       return false;
