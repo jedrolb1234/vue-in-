@@ -186,6 +186,7 @@ export default {
       // return true;
     },
     active(context, payload) {
+      // console.log('jump')
       context.dispatch('possibleActiveJump', payload);
       context.dispatch('possibleActiveMove', payload);
     },
@@ -407,9 +408,11 @@ export default {
       to[1] = payload.end[1];
       let tmpPosition1 = [];
       let tmpPosition2 = [];
+      console.log('king:', context.state.board[from[0]][from[1]])
       if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer) 
         && (context.state.board[from[0]][from[1]] === context.state.whitePawn 
-        || context.state.board[from[0]][from[1]] === context.state.blackKing)) {
+        || context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
+          console.log('pawn & king', context.state.board[from[0]][from[1]])
         tmpPosition1[0] = from[0] + 2;
         tmpPosition1[1] = from[1] + 2;
         tmpPosition2[0] = from[0] + 1;
@@ -467,13 +470,14 @@ export default {
       }
       else if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer)
            && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
-        
+        console.log('king-true')
         let tmpPosition = []
         tmpPosition[0] = from[0] + 1;
         tmpPosition[1] = from[1] + 1;
         let defeated = 0;
         while ((tmpPosition[0] <= 7) && tmpPosition[1] <= 7) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
@@ -499,7 +503,8 @@ export default {
         tmpPosition[1] = from[1] + 1;
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] <= 7) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
@@ -525,7 +530,8 @@ export default {
         tmpPosition[1] = from[1] - 1;
 
         while ((tmpPosition[0] <= 7) && tmpPosition[1] >= 0) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
@@ -551,8 +557,10 @@ export default {
         tmpPosition[1] = from[1] - 1;
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] >= 0) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
-          break;
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
+            {console.log('break')
+          break;}
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
             if (defeated !== 2) {
@@ -573,7 +581,7 @@ export default {
 
       }
       //black turn
-      else if ((context.state.board[from[0]][from[1]] === context.state.blackPawn)) {
+      else if (context.state.board[from[0]][from[1]] === context.state.blackPawn){
         tmpPosition1[0] = from[0] + 2;
         tmpPosition1[1] = from[1] + 2;
         tmpPosition2[0] = from[0] + 1;
@@ -623,7 +631,8 @@ export default {
         tmpPosition[0] = from[0] + 1;
         tmpPosition[1] = from[1] + 1;
         while ((tmpPosition[0] <= 7) && tmpPosition[1] <= 7) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
@@ -649,7 +658,8 @@ export default {
         tmpPosition[1] = from[1] + 1;
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] <= 7) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
@@ -675,7 +685,8 @@ export default {
         tmpPosition[1] = from[1] - 1;
 
         while ((tmpPosition[0] <= 7) && tmpPosition[1] >= 0) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
@@ -700,7 +711,8 @@ export default {
         tmpPosition[1] = from[1] - 1;
 
         while ((tmpPosition[0] >= 0) && tmpPosition[1] >= 0) {
-          if(context.state.board[tmpPosition[0]][tmpPosition[1]] !== context.state.empty)
+          if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
+            || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
           break;
           if ((to[0] === tmpPosition[0] && to[1] === tmpPosition[1]) &&
             context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.empty) {
