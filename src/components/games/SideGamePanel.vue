@@ -114,6 +114,7 @@ export default {
       return false;
     },
     isCloseButtonVisible() {
+      console.log(this.getSelectedGameRoom)
       if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status !=2)
         return true;
       return false;
