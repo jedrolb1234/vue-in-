@@ -60,6 +60,7 @@ export default {
             'Jeśli na wybranym polu znajdował się statek przeciwnika gracz otrzymuje dodatkową turę.',
             'Po trafieniu statku przeciwnika pole zostaje oznaczone "trafiony", w przeciwnym wypadku pole zostaje oznaczone "pudło".',
             'Jeśli przeciwnik wykonał ruch zostaje to odznaczone "trafiony" lub "pudło" na lewej planszy.',
+            'Po zatopieniu statku na prawej planszy wyświetlane są podpowiedzi z pustymi polami.',
             'Celem gry jest strącenie wszystkich statków przeciwnika.'
           ],
           active: true,
