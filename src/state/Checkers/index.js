@@ -147,10 +147,10 @@ export default {
       const index = context.rootGetters.getSelectedGameRoom.players.map(x => x.playerId).indexOf(player);
       const indexEnemy = 1 -index;
       const myIndex = context.rootGetters.getSelectedGameRoom.players.map(x => x.playerId).indexOf(context.rootGetters.getUserId);
-      context.commit('setWhitePawn', index+1);
-      context.commit('setWhiteKing', index+3);
-      context.commit('setBlackPawn', indexEnemy+1);
-      context.commit('setBlackKing', indexEnemy+3);
+      context.commit('setWhitePawn', indexEnemy+1);
+      context.commit('setWhiteKing', indexEnemy+3);
+      context.commit('setBlackPawn', index+1);
+      context.commit('setBlackKing', index+3);
       if(context.rootGetters.getUserId == player && myIndex ==0 || context.rootGetters.getUserId != player && myIndex == 0)  {
         const board = context.getters.getBoard
         board.reverse().forEach(function(item) { item.reverse(); } );
@@ -186,7 +186,7 @@ export default {
       // return true;
     },
     active(context, payload) {
-      // console.log('jump')
+      console.log('jump', payload)
       context.dispatch('possibleActiveJump', payload);
       context.dispatch('possibleActiveMove', payload);
     },
@@ -199,8 +199,8 @@ export default {
       to[0] = payload.end[0];
       to[1] = payload.end[1];
       let tmpPosition1 = [];
-      if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer) 
-          && ((context.state.board[from[0]][from[1]] === context.state.whitePawn)
+      if (//(context.rootGetters.getPlayerTurn === context.state.whitePlayer) &&
+           ((context.state.board[from[0]][from[1]] === context.state.whitePawn)
           || (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
         tmpPosition1[0] = from[0] - 1;
         tmpPosition1[1] = from[1] + 1;
@@ -223,8 +223,8 @@ export default {
           }
         }
 
-      } else if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer) 
-        && (context.state.board[from[0]][from[1]] == context.state.whiteKing)) {
+      } else if (//(context.rootGetters.getPlayerTurn === context.state.whitePlayer) &&
+         (context.state.board[from[0]][from[1]] == context.state.whiteKing)) {
         let defeated = 0;
         tmpPosition1[0] = from[0] - 1;
         tmpPosition1[1] = from[1] + 1;
@@ -408,10 +408,12 @@ export default {
       to[1] = payload.end[1];
       let tmpPosition1 = [];
       let tmpPosition2 = [];
-      console.log('king:', context.state.board[from[0]][from[1]])
-      if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer) 
-        && (context.state.board[from[0]][from[1]] === context.state.whitePawn 
-        || context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
+      // console.log('king:', context.state.board[from[0]][from[1]], )
+      console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
+      if (//(context.rootGetters.getPlayerTurn === context.state.whitePlayer) &&
+         context.state.board[from[0]][from[1]] === context.state.whitePawn 
+        //|| context.state.board[from[0]][from[1]] === context.state.whiteKing)
+        ) {
           console.log('pawn & king', context.state.board[from[0]][from[1]])
         tmpPosition1[0] = from[0] + 2;
         tmpPosition1[1] = from[1] + 2;
@@ -468,13 +470,15 @@ export default {
           }
         }
       }
-      else if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer)
-           && (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
+      else if (//(context.rootGetters.getPlayerTurn === context.state.whitePlayer)&&
+            (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
         console.log('king-true')
         let tmpPosition = []
         tmpPosition[0] = from[0] + 1;
         tmpPosition[1] = from[1] + 1;
-        let defeated = 0;
+        let defeated = 0;      
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] <= 7) && tmpPosition[1] <= 7) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
@@ -501,7 +505,9 @@ export default {
         tmpPosition = []
         tmpPosition[0] = from[0] - 1;
         tmpPosition[1] = from[1] + 1;
-
+ 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] >= 0) && tmpPosition[1] <= 7) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
@@ -528,7 +534,9 @@ export default {
         tmpPosition = []
         tmpPosition[0] = from[0] + 1;
         tmpPosition[1] = from[1] - 1;
-
+ 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] <= 7) && tmpPosition[1] >= 0) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
@@ -555,7 +563,9 @@ export default {
         tmpPosition = []
         tmpPosition[0] = from[0] - 1;
         tmpPosition[1] = from[1] - 1;
-
+ 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] >= 0) && tmpPosition[1] >= 0) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whiteKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.whitePawn)
@@ -629,7 +639,9 @@ export default {
         let defeated = 0;
         tmpPosition = [];
         tmpPosition[0] = from[0] + 1;
-        tmpPosition[1] = from[1] + 1;
+        tmpPosition[1] = from[1] + 1; 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] <= 7) && tmpPosition[1] <= 7) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
@@ -656,7 +668,9 @@ export default {
         tmpPosition = [];
         tmpPosition[0] = from[0] - 1;
         tmpPosition[1] = from[1] + 1;
-
+ 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] >= 0) && tmpPosition[1] <= 7) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
@@ -683,7 +697,9 @@ export default {
         tmpPosition = [];
         tmpPosition[0] = from[0] + 1;
         tmpPosition[1] = from[1] - 1;
-
+ 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] <= 7) && tmpPosition[1] >= 0) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
@@ -709,7 +725,9 @@ export default {
         tmpPosition = [];
         tmpPosition[0] = from[0] - 1;
         tmpPosition[1] = from[1] - 1;
-
+ 
+        console.log('king:', context.state.board[from[0]][from[1]], )
+        console.log("whitePlayer: ",context.rootGetters.getPlayerTurn === context.state.whitePlayer)
         while ((tmpPosition[0] >= 0) && tmpPosition[1] >= 0) {
           if(context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackKing
             || context.state.board[tmpPosition[0]][tmpPosition[1]] === context.state.blackPawn)
@@ -745,9 +763,9 @@ export default {
       let tmpPosition2 = [];
       const x = from[0];
       const y = from[1];
-      if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer) && (
+      if (//(context.rootGetters.getPlayerTurn === context.state.whitePlayer) && (
         (context.state.board[from[0]][from[1]] === context.state.whitePawn) ||
-        (context.state.board[from[0]][from[1]] === context.state.whiteKing))) {
+        (context.state.board[from[0]][from[1]] === context.state.whiteKing)) {
         tmpPosition1[0] = x - 2;
         tmpPosition1[1] = y + 2;
         tmpPosition2[0] = x - 1;
@@ -800,7 +818,8 @@ export default {
     }
 
       //black turn
-      else if (context.state.board[from[0]][from[1]] === context.state.blackPawn) {
+      else if (context.state.board[from[0]][from[1]] === context.state.blackPawn ||
+          context.state.board[from[0]][from[1]] === context.state.blackKing) {
         tmpPosition1[0] = x + 2;
         tmpPosition1[1] = y + 2;
         tmpPosition2[0] = x + 1;
@@ -856,8 +875,8 @@ export default {
       let tmpPosition1 = [];
       const x = from[0];
       const y = from[1];
-      if ((context.rootGetters.getPlayerTurn === context.state.whitePlayer)
-         && ((context.state.board[from[0]][from[1]] === context.state.whitePawn) 
+      if (//(context.rootGetters.getPlayerTurn === context.state.whitePlayer) &&
+          ((context.state.board[from[0]][from[1]] === context.state.whitePawn) 
          || (context.state.board[from[0]][from[1]] == context.state.whiteKing))) {
         tmpPosition1[0] = x - 1;
         tmpPosition1[1] = y + 1;
