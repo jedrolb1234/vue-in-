@@ -70,8 +70,8 @@ export default {
           userName:this.username,
           password:this.password,
           confirmPassword:this.rpassword,
-          firstName:'null',
-          lastName: 'null'
+          firstName:'',
+          lastName: ''
         });
         this.isSending=false;
       }

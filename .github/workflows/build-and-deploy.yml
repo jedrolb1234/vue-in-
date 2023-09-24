@@ -17,10 +17,16 @@ jobs:
         run: |
           npm ci
           npm run build
+          
+      - name: copy file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "dist/index.html"
+          target: "dist/404.html"
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist # The folder the action should deploy.
-          repository-name: funhouseproject/funhouseproject.github.io
+          repository-name: funhouseproject/funhouseproject-dev.github.io
           token: ${{ secrets.TOKEN }}
