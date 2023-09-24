@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - develop
+      - main
 permissions:
   contents: write
 jobs:
@@ -28,5 +28,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist # The folder the action should deploy.
-          repository-name: funhouseproject/funhouseproject-dev.github.io
+          repository-name: funhouseproject/funhouseproject-prod.github.io
           token: ${{ secrets.TOKEN }}
