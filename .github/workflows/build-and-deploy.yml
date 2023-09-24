@@ -28,5 +28,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist # The folder the action should deploy.
-          repository-name: funhouseproject/funhouseproject-dev.github.io
+          repository-name: funhouseproject-dev/funhouseproject-dev.github.io
           token: ${{ secrets.TOKEN }}
