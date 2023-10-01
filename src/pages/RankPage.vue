@@ -45,7 +45,7 @@
           </div>
         </transition> -->
       <div class="battleShipHeader" @click="toogleBattleShipTable">
-        <ul>Statki</ul>
+        <ul>Okręty</ul>
         <span v-if="battleShipTable===false" :class="iconArrow">expand_less</span>
         <span v-else-if="battleShipTable===true" :class="iconArrow">expand_more</span>
       </div>

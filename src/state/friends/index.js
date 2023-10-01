@@ -99,7 +99,7 @@ export default {
         if(value[i].lastGameTypeId === 0)
           state.friends[i].lastGame ='Warcaby';
         if(value[i].lastGameTypeId === 1)
-          state.friends[i].lastGame ='Statki';
+          state.friends[i].lastGame ='Okręty';
         if(value[i].lastGameTypeId === 2)
           state.friends[i].lastGame = 'Połącz 4';
       }
