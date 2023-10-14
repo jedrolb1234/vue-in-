@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "export UV_USE_IO_URING=0 || UV_USE_IO_URING=0 && set  vue-cli-service build",
+    "build": "export UV_USE_IO_URING=0 || set UV_USE_IO_URING=0 && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
