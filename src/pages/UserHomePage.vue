@@ -34,7 +34,7 @@
             <tr v-for="(room, index) in this.getGamesInProgress" :key="index">
               <td>{{ this.getGame(room.gameTypeId).name }}</td>
               <td>{{ room.players.filter(x => x.playerId != this.getUserId)[0].userName }}</td>
-              <td> {{ new Date(room.createDate).toLocaleString() }}</td>
+              <td> {{ new Date(room.createDate).toLocaleDateString() }}</td>
               <td style="width: 50px"><span style="cursor: pointer;" class="material-symbols-outlined"
                   @click="this.$router.push({ 'path': `/play/${room.id}` })">play_circle</span></td>
             </tr>

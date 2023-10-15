@@ -49,13 +49,13 @@ export default {
       state.invId = value;
     },
     setUser(state, user) {
-      let inputDate = new Date(user.dateOfBirth);
-      let day = inputDate.getDate().toString().padStart(2, '0');
-      let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-      let year = inputDate.getFullYear().toString();
-      let formattedDate = `${year}-${month}-${day}`;
+      // let inputDate = new Date(user.dateOfBirth);
+      // let day = inputDate.getDate().toString().padStart(2, '0');
+      // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+      // let year = inputDate.getFullYear().toString();
+      // let formattedDate = `${year}-${month}-${day}`;
       state.user = user;
-      state.user.dateOfBirth = formattedDate;
+      state.user.dateOfBirth = new Date(user.dateOfBirth).toLocaleDateString();
     },
     setUserId(state, value) {
       state.userId = value;
@@ -116,7 +116,6 @@ export default {
       else
       {state.history[i].whoWon = state.history[i].players[1].item2;}
       }
-      console.log(state.history)
     },
     setHistPages(state, value){
       state.historyPages = value;
@@ -205,14 +204,12 @@ export default {
       }
       try {
         const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + context.state.userId, { params: params });
-        console.log(res.status)
         if (res.status === 200){  
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
         }
         } catch (error) {
-          console.log(error)
         if (error.response) {
           context.dispatch('showNotification',
             {
