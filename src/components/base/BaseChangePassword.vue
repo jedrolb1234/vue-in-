@@ -3,7 +3,7 @@
         <div class="modal" name="modal">
           <slot></slot>
               <div class="buttons"> 
-                  <base-small-button @click="redirect" class="confirm-button">Potwierdz</base-small-button>
+                  <base-small-button @click="redirect" class="confirm-button">Potwierdź</base-small-button>
                   <base-small-button @click="emitVisibleMessage" class="reject-button">Odrzuć</base-small-button>
               </div>
           </div>
