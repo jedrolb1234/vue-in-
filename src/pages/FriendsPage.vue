@@ -19,7 +19,6 @@
                                 <td class="tableButton"><base-look-button class="firstCellButton" @click="redirect(f.userId, 'null')"></base-look-button></td><td>{{ f.userName }}</td><td>{{ f.lastActivityDate }}</td><td>{{ f.lastGame }}</td><td class="tableButton"><base-remove-button class="lastCellButton" @click="showRemovePopup(f)"></base-remove-button></td>   
 
                             </tr>
-                            <!-- <tr :style="{height: getDynamicHeight + 'px'}"></tr> -->
                         </tbody>
                     </table>
                     <div class="buttons">

@@ -290,7 +290,7 @@ export default {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       let res;
       try {
-        res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + "/account/" + userId + "/profile");
+        res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + "/" + userId + process.env.VUE_APP_PROFILE);
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);

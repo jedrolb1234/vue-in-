@@ -18,13 +18,16 @@
                   <tr class="checkersList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tr class="checkersList"
                     v-for="( w, index ) in getCheckers" :key="index">
-                    <td><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td><td  class="tdRank">{{ w.rank }}</td><td class="tdNick">{{ w.userName }}</td><td>{{ w.points }}</td>    
+                    <td><base-look-button class="invFirstCell" @click="redirect(w.playerId)"></base-look-button></td>
+                    <td  class="tdRank">{{ w.rank }}</td>
+                    <td class="tdNick">{{ w.userName }}</td>
+                    <td>{{ w.points }}</td>    
                   </tr>
                   <!-- <tr :style="{height: getDynamicHeightW + 'px'}"></tr> -->
                 </table>
                 <div class="buttons" v-show="checkersTable===false" >
                   <base-previous-button @click="previousPageC" :disable="getCurrentPageChec===0">Poprzednia</base-previous-button>
-                  <base-next-button @click="nextPageC" :disable="getCurrentPageChec===allPagesC">Następna</base-next-button>
+                  <base-next-button @click="nextPageC" :disable="getCurrentPageChec===getCheckersPages">Następna</base-next-button>
                   <p class="page">{{ pageNrC }}</p>
                 </div>
               </div>
@@ -59,13 +62,16 @@
                   <tbody>
                     <tr class="battleShipList"
                       v-for="( s, index ) in getBattleShip" :key="index">
-                      <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td><td class="tdRank">{{ s.rank }}</td><td class="tdNick">{{ s.userName }}</td><td>{{ s.points }}</td>    
+                      <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(s.playerId)"></base-look-button></td>
+                      <td class="tdRank">{{ s.rank }}</td>
+                      <td class="tdNick">{{ s.userName }}</td>
+                      <td>{{ s.points }}</td>    
                     </tr>
                     <!-- <tr :style="{height: getDynamicHeightS + 'px'}"></tr> -->
                   </tbody>
                 </table>
                 <div class="buttons" v-show="battleShipTable===false">
-                  <base-previous-button @click="previosuPageW" :disable="getCurrentPageWar===0">Poprzednia</base-previous-button>
+                  <base-previous-button @click="previousPageW" :disable="getCurrentPageWar===0">Poprzednia</base-previous-button>
                   <base-next-button @click="nextPageW" :disable="getCurrentPageWar===allPagesW">Następna</base-next-button>
                   <p class="page">{{ pageNrW }}</p>
                 </div>
@@ -102,7 +108,10 @@
                     <tbody>
                       <tr
                         v-for="( p, index ) in getConnect4" :key="index">
-                        <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td><td class="tdRank">{{ p.rank }}</td><td class="tdNick">{{ p.userName }}</td><td>{{ p.points }}</td>    
+                        <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td>
+                        <td class="tdRank">{{ p.rank }}</td>
+                        <td class="tdNick">{{ p.userName }}</td>
+                        <td>{{ p.points }}</td>    
                       </tr>
                       <!-- <tr :style="{height: getDynamicHeightP + 'px'}"></tr> -->
                     </tbody>
@@ -148,8 +157,8 @@ export default {
   },
   methods:{
     ...mapActions('Rank', ['toogleCheckersTable', 'toogleBattleShipTable', 'downloadCheckers', 'downloadConnect4',
-                            'toogleConnect4Table', 'previousPageC', 'nextPageC', 'downloadBattleShip',
-                            'previosuPageW', 'nextPageW', 'previousPageC4', 'nextPageC4']),  
+                            'toogleConnect4Table', 'previousPageC','nextPageC', 'downloadBattleShip',
+                            'previousPageW', 'nextPageW', 'previousPageC4', 'nextPageC4']),  
     redirect(id){
       return this.$router.push({
         name: 'uhp',
@@ -160,7 +169,7 @@ export default {
   computed: {
     ...mapGetters('Rank', [ 'checkersTable','battleShipTable', 'connect4Table', 'getCheckers', 'getItemsPerPage', 
                   'getBattleShip', 'getConnect4', 'getCurrentPageC4', 'getCurrentPageWar', 'getCurrentPageChec',
-                  'pageNrC',  'pageNrW', 'pageNrC4','allPagesC', 'allPagesW', 'allPagesC4']),
+                  'pageNrC', 'pageNrW', 'pageNrC4', 'getCheckersPages', 'allPagesW', 'allPagesC4', ]) ,
     iconDownArrow(){
       return ['material-symbols-outlined', 'downArrow'].join(' ');
     },
