@@ -3,7 +3,7 @@
     <div id="boards">
       <div class="player1-container">
         <h2>
-          Moje Statki
+          Moje Okręty
         </h2>
         <table class="board-table1">
           <tr>
@@ -16,35 +16,11 @@
             </td>
           </tr>
         </table>
-        <!-- <div class="shipCounter">
-          <div class="counterFour">
-            <p class="shipImage"></p>
-            <p class="shipImage"></p>
-            <p class="shipImage"></p>
-            <p class="shipImage"></p>
-            <p class="shipCount">{{ getFourCounter }}</p>
-          </div>
-          <div class="counterThree">
-            <p class="shipImage"></p>
-            <p class="shipImage"></p>
-            <p class="shipImage"></p>
-            <p class="shipCount">{{ getThreeCounter }}</p>
-          </div>
-          <div class="counterTwo">
-            <p class="shipImage"></p>
-            <p class="shipImage"></p>
-            <p class="shipCount">{{ getTwoCounter }}</p>
-          </div>
-          <div class="counterOne">
-            <p class="shipImage"></p>
-            <p class="shipCount">{{ getOneCounter }}</p>
-          </div>
-        </div> -->
 
       </div>
       <div class="player2-container">
         <h2>
-          Statki przeciwnika
+          Okręty przeciwnika
         </h2>
         <table class="board-table2">
           <tr>
@@ -60,7 +36,7 @@
       </div>
     </div>
     <div style="text-align: center;" v-if="this.prepareBoard">
-      Ułóż statki na planszy i potwierdź gotowość do gry!
+      Ułóż okręty na planszy i potwierdź gotowość do gry!
     </div>
     <div style="text-align: center;" v-if="!this.prepareBoard && this.getPlayerTurn==null && this.getSelectedGameRoom.status == 1">
       Oczekiwanie na przeciwnika!
@@ -438,11 +414,6 @@ td {
   background-size: cover;
   animation: sink 1000ms forwards ease;
 }
-.emptyOponent:hover {
-  background-image: url('@/assets/games/image/celownik.png');
-  background-size: cover;
-} 
-
 .hit {
   background-color: gray;
   position: relative;
@@ -490,43 +461,6 @@ td {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-/* @keyframes sink {
-  0% {
-    opacity: 0;
-    transform: rotateY(0deg);
-    background-image: url('@/assets/games/image/sss.png');
-  }
-
-  100% {
-    opacity: 1;
-    transform: rotateY(180deg);
-  }
-} */
-
-/* @keyframes show {
-  0% {
-    opacity: 0;
-    transform: rotateY(180deg);
-  }
-
-  100% {
-    opacity: 1;
-    transform: rotateY(0deg);
-  }
-} */
-
-/* .hitPlayer {
-  width: 37.5px;
-  height: 37.5px;
-  animation: sink 2000ms forwards ease;
-  background-image: url('@/assets/games/image/sss.png');
-  background-size: cover;
-  display: inline-block;
-  box-sizing: border-box;
-  margin: 0px;
-  padding: 0px;
-} */
 
 @keyframes explosion {
   from {

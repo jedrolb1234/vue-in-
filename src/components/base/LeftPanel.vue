@@ -2,7 +2,7 @@
   <div id="sideNavigationBar" :class="{small: isLeftPanelHidden, shadow: true}">
     <div>
       <div class="logo">
-        <h1>FunHouse</h1>
+        <h1>Fun House Project</h1>
         <span :class="hidePanelStyles" @click="toogleLeftPanel">arrow_forward_ios</span>
       </div>
       <hr />
@@ -141,7 +141,7 @@ hr {
   container-name: sideNavigationBar;
   display: flex;
   flex-direction: column;
-  width: 280px;
+  width: 360px;
   background-color: var(--secondaryBtn);
   justify-content: space-between;
   color: var(--primary);

@@ -8,9 +8,6 @@ import Games from '@/pages/GamesPage.vue';
 import Friends from '@/pages/FriendsPage.vue';
 import Rank from '@/pages/RankPage.vue';
 import Settings from '@/pages/SettingsPage.vue';
-// import CheckersGame from '@/components/games/CheckersGame.vue';
-// import BattleShipsGame from '@/components/games/BattleShipsGame.vue';
-// import ConnectFourGame from '@/components/games/ConnectFourGame.vue';
 import Store from '@/state/index';
 import ActivateUserPage from '@/pages/ActivateUserPage';
 import UserHomePage from '@/pages/UserHomePage';
@@ -32,9 +29,6 @@ const router = createRouter({
     { path: '/friends', name:'friends', component: Friends},
     { path: '/rank', name:'rank', component: Rank },
     { path: '/settings', name:'settings', component: Settings },
-    // { path: '/warcaby', name:'warcaby', component: Warcaby },
-    // { path: '/statki', name:'statki', component: Statki },
-    // { path: '/polacz4', name:'polacz4', component: Polacz4 },
     { path: '/uhp/:id', name:'uhp', component: UserHomePage, props:true },
     { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]

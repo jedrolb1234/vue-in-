@@ -2,7 +2,7 @@
   <nav :class="$style.header">
     <div :class="$style.logo">
       <span :class="iconStyles">stadia_controller</span>
-      <span :class="$style.name">FunHouse</span>
+      <span :class="$style.name">Fun House Project</span>
     </div>
     <div :class="$style.block">
       <base-button type="secondary-medium" :class="$style.button" @click="login">Zaloguj</base-button>
