@@ -7,7 +7,6 @@
         <span v-if="checkersTable===false" :class="iconArrow">expand_less</span>
         <span v-else-if="checkersTable===true" :class="iconArrow">expand_more</span>
       </div>
-
       <hr class="hr1">    
         <transition name="slideON">
           <div class="test" v-if=" (checkersTable === false)">
@@ -55,7 +54,7 @@
                   </tbody>
                 </table>
                 <div class="buttons" v-show="battleShipTable===false">
-                  <base-previous-button @click="previosuPageW" :disable="getCurrentPageWar===0">Poprzednia</base-previous-button>
+                  <base-previous-button @click="previousPageW" :disable="getCurrentPageWar===0">Poprzednia</base-previous-button>
                   <base-next-button @click="nextPageW" :disable="getCurrentPageWar===allPagesW">Następna</base-next-button>
                   <p class="page">{{ pageNrW }}</p>
                 </div>
@@ -87,7 +86,6 @@
                         <td class="tdNick">{{ p.userName }}</td>
                         <td>{{ p.points }}</td>    
                       </tr>
-                      <!-- <tr :style="{height: getDynamicHeightP + 'px'}"></tr> -->
                     </tbody>
                   </table>
                   <div class="buttons" v-show="connect4Table===false">
