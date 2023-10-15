@@ -72,9 +72,9 @@
           v-if="getIsVisibleMessage === true"
           @visibleMessage="hideRemovePopup"
           @close-modal="hideRemovePopup"
+          style="width: 300px"
         >
-          Czy na pewno chcesz usunąć <br />
-          użytkownika {{ getRemUser }} ?
+          Czy na pewno chcesz usunąć użytkownika {{getRemUser}}?
         </base-delete-message>
       </Transition>
       <div class="invitations">
