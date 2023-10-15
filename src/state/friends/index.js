@@ -73,24 +73,23 @@ export default {
     setInvitations(state, value) {
       state.invitations = value;
       for (let i = 0; i < state.invitations.length; i++) {
-        let inputDate = new Date(state.invitations[i].lastActivityDate);
-        let day = inputDate.getDate().toString().padStart(2, '0');
-        let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-        let year = inputDate.getFullYear().toString();
-        let formattedDate = `${year}-${month}-${day}`;
-        state.invitations[i].lastActivityDate = formattedDate;
+        // let inputDate = new Date(state.invitations[i].lastActivityDate);
+        // let day = inputDate.getDate().toString().padStart(2, '0');
+        // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+        // let year = inputDate.getFullYear().toString();
+        // let formattedDate = `${year}-${month}-${day}`;
+        state.invitations[i].lastActivityDate = new Date(value[i].lastActivityDate).toLocaleDateString();
       }
     },
     setFriends(state, value) {
-      let formattedDate;
       state.friends = value; 
       for (let i = 0; i < value.length; i++) {      
-          var inputDate = new Date(value[i].lastActivityDate);
-          let day = inputDate.getDate().toString().padStart(2, '0');
-          let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-          let year = inputDate.getFullYear().toString();
-          formattedDate = `${year}-${month}-${day}`;
-          state.friends[i].lastActivityDate = formattedDate;
+          // var inputDate = new Date(value[i].lastActivityDate);
+          // let day = inputDate.getDate().toString().padStart(2, '0');
+          // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+          // let year = inputDate.getFullYear().toString();
+          // formattedDate = `${year}-${month}-${day}`;
+          state.friends[i].lastActivityDate = new Date(value[i].lastActivityDate).toLocaleDateString();
         // } 
       }
       if (state.friends.length != 10) {
@@ -141,7 +140,6 @@ export default {
       return state.invPages;
     },
     getFriends(state) {
-      console.log(state.friends)
       return state.friends;
     },
     getUser(state) {
@@ -157,11 +155,9 @@ export default {
       return state.itemsPerPage;
     },
     getAvilabeInvitations(state) {
-      console.log(state.invitations);
       return state.invitations.length;
     },
     getInvitations(state) {
-      console.log(state.invitations)
       return state.invitations;
     },
     getDynamicHeight(state) {
@@ -247,6 +243,10 @@ export default {
           context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
         }
       }
+    },
+    clearSearchFriend(context) {
+      context.commit('setSearchedUser', {});
+      context.commit('toogleFindUser', null);
     },
     async findFriend(context, username) {
       context.username = username;
