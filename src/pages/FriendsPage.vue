@@ -3,7 +3,7 @@
     <div class="container">
       <BaseHeader>Znajomi ( {{ getFriendsCount }} )</BaseHeader>
       <div class="FriendsContainer">
-        <h2 class="friendsHeader">Twoi przyjaciele</h2>
+        <h2 class="friendsHeader">Znajomi</h2>
         <hr class="hr1" />
         <div v-if="getIsLoading === true">
           <table class="spinnerTable">
@@ -12,8 +12,8 @@
             </tr>
           </table>
         </div>
-        <ul v-if="getIsLoading === false && getFriends.length !== 0">
-          <table class="friend">
+        <!-- <ul v-if="getIsLoading === false && getFriends.length !== 0"> -->
+          <table class="friend" v-if="getIsLoading === false && getFriends.length !== 0">
             <tr>
               <th>Podgląd</th>
               <th>Nazwa użytkownika</th>
@@ -55,10 +55,10 @@
               @click="nextPage"
               :disable="getCurrentPage === getFriendsPages"
             ></base-next-button>
-            <p class="page">{{ pageNr }}</p>
+            <span class="page">{{ pageNr }}</span>
           </div>
-        </ul>
-        <p v-else-if="getFriends.length === 0">Nie dodano żadnych znajomych.</p>
+        <!-- </ul> -->
+        <p v-if="getFriends.length === 0 && getIsLoading === false">Nie dodano żadnych znajomych.</p>
       </div>
       <Transition name="v">
         <base-delete-message
@@ -73,12 +73,12 @@
         </base-delete-message>
       </Transition>
       <div class="invitations">
-        <h2 class="invMargin">Twoje zaproszenia:</h2>
+        <h2 class="friendsHeader">Zaproszenia</h2>
         <hr class="hr2" />
-        <transition name="avInvs">
-          <ul v-if="getAvilabeInvitations !== 0">
+        <!-- <transition name="avInvs">
+          <ul v-if="getAvilabeInvitations !== 0"> -->
             <table class="inv">
-              <transition-group name="fade" tag="table" class="invContainer">
+              <transition-group name="fade" tag="table" class="friend">
                 <tr>
                   <th class="tableButton">Podgląd</th>
                   <th>Nazwa użytkownika</th>
@@ -119,25 +119,24 @@
                 <p class="page">{{ invPageNr }}</p>
               </div>
             </transition-group>
-          </ul>
-        </transition>
+          <!-- </ul>
+        </transition> -->
         <p v-if="getAvilabeInvitations === 0">
           Nie otrzymano zaproszeń od znajomych.
         </p>
       </div>
       <div class="searchFriend">
-        <h2 class="findMargin">Znajdź przyjaciela</h2>
+        <h2 class="friendsHeader">Znajdź znajomego</h2>
         <hr class="hr3" />
         <div class="searchMargin">
-          <p>Podaj nazwę:</p>
           <form @submit.prevent="searchFriend" class="inputFriend">
-            <base-input type="username" v-model.trim="username"></base-input>
+            <base-input type="username" v-model.trim="username" :valid="true"></base-input>
             <p></p>
-            <base-small-button
-              type="green-large"
+            <BaseButton
+              type="primary-medium"
               @click="find(username)"
               @keyup.enter="find(username)"
-              >Znajdź</base-small-button
+              >Znajdź</BaseButton
             >
           </form>
           <transition name="slideON">
@@ -152,8 +151,7 @@
                     ></base-look-button>
                   </td>
                   <td>{{ getUser.userName }}</td>
-                  <td>{{ getUser.dateOfBirth }}</td>
-                  <td>{{ "Warcaby" }}</td>
+                  <td>{{ getUser.firstName + " "+ getUser.lastName }}</td>
                 </tr>
               </table>
             </div>
@@ -171,7 +169,7 @@
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseNextButton from "@/components/base/BaseNextButton.vue";
 import BasePreviousButton from "@/components/base/BasePreviousButton.vue";
-import BaseSmallButton from "@/components/base/BaseSmallButton.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
 import BaseRemoveButton from "@/components/base/BaseRemoveButton.vue";
 import BaseLookButton from "@/components/base/BaseLookButton.vue";
 import BaseNotificationList from "@/components/base/BaseNotificationList.vue";
@@ -189,7 +187,7 @@ export default {
     BasePreviousButton,
     BaseLookButton,
     BaseRemoveButton,
-    BaseSmallButton,
+    BaseButton,
     BaseNotificationList,
     BasePageLayout,
     BaseLoadingSpinner,
@@ -304,12 +302,7 @@ hr {
   margin-left: 50px;
   color: var(--secondary);
 }
-/* .hr2{
-    margin-left: 20px;
-    margin-right: 20px;
-    max-width: 1234px;
-    width: 100%;
-} */
+
 h1,
 h2 {
   color: var(--primary);
@@ -395,9 +388,6 @@ tr:nth-child(odd) {
   margin-left: 0px;
   margin-top: 0px;
 }
-.findFriend {
-  width: 600px;
-}
 .inputFriend {
   width: 400px;
   margin-top: 10px;
@@ -408,11 +398,8 @@ tr:nth-child(odd) {
 .friend {
   width: 800px;
   color: var(--primary);
-  margin-top: 0px;
-  margin-right: 40px;
   justify-content: center;
   align-items: center;
-  margin-left: 15px;
 }
 p {
   font-size: 22px;
@@ -465,11 +452,7 @@ p {
   width: 600px;
   justify-content: center;
   align-items: center;
-  margin-left: 35px;
 }
-/* .invMargin{
-    margin-left: 20px;
-} */
 .noInvMargin {
   margin-left: -20px;
 }
