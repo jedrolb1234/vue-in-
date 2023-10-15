@@ -12,8 +12,11 @@
             </tr>
           </table>
         </div>
-        <!-- <ul v-if="getIsLoading === false && getFriends.length !== 0"> -->
-          <table class="friend" v-if="getIsLoading === false && getFriends.length !== 0">
+        <table
+          class="friend"
+          v-if="getIsLoading === false && getFriends.length !== 0"
+        >
+          <thead>
             <tr>
               <th>Podgląd</th>
               <th>Nazwa użytkownika</th>
@@ -21,44 +24,46 @@
               <th>Ostatnia gra</th>
               <th></th>
             </tr>
-            <tbody>
-              <tr
-                class="friendsList"
-                v-for="(f, index) in getFriends"
-                :key="index"
-              >
-                <td class="tableButton">
-                  <base-look-button
-                    class="firstCellButton"
-                    @click="redirect(f.userId, 'null')"
-                  ></base-look-button>
-                </td>
-                <td>{{ f.userName }}</td>
-                <td>{{ f.lastActivityDate }}</td>
-                <td>{{ f.lastGame }}</td>
-                <td class="tableButton">
-                  <base-remove-button
-                    class="lastCellButton"
-                    @click="showRemovePopup(f)"
-                  ></base-remove-button>
-                </td>
-              </tr>
-              <!-- <tr :style="{height: getDynamicHeight + 'px'}"></tr> -->
-            </tbody>
-          </table>
-          <div class="buttons">
-            <base-previous-button
-              @click="previousPage"
-              :disable="getCurrentPage === 0"
-            ></base-previous-button>
-            <base-next-button
-              @click="nextPage"
-              :disable="getCurrentPage === getFriendsPages"
-            ></base-next-button>
-            <span class="page">{{ pageNr }}</span>
-          </div>
+          </thead>
+          <tbody>
+            <tr
+              class="friendsList"
+              v-for="(f, index) in getFriends"
+              :key="index"
+            >
+              <td class="tableButton">
+                <base-look-button
+                  class="firstCellButton"
+                  @click="redirect(f.userId, 'null')"
+                ></base-look-button>
+              </td>
+              <td>{{ f.userName }}</td>
+              <td>{{ f.lastActivityDate }}</td>
+              <td>{{ f.lastGame }}</td>
+              <td class="tableButton">
+                <base-remove-button
+                  class="lastCellButton"
+                  @click="showRemovePopup(f)"
+                ></base-remove-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="buttons">
+          <base-previous-button
+            @click="previousPage"
+            :disable="getCurrentPage === 0"
+          ></base-previous-button>
+          <base-next-button
+            @click="nextPage"
+            :disable="getCurrentPage === getFriendsPages"
+          ></base-next-button>
+          <span class="page">{{ pageNr }}</span>
+        </div>
         <!-- </ul> -->
-        <p v-if="getFriends.length === 0 && getIsLoading === false">Nie dodano żadnych znajomych.</p>
+        <p v-if="getFriends.length === 0 && getIsLoading === false">
+          Nie dodano żadnych znajomych.
+        </p>
       </div>
       <Transition name="v">
         <base-delete-message
@@ -75,52 +80,45 @@
       <div class="invitations">
         <h2 class="friendsHeader">Zaproszenia</h2>
         <hr class="hr2" />
-        <!-- <transition name="avInvs">
-          <ul v-if="getAvilabeInvitations !== 0"> -->
-            <table class="inv">
-              <transition-group name="fade" tag="table" class="friend">
-                <tr>
-                  <th class="tableButton">Podgląd</th>
-                  <th>Nazwa użytkownika</th>
-                  <th>Ostatnie logowanie</th>
-                  <th>Ostatnia gra</th>
-                  <th class="tableButton"></th>
-                </tr>
-
-                <tr
-                  class="invitationsList"
-                  v-for="(i, index) in getInvitations"
-                  :key="index"
-                >
-                  <td class="tableButton">
-                    <base-look-button
-                      class="invFirstCell"
-                      @click="redirect(i.userId, i.id)"
-                    ></base-look-button>
-                  </td>
-                  <td>{{ i.userName }}</td>
-                  <td>{{ i.lastActivityDate }}</td>
-                  <td>{{ i.lastGame }}</td>
-                  <td class="tableButton">
-                    <base-remove-button
-                      class="invLastCellButton"
-                      @click="removeFriendInvitation(i.id)"
-                    ></base-remove-button>
-                  </td>
-                </tr>
-              </transition-group>
-            </table>
-            <transition-group name="fade" tag="table" class="invContainer">
-              <div class="invButtons" v-if="getInvPages > 1">
-                <base-previous-button
-                  @click="invPreviousPage"
-                ></base-previous-button>
-                <base-next-button @click="invNextPage"></base-next-button>
-                <p class="page">{{ invPageNr }}</p>
-              </div>
-            </transition-group>
-          <!-- </ul>
-        </transition> -->
+        <table class="friend">
+          <thead>
+            <tr>
+              <th class="tableButton">Podgląd</th>
+              <th>Nazwa użytkownika</th>
+              <th>Ostatnie logowanie</th>
+              <th>Ostatnia gra</th>
+              <th class="tableButton"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="invitationsList"
+              v-for="(i, index) in getInvitations"
+              :key="index"
+            >
+              <td class="tableButton">
+                <base-look-button
+                  class="invFirstCell"
+                  @click="redirect(i.userId, i.id)"
+                ></base-look-button>
+              </td>
+              <td>{{ i.userName }}</td>
+              <td>{{ i.lastActivityDate }}</td>
+              <td>{{ i.lastGame }}</td>
+              <td class="tableButton">
+                <base-remove-button
+                  class="invLastCellButton"
+                  @click="removeFriendInvitation(i.id)"
+                ></base-remove-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="invButtons" v-if="getInvPages > 1">
+          <base-previous-button @click="invPreviousPage"></base-previous-button>
+          <base-next-button @click="invNextPage"></base-next-button>
+          <p class="page">{{ invPageNr }}</p>
+        </div>
         <p v-if="getAvilabeInvitations === 0">
           Nie otrzymano zaproszeń od znajomych.
         </p>
@@ -130,7 +128,11 @@
         <hr class="hr3" />
         <div class="searchMargin">
           <form @submit.prevent="searchFriend" class="inputFriend">
-            <base-input type="username" v-model.trim="username" :valid="true"></base-input>
+            <base-input
+              type="username"
+              v-model.trim="username"
+              :valid="true"
+            ></base-input>
             <p></p>
             <BaseButton
               type="primary-medium"
@@ -151,7 +153,7 @@
                     ></base-look-button>
                   </td>
                   <td>{{ getUser.userName }}</td>
-                  <td>{{ getUser.firstName + " "+ getUser.lastName }}</td>
+                  <td>{{ getUser.firstName + " " + getUser.lastName }}</td>
                 </tr>
               </table>
             </div>
@@ -247,6 +249,7 @@ export default {
       "invPreviousPage",
       "showRemovePopup",
       "hideRemovePopup",
+      'clearSearchFriend',
     ]),
     ...mapActions(["showNotification", "setInvitationId"]),
 
@@ -278,6 +281,9 @@ export default {
   mutations: {
     ...mapGetters("Friends", ["setUserName"]),
   },
+  unmounted() {
+    this.clearSearchFriend();
+  }
 };
 </script>
 
@@ -369,7 +375,7 @@ th {
   background-color: var(--accent);
   color: var(--table-header-color);
 }
-tr:nth-child(odd) {
+table > tbody> tr:nth-child(even) {
   background-color: var(--primaryBtn);
 }
 .lastCellButton {

@@ -244,6 +244,10 @@ export default {
         }
       }
     },
+    clearSearchFriend(context) {
+      context.commit('setSearchedUser', {});
+      context.commit('toogleFindUser', null);
+    },
     async findFriend(context, username) {
       context.username = username;
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
