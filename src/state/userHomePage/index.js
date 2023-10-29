@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      id: null,
+      // id: null,
       isLoading: false,
       hasInvitation: false,
       invitations: [],
