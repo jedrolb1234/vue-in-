@@ -120,7 +120,7 @@ export default {
   methods:{
     ...mapActions('Rank', ['toogleCheckersTable', 'toogleBattleShipTable', 'downloadCheckers', 'downloadConnect4',
                             'toogleConnect4Table', 'previousPageC', 'nextPageC', 'downloadBattleShip',
-                            'previosuPageW', 'nextPageW', 'previousPageC4', 'nextPageC4']),  
+                            'previousPageW', 'nextPageW', 'previousPageC4', 'nextPageC4']),  
     redirect(id){
       return this.$router.push({
         name: 'uhp',

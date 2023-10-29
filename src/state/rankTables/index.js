@@ -9,7 +9,7 @@ export default {
       connect4Hidden: true,
       itemsPerPage: 1,
       currentPageCheck: 1,
-      currentPageWar: 1,
+      currentPageBattleShip: 1,
       currentPageC4: 1,
       checkersRank: [],
       checkersCount: 0,
@@ -32,15 +32,15 @@ export default {
     isConnect4Hidden(state) {
       state.connect4Hidden = !state.connect4Hidden;
     },
-      previousPageC(state){
+      previousPageCheckers(state){
           state.currentPageCheck--;
       },
-      previosuPageW(state){
-        if (state.currentPageWar > 1){
-          state.currentPageWar--;
+      previousPageWarShip(state){
+        if (state.currentPageBattleShip > 1){
+          state.currentPageBattleShip--;
         }
       },
-      previousPageP(state){
+      previousPageConnect4(state){
         if (state.currentPageC4 > 1){
           state.currentPageC4--;
       }
@@ -54,13 +54,13 @@ export default {
     setConnect4(state, value){
       state.connect4Rank = value;
     },
-    nextPageC(state){
+    nextPageCheckers(state){
         state.currentPageCheck++;
     },
-    nextPageW(state){
-        state.currentPageWar++;
+    nextPageWarShip(state){
+        state.currentPageBattleShip++;
     },
-    nextPageC4(state){
+    nextPageConnect4(state){
         state.currentPageC4++;
     },
 
@@ -100,42 +100,42 @@ export default {
       context.commit('isLoading', info);
     },
     nextPageW(context){
-      if(context.state.currentPageC4 < context.state.battleShipPages){
-      context.commit('nextPageW');
-      context.dispattch('downloadBattleShip');
+      if(context.state.currentPageBattleShip < context.state.battleShipPages){
+      context.commit('nextPageWarShip');
+      context.dispatch('downloadBattleShip');
       }
     },
     nextPageC(context){
       if(context.state.currentPageCheck < context.state.checkersPages){
-      context.commit('nextPageC');
-      context.state.dispatch('downloadCheckers');
+      context.commit('nextPageCheckers');
+      context.dispatch('downloadCheckers');
       }
     },
     nextPageC4(context){
       if(context.state.currentPageC4 < context.state.connect4Pages){
-      context.commit('nextPageC4')
-      context.state.dispatch('downloadConnect4');
+      context.commit('nextPageConnect4')
+      context.dispatch('downloadConnect4');
       }
     },
     previousPageW(context){
-      if (context.state.currentPageWar > 1){
-      context.commit('previousPageW');
+      if (context.state.currentPageBattleShip > 1){
+      context.commit('previousPageWarShip');
       context.dispatch('downloadBattleShip');
       }
     },
     previousPageC(context){
       if (context.state.currentPageCheck > 1){
-      context.commit('previosuPageC');
+      context.commit('previousPageCheckers');
       context.dispatch('downloadCheckers');
       }
     },
     previousPageC4(context){
       if (context.state.currentPageC4 > 1){
-      context.commit('previousPageC4');
+      context.commit('previousPageConnect4');
       context.dispatch('downloadConnect4');
       }
     },
-  async downloadCheckers(context, index) {
+  async downloadCheckers(context) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
       PageNumber: context.state.currentPageCheck,
@@ -143,7 +143,7 @@ export default {
     }
     let res;
     try {
-      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + 0, { params: params });
       if (res.status === 200) {
         context.commit('setCheckers', res.data.items);
         context.commit('setCheckersCount', res.data.totalItemsCount)
@@ -166,15 +166,15 @@ export default {
       }
     }
   },
-  async downloadBattleShip(context, index) {
+  async downloadBattleShip(context) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
-      PageNumber: context.state.currentPageWar,
+      PageNumber: context.state.currentPageBattleShip,
       PageSize: context.state.itemsPerPage,
     }
     let res;
     try {
-      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + 1, { params: params });
       if (res.status === 200) {
         context.commit('setBattleShip', res.data.items);
         context.commit('setBattleShipCount', res.data.totalItemsCount)
@@ -197,7 +197,7 @@ export default {
       }
     }
   },
-  async downloadConnect4(context, index) {
+  async downloadConnect4(context) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const params = {
       PageNumber: context.state.currentPageC4,
@@ -206,11 +206,11 @@ export default {
     console.log('items per pages',context.state.itemsPerPage)
     let res;
     try {
-      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + index, { params: params });
+      res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + 2, { params: params });
       if (res.status === 200) {
         context.commit('setConnect4', res.data.items);
         context.commit('setConnect4Count', res.data.totalItemsCount)
-        console.log('total pages',res.data.totalPages)
+        console.log('total pages',res.data.totalPages, res.data.totalItemsCount)
         context.commit('setConnect4Pages', res.data.totalPages)
       }
     } catch (error) {
@@ -254,7 +254,7 @@ export default {
       return state.currentPageCheck;
     },
     getCurrentPageWar(state){
-      return state.currentPageWar;
+      return state.currentPageBattleShip;
     },
     getCurrentPageC4(state){
       return state.currentPageC4;
@@ -266,7 +266,7 @@ export default {
         return state.currentPageCheck;
     },
     pageNrW(state){
-        return state.currentPageWar;
+        return state.currentPageBattleShip;
     },
     pageNrC4(state){
         return state.currentPageC4;

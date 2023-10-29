@@ -4,7 +4,6 @@ export default {
   namespaced: true,
   state() {
     return {
-      // id: null,
       isLoading: false,
       hasInvitation: false,
       invitations: [],
@@ -66,7 +65,7 @@ export default {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
         var now = new Date();
-        inputDate = inputDate.setHours(inputDate.getHours() + 2)
+        inputDate = inputDate.setHours(inputDate.getHours() + 1)//zmieniać czas letni(+2) - zimowy(+1)
         let diffrentMinutes = Math.floor(Math.abs((now - inputDate) / (1000 * 60)));
         let diffrentHours = Math.floor(diffrentMinutes / 60);
         let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
@@ -208,6 +207,7 @@ export default {
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
+          console.log(res.data)
         }
         } catch (error) {
         if (error.response) {
