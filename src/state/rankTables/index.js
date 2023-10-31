@@ -7,7 +7,7 @@ export default {
       checkersHidden: true,
       battleShipHidden: true,
       connect4Hidden: true,
-      itemsPerPage: 1,
+      itemsPerPage: 10,
       currentPageCheck: 1,
       currentPageBattleShip: 1,
       currentPageC4: 1,
