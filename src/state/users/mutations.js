@@ -45,13 +45,13 @@ export default {
     
   },
   setSettings(state, value){
-    let inputDate = new Date(value.dateOfBirth);
-    let day = inputDate.getDate().toString().padStart(2, '0');
-    let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-    let year = inputDate.getFullYear().toString();
-    let formattedDate = `${year}-${month}-${day}`;
+    // let inputDate = new Date(value.dateOfBirth);
+    // let day = inputDate.getDate().toString().padStart(2, '0');
+    // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+    // let year = inputDate.getFullYear().toString();
+    // let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
-    state.settings.dateOfBirth = formattedDate;
+    state.settings.dateOfBirth = value.dateOfBirth.split('T')[0];
     sessionStorage.setItem('ownerId', state.settings.id)
   },
   setUserAvatar(state, avatar){
