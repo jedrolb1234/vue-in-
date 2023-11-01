@@ -86,17 +86,17 @@ export default {
       }
       if (this.hasNoShipsAround(board, x, y))
         return 'ship-edge-top ship-edge-bottom'
-      if (this.isEdgeSHip(board, x, y, [-1, 0], [1, 0]))
+      if (this.isEdgeShip(board, x, y, [-1, 0], [1, 0]))
         return 'ship-edge-top'
-      if (this.isEdgeSHip(board, x, y, [1, 0], [-1, 0]))
+      if (this.isEdgeShip(board, x, y, [1, 0], [-1, 0]))
         return 'ship-edge-bottom'
-      if (this.isEdgeSHip(board, x, y, [0, -1], [0, 1]))
+      if (this.isEdgeShip(board, x, y, [0, -1], [0, 1]))
         return 'ship-edge-left'
-      if (this.isEdgeSHip(board, x, y, [0, 1], [0, -1]))
+      if (this.isEdgeShip(board, x, y, [0, 1], [0, -1]))
         return 'ship-edge-right'
       return '';
     },
-    isEdgeSHip(board, x, y, start, end) {
+    isEdgeShip(board, x, y, start, end) {
       if (board[x][y] != this.getShip && board[x][y] != this.getHit)
         return false;
       const startx = x + start[0];

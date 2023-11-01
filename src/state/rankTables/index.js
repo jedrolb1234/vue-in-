@@ -148,6 +148,7 @@ export default {
         context.commit('setCheckers', res.data.items);
         context.commit('setCheckersCount', res.data.totalItemsCount)
         context.commit('setCheckersPages', res.data.totalPages)
+        console.log(context.state.checkersRank)
       }
     } catch (error) {
       if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {

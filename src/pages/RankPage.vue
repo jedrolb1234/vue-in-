@@ -16,7 +16,7 @@
                   <tr class="checkersList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tr class="checkersList"
                     v-for="( w, index ) in getCheckers" :key="index">
-                    <td><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td>
+                    <td><base-look-button class="invFirstCell" @click="redirect(w.playerId)"></base-look-button></td>
                     <td  class="tdRank">{{ w.rank }}</td>
                     <td class="tdNick">{{ w.userName }}</td>
                     <td>{{ w.points }}</td>    
@@ -46,7 +46,7 @@
                   <tbody>
                     <tr class="battleShipList"
                       v-for="( s, index ) in getBattleShip" :key="index">
-                      <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td>
+                      <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(s.playerId)"></base-look-button></td>
                       <td class="tdRank">{{ s.rank }}</td>
                       <td class="tdNick">{{ s.userName }}</td>
                       <td>{{ s.points }}</td>    
@@ -122,6 +122,7 @@ export default {
                             'toogleConnect4Table', 'previousPageC', 'nextPageC', 'downloadBattleShip',
                             'previousPageW', 'nextPageW', 'previousPageC4', 'nextPageC4']),  
     redirect(id){
+      console.log(id)
       return this.$router.push({
         name: 'uhp',
         params: { id: id },
