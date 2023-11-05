@@ -146,6 +146,9 @@ export default {
   },
   actions: {
     adjustBoard(context, player) {
+      console.log(context.rootGetters.getSelectedGameRoom.players
+        .map((x) => x.playerId))
+      console.log(context.rootGetters.getUserId)
       const index = context.rootGetters.getSelectedGameRoom.players
         .map((x) => x.playerId)
         .indexOf(player);
@@ -174,6 +177,7 @@ export default {
     updateWhitePlayer(context, player) {
       context.commit("setWhitePlayer", player);
       context.dispatch("adjustBoard", player);
+      console.log(player)
     },
     resetBoardCheckers(context) {
       const board = Array(8)

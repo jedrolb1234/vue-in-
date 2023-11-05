@@ -34,6 +34,7 @@ export default {
   actions: {
     updatePlayerTurn(context, value) {
       context.commit('setPlayerTurn', value);
+      console.log(value)
     },
     async createNewGameRoom(context, payload) {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
