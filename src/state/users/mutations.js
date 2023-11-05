@@ -7,10 +7,10 @@ export default {
     localStorage.setItem('last_login', Date.now());
   },
   logout() {
-    localStorage.setItem('token', null);
-    localStorage.setItem('refresh_token', null);
-    localStorage.setItem('user_id', null);
-    localStorage.setItem('last_login', null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('last_login');
     
   },
   changeUserAvatar(state, avatar) {
@@ -51,7 +51,7 @@ export default {
     // let year = inputDate.getFullYear().toString();
     // let formattedDate = `${year}-${month}-${day}`;
     state.settings = value;
-    state.settings.dateOfBirth = value.dateOfBirth.split('T')[0];
+      state.settings.dateOfBirth = value?.dateOfBirth?.split('T')[0];
     sessionStorage.setItem('ownerId', state.settings.id)
   },
   setUserAvatar(state, avatar){

@@ -3,7 +3,7 @@
     <form @submit.prevent="requestPasswordReset">
       <h1>Zmień hasło</h1>
       <div class="input">
-        <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending"></base-input>
+        <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending" maxlength="100"></base-input>
         <p v-if="!isEmailValid">Podaj poprawny adres email.</p>
       </div>
       <base-button v-if="!isSending" type="primary-large">Wyślij</base-button>

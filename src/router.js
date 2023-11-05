@@ -23,13 +23,13 @@ const router = createRouter({
     { path: '/activateuser/:id', name:'activateuser', component: ActivateUserPage, meta: {requiresGuest: true}, props: true },
     { path: '/resetpassword', name:'resetpassword', component: ResetPasswordPage, meta: {requiresGuest: true} },
     { path: '/resetpassword/:token', component: ResetPasswordPage, meta: {requiresGuest: true}, props: true },
-    { path: '/games', name:'games', component: Games },
+    { path: '/games', name:'games', component: Games, meta: {requiresAuth: true}},
     { path: '/games/:gameid', component: GameDescription, meta: {requiresAuth: true}, props: true },
     { path: '/play/:gameRoomID', name: 'play', component: PlayPage, meta: {requiresAuth: true}, props: true},
-    { path: '/friends', name:'friends', component: Friends},
-    { path: '/rank', name:'rank', component: Rank },
-    { path: '/settings', name:'settings', component: Settings },
-    { path: '/uhp/:id', name:'uhp', component: UserHomePage, props:true },
+    { path: '/friends', name:'friends', component: Friends, meta: {requiresAuth: true}},
+    { path: '/rank', name:'rank', component: Rank, meta: {requiresAuth: true} },
+    { path: '/settings', name:'settings', component: Settings, meta: {requiresAuth: true} },
+    { path: '/uhp/:id', name:'uhp', component: UserHomePage, props:true, meta: {requiresAuth: true} },
     { path: '/:any(.*)', name: 'page-not-found', component: PageNotFound }
   ]
 })
