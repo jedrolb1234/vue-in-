@@ -92,6 +92,7 @@ p {
 }
 
 .enemyPawn {
+  position:absolute;
   background-color: yellow;
   width: 80px;
   height: 80px;
@@ -111,6 +112,7 @@ table {
   z-index: 100;
 }
 .myPawn {
+  position:absolute;
   background-color: red;
   width: 80px;
   height: 80px;
@@ -122,6 +124,7 @@ table {
 }
 
 .empty {
+  position:absolute;
   border-radius: 50%;
   border: 1px solid var(--secondary);
   background-color: white;
