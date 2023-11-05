@@ -207,7 +207,6 @@ export default {
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
-          console.log(res.data)
         }
         } catch (error) {
         if (error.response) {

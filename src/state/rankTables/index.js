@@ -77,12 +77,9 @@ export default {
       state.battleShipCount = value;
     },
     setConnect4Pages(state, value){
-      console.log(value)
       state.connect4Pages = value;
-
     },
     setConnect4Count(state, value){
-      console.log(value)
       state.connect4Count = value;
     }
   },
@@ -204,14 +201,12 @@ export default {
       PageNumber: context.state.currentPageC4,
       PageSize: context.state.itemsPerPage,
     }
-    console.log('items per pages',context.state.itemsPerPage)
     let res;
     try {
       res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_RANK + 2, { params: params });
       if (res.status === 200) {
         context.commit('setConnect4', res.data.items);
         context.commit('setConnect4Count', res.data.totalItemsCount)
-        console.log('total pages',res.data.totalPages, res.data.totalItemsCount)
         context.commit('setConnect4Pages', res.data.totalPages)
       }
     } catch (error) {

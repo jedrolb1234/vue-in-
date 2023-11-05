@@ -11,7 +11,6 @@ export default {
   },
   mutations: {
     setPlayerTurn(state, value) {
-      console.log(value)
       state.playerTurn = value;
     },
     clearGameRooms(state) {
@@ -21,7 +20,6 @@ export default {
       state.selectedGameRoom = {};
     },
     setSelectedGameRoom(state, selectedGameRoom) {
-      console.log(state.selectedGameRoom)
       state.selectedGameRoom = selectedGameRoom;
     },
     addGameRoom(state, gameRoom) {

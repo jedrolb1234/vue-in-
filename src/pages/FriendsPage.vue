@@ -132,6 +132,7 @@
               type="username"
               v-model.trim="username"
               :valid="true"
+              maxlength="50"
             ></base-input>
             <p></p>
             <BaseButton
