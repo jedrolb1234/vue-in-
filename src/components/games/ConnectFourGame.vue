@@ -92,16 +92,20 @@ p {
 }
 
 .enemyPawn {
+  position: relative;
+  z-index: 20;
   background-color: yellow;
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  /* animation-name: fadeIn;
-    animation-duration: 500ms; */
+  animation-name: fadeIn;
+  animation-duration: 500ms;
   border: 1px solid var(--primary);
   overflow: hidden;
 }
 table {
+  position: relative;
+  z-index: 100;
   background-color: blue;
   border-spacing: 0px;
   border-collapse: collapse;
@@ -109,13 +113,16 @@ table {
   margin-bottom: 30px;
 }
 .myPawn {
+  position: relative;
+  z-index: 20;
   background-color: red;
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  /* animation-name: fadeIn;
-  animation-duration: 500ms; */
+  animation-name: fadeIn;
+  animation-duration: 500ms;
   border: 1px solid var(--primary);
+  overflow: hidden;
 }
 
 .empty {
