@@ -75,6 +75,7 @@ export default {
 <style scoped>
 p {
   margin: 10px;
+  z-index: 1;
 }
 
 
@@ -103,6 +104,7 @@ p {
 }
 table {
   position: relative;
+  z-index: 10;
   background-color: blue;
   border-spacing: 0px;
   border-collapse: collapse;
