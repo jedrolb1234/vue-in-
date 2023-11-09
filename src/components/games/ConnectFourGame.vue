@@ -102,6 +102,7 @@ p {
   overflow: hidden;
 }
 table {
+  position: relative;
   background-color: blue;
   border-spacing: 0px;
   border-collapse: collapse;
