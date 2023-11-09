@@ -74,6 +74,7 @@ export default {
 
 <style scoped>
 p {
+  position: absolute;
   margin: 10px;
   z-index: 1;
 }
