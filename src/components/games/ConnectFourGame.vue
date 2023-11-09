@@ -96,8 +96,8 @@ p {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  /* animation-name: fadeIn;
-  animation-duration: 500ms; */
+  animation-name: fadeIn;
+  animation-duration: 500ms;
   border: 1px solid var(--primary);
   overflow: hidden;
 }
@@ -114,8 +114,8 @@ table {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  /* animation-name: fadeIn;
-  animation-duration: 500ms; */
+  animation-name: fadeIn;
+  animation-duration: 500ms;
   border: 1px solid var(--primary);
   overflow: hidden;
 }
