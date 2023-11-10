@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "export UV_USE_IO_URING=0 || set UV_USE_IO_URING=0 && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -12,8 +12,8 @@
     "axios": "^1.5.0",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.13",
-    "vuex": "^4.0.2"
+    "vue-router": "4.0.13",
+    "vuex": "4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

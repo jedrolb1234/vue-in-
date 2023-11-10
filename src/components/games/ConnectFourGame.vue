@@ -36,14 +36,6 @@ export default {
         }
       }
     },
-    isMyPawn(pawn) {
-      const index = this.getSelectedGameRoom.players.map((x) => x.playerId).indexOf(this.getUserId)
-      if (index != -1) {
-        if(pawn ==index+1)
-          return true;
-      }
-      return false;
-    }
   },
   beforeCreate() {
     this.$callHub.client.on('NewUserConnectedToTheRoom', (roomId) => {
@@ -104,8 +96,8 @@ p {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  animation-name: fadeIn;
-    animation-duration: 500ms;
+  /* animation-name: fadeIn;
+  animation-duration: 500ms; */
   border: 1px solid var(--primary);
   overflow: hidden;
 }
@@ -121,9 +113,10 @@ table {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  animation-name: fadeIn;
-  animation-duration: 500ms;
+  /* animation-name: fadeIn;
+  animation-duration: 500ms; */
   border: 1px solid var(--primary);
+  overflow: hidden;
 }
 
 .empty {

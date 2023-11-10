@@ -4,7 +4,6 @@ export default {
   namespaced: true,
   state() {
     return {
-      id: null,
       isLoading: false,
       hasInvitation: false,
       invitations: [],
@@ -49,13 +48,13 @@ export default {
       state.invId = value;
     },
     setUser(state, user) {
-      let inputDate = new Date(user.dateOfBirth);
-      let day = inputDate.getDate().toString().padStart(2, '0');
-      let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-      let year = inputDate.getFullYear().toString();
-      let formattedDate = `${year}-${month}-${day}`;
+      // let inputDate = new Date(user.dateOfBirth);
+      // let day = inputDate.getDate().toString().padStart(2, '0');
+      // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+      // let year = inputDate.getFullYear().toString();
+      // let formattedDate = `${year}-${month}-${day}`;
       state.user = user;
-      state.user.dateOfBirth = formattedDate;
+      state.user.dateOfBirth = new Date(user.dateOfBirth).toLocaleDateString();
     },
     setUserId(state, value) {
       state.userId = value;
@@ -66,7 +65,7 @@ export default {
         let inputDate = new Date(state.history[i].endDate);
         let formattedDate;   
         var now = new Date();
-        inputDate = inputDate.setHours(inputDate.getHours() + 2)
+        inputDate = inputDate.setHours(inputDate.getHours() + 1)//zmieniać czas letni(+2) - zimowy(+1)
         let diffrentMinutes = Math.floor(Math.abs((now - inputDate) / (1000 * 60)));
         let diffrentHours = Math.floor(diffrentMinutes / 60);
         let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
@@ -116,7 +115,6 @@ export default {
       else
       {state.history[i].whoWon = state.history[i].players[1].item2;}
       }
-      console.log(state.history)
     },
     setHistPages(state, value){
       state.historyPages = value;
@@ -205,14 +203,12 @@ export default {
       }
       try {
         const res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_HISTORY + "/" + context.state.userId, { params: params });
-        console.log(res.status)
         if (res.status === 200){  
           context.commit('setHistory', res.data.items);
           context.commit('setHistCount', res.data.totalItemsCount)
           context.commit('setHistPages', res.data.totalPages)
         }
         } catch (error) {
-          console.log(error)
         if (error.response) {
           context.dispatch('showNotification',
             {
@@ -290,7 +286,7 @@ export default {
       const notificationTemplates = context.rootGetters.getNotificationTemplates;
       let res;
       try {
-        res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + "/account/" + userId + "/profile");
+        res = await AxiosInstance.get(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT + "/" + userId + process.env.VUE_APP_PROFILE);
         if (res.status === 200) {
           context.commit('setUser', res.data);
           context.commit('setUserId', userId);

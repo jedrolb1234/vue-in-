@@ -168,9 +168,9 @@ export default {
   },
   async sendSettings(context) {
     let settings = context.state.settings;
-    let parts = settings.dateOfBirth.split('-');
-    let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
-    settings.dateOfBirth = parsedDate.toISOString();
+    // let parts = settings.dateOfBirth.split('-');
+    // let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+    // settings.dateOfBirth = parsedDate.toISOString();
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     let res;
     try {

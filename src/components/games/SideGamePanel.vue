@@ -58,7 +58,7 @@
       </BaseButton>
       <BaseButton v-if="this.isJoinRoomButtonVisible" type="secondary-medium" @click="this.joinRoom()">Dołącz
       </BaseButton>
-      <BaseButton v-if="this.isCloseButtonVisible" type="primary-medium" @click="this.closeRoom()">Anuluj rozgrywkę
+      <BaseButton v-if="this.isCloseButtonVisible" type="primary-medium" @click="this.closeRoom()">Zamknij rozgrywkę
       </BaseButton>
     </div>
 
@@ -114,8 +114,7 @@ export default {
       return false;
     },
     isCloseButtonVisible() {
-      console.log(this.getSelectedGameRoom)
-      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status !=2)
+      if (this.getUserId == this.getSelectedGameRoom.ownerId && this.getSelectedGameRoom.status ==0)
         return true;
       return false;
     },

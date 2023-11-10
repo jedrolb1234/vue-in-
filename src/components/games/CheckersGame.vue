@@ -69,10 +69,10 @@ export default {
       this.isMoveValid({start: this.draggedPawn, end: [x, y]});
       if (this.getIsMoveValid) {
         if (this.isBoardReversed) {
-          console.log('valid')
+
           this.$callHub.client.invoke('MakeMoveCheckers', this.getSelectedGameRoom.id, this.getUserId, 65 - (this.draggedPawn[0] * 8 + this.draggedPawn[1] + 1), 65 - (x * 8 + y + 1));
         }
-        else {console.log('valid')
+        else {
           this.$callHub.client.invoke('MakeMoveCheckers', this.getSelectedGameRoom.id, this.getUserId, this.draggedPawn[0] * 8 + this.draggedPawn[1] + 1, x * 8 + y + 1);
         }
       }

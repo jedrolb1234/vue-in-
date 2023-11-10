@@ -23,7 +23,7 @@
             <td>Gracze</td>
             <td>Wymagana liczba graczy</td>
             <!-- <td>Prywatny</td> -->
-            <td>Akcja</td>
+            <td>Otwórz</td>
           </tr>
         </thead>
         <BaseLoadingSpinner v-if="this.isLoading"></BaseLoadingSpinner>

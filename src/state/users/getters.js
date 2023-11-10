@@ -4,7 +4,7 @@ export default {
     const refresh_token = getters.getRefreshToken;
     const user_id = getters.getUserId;
     const last_login = getters.getLastLogin;
-    if (token === 'null' || refresh_token === 'null' || user_id === 'null' || last_login === 'null') {
+    if (token === null || refresh_token === null || user_id === null || last_login === null) {
       return false;
     }
       
