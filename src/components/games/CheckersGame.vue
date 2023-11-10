@@ -67,7 +67,9 @@ export default {
     drop(e, x, y) {
       e.preventDefault();
       this.isMoveValid({start: this.draggedPawn, end: [x, y]});
-      if (this.getIsMoveValid) {
+      //quick fix for presentation
+      // if (this.getIsMoveValid) {
+      if (true) {
         if (this.isBoardReversed) {
 
           this.$callHub.client.invoke('MakeMoveCheckers', this.getSelectedGameRoom.id, this.getUserId, 65 - (this.draggedPawn[0] * 8 + this.draggedPawn[1] + 1), 65 - (x * 8 + y + 1));
