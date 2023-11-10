@@ -198,7 +198,7 @@ export default {
       this.description = this.getDescription;
    },
     saveUserDataSettigs() {
-      if( this.hasPropperLength(this.name, 3, 50) && this.hasPropperLength(this.surname, 3, 50)) {
+      if( this.hasPropperLength(this.name, 0, 50) && this.hasPropperLength(this.surname, 0, 50)) {
         this.setName(this.name);
         this.setSurname(this.surname);
         this.setBirthDate(this.birthDate);

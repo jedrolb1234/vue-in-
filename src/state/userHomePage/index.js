@@ -54,7 +54,8 @@ export default {
       // let year = inputDate.getFullYear().toString();
       // let formattedDate = `${year}-${month}-${day}`;
       state.user = user;
-      state.user.dateOfBirth = new Date(user.dateOfBirth).toLocaleDateString();
+      if (user.dateOfBirth !== null) 
+        state.user.dateOfBirth = new Date(user.dateOfBirth).toLocaleDateString();
     },
     setUserId(state, value) {
       state.userId = value;
