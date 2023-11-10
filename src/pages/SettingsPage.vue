@@ -27,7 +27,7 @@
             <input type="text" v-model="this.username"/>
             <div>Opis</div>
             <textarea v-model="this.description"></textarea>
-            <div>Avatar użytkownika</div>
+            <div>Awatar użytkownika</div>
             <BaseButton type="secondary-medium" @click="this.isAvatarPickerVisible=true">Zmień avatar</BaseButton>
           </div>
         </div>
@@ -54,7 +54,7 @@
             <input type="text" v-model="this.surname" />
             <div>Data urodzenia</div>
             <input type="date" v-model="this.birthDate" />
-            <div>Adres Email</div>
+            <div>Adres email</div>
             <input type="email" v-model="this.email" />
           </div>
         </div>
