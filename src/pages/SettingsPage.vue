@@ -166,6 +166,11 @@ export default {
     ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
                   'setName', 'setSurname', 'setBirthDate', 'setEmail', 'sendSettings', 'downloadSettings',
                   'changePassword', 'delete', 'resetPassword', 'hidePopup','showDeletePopup','hideDeletePopup']),
+    hasPropperLength(text, minlength, maxlength) {
+      if(text.length<minlength || text.length>maxlength)
+        return false;
+      return true;
+    },
     isFormValid() {
       this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
       return this.isPasswordValid;
@@ -179,21 +184,30 @@ export default {
       this.setTheme(this.theme)
     },
     saveProfileSettings() {
-      this.setUsername(this.username);
-      this.setDescription(this.description);
-      this.sendSettings(this.getSettings);
+      if (this.hasPropperLength(this.username, 3, 50)) {
+        this.setUsername(this.username);
+        this.setDescription(this.description);
+        this.sendSettings(this.getSettings);
+      }
+      else {
+        console.log('xDD');
+      }
     },
     restoreProfileSettings() {
       this.username = this.getUsername;
       this.description = this.getDescription;
    },
     saveUserDataSettigs() {
-      this.setName(this.name);
-      this.setSurname(this.surname);
-      this.setBirthDate(this.birthDate);
-      this.setEmail(this.email);
-      this.sendSettings(this.getSettings)
-
+      if( this.hasPropperLength(this.name, 3, 50) && this.hasPropperLength(this.surname, 3, 50)) {
+        this.setName(this.name);
+        this.setSurname(this.surname);
+        this.setBirthDate(this.birthDate);
+        this.setEmail(this.email);
+        this.sendSettings(this.getSettings)
+      }
+      else {
+        console.log('xDD');
+      }
     },
     restoreUserDataSettings() {
       this.name = this.getName;
