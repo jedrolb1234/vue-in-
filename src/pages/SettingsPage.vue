@@ -28,7 +28,7 @@
             <div>Opis</div>
             <textarea v-model="this.description"></textarea>
             <div>Awatar użytkownika</div>
-            <BaseButton type="secondary-medium" @click="this.isAvatarPickerVisible=true">Zmień avatar</BaseButton>
+            <BaseButton type="secondary-medium" @click="this.isAvatarPickerVisible=true">Zmień awatar</BaseButton>
           </div>
         </div>
         <div class="settings-module" @mouseenter="this.mouseOverUserDataSettings = true;"
