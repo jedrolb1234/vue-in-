@@ -26,7 +26,7 @@
       </div>
       <hr v-if="this.getUserId == this.id" />
       <table
-        v-if="this.getUserId == this.id"
+        v-if="this.getUserId == this.id && this.getGamesInProgress.length > 0"
         class="showHistoryTable"
         style="width: 800px"
       >
@@ -59,6 +59,7 @@
           </tr>
         </tbody>
       </table>
+      <div v-else>Brak aktywnych rozgrywek.</div>
       <h1>Historia gier</h1>
       <hr />
       <div class="showHistoryTable">
@@ -137,7 +138,6 @@ export default {
       "getUser",
       "getIsFriend",
       "getInvId",
-      "getUserId",
       "getDynamicHeight",
       "getHistPage",
       "getHistPages",
@@ -171,13 +171,13 @@ export default {
   watch: {
     id: function () {
       this.getData(this.id);
-      this.obtainGamesInProgress({ status: 1, playerId: this.getUserID });
+      this.obtainGamesInProgress({ status: 1, playerId: this.getUserId });
     },
   },
   async mounted() {
     await this.getData(this.id);
     await this.downloadHistory();
-    this.obtainGamesInProgress({ status: 1, playerId: this.getUserID });
+    this.obtainGamesInProgress({ status: 1, playerId: this.getUserId });
   },
 };
 </script>
