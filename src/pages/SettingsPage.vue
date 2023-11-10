@@ -101,7 +101,7 @@
           </div>
           <hr>
           <div class="settings-module__content">
-            <div>Usunięcie konta jest nieodwrcalne.</div>
+            <div>Usunięcie konta jest nieodwracalne.</div>
             <BaseButton type="secondary-medium" style="background-color: var(--primary); color: var(--secondary);" @click="showDeletePopup">Usuń
               konto</BaseButton>
             <Transition><base-delete-message :id="id" v-if="getVisibleMessage === true" @visibleMessage="hideDeletePopup"> Czy na pewno chcesz usunąć <br> konto? </base-delete-message></Transition>
