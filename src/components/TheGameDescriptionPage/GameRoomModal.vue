@@ -3,7 +3,7 @@
     <div class="game-room-modal">
       <div class="header">
         <h1>Wybierz pokój gry</h1>
-        <div>1550 graczy online</div>
+        <!-- <div>1550 graczy online</div> -->
       </div>
       <div class="action-bar">
         <div class="buttons">
