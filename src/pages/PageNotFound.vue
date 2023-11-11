@@ -1,18 +1,11 @@
 <template>
   <div>
-  <left-panel></left-panel>
-  <h1>Page Not Found</h1>
-</div>
+    <h1>Fun House Project</h1>
+    <h2>Page Not Found</h2>
+  </div>
 </template>
 
 <script>
-import LeftPanel from '@/components/base/LeftPanel.vue';
-
-export default {
-  components:{
-  LeftPanel
-  }
-}
 </script>
-<style scoped>
-</style>
+
+<style scoped></style>

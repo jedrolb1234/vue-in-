@@ -2,7 +2,8 @@
   <div class="content">
     <base-form>
       <form @submit.prevent="logIn">
-        <h1>Formularz logowania</h1>
+        <h1>Fun House Project</h1>
+        <h2>Formularz logowania</h2>
         <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending" maxlength="100"></base-input>
         <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>
         <base-button v-if="!isSending" type="primary-large">Zaloguj</base-button>

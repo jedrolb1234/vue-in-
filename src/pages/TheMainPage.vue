@@ -4,7 +4,8 @@
     <div :class="$style.page">
       <img src="../assets/dice.png">
       <div :class="$style.text">
-        <p :class="$style.h1">Najlepsza w Polsce internetowa platforma z grami planszowymi online.</p>
+        <p :class="$style.h1">Fun House Project</p>
+        <p :class="$style.h2">Najlepsza w Polsce internetowa platforma z grami planszowymi online.</p>
         <p :class="$style.h2">Zagraj ze znajomymi już dziś</p>
         <base-button type="secondary-large" @click="register" :class="$style.button">Zarejestruj się</base-button>
       </div>

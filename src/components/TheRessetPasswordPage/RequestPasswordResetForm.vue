@@ -1,7 +1,8 @@
 <template>
   <base-form>
     <form @submit.prevent="requestPasswordReset">
-      <h1>Zmień hasło</h1>
+      <h1>Fun House Project</h1>
+      <h2>Zmień hasło</h2>
       <div class="input">
         <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending" maxlength="100"></base-input>
         <p v-if="!isEmailValid">Podaj poprawny adres email.</p>
@@ -79,6 +80,7 @@ export default {
 
 h1 {
   color:white;
+  font-size: 48px;
 }
 
 form {

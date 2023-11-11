@@ -1,8 +1,9 @@
 <template>
   <div class="content">
     <base-form>
-      <form @submit.prevent="register"> 
-        <h1>Stwórz konto</h1>
+      <form @submit.prevent="register">
+        <h1>Fun House Project</h1>
+        <h2>Stwórz konto</h2>
         <base-input type="email" v-model.trim="email" :valid="isEmailValid" :disabled="isSending" maxlength="100"></base-input>
         <base-input type="username" v-model.trim="username" :valid="isUsernameValid" :disabled="isSending" maxlength="50"></base-input>
         <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>

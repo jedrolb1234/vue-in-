@@ -1,7 +1,8 @@
 <template>
     <section>
         <div :class="content">
-            <h1 :class="name">Aktywacja konta</h1>
+            <h1>Fun House Project</h1>
+            <h2 :class="name">Aktywacja konta</h2>
             <BaseLoadingSpinner v-if="spinnerVisible"></BaseLoadingSpinner>
             <p class="message" v-if="success">Twoje konto zostało pomyślnie aktywowane. Możesz teraz przejść do <RouterLink :to="{name: 'login'}">formularza logowania</RouterLink>.</p>
             <span :class="iconStyles" v-if="success">check_circle</span>
