@@ -160,16 +160,22 @@ export default {
   },
   computed: {
     ...mapGetters(['getTheme', 'getUsername', 'getDescription', 'getName', 'getSurname', 'getBirthDate', 'getEmail',
-                    'getSettins', 'getProfileAvatar', 'getId','getVisibleMessageP', 'getVisibleMessage'])
+                    'getSettins', 'getProfileAvatar', 'getId','getVisibleMessageP', 'getVisibleMessage', 'getNotificationTemplates'])
   },
   methods: {
     ...mapActions(['showAvatarPicker', 'hideAvatarPicker', 'setTheme', 'setUsername', 'setDescription', 
                   'setName', 'setSurname', 'setBirthDate', 'setEmail', 'sendSettings', 'downloadSettings',
-                  'changePassword', 'delete', 'resetPassword', 'hidePopup','showDeletePopup','hideDeletePopup']),
+                  'changePassword', 'delete', 'resetPassword', 'hidePopup','showDeletePopup','hideDeletePopup', 'showNotification']),
     hasPropperLength(text, minlength, maxlength) {
       if(text.length<minlength || text.length>maxlength)
         return false;
       return true;
+    },
+    validEmail(email) {
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+      if (email.match(emailRegex))
+        return true;
+      return false;
     },
     isFormValid() {
       this.isPasswordValid = this.validatePassword(this.password, this.rpassword);
@@ -190,7 +196,7 @@ export default {
         this.sendSettings(this.getSettings);
       }
       else {
-        console.log('xDD');
+        this.showNotification(this.getNotificationTemplates.settings_saved_error);
       }
     },
     restoreProfileSettings() {
@@ -198,7 +204,7 @@ export default {
       this.description = this.getDescription;
    },
     saveUserDataSettigs() {
-      if( this.hasPropperLength(this.name, 0, 50) && this.hasPropperLength(this.surname, 0, 50)) {
+      if( this.hasPropperLength(this.name, 0, 50) && this.hasPropperLength(this.surname, 0, 50) && this.validEmail(this.email)) {
         this.setName(this.name);
         this.setSurname(this.surname);
         this.setBirthDate(this.birthDate);
@@ -206,7 +212,7 @@ export default {
         this.sendSettings(this.getSettings)
       }
       else {
-        console.log('xDD');
+        this.showNotification(this.getNotificationTemplates.settings_saved_error);
       }
     },
     restoreUserDataSettings() {

@@ -168,14 +168,12 @@ export default {
   },
   async sendSettings(context) {
     let settings = context.state.settings;
-    // let parts = settings.dateOfBirth.split('-');
-    // let parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
-    // settings.dateOfBirth = parsedDate.toISOString();
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     let res;
     try {
       res = await AxiosInstance.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings);
       if(res ===200 )
+        context.dispatch('showNotification', notificationTemplates.settings_saved, {root: true});
         return;
     } catch (error) {
       if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
