@@ -99,6 +99,7 @@
             <p class="pageNr">{{ getHistPage }}</p>
           </div>
         </div>
+        <div v-else>Nie rozegrałeś żadnej gry.</div>
       </div>
       <div class="spacer"><br /></div>
     </div>
@@ -300,12 +301,15 @@ th {
   background-color: var(--accent);
   color: var(--table-header-color);
 }
-.gameInProgress:nth-child(even) 
+/* .gameInProgress:nth-child(even) 
 .historyList:nth-child(even)
 {
   background-color: var(--primaryBtn);
+} */
+table > tbody> tr:nth-child(even) 
+{
+  background-color: var(--primaryBtn);
 }
-
 .historyList {
   font-size: 24;
   color: var(--secondary);

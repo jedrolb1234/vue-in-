@@ -240,13 +240,16 @@ th{
   background-color: var(--accent);
   color: var(--table-header-color)
 }
-.checkersRow:nth-child(odd) 
+/* .checkersRow:nth-child(odd) 
 .battleShipRow:nth-child(odd)
 .connect4Row:nth-child(odd)
 {
   background-color: var(--primaryBtn);
+} */
+table > tbody> tr:nth-child(even) 
+{
+  background-color: var(--primaryBtn);
 }
-
 .message{
   color: var(--primary);
 }
