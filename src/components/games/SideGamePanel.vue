@@ -12,8 +12,8 @@
         <!-- {{ this.getSelectedGameRoom }} -->
         <h3>Gracze</h3>
         <div class="panel__players__box">
-          <div v-for="player in this.getSelectedGameRoom.players" :key="player.playerId">
-            <span>{{ player.userName }}</span> <span>({{ player.pointsAfterGame }})</span>
+          <div style="overflow: visible;" v-for="player in this.getSelectedGameRoom.players" :key="player.playerId">
+            <span>{{ player.userName }}</span> <span class="ranking-points">({{ player.pointsAfterGame }})<span class="tooltiptext">Punkty rankingowe gracza</span></span>
             <!-- <span class="material-symbols-outlined kick">
               close
             </span> -->
@@ -143,6 +143,43 @@ export default {
 </script>
 
 <style scoped>
+.tooltiptext {
+  font-size: 12px;
+  visibility: hidden;
+  background-color: var(--primary);
+  color: var(--secondary);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  left:100%;
+  margin-left:15px;
+  z-index: 1;
+  width:auto;
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  left:-5px;
+  margin-left:-5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent var(--primary) transparent transparent;
+  z-index: 1;
+}
+
+.ranking-points {
+  position: relative;
+}
+
+.ranking-points:hover .tooltiptext {
+  visibility: visible;
+}
 .my-pawn {
   background-color: yellow;
   display: block;
