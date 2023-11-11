@@ -22,7 +22,7 @@
                     <td>{{ w.points }}</td>    
                   </tr>
                 </table>
-                <div class="buttons" v-show="checkersTable===false" >
+                <div class="buttons" v-show="checkersTable===false && allPagesC !== 0" >
                   <base-previous-button @click="previousPageC" :disable="getCurrentPageChec===0">Poprzednia</base-previous-button>
                   <base-next-button @click="nextPageC" :disable="getCurrentPageChec===allPagesC">Następna</base-next-button>
                   <p class="page">{{ pageNrC }}</p>
@@ -54,7 +54,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="buttons" v-show="battleShipTable===false">
+                <div class="buttons" v-show="battleShipTable===false && allPagesW !== 0">
                   <base-previous-button @click="previousPageW" :disable="getCurrentPageWar===0">Poprzednia</base-previous-button>
                   <base-next-button @click="nextPageW" :disable="getCurrentPageWar===allPagesW">Następna</base-next-button>
                   <p class="page">{{ pageNrW }}</p>
@@ -90,7 +90,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div class="buttons" v-show="connect4Table===false">
+                  <div class="buttons" v-if="connect4Table===false && allPagesC4 !== 0">
                     <base-previous-button @click="previousPageC4" :disable="getCurrentPageC4===0">Poprzednia</base-previous-button>
                     <base-next-button @click="nextPageC4" :disable="getCurrentPageC4===allPagesC4">Następna</base-next-button>
                     <p class="page">{{ pageNrC4 }}</p>
@@ -240,9 +240,13 @@ th{
   background-color: var(--accent);
   color: var(--table-header-color)
 }
-tr:nth-child(odd){
+.checkersRow:nth-child(odd) 
+.battleShipRow:nth-child(odd)
+.connect4Row:nth-child(odd)
+{
   background-color: var(--primaryBtn);
 }
+
 .message{
   color: var(--primary);
 }

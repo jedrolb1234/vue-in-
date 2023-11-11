@@ -80,7 +80,7 @@
       <div class="invitations">
         <h2 class="friendsHeader">Zaproszenia</h2>
         <hr class="hr2" />
-        <table class="friend">
+        <table v-if="getInvitations.length !== 0" class="friend">
           <thead>
             <tr>
               <th class="tableButton">Podgląd</th>
@@ -375,7 +375,7 @@ th {
   color: var(--table-header-color);
 }
 table > tbody> .friendsList:nth-child(odd) 
-table > tbody> .friendsInvitations:nth-child(odd) 
+table > tbody> .invitationsList:nth-child(odd) 
 {
   background-color: var(--primaryBtn);
 }
@@ -472,10 +472,6 @@ p {
 .searchMargin {
   margin-left: 0px;
 }
-/* .invitations{
-    width: 100%;
-    margin-left: -20px;
-} */
 .findUser {
   color: var(--primary);
 }
