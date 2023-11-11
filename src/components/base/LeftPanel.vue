@@ -1,20 +1,34 @@
 <template>
-  <div id="sideNavigationBar" :class="{small: isLeftPanelHidden, shadow: true}">
+  <div
+    id="sideNavigationBar"
+    :class="{ small: isLeftPanelHidden, shadow: true }"
+  >
     <div>
       <div class="logo">
         <h1>Fun House Project</h1>
-        <span :class="hidePanelStyles" @click="toogleLeftPanel">arrow_forward_ios</span>
+        <span :class="hidePanelStyles" @click="toogleLeftPanel"
+          >arrow_forward_ios</span
+        >
       </div>
       <hr />
+      <p id="logoFHP">
+        FHP
+      </p>
       <div class="avatar">
-        <img :src="this.getProfileAvatar"/>
+        <img :src="this.getProfileAvatar" />
       </div>
       <div class="tabs">
-        <div class="tabsItem clickable" @click="$router.push({ name: 'games' })">
+        <div
+          class="tabsItem clickable"
+          @click="$router.push({ name: 'games' })"
+        >
           <span :class="iconStyles">stadia_controller</span>
           <span>Gry</span>
         </div>
-        <div class="tabsItem clickable" @click="$router.push({ name: 'friends' })">
+        <div
+          class="tabsItem clickable"
+          @click="$router.push({ name: 'friends' })"
+        >
           <span :class="iconStyles">group</span>
           <span>Znajomi</span>
         </div>
@@ -22,18 +36,22 @@
           <span :class="iconStyles">stars</span>
           <span>Ranking</span>
         </div>
-        <!-- <div class="tabsItem clickable" @click="$router.push({ name: 'history' })">
-          <span :class="iconStyles">device_reset</span>
-          <span>Historia gier</span>
-        </div> -->
-        <div class="tabsItem clickable" @click="$router.push({
-                          name: 'uhp',
-                          params: { id: getUserId },
-                          })">
+        <div
+          class="tabsItem clickable"
+          @click="
+            $router.push({
+              name: 'uhp',
+              params: { id: getUserId },
+            })
+          "
+        >
           <span :class="iconStyles">account_circle</span>
           <span>Profil</span>
         </div>
-        <div class="tabsItem clickable" @click="$router.push({ name: 'settings' })">
+        <div
+          class="tabsItem clickable"
+          @click="$router.push({ name: 'settings' })"
+        >
           <span :class="iconStyles">settings</span>
           <span>Ustawienia</span>
         </div>
@@ -47,25 +65,43 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   methods: {
-    ...mapActions(['toogleLeftPanel', 'logOutUser'])
+    ...mapActions(["toogleLeftPanel", "logOutUser"]),
   },
   computed: {
-    ...mapGetters(['isLeftPanelHidden', 'getProfileAvatar', 'getUserId']),
+    ...mapGetters(["isLeftPanelHidden", "getProfileAvatar", "getUserId"]),
     iconStyles() {
-      return ['material-symbols-outlined', 'icon'].join(' ');
+      return ["material-symbols-outlined", "icon"].join(" ");
     },
     hidePanelStyles() {
-      return this.isLeftPanelHidden ? ['material-symbols-outlined', 'icon', 'clickable'].join(' ') : ['material-symbols-outlined', 'icon', 'clickable', 'rotateIcon'].join(' ');
-    }
-  }
-}
+      return this.isLeftPanelHidden
+        ? ["material-symbols-outlined", "icon", "clickable"].join(" ")
+        : ["material-symbols-outlined", "icon", "clickable", "rotateIcon"].join(
+            " "
+          );
+    },
+  },
+};
 </script>
 
 <style scoped>
+#logoFHP {
+  /* font-size: 60px; */
+  font-size: 24px;
+  text-align: center;
+  font-weight: bolder;
+  height: 250px;
+  margin: 0px;
+  line-height: 250px;
+  /* padding-top:70px;
+  padding-bottom:49px;
+  line-height: 40px;
+  overflow-wrap: break-word; */
+  display: none;
+}
 .logo {
   padding: 0px 15px 0px 15px;
   display: flex;
@@ -155,6 +191,9 @@ hr {
 }
 
 @container sideNavigationBar (width <= 60px) {
+  #logoFHP {
+    display: block;
+  }
   .logo {
     padding: 9px 15px;
     display: flex;
@@ -164,7 +203,7 @@ hr {
     margin-bottom: 10px;
   }
 
-  .logo>h1 {
+  .logo > h1 {
     display: none;
   }
 
@@ -173,11 +212,7 @@ hr {
     display: none;
   }
 
-  .tabs {
-    margin-top: 250px;
-  }
-
-  .tabsItem>span:nth-child(2) {
+  .tabsItem > span:nth-child(2) {
     display: none;
   }
 }
