@@ -238,8 +238,8 @@ td, th{
   padding: var(--td-padding-top-bottom) var(--td-padding-left-right); /* odstępy */
   width: 100px;
   max-height: 28px;
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: bold;
   color:var(--primary);
   margin: 0px 0px 0px 0px;
   border: none;
@@ -254,6 +254,7 @@ table > tbody> tr:nth-child(even)
 }
 .message{
   color: var(--primary);
+  font-size: 22px;
 }
 .tableButton{
     padding-left: 30px;
@@ -262,7 +263,7 @@ table > tbody> tr:nth-child(even)
   width: 75px;
 }
 .tdRank2{
-  padding-left: 10px;
+  padding-left: 25px;
 }
 .tdNick{
   width: 450px;
