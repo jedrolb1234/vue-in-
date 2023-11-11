@@ -22,7 +22,7 @@
               <th>Nazwa użytkownika</th>
               <th>Ostatnie logowanie</th>
               <th>Ostatnia gra</th>
-              <th></th>
+              <th>Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -49,7 +49,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="buttons">
+        <div class="buttons" v-if="getFriends.length !== 0">
           <base-previous-button
             @click="previousPage"
             :disable="getCurrentPage === 0"
@@ -87,7 +87,7 @@
               <th>Nazwa użytkownika</th>
               <th>Ostatnie logowanie</th>
               <th>Ostatnia gra</th>
-              <th class="tableButton"></th>
+              <th class="tableButton">Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -146,7 +146,7 @@
             <div v-if="this.getFindUser === true" class="findUser">
               <p>Znaleziono:</p>
               <table class="findFriend">
-                <tr>
+                <tr  class="oneFriend">
                   <td class="tableButton">
                     <base-look-button
                       class="friendFirstCellButton"
@@ -218,8 +218,6 @@ export default {
       "getFriends",
       "getFindFriend",
       "getFindUser",
-      "getDynamicHeight",
-      "pPageNr",
       "getPageNr",
       "getItemsPerPage",
       "getAvilabeInvitations",
@@ -376,7 +374,12 @@ th {
   background-color: var(--accent);
   color: var(--table-header-color);
 }
-table > tbody> tr:nth-child(even) {
+table > tbody> .friendsList:nth-child(odd) 
+table > tbody> .friendsInvitations:nth-child(odd) 
+{
+  background-color: var(--primaryBtn);
+}
+.oneFriend{
   background-color: var(--primaryBtn);
 }
 .lastCellButton {

@@ -39,7 +39,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(room, index) in this.getGamesInProgress" :key="index">
+          <tr class="gameInProgress"
+          v-for="(room, index) in this.getGamesInProgress" :key="index">
             <td>{{ this.getGame(room.gameTypeId).name }}</td>
             <td>
               {{
@@ -63,7 +64,7 @@
       <h1>Historia gier</h1>
       <hr />
       <div class="showHistoryTable">
-        <div v-if="isLoading === false">
+        <div v-if="getHistory.length !== 0">
           <table>
             <thead>
               <tr class="historyList">
@@ -85,10 +86,8 @@
                 <td>{{ h.points }}</td>
               </tr>
             </tbody>
-
-            <!-- <tr :style="{ height: getDynamicHeight + 'px' }"></tr> -->
           </table>
-          <div v-if="getOwnId" class="buttons">
+          <div v-if="getOwnId && getHistory.length !== 0" class="buttons">
             <base-previous-button
               :disabled="getCurrentPage === 1"
               @click="previousPage"
@@ -301,7 +300,9 @@ th {
   background-color: var(--accent);
   color: var(--table-header-color);
 }
-table > tbody > tr:nth-child(even) {
+.gameInProgress:nth-child(even) 
+.historyList:nth-child(even)
+{
   background-color: var(--primaryBtn);
 }
 

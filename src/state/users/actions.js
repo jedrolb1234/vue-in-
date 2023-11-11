@@ -119,12 +119,8 @@ export default {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
     const axios = require('axios');
     let res;
-    // const token = JSON.parse(sessionStorage.getItem('token'))
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   };
     try {
-      res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VVUE_APP_ACCOUNT);
+      res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT);
       if (res.status == 200) {
         context.dispatch('showNotification', notificationTemplates.account_deleted, { root: true });
       }

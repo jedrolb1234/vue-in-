@@ -73,22 +73,105 @@ export default {
     setInvitations(state, value) {
       state.invitations = value;
       for (let i = 0; i < state.invitations.length; i++) {
-        // let inputDate = new Date(state.invitations[i].lastActivityDate);
-        // let day = inputDate.getDate().toString().padStart(2, '0');
-        // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-        // let year = inputDate.getFullYear().toString();
-        // let formattedDate = `${year}-${month}-${day}`;
-        state.invitations[i].lastActivityDate = new Date(value[i].lastActivityDate).toLocaleDateString();
+        let inputDate = new Date(state.invitations[i].lastActivityDate);
+        let formattedDate;   
+        var now = new Date();
+        inputDate = inputDate.setHours(inputDate.getHours() + 1)//zmieniać czas letni(+2) - zimowy(+1)
+        let diffrentMinutes = Math.floor(Math.abs((now - inputDate) / (1000 * 60)));
+        let diffrentHours = Math.floor(diffrentMinutes / 60);
+        let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
+        let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
+        let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
+        if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentMinutes) === 0)
+            formattedDate = `przed chwilą`;
+          if(Math.floor(diffrentMinutes) === 1)
+            formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
+        }
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentHours)  === 1)
+            formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
+          if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
+            formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
+          if(Math.floor(diffrentHours) > 5)
+            formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
+          }        
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentDays) === 1)
+            formattedDate = `${Math.floor(diffrentDays)} dzień temu`;
+          if(Math.floor(diffrentDays) > 1)
+            formattedDate = `${Math.floor(diffrentDays)} dni temu`;        
+        }
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears === 0){
+          if(Math.floor(diffrentMonths) === 1)
+            formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
+          if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
+          if(Math.floor(diffrentMonths) > 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
+         }
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
+          if(Math.floor(diffrentYears) === 1)
+            formattedDate = `${Math.floor(diffrentYears)} rok temu`;
+          else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
+      state.invitations[i].lastActivityDate = formattedDate;
       }
     },
     setFriends(state, value) {
       state.friends = value; 
+      for (let i = 0; i < state.friends.length; i++) {
+        let inputDate = new Date(state.friends[i].lastActivityDate);
+        let formattedDate;   
+        var now = new Date();
+        inputDate = inputDate.setHours(inputDate.getHours() + 1)//zmieniać czas letni(+2) - zimowy(+1)
+        let diffrentMinutes = Math.floor(Math.abs((now - inputDate) / (1000 * 60)));
+        let diffrentHours = Math.floor(diffrentMinutes / 60);
+        let diffrentDays = Math.floor(diffrentMinutes / ( 60 * 24 ));
+        let diffrentMonths = Math.floor(diffrentMinutes / ( 60 * 24 * 30 ));
+        let diffrentYears =Math.floor(diffrentMinutes / ( 60 * 24 * 30 * 365));
+        if(diffrentMinutes >=0 && diffrentHours === 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentMinutes) === 0)
+            formattedDate = `przed chwilą`;
+          if(Math.floor(diffrentMinutes) === 1)
+            formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+            formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
+        }
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentHours)  === 1)
+            formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
+          if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
+            formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
+          if(Math.floor(diffrentHours) > 5)
+            formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
+          }        
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
+          if(Math.floor(diffrentDays) === 1)
+            formattedDate = `${Math.floor(diffrentDays)} dzień temu`;
+          if(Math.floor(diffrentDays) > 1)
+            formattedDate = `${Math.floor(diffrentDays)} dni temu`;        
+        }
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears === 0){
+          if(Math.floor(diffrentMonths) === 1)
+            formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
+          if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
+          if(Math.floor(diffrentMonths) > 5) 
+            formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
+         }
+        if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
+          if(Math.floor(diffrentYears) === 1)
+            formattedDate = `${Math.floor(diffrentYears)} rok temu`;
+          else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
+      state.friends[i].lastActivityDate = formattedDate;
+      }
       for (let i = 0; i < value.length; i++) {      
-          // var inputDate = new Date(value[i].lastActivityDate);
-          // let day = inputDate.getDate().toString().padStart(2, '0');
-          // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-          // let year = inputDate.getFullYear().toString();
-          // formattedDate = `${year}-${month}-${day}`;
           state.friends[i].lastActivityDate = new Date(value[i].lastActivityDate).toLocaleDateString();
         // } 
       }
