@@ -13,7 +13,7 @@
             <transition name="slideOFF">
               <div v-if="checkersTable===false && allPagesC !== 0" class="tableContainer">
                 <table>
-                  <tr><th>Podgląd</th>
+                  <tr><th class="lookButton">Podgląd</th>
                     <th class="tdRank">Pozycja</th>
                     <th class="tdNick">Nazwa użytkownika</th>
                     <th>Punkty</th></tr>
@@ -48,7 +48,7 @@
             <transition name="slideOFF">
               <div v-if="battleShipTable === false && allPagesW !== 0" class="tableContainer">
                 <table >
-                  <tr><th>Podgląd</th>
+                  <tr><th class="lookButton">Podgląd</th>
                     <th>Pozycja</th>
                     <th class="tdNick">Nazwa użytkownika</th>
                     <th>Punkty</th></tr>
@@ -83,7 +83,7 @@
               <transition name="slideOFF">
                 <div v-if="connect4Table === false && allPagesC4 !== 0" class="tableContainer">
                   <table>
-                    <tr><th>Podgląd</th>
+                    <tr><th class="lookButton">Podgląd</th>
                       <th class="tdRank">Pozycja</th>
                       <th class="tdNick">Nazwa użytkownika</th>
                       <th>Punkty</th>
@@ -256,6 +256,10 @@ table > tbody> tr:nth-child(even)
   color: var(--primary);
   font-size: 22px;
 }
+.lookButton{
+  padding-right: 0px;
+  width:75px;
+}
 .tableButton{
     padding-left: 30px;
 }
@@ -264,7 +268,7 @@ table > tbody> tr:nth-child(even)
 }
 .tdRank2{
   padding-left: 25px;
-  margin-left:30px;
+  margin-left:35px;
 }
 .tdNick{
   width: 450px;
