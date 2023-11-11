@@ -168,9 +168,8 @@ export default {
     let res;
     try {
       res = await AxiosInstance.put(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT, settings);
-      if(res ===200 )
+      if(res.status == 200 )
         context.dispatch('showNotification', notificationTemplates.settings_saved, {root: true});
-        return;
     } catch (error) {
       if (error.response.status == 401 || error.response.data == 'InvalidRefreshToken') {
         context.dispatch('logOutUser');
