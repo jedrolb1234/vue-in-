@@ -61,6 +61,7 @@ export default {
       if (this.isFormValid()) {
         this.isSending = true;
         await this.requestPasswordChange(this.email);
+        this.email='';
         this.isSending = false;
       }
     }
