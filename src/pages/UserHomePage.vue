@@ -301,11 +301,6 @@ th {
   background-color: var(--accent);
   color: var(--table-header-color);
 }
-/* .gameInProgress:nth-child(even) 
-.historyList:nth-child(even)
-{
-  background-color: var(--primaryBtn);
-} */
 table > tbody> tr:nth-child(even) 
 {
   background-color: var(--primaryBtn);
