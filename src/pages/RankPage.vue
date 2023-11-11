@@ -264,6 +264,7 @@ table > tbody> tr:nth-child(even)
 }
 .tdRank2{
   padding-left: 25px;
+  margin-left:30px;
 }
 .tdNick{
   width: 450px;
