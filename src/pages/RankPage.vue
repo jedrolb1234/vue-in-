@@ -13,12 +13,15 @@
             <transition name="slideOFF">
               <div v-if="checkersTable===false && allPagesC !== 0" class="tableContainer">
                 <table>
-                  <tr class="checkersList"><th>Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr><th>Podgląd</th>
+                    <th class="tdRank">Pozycja</th>
+                    <th class="tdNick">Nazwa użytkownika</th>
+                    <th>Punkty</th></tr>
                   <tbody>
                   <tr class="checkersRow"
                     v-for="( w, index ) in getCheckers" :key="index">
-                    <td><base-look-button class="tableButton" @click="redirect(w.playerId)"></base-look-button></td>
-                    <td  class="tdRank">{{ w.rank }}</td>
+                    <td class="tableButton" ><base-look-button @click="redirect(w.playerId)"></base-look-button></td>
+                    <td class="tdRank2">{{ w.rank }}</td>
                     <td class="tdNick">{{ w.userName }}</td>
                     <td>{{ w.points }}</td>    
                   </tr>
@@ -45,12 +48,15 @@
             <transition name="slideOFF">
               <div v-if="battleShipTable === false && allPagesW !== 0" class="tableContainer">
                 <table >
-                  <tr class="battleShipList"><th>Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr><th>Podgląd</th>
+                    <th>Pozycja</th>
+                    <th class="tdNick">Nazwa użytkownika</th>
+                    <th>Punkty</th></tr>
                   <tbody>
                     <tr class="battleShipRow"
                       v-for="( s, index ) in getBattleShip" :key="index">
-                      <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(s.playerId)"></base-look-button></td>
-                      <td class="tdRank">{{ s.rank }}</td>
+                      <td class="tableButton"><base-look-button @click="redirect(s.playerId)"></base-look-button></td>
+                      <td class="tdRank2">{{ s.rank }}</td>
                       <td class="tdNick">{{ s.userName }}</td>
                       <td>{{ s.points }}</td>    
                     </tr>
@@ -79,14 +85,14 @@
                   <table>
                     <tr><th>Podgląd</th>
                       <th class="tdRank">Pozycja</th>
-                      <th class="tdNick">Nick</th>
+                      <th class="tdNick">Nazwa użytkownika</th>
                       <th>Punkty</th>
                     </tr>
                     <tbody>
                       <tr class="connect4Row"
                         v-for="( p, index ) in getConnect4" :key="index">
-                        <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td>
-                        <td class="tdRank">{{ p.rank }}</td>
+                        <td class="tableButton"><base-look-button @click="redirect(p.playerId)"></base-look-button></td>
+                        <td class="tdRank2">{{ p.rank }}</td>
                         <td class="tdNick">{{ p.userName }}</td>
                         <td>{{ p.points }}</td>    
                       </tr>
@@ -242,9 +248,6 @@ th{
   background-color: var(--accent);
   color: var(--table-header-color)
 }
-/* td:nth-child(1){
-  padding-left: 10px;
-} */
 table > tbody> tr:nth-child(even) 
 {
   background-color: var(--primaryBtn);
@@ -253,11 +256,13 @@ table > tbody> tr:nth-child(even)
   color: var(--primary);
 }
 .tableButton{
-    width: 75px;
     padding-left: 30px;
 }
 .tdRank{
   width: 75px;
+}
+.tdRank2{
+  padding-left: 10px;
 }
 .tdNick{
   width: 450px;
