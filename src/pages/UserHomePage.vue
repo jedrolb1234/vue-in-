@@ -99,7 +99,7 @@
             <p class="pageNr">{{ getHistPage }}</p>
           </div>
         </div>
-        <div v-else>Nie rozegrałeś żadnej gry.</div>
+        <div v-else-if="getHistory.length === 0">Nie rozegrałeś żadnej gry.</div>
       </div>
       <div class="spacer"><br /></div>
     </div>
