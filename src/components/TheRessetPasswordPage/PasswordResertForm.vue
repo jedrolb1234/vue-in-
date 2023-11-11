@@ -5,7 +5,7 @@
       <h2>Zmień hasło</h2>
       <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>
       <div class="input">
-        <base-input type="password" v-model.trim="rpassword" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>
+        <base-input type="rpassword" v-model.trim="rpassword" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>
         <p v-if="!isPasswordValid">Wypełnij formularz poprawnymi danymi. Pamiętaj, że hasło musi posiadać minimum 12 znaków
           oraz powinno zawierać małą i dużą literę, cyfrę oraz znaku specjalny.</p>
       </div>
