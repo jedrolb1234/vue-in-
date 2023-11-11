@@ -62,6 +62,16 @@ export default {
           description:'Konto o podanym login nie istnieje.',
           type: 'info'
         },
+        settings_saved: {
+          label: 'Zapisano!',
+          description: 'Zmiany zostały poprawnie zapisane.',
+          type: 'info'
+        },
+        settings_saved_error: {
+          label: 'Zmiany nie zostały zapisane.',
+          description: 'Sprawdź poprawność podanych informacji.',
+          type: 'error'
+        }
       }
     }
   },
