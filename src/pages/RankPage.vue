@@ -13,12 +13,12 @@
             <transition name="slideOFF">
               <div v-if="checkersTable===false && allPagesC !== 0" class="tableContainer">
                 <table>
-                  <tr class="checkersList"><th>Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr class="checkersList"><th>Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nazwa użytkownika</th><th>Punkty</th></tr>
                   <tbody>
                   <tr class="checkersRow"
                     v-for="( w, index ) in getCheckers" :key="index">
-                    <td><base-look-button class="tableButton" @click="redirect(w.playerId)"></base-look-button></td>
-                    <td  class="tdRank">{{ w.rank }}</td>
+                    <td class="tableButton" ><base-look-button @click="redirect(w.playerId)"></base-look-button></td>
+                    <td class="tdRank">{{ w.rank }}</td>
                     <td class="tdNick">{{ w.userName }}</td>
                     <td>{{ w.points }}</td>    
                   </tr>
@@ -45,7 +45,7 @@
             <transition name="slideOFF">
               <div v-if="battleShipTable === false && allPagesW !== 0" class="tableContainer">
                 <table >
-                  <tr class="battleShipList"><th>Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr class="battleShipList"><th>Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nazwa użytkownika</th><th>Punkty</th></tr>
                   <tbody>
                     <tr class="battleShipRow"
                       v-for="( s, index ) in getBattleShip" :key="index">
@@ -79,7 +79,7 @@
                   <table>
                     <tr><th>Podgląd</th>
                       <th class="tdRank">Pozycja</th>
-                      <th class="tdNick">Nick</th>
+                      <th class="tdNick">Nazwa użytkownika</th>
                       <th>Punkty</th>
                     </tr>
                     <tbody>
@@ -253,7 +253,7 @@ table > tbody> tr:nth-child(even)
   color: var(--primary);
 }
 .tableButton{
-    width: 75px;
+    width: 65px;
     padding-left: 30px;
 }
 .tdRank{
