@@ -172,11 +172,6 @@ export default {
       state.friends[i].lastActivityDate = formattedDate;
       }
       for (let i = 0; i < value.length; i++) {      
-          // var inputDate = new Date(value[i].lastActivityDate);
-          // let day = inputDate.getDate().toString().padStart(2, '0');
-          // let month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-          // let year = inputDate.getFullYear().toString();
-          // formattedDate = `${year}-${month}-${day}`;
           state.friends[i].lastActivityDate = new Date(value[i].lastActivityDate).toLocaleDateString();
         // } 
       }

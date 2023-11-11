@@ -13,8 +13,8 @@
             <transition name="slideOFF">
               <div v-if="checkersTable===false && allPagesC !== 0" class="tableContainer">
                 <table>
-                  <tr class="checkersList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
-                  <tr class="checkersList"
+                  <tr class="checkersList"><th class="tableButton">Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr class="checkersRow"
                     v-for="( w, index ) in getCheckers" :key="index">
                     <td><base-look-button class="invFirstCell" @click="redirect(w.playerId)"></base-look-button></td>
                     <td  class="tdRank">{{ w.rank }}</td>
@@ -45,7 +45,7 @@
                 <table >
                   <tr class="battleShipList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tbody>
-                    <tr class="battleShipList"
+                    <tr class="battleShipRow"
                       v-for="( s, index ) in getBattleShip" :key="index">
                       <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(s.playerId)"></base-look-button></td>
                       <td class="tdRank">{{ s.rank }}</td>
@@ -75,13 +75,13 @@
               <transition name="slideOFF">
                 <div v-if="connect4Table === false && allPagesC4 !== 0" class="tableContainer">
                   <table>
-                    <tr><th class="tableButton"></th>
+                    <tr><th class="tableButton">Podgląd</th>
                       <th class="tdRank">Pozycja</th>
                       <th class="tdNick">Nick</th>
                       <th>Punkty</th>
                     </tr>
                     <tbody>
-                      <tr
+                      <tr class="connect4Row"
                         v-for="( p, index ) in getConnect4" :key="index">
                         <td class="tableButton"><base-look-button class="invFirstCell" @click="redirect(p.playerId)"></base-look-button></td>
                         <td class="tdRank">{{ p.rank }}</td>
