@@ -374,8 +374,7 @@ th {
   background-color: var(--accent);
   color: var(--table-header-color);
 }
-table > tbody> tr:nth-child(odd) 
-/* table > tbody> .invitationsList:nth-child(odd)  */
+table > tbody> tr:nth-child(even) 
 {
   background-color: var(--primaryBtn);
 }

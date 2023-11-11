@@ -172,12 +172,6 @@ export default {
       state.friends[i].lastActivityDate = formattedDate;
       }
       for (let i = 0; i < value.length; i++) {      
-          state.friends[i].lastActivityDate = new Date(value[i].lastActivityDate).toLocaleDateString();
-        // } 
-      }
-      if (state.friends.length != 10) {
-        state.dynamicHeight = (state.itemsPerPage - state.friends.length) * state.rowHeight;
-      }for (let i = 0; i < value.length; i++) {      
         if(value[i].lastGameTypeId === 0)
           state.friends[i].lastGame ='Warcaby';
         if(value[i].lastGameTypeId === 1)
