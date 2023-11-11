@@ -45,7 +45,7 @@
             <transition name="slideOFF">
               <div v-if="battleShipTable === false && allPagesW !== 0" class="tableContainer">
                 <table >
-                  <tr class="battleShipList"><th class="tableButton"></th>Podgląd<th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr class="battleShipList"><th class="tableButton">Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tbody>
                     <tr class="battleShipRow"
                       v-for="( s, index ) in getBattleShip" :key="index">
@@ -242,9 +242,9 @@ th{
   background-color: var(--accent);
   color: var(--table-header-color)
 }
-td:nth-child(1){
+/* td:nth-child(1){
   padding-left: 10px;
-}
+} */
 table > tbody> tr:nth-child(even) 
 {
   background-color: var(--primaryBtn);
@@ -254,7 +254,7 @@ table > tbody> tr:nth-child(even)
 }
 .tableButton{
     width: 75px;
-    padding-left: 15px;
+    padding-left: 25px;
 }
 .tdRank{
   width: 75px;
