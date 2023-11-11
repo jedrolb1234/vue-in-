@@ -14,6 +14,7 @@
               <div v-if="checkersTable===false && allPagesC !== 0" class="tableContainer">
                 <table>
                   <tr class="checkersList"><th class="tableButton">Podgląd</th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tbody>
                   <tr class="checkersRow"
                     v-for="( w, index ) in getCheckers" :key="index">
                     <td><base-look-button class="invFirstCell" @click="redirect(w.playerId)"></base-look-button></td>
@@ -21,6 +22,7 @@
                     <td class="tdNick">{{ w.userName }}</td>
                     <td>{{ w.points }}</td>    
                   </tr>
+                </tbody>
                 </table>
                 <div class="buttons" v-show="checkersTable===false && allPagesC !== 0" >
                   <base-previous-button @click="previousPageC" :disable="getCurrentPageChec===0">Poprzednia</base-previous-button>
@@ -43,7 +45,7 @@
             <transition name="slideOFF">
               <div v-if="battleShipTable === false && allPagesW !== 0" class="tableContainer">
                 <table >
-                  <tr class="battleShipList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
+                  <tr class="battleShipList"><th class="tableButton"></th>Podgląd<th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tbody>
                     <tr class="battleShipRow"
                       v-for="( s, index ) in getBattleShip" :key="index">
@@ -240,12 +242,9 @@ th{
   background-color: var(--accent);
   color: var(--table-header-color)
 }
-/* .checkersRow:nth-child(odd) 
-.battleShipRow:nth-child(odd)
-.connect4Row:nth-child(odd)
-{
-  background-color: var(--primaryBtn);
-} */
+td:nth-child(1){
+  padding-left: 10px;
+}
 table > tbody> tr:nth-child(even) 
 {
   background-color: var(--primaryBtn);
