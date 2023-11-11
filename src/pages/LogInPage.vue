@@ -9,10 +9,8 @@
         <base-button v-if="!isSending" type="primary-large">Zaloguj</base-button>
         <base-loading-spinner v-else></base-loading-spinner>
         <div>
-          <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{ name: 'signup' }">formularza rejestracji
-            </RouterLink>.</p>
-          <p>Jeśli nie pamiętasz hasła możesz przejść do <RouterLink :to="{ name: 'resetpassword' }">formularza zmiany hasła
-            </RouterLink>.</p>
+          <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{ name: 'signup' }">formularza rejestracji</RouterLink>.</p>
+          <p>Jeśli nie pamiętasz hasła możesz przejść do <RouterLink :to="{ name: 'resetpassword' }">formularza zmiany hasła</RouterLink>.</p>
         </div>
       </form>
     </base-form>

@@ -10,10 +10,8 @@
       <base-button v-if="!isSending" type="primary-large">Wyślij</base-button>
       <BaseLoadingSpinner v-if="isSending" style="--primary:white"></BaseLoadingSpinner>
       <div>
-        <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{ name: 'signup' }">formularza rejestracji
-          </RouterLink>.</p>
-        <p>Jeśli chcesz się zalogować możesz przejść do <RouterLink :to="{ name: 'login' }">formularza logowania
-          </RouterLink>.</p>
+        <p>Jeśli nie posiadasz jeszcze konta możesz przejść do <RouterLink :to="{ name: 'signup' }">formularza rejestracji</RouterLink>.</p>
+        <p>Jeśli chcesz się zalogować możesz przejść do <RouterLink :to="{ name: 'login' }">formularza logowania</RouterLink>.</p>
       </div>
     </form>
   </base-form>
