@@ -11,7 +11,7 @@
         <transition name="slideON">
           <div class="test" v-if=" (checkersTable === false)">
             <transition name="slideOFF">
-              <div v-show="checkersTable===false" class="tableContainer">
+              <div v-if="checkersTable===false && allPagesC !== 0" class="tableContainer">
                 <table>
                   <tr class="checkersList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tr class="checkersList"
@@ -28,6 +28,7 @@
                   <p class="page">{{ pageNrC }}</p>
                 </div>
               </div>
+              <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry</div>
             </transition>
           </div>
         </transition>
@@ -40,7 +41,7 @@
         <transition name="slideON">
           <div v-if="(battleShipTable === false)">
             <transition name="slideOFF">
-              <div v-show="battleShipTable === false" class="tableContainer">
+              <div v-if="battleShipTable === false && allPagesW !== 0" class="tableContainer">
                 <table >
                   <tr class="battleShipList"><th class="tableButton"></th><th class="tdRank">Pozycja</th><th class="tdNick">Nick</th><th>Punkty</th></tr>
                   <tbody>
@@ -59,6 +60,7 @@
                   <p class="page">{{ pageNrW }}</p>
                 </div>
               </div>
+              <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry</div>
             </transition>
           </div>
         </transition>
@@ -71,7 +73,7 @@
           <transition name="slideON">
             <div v-if="(connect4Table === false)">
               <transition name="slideOFF">
-                <div v-show="connect4Table === false" class="tableContainer">
+                <div v-if="connect4Table === false && allPagesC4 !== 0" class="tableContainer">
                   <table>
                     <tr><th class="tableButton"></th>
                       <th class="tdRank">Pozycja</th>
@@ -94,6 +96,7 @@
                     <p class="page">{{ pageNrC4 }}</p>
                   </div>
                 </div>
+                <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry</div>
               </transition>
             </div>
           </transition>
@@ -239,6 +242,9 @@ th{
 }
 tr:nth-child(odd){
   background-color: var(--primaryBtn);
+}
+.message{
+  color: var(--primary);
 }
 .tableButton{
     width: 75px;
