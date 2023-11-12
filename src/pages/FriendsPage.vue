@@ -349,7 +349,6 @@ th {
 .table.button,
 th:first-child,
 th:last-child {
-  /* margin-left: 0px; */
   padding-left: 10px;
   width: 60px !important;
 }
