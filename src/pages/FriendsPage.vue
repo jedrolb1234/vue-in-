@@ -20,9 +20,9 @@
             <tr>
               <th>Podgląd</th>
               <th>Nazwa użytkownika</th>
-              <th>Ostatnie logowanie</th>
+              <th>Ostatnia aktywność</th>
               <th>Ostatnia gra</th>
-              <th>Usuń</th>
+              <th class="deleteFriend">Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -83,11 +83,11 @@
         <table v-if="getInvitations.length !== 0" class="friend">
           <thead>
             <tr>
-              <th class="tableButton">Podgląd</th>
+              <th>Podgląd</th>
               <th>Nazwa użytkownika</th>
-              <th>Ostatnie logowanie</th>
+              <th>Ostatnia aktywność</th>
               <th>Ostatnia gra</th>
-              <th class="tableButton">Usuń</th>
+              <th>Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -147,7 +147,7 @@
               <p>Znaleziono:</p>
               <table class="findFriend">
                 <tr  class="oneFriend">
-                  <td class="tableButton">
+                  <td>
                     <base-look-button
                       class="friendFirstCellButton"
                       @click="redirect(getUser.id, 'null')"
@@ -350,13 +350,13 @@ th {
 .table.button,
 th:first-child,
 th:last-child {
-  margin-left: 0px;
-  padding-left: 5px;
+  /* margin-left: 0px; */
+  padding-left: 0px;
   width: 60px !important;
 }
 th:nth-child(2):nth-child(4),
 td:nth-child(2):nth-child(4) {
-  margin-left: 0px;
+  /* margin-left: 0px; */
   padding-left: 10px;
   width: calc((100% - 4 * 10px) / 3);
 }
@@ -437,6 +437,9 @@ p {
   margin-left: 350px;
   margin-top: 150px;
 }
+.deleteFriend{
+  margin-left: 15px; 
+}
 .page {
   width: 13px;
   font-size: 22px;
@@ -447,7 +450,7 @@ p {
 }
 .tableButton {
   width: 75px;
-  padding-left: 15px;
+  padding-left: 0px;
 }
 .invFirstCell {
   margin-left: 12px;
