@@ -207,7 +207,7 @@ export default {
       if( this.hasPropperLength(this.name, 0, 50) && this.hasPropperLength(this.surname, 0, 50) && this.validEmail(this.email)) {
         this.setName(this.name);
         this.setSurname(this.surname);
-        this.setBirthDate(this.birthDate);
+        this.setBirthDate(this.birthDate == '' ? null : this.birthDate);
         this.setEmail(this.email);
         this.sendSettings(this.getSettings)
       }
