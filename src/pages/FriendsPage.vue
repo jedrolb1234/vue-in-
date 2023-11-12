@@ -20,9 +20,9 @@
             <tr>
               <th>Podgląd</th>
               <th>Nazwa użytkownika</th>
-              <th>Ostatnie logowanie</th>
+              <th>Ostatnia aktywność</th>
               <th>Ostatnia gra</th>
-              <th>Usuń</th>
+              <th class="deleteFriend">Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -85,7 +85,7 @@
             <tr>
               <th class="tableButton">Podgląd</th>
               <th>Nazwa użytkownika</th>
-              <th>Ostatnie logowanie</th>
+              <th>Ostatnia aktywność</th>
               <th>Ostatnia gra</th>
               <th class="tableButton">Usuń</th>
             </tr>
@@ -436,6 +436,9 @@ p {
 .spinnerTr {
   margin-left: 350px;
   margin-top: 150px;
+}
+.deleteFriend{
+  margin-left: 15px; 
 }
 .page {
   width: 13px;

@@ -3,7 +3,7 @@
     <div class="container">
       <BaseHeader>Rankingi</BaseHeader>
       <div class="checkersHeader" @click="toogleCheckersTable">      
-        <ul>Warcaby</ul> 
+        <p>Warcaby</p> 
         <span v-if="checkersTable===false" :class="iconArrow">expand_less</span>
         <span v-else-if="checkersTable===true" :class="iconArrow">expand_more</span>
       </div>
@@ -33,12 +33,12 @@
                   <p class="page">{{ pageNrC }}</p>
                 </div>
               </div>
-              <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry</div>
+              <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry.</div>
             </transition>
           </div>
         </transition>
       <div class="battleShipHeader" @click="toogleBattleShipTable">
-        <ul>Okręty</ul>
+        <p>Okręty</p>
         <span v-if="battleShipTable===false" :class="iconArrow">expand_less</span>
         <span v-else-if="battleShipTable===true" :class="iconArrow">expand_more</span>
       </div>
@@ -68,12 +68,12 @@
                   <p class="page">{{ pageNrW }}</p>
                 </div>
               </div>
-              <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry</div>
+              <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry.</div>
             </transition>
           </div>
         </transition>
       <div class="connect4Header" @click="toogleConnect4Table">
-          <ul>Połącz 4</ul> 
+          <p>Połącz 4</p> 
           <span v-if="connect4Table===false" :class="iconArrow">expand_less</span>
           <span v-else-if="connect4Table===true" :class="iconArrow">expand_more</span>
         </div>
@@ -104,7 +104,7 @@
                     <p class="page">{{ pageNrC4 }}</p>
                   </div>
                 </div>
-                <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry</div>
+                <div v-else class = 'message'>Nie rozegrano jeszcze żadnej gry.</div>
               </transition>
             </div>
           </transition>
@@ -282,9 +282,9 @@ table > tbody> tr:nth-child(even)
   padding-right: 30px;
 
 }
-.ul{
+/* .ul{
   display:flex;
-}
+} */
 .buttons{
   display: flex;
   flex-direction: row;

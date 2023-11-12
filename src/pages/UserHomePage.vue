@@ -69,7 +69,7 @@
             <thead>
               <tr class="historyList">
                 <th>Gra</th>
-                <th>Data</th>
+                <th>Zakończono</th>
                 <th>Zwycięzca</th>
                 <th>Punkty</th>
               </tr>
@@ -99,7 +99,7 @@
             <p class="pageNr">{{ getHistPage }}</p>
           </div>
         </div>
-        <div v-else-if="getHistory.length === 0">Nie rozegrałeś żadnej gry.</div>
+        <div class ="message" v-if="getHistory.length === 0">Nie rozegrałeś żadnej gry.</div>
       </div>
       <div class="spacer"><br /></div>
     </div>
@@ -209,7 +209,10 @@ hr {
   margin-left: -40px;
   width: 900px;
 }
-
+.message{
+  color: var(--primary);
+  font-size: 22px;
+}
 .module__head {
   display: flex;
   justify-content: space-between;
