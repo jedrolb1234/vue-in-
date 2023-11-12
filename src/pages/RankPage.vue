@@ -201,10 +201,8 @@ hr {
   background-color: var(--secondary);
   width: 100%;
   height: 40px;
-  margin: 20px 0px 0px 0px;
   border-radius: 8px 8px 0px 0px;
   font-weight: bold;
-  /* position: sticky; */
 }
 .checkersHeader{
   margin-top: 50px;
@@ -279,8 +277,6 @@ table > tbody> tr:nth-child(even)
   font-size: 40px;
   display:flex;
   height: 30px;
-  padding-right: 30px;
-
 }
 /* .ul{
   display:flex;
@@ -290,7 +286,6 @@ table > tbody> tr:nth-child(even)
   flex-direction: row;
   width: 70px;
   justify-content: space-between;
-  margin-left: 40px;
 }
 .loadingSpinner{
   width:800px;
