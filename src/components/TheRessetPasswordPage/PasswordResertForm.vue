@@ -2,7 +2,7 @@
   <base-form>
     <form @submit.prevent="resetPassword">
       <h1>Fun House Project</h1>
-      <h2>Zmień hasło</h2>
+      <h2>Prośba zmiany hasła</h2>
       <base-input type="password" v-model.trim="password" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>
       <div class="input">
         <base-input type="rpassword" v-model.trim="rpassword" :valid="isPasswordValid" :disabled="isSending" maxlength="50"></base-input>

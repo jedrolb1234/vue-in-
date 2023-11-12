@@ -62,7 +62,7 @@
         </div>
         <!-- </ul> -->
         <p v-if="getFriends.length === 0 && getIsLoading === false">
-          Nie dodano żadnych znajomych.
+          Nie posiadasz znajomych.
         </p>
       </div>
       <Transition name="v">
@@ -120,7 +120,7 @@
           <p class="page">{{ invPageNr }}</p>
         </div>
         <p v-if="getAvilabeInvitations === 0">
-          Nie otrzymano zaproszeń od znajomych.
+          Nie posiadasz zaproszeń.
         </p>
       </div>
       <div class="searchFriend">

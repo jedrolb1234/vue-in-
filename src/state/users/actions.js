@@ -117,19 +117,14 @@ export default {
   },
   async deleteAccount(context) {
     const notificationTemplates = context.rootGetters.getNotificationTemplates;
-    const axios = require('axios');
     let res;
     try {
-      res = await axios.delete(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT);
+      res = await AxiosInstance.delete(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT);
       if (res.status == 200) {
         context.dispatch('showNotification', notificationTemplates.account_deleted, { root: true });
       }
     } catch (error) {
-      if (error.response) {
-        informUserAbouErrors(context, error.response.data.errors);
-      } else {
-        context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
-      }
+      context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
     }
   },
   async downloadSettings(context) {
