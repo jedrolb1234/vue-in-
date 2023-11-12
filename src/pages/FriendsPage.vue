@@ -350,7 +350,7 @@ th {
 th:first-child,
 th:last-child {
   /* margin-left: 0px; */
-  padding-left: 0px;
+  padding-left: 10px;
   width: 60px !important;
 }
 th:nth-child(2):nth-child(4),
