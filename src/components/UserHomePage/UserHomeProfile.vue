@@ -15,8 +15,8 @@
       </div>
       <div id="user-profile__invitation">
         <div v-if="(this.isFriend===1)">Jesteście znajomymi</div>
-        <BaseButton v-if="(this.isFriend===2)" :type="secondary-medium" class="clickable" @click="sendInvitation(this.id)">Wyślij zaproszenie</BaseButton>
-        <BaseButton v-if="(this.isFriend ===3)" :type="secondary-medium" class="clickable" @click="acceptInvitation(this.getInvId)">Dodaj znajomego</BaseButton>
+        <BaseButton v-if="(this.isFriend===2)" type="secondary-medium" class="clickable" @click="sendInvitation(this.id)">Wyślij zaproszenie</BaseButton>
+        <BaseButton v-if="(this.isFriend ===3)" type="secondary-medium" class="clickable" @click="acceptInvitation(this.getInvId)">Dodaj znajomego</BaseButton>
         <div v-if="(this.isFriend===4)">Zaproszenie wysłane</div>
         <!-- <div v-if="(getOwnId === true)" class="clickable"></div> -->
       </div>

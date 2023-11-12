@@ -60,7 +60,7 @@
           </tr>
         </tbody>
       </table>
-      <div v-else>Brak aktywnych rozgrywek.</div>
+      <div v-if="this.getUserId == this.id && this.getGamesInProgress.length <= 0">Brak aktywnych rozgrywek.</div>
       <h1>Historia gier</h1>
       <hr />
       <div class="showHistoryTable">
@@ -192,7 +192,6 @@ export default {
 }
 
 .profile {
-  flex-grow: 1;
   margin-bottom: 30px;
   color: var(--primary);
   display: flex;
