@@ -356,7 +356,7 @@ th:last-child {
 th:nth-child(2):nth-child(4),
 td:nth-child(2):nth-child(4) {
   /* margin-left: 0px; */
-  padding-left: 10px;
+  /* padding-left: 10px; */
   width: calc((100% - 4 * 10px) / 3);
 }
 td {
