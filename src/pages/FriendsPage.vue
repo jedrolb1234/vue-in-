@@ -40,7 +40,7 @@
               <td>{{ f.userName }}</td>
               <td>{{ f.lastActivityDate }}</td>
               <td>{{ f.lastGame }}</td>
-              <td class="tableButton">
+              <td>
                 <base-remove-button
                   class="lastCellButton"
                   @click="showRemovePopup(f)"
@@ -83,11 +83,11 @@
         <table v-if="getInvitations.length !== 0" class="friend">
           <thead>
             <tr>
-              <th class="tableButton">Podgląd</th>
+              <th>Podgląd</th>
               <th>Nazwa użytkownika</th>
               <th>Ostatnia aktywność</th>
               <th>Ostatnia gra</th>
-              <th class="tableButton">Usuń</th>
+              <th>Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -96,7 +96,7 @@
               v-for="(i, index) in getInvitations"
               :key="index"
             >
-              <td class="tableButton">
+              <td>
                 <base-look-button
                   class="invFirstCell"
                   @click="redirect(i.userId, i.id)"
@@ -105,7 +105,7 @@
               <td>{{ i.userName }}</td>
               <td>{{ i.lastActivityDate }}</td>
               <td>{{ i.lastGame }}</td>
-              <td class="tableButton">
+              <td>
                 <base-remove-button
                   class="invLastCellButton"
                   @click="removeFriendInvitation(i.id)"
@@ -147,7 +147,7 @@
               <p>Znaleziono:</p>
               <table class="findFriend">
                 <tr  class="oneFriend">
-                  <td class="tableButton">
+                  <td>
                     <base-look-button
                       class="friendFirstCellButton"
                       @click="redirect(getUser.id, 'null')"
@@ -351,7 +351,7 @@ th {
 th:first-child,
 th:last-child {
   margin-left: 0px;
-  padding-left: 5px;
+  padding-left: 0px;
   width: 60px !important;
 }
 th:nth-child(2):nth-child(4),
