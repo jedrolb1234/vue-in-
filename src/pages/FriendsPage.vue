@@ -40,7 +40,7 @@
               <td>{{ f.userName }}</td>
               <td>{{ f.lastActivityDate }}</td>
               <td>{{ f.lastGame }}</td>
-              <td>
+              <td class="tableButton">
                 <base-remove-button
                   class="lastCellButton"
                   @click="showRemovePopup(f)"
@@ -96,7 +96,7 @@
               v-for="(i, index) in getInvitations"
               :key="index"
             >
-              <td>
+              <td class="tableButton">
                 <base-look-button
                   class="invFirstCell"
                   @click="redirect(i.userId, i.id)"
@@ -105,7 +105,7 @@
               <td>{{ i.userName }}</td>
               <td>{{ i.lastActivityDate }}</td>
               <td>{{ i.lastGame }}</td>
-              <td>
+              <td class="tableButton">
                 <base-remove-button
                   class="invLastCellButton"
                   @click="removeFriendInvitation(i.id)"
@@ -350,13 +350,13 @@ th {
 .table.button,
 th:first-child,
 th:last-child {
-  margin-left: 0px;
+  /* margin-left: 0px; */
   padding-left: 0px;
   width: 60px !important;
 }
 th:nth-child(2):nth-child(4),
 td:nth-child(2):nth-child(4) {
-  margin-left: 0px;
+  /* margin-left: 0px; */
   padding-left: 10px;
   width: calc((100% - 4 * 10px) / 3);
 }
@@ -450,7 +450,7 @@ p {
 }
 .tableButton {
   width: 75px;
-  padding-left: 15px;
+  padding-left: 0px;
 }
 .invFirstCell {
   margin-left: 12px;

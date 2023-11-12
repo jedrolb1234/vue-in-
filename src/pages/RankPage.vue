@@ -201,7 +201,7 @@ hr {
   background-color: var(--secondary);
   width: 100%;
   height: 40px;
-  margin: 20px 0px 0px 20px;
+  margin: 0px 0px 0px 20px;
   border-radius: 8px 8px 0px 0px;
   font-weight: bold;
   /* position: sticky; */
@@ -225,7 +225,7 @@ table{
   border-spacing: 0px;
   table-layout: fixed;
   background-color: var(--secondary);
-  margin-left: 40px;
+  margin-left: 0px;
   }
 tr{
   border: 1px solid var(--primary);;
