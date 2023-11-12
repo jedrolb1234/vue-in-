@@ -290,10 +290,8 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  align-items: left;
   margin-bottom: 25px;
   padding-bottom: 80px;
-  min-height: 1350px;
   width: 100%;
 }
 
