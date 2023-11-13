@@ -3,7 +3,7 @@
     <div class="modal" name="modal">
       <slot></slot>
           <div class="buttons"> 
-            <base-small-button @click="delete" class="confirm-button">Potwierdź</base-small-button>
+            <base-small-button @click="deleteA" class="confirm-button">Potwierdź</base-small-button>
             <base-small-button @click="emitVisibleMessage" class="reject-button">Anuluj</base-small-button>
         </div>
       </div>
@@ -30,8 +30,8 @@ import { mapActions } from 'vuex';
             this.$emit('visibleMessage', false);
             return id;
     },
-    delete(){
-      deleteAccount();
+    deleteA(){
+      this.$store.dispatch('deleteAccount');
       return this.$router.push({
           name: "landing-page"
         });
