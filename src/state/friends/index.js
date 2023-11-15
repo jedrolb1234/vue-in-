@@ -302,7 +302,7 @@ export default {
         res = await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT + '/'
           + payload + process.env.VUE_APP_INVITATION_REJECT_ENDPOINT, null);
         if (res.status === 200) {
-          context.commit('cutInvitations', payload);
+          context.dispatch('downloadInvitations', payload);
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
