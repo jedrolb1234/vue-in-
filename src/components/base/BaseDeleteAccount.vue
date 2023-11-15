@@ -32,7 +32,7 @@ import { mapActions } from 'vuex';
     },
     deleteA(){
       this.$store.dispatch('deleteAccount');
-      this.$store.dispatch('logOutUser');
+      // this.$store.dispatch('logOutUser');
     }
     }
   }
