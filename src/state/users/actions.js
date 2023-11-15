@@ -122,6 +122,7 @@ export default {
       res = await AxiosInstance.delete(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_ACCOUNT);
       if (res.status == 200) {
         context.dispatch('showNotification', notificationTemplates.account_deleted, { root: true });
+        context.dispatch('logOutUser');
       }
     } catch (error) {
       context.dispatch('showNotification', notificationTemplates.common_error, { root: true });
