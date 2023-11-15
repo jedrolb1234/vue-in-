@@ -89,7 +89,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
           if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
-          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) >= 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
         }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -97,7 +97,7 @@ export default {
             formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
           if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
             formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
-          if(Math.floor(diffrentHours) > 5)
+          if(Math.floor(diffrentHours) >= 5)
             formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
           }        
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -111,7 +111,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
           if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
-          if(Math.floor(diffrentMonths) > 5) 
+          if(Math.floor(diffrentMonths) >= 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
          }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
@@ -140,7 +140,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
           if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
-          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) >= 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
         }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -148,7 +148,7 @@ export default {
             formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
           if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
             formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
-          if(Math.floor(diffrentHours) > 5)
+          if(Math.floor(diffrentHours) >= 5)
             formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
           }        
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -162,7 +162,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
           if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
-          if(Math.floor(diffrentMonths) > 5) 
+          if(Math.floor(diffrentMonths) >= 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
          }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
@@ -302,7 +302,7 @@ export default {
         res = await AxiosInstance.patch(process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_GET_FRIENDSHIP_ENDPOINT + '/'
           + payload + process.env.VUE_APP_INVITATION_REJECT_ENDPOINT, null);
         if (res.status === 200) {
-          context.commit('cutInvitations', payload);
+          context.dispatch('downloadInvitations', payload);
         }
       } catch (error) {
         if(error.response.status == 401 || error.response.data=='InvalidRefreshToken') {
