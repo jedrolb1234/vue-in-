@@ -120,6 +120,14 @@ export default {
           else formattedDate = `${Math.floor(diffrentYears)} lata temu`;}
       state.invitations[i].lastActivityDate = formattedDate;
       }
+      for (let i = 0; i < value.length; i++) {      
+        if(value[i].lastGameTypeId === 0)
+          state.invitations[i].lastGame ='Warcaby';
+        if(value[i].lastGameTypeId === 1)
+          state.invitations[i].lastGame ='Okręty';
+        if(value[i].lastGameTypeId === 2)
+          state.invitations[i].lastGame = 'Połącz 4';
+      }
     },
     setFriends(state, value) {
       state.friends = value; 
