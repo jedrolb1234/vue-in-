@@ -21,7 +21,7 @@ import { mapActions } from 'vuex';
   },
   
     methods:{
-        ...mapActions(['deleteAccount']),
+        ...mapActions(['deleteAccount', 'logOutUser']),
         emitVisibleMessage() {
             this.$emit('visibleMessage', false);
         },
@@ -32,9 +32,7 @@ import { mapActions } from 'vuex';
     },
     deleteA(){
       this.$store.dispatch('deleteAccount');
-      return this.$router.push({
-          name: "landing-page"
-        });
+      this.$store.dispatch('logOutUser');
     }
     }
   }
