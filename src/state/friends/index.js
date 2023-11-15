@@ -89,7 +89,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
           if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
-          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) >= 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
         }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -97,7 +97,7 @@ export default {
             formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
           if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
             formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
-          if(Math.floor(diffrentHours) > 5)
+          if(Math.floor(diffrentHours) >= 5)
             formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
           }        
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -111,7 +111,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
           if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
-          if(Math.floor(diffrentMonths) > 5) 
+          if(Math.floor(diffrentMonths) >= 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
          }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
@@ -140,7 +140,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMinutes)} minutę temu`;
           if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) < 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minuty temu`;
-          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) > 5 )
+          if(Math.floor(diffrentMinutes) > 1 && Math.floor(diffrentMinutes) >= 5 )
             formattedDate = `${Math.floor(diffrentMinutes)} minut temu`;
         }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays === 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -148,7 +148,7 @@ export default {
             formattedDate = `${Math.floor(diffrentHours)} godzię temu`;
           if(Math.floor(diffrentHours) > 1 && Math.floor(diffrentHours) < 5)
             formattedDate = `${Math.floor(diffrentHours)} godziny temu`;
-          if(Math.floor(diffrentHours) > 5)
+          if(Math.floor(diffrentHours) >= 5)
             formattedDate = `${Math.floor(diffrentHours)} godzin temu`;
           }        
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths === 0 && diffrentYears === 0){
@@ -162,7 +162,7 @@ export default {
             formattedDate = `${Math.floor(diffrentMonths)} miesiąc temu`;
           if(Math.floor(diffrentMonths) > 1 && Math.floor(diffrentMonths) < 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesiące temu`;
-          if(Math.floor(diffrentMonths) > 5) 
+          if(Math.floor(diffrentMonths) >= 5) 
             formattedDate = `${Math.floor(diffrentMonths)} miesięcy temu`;        
          }
         if(diffrentMinutes >=0 && diffrentHours > 0 && diffrentDays > 0 && diffrentMonths > 0 && diffrentYears > 0){
